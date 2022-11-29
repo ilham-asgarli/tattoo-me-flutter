@@ -37,4 +37,12 @@ class BackendEmailAuthImplementation extends BackendEmailAuthInterface {
       }
     } catch (e) {}
   }
+
+  @override
+  AuthCredential getCredential(UserModel userModel) {
+    return EmailAuthProvider.credential(
+      email: userModel.email,
+      password: userModel.password,
+    );
+  }
 }
