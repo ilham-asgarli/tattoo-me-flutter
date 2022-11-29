@@ -44,9 +44,14 @@ class RouterService implements IRouterService {
   }
 
   @override
-  Future<void> popUntil({
+  void pop() async {
+    GlobalKeyConstants.navigatorKey.currentState!.pop();
+  }
+
+  @override
+  void popUntil({
     String? removeUntilPageName,
-  }) async {
+  }) {
     GlobalKeyConstants.navigatorKey.currentState!.popUntil(
       removeUntilPageName == null
           ? removeAllOldRoutes

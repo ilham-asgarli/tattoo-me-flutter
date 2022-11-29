@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:tattoo/presentation/features/sign-up-in/view-models/sign_up_in_view_model.dart';
+import 'package:tattoo/presentation/widgets/fractionally_sized_circular_progress_indicator.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 
 import '../../../../core/extensions/context_extension.dart';
@@ -34,10 +35,11 @@ class _SignUpInState extends State<SignUpIn> {
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () {
-            return _signUpInViewModel.onBackPressed(state);
+            FocusManager.instance.primaryFocus?.unfocus();
+            return _signUpInViewModel.onBackPressed();
           },
           child: Scaffold(
-            appBar: buildAppBar(state),
+            appBar: buildAppBar(),
             body: CenteredSingleChildScrollView(
               children: [
                 const FaIcon(
@@ -62,11 +64,12 @@ class _SignUpInState extends State<SignUpIn> {
     );
   }
 
-  AppBar buildAppBar(SignState state) {
+  AppBar buildAppBar() {
     return AppBar(
       leading: BackButton(
         onPressed: () {
-          _signUpInViewModel.onBackPressed(state);
+          FocusManager.instance.primaryFocus?.unfocus();
+          _signUpInViewModel.onBackPressed();
         },
       ),
     );
@@ -74,7 +77,7 @@ class _SignUpInState extends State<SignUpIn> {
 
   Widget buildSignDescription(SignState state) {
     return Text(
-      state is SignUp
+      (state is SignUp || state is SigningUp)
           ? LocaleKeys.signUp.tr()
           : LocaleKeys.signInDescription.tr(),
       textAlign: TextAlign.center,
@@ -147,7 +150,7 @@ class _SignUpInState extends State<SignUpIn> {
           ),
           widget.verticalSpace(15),
           Visibility(
-            visible: state is! SignUp,
+            visible: (state is! SignUp && state is! SigningUp),
             maintainState: true,
             maintainAnimation: true,
             maintainSize: true,
@@ -173,17 +176,25 @@ class _SignUpInState extends State<SignUpIn> {
           ),
         ),
       ),
-      onPressed: () {},
-      child: Text(
-        state is SignUp ? LocaleKeys.signUp.tr() : LocaleKeys.signIn.tr(),
-        style: const TextStyle(color: Colors.black),
-      ),
+      onPressed: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+        _signUpInViewModel.signInUp();
+      },
+      child: (state is SigningIn || state is SigningUp)
+          ? const FractionallySizedCircularProgressIndicator(
+              factor: 0.5,
+              color: Colors.black,
+            )
+          : Text(
+              state is SignUp ? LocaleKeys.signUp.tr() : LocaleKeys.signIn.tr(),
+              style: const TextStyle(color: Colors.black),
+            ),
     );
   }
 
   Widget buildChangeSign(SignState state) {
     return Visibility(
-      visible: state is! SignUp,
+      visible: (state is! SignUp && state is! SigningUp),
       maintainState: true,
       maintainAnimation: true,
       maintainSize: true,
@@ -191,7 +202,7 @@ class _SignUpInState extends State<SignUpIn> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            state is SignUp
+            (state is SignUp || state is SigningUp)
                 ? LocaleKeys.haveAccount.tr()
                 : LocaleKeys.haveNoAccount.tr(),
           ),
@@ -201,12 +212,14 @@ class _SignUpInState extends State<SignUpIn> {
             size: 15,
           ),
           widget.horizontalSpace(5),
-          InkWell(
+          GestureDetector(
             onTap: () {
               _signUpInViewModel.changeSign();
             },
             child: Text(
-              state is SignUp ? LocaleKeys.signIn.tr() : LocaleKeys.signUp.tr(),
+              (state is SignUp || state is SigningUp)
+                  ? LocaleKeys.signIn.tr()
+                  : LocaleKeys.signUp.tr(),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),

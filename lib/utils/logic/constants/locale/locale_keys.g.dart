@@ -26,6 +26,7 @@ abstract class  LocaleKeys {
   static const nothingYetHere = 'nothingYetHere';
   static const choosePhoto = 'choosePhoto';
   static const signUpOrSignIn = 'signUpOrSignIn';
+  static const signOut = 'signOut';
   static const email = 'email';
   static const password = 'password';
   static const continue_ = 'continue_';

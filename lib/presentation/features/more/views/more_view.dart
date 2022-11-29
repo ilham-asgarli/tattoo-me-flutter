@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tattoo/core/router/core/router_service.dart';
+import 'package:tattoo/presentation/features/more/view-models/more_view_model.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
-import 'package:tattoo/utils/logic/constants/router/router_constants.dart';
+import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/extensions/context_extension.dart';
@@ -17,6 +18,14 @@ class MoreView extends StatefulWidget {
 }
 
 class _MoreViewState extends State<MoreView> {
+  late MoreViewModel _moreViewModel;
+
+  @override
+  void initState() {
+    _moreViewModel = MoreViewModel(context: context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -60,10 +69,12 @@ class _MoreViewState extends State<MoreView> {
         ),
       ),
       onPressed: () {
-        RouterService.instance.pushNamed(path: RouterConstants.signUpIn);
+        _moreViewModel.signInUpOut();
       },
       child: Text(
-        LocaleKeys.signUpOrSignIn.tr(),
+        context.watch<SignBloc>().state is SignedIn
+            ? LocaleKeys.signOut.tr()
+            : LocaleKeys.signUpOrSignIn.tr(),
         style: const TextStyle(color: Colors.black),
       ),
     );

@@ -1,18 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tattoo/core/base/view-models/base_view_model.dart';
+import 'package:tattoo/core/router/core/router_service.dart';
 
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 class SignUpInViewModel extends BaseViewModel {
   SignUpInViewModel({required super.context});
 
-  changeSign() {
-    BlocProvider.of<SignBloc>(context).add(ChangeSignEvent());
+  void signInUp() {
+    SignState signState = context.read<SignBloc>().state;
+
+    if (signState is SignIn || signState is SignUp || signState is SignedUp) {
+      BlocProvider.of<SignBloc>(context).add(SigningEvent());
+
+      Future.delayed(const Duration(seconds: 3)).then((value) {
+        BlocProvider.of<SignBloc>(context).add(SignedEvent());
+        RouterService.instance.pop();
+      });
+    }
   }
 
-  Future<bool> onBackPressed(SignState state) async {
-    if (state is SignUp) {
+  void changeSign() {
+    SignState signState = context.read<SignBloc>().state;
+    if (signState is SignIn || signState is SignUp || signState is SignedUp) {
+      BlocProvider.of<SignBloc>(context).add(ChangeSignEvent());
+    }
+  }
+
+  Future<bool> onBackPressed() async {
+    SignState signState = context.read<SignBloc>().state;
+
+    if (signState is SigningIn || signState is SigningUp) {
+      return false;
+    }
+
+    if (signState is SignUp) {
       changeSign();
       return false;
     } else {

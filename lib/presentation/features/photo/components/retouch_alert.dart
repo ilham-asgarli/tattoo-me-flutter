@@ -38,6 +38,7 @@ class _RetouchAlertState extends State<RetouchAlert> {
             children: [
               InkWell(
                 onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   Navigator.pop(context);
                 },
                 child: const Icon(
@@ -110,17 +111,16 @@ class _RetouchAlertState extends State<RetouchAlert> {
                     return;
                   }
 
-                  if (!isSending) {
-                    setState(() {
-                      isSending = true;
-                    });
+                  setState(() {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    isSending = true;
+                  });
 
-                    Future.delayed(const Duration(seconds: 1)).then((value) {
-                      setState(() {
-                        isSent = true;
-                      });
+                  Future.delayed(const Duration(seconds: 1)).then((value) {
+                    setState(() {
+                      isSent = true;
                     });
-                  }
+                  });
                 },
                 child: (!isSent && isSending)
                     ? SizedBox(
