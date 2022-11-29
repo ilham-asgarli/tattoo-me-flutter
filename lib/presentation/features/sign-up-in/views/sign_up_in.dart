@@ -120,6 +120,7 @@ class _SignUpInState extends State<SignUpIn> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
                 isCollapsed: true,
                 contentPadding: const EdgeInsets.all(12),
@@ -143,6 +144,7 @@ class _SignUpInState extends State<SignUpIn> {
             ),
             widget.verticalSpace(10),
             TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
                 isCollapsed: true,
                 contentPadding: const EdgeInsets.all(12),
