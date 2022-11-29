@@ -1,8 +1,8 @@
-import '../../../../core/network/interfaces/response_model.dart';
+import '../../../../core/base/models/base_response.dart';
 import '../../../models/auth/user_model.dart';
 
 abstract class EmailAuthInterface {
-  Future<IResponseModel<void>> signUpWithEmailAndPassword(UserModel userModel);
-  Future<IResponseModel<void>> signInWithEmailAndPassword(UserModel userModel);
-  IResponseModel<void> linkWithEmailAndPassword(UserModel userModel);
+  Future<BaseResponse> signUpWithEmailAndPassword(UserModel userModel);
+  Future<BaseResponse> signInWithEmailAndPassword(UserModel userModel);
+  Future<BaseResponse> linkWithEmailAndPassword(UserModel userModel);
 }

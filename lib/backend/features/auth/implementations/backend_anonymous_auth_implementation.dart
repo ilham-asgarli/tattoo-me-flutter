@@ -1,19 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
+import 'package:tattoo/core/base/models/base_error.dart';
+import 'package:tattoo/core/base/models/base_success.dart';
 
+import '../../../../core/base/models/base_response.dart';
 import '../interfaces/backend_anonymous_auth_interface.dart';
 
 class BackendAnonymousAuthImplementation extends BackendAnonymousAuthInterface {
   @override
-  Future<void> signInAnonymously(UserModel userModel) async {
+  Future<BaseResponse> signInAnonymously() async {
     try {
       final credential = await FirebaseAuth.instance.signInAnonymously();
+      return BaseSuccess();
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
-          break;
+          return BaseError(message: "");
         default:
+          return BaseError(message: "");
       }
-    } catch (e) {}
+    } catch (e) {
+      return BaseError(message: "");
+    }
   }
 }

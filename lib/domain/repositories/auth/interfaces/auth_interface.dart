@@ -1,5 +1,5 @@
-import '../../../../core/network/interfaces/response_model.dart';
+import '../../../../core/base/models/base_response.dart';
 
 abstract class AuthInterface {
-  Future<IResponseModel<void>> signOut();
+  Future<BaseResponse> signOut();
 }

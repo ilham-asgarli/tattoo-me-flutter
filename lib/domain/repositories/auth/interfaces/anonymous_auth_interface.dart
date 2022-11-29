@@ -1,7 +1,5 @@
-import 'package:tattoo/core/network/interfaces/response_model.dart';
-
-import '../../../models/auth/user_model.dart';
+import '../../../../core/base/models/base_response.dart';
 
 abstract class AnonymousAuthInterface {
-  Future<IResponseModel<void>> signInAnonymously(UserModel userModel);
+  Future<BaseResponse> signInAnonymously();
 }

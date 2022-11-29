@@ -86,7 +86,7 @@ class _MyAppViewState extends State<MyAppView> {
         }
 
         if (networkCubitState is! NetworkInitial) {
-          _myAppViewModel.removeSplashScreen();
+          _myAppViewModel.initAndRemoveSplashScreen();
         }
 
         if (networkCubitState is ConnectionSuccess) {
