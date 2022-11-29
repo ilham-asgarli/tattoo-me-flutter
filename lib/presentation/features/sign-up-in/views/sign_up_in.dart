@@ -220,32 +220,36 @@ class _SignUpInState extends State<SignUpIn> {
       maintainState: true,
       maintainAnimation: true,
       maintainSize: true,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            (state is SignUp || state is SigningUp)
-                ? LocaleKeys.haveAccount.tr()
-                : LocaleKeys.haveNoAccount.tr(),
+      child: GestureDetector(
+        onTap: () {
+          _signUpInViewModel.changeSign();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                (state is SignUp || state is SigningUp)
+                    ? LocaleKeys.haveAccount.tr()
+                    : LocaleKeys.haveNoAccount.tr(),
+              ),
+              widget.horizontalSpace(10),
+              const FaIcon(
+                FontAwesomeIcons.user,
+                size: 15,
+              ),
+              widget.horizontalSpace(5),
+              Text(
+                (state is SignUp || state is SigningUp)
+                    ? LocaleKeys.signIn.tr()
+                    : LocaleKeys.signUp.tr(),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
-          widget.horizontalSpace(10),
-          const FaIcon(
-            FontAwesomeIcons.user,
-            size: 15,
-          ),
-          widget.horizontalSpace(5),
-          GestureDetector(
-            onTap: () {
-              _signUpInViewModel.changeSign();
-            },
-            child: Text(
-              (state is SignUp || state is SigningUp)
-                  ? LocaleKeys.signIn.tr()
-                  : LocaleKeys.signUp.tr(),
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
