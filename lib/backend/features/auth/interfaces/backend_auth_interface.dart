@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class BackendAuthInterface {
-  Future<void> signOut();
+import '../../../../core/base/models/base_response.dart';
 
-  Future<void> linkWithCredential(AuthCredential authCredential);
+abstract class BackendAuthInterface {
+  Future<BaseResponse> getCurrentUser();
+
+  Future<BaseResponse> signOut();
+
+  Future<BaseResponse> linkWithCredential(AuthCredential authCredential);
 }

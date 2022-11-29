@@ -5,8 +5,11 @@ import 'package:tattoo/core/base/models/base_success.dart';
 
 import '../../../../core/base/models/base_error.dart';
 import '../../../../domain/models/auth/user_model.dart';
+import '../../../core/exceptions/auth/auth_exception.dart';
 
 class BackendAuthImplementation extends BackendAuthInterface {
+  AuthException authException = AuthException();
+
   @override
   Future<BaseResponse> signOut() async {
     try {
@@ -23,19 +26,17 @@ class BackendAuthImplementation extends BackendAuthInterface {
       final credential = await FirebaseAuth.instance.currentUser
           ?.linkWithCredential(authCredential);
       return BaseSuccess(data: UserModel(email: "", password: ""));
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case "provider-already-linked":
-          return BaseError(message: "");
-        case "invalid-credential":
-          return BaseError(message: "");
-        case "credential-already-in-use":
-          return BaseError(message: "");
-        default:
-          return BaseError(message: "");
-      }
     } catch (e) {
-      return BaseError(message: "");
+      return authException.auth(e);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getCurrentUser() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      return BaseSuccess(data: UserModel(email: "", password: ""));
+    } else {
+      return BaseError();
     }
   }
 }

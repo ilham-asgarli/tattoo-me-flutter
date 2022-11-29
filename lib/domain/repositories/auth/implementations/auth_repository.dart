@@ -11,4 +11,10 @@ class AuthImplementation extends AuthInterface {
     BaseResponse baseResponse = await auth.signOut();
     return baseResponse;
   }
+
+  @override
+  Future<BaseResponse> getCurrentUser() async {
+    BaseResponse baseResponse = await auth.getCurrentUser();
+    return baseResponse;
+  }
 }

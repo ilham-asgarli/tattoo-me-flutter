@@ -3,12 +3,13 @@ import 'package:tattoo/backend/features/auth/interfaces/backend_email_auth_inter
 import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
 
-import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_response.dart';
+import '../../../core/exceptions/auth/auth_exception.dart';
 import 'backend_auth_implementations.dart';
 
 class BackendEmailAuthImplementation extends BackendEmailAuthInterface {
   final BackendAuthImplementation auth = BackendAuthImplementation();
+  AuthException authException = AuthException();
 
   @override
   Future<BaseResponse> signUpWithEmailAndPassword(UserModel userModel) async {
@@ -19,17 +20,8 @@ class BackendEmailAuthImplementation extends BackendEmailAuthInterface {
         password: userModel.password,
       );
       return BaseSuccess();
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'weak-password':
-          return BaseError();
-        case 'email-already-in-use':
-          return BaseError();
-        default:
-          return BaseError();
-      }
     } catch (e) {
-      return BaseError();
+      return authException.auth(e);
     }
   }
 
@@ -41,17 +33,8 @@ class BackendEmailAuthImplementation extends BackendEmailAuthInterface {
         password: userModel.password,
       );
       return BaseSuccess();
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'user-not-found':
-          return BaseError();
-        case 'wrong-password':
-          return BaseError();
-        default:
-          return BaseError();
-      }
     } catch (e) {
-      return BaseError();
+      return authException.auth(e);
     }
   }
 
