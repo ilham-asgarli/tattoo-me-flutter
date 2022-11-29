@@ -8,23 +8,23 @@ class AuthException {
     if (exception is FirebaseAuthException) {
       switch (exception.code) {
         case 'user-not-found':
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
         case 'wrong-password':
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
         case 'weak-password':
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
         case 'email-already-in-use':
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
         case "provider-already-linked":
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
         case "invalid-credential":
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
         case "credential-already-in-use":
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
         case "operation-not-allowed":
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
         default:
-          return BaseError(message: "");
+          return BaseError(message: exception.message);
       }
     }
 
