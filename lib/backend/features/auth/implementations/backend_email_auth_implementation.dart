@@ -37,9 +37,4 @@ class BackendEmailAuthImplementation extends BackendEmailAuthInterface {
       }
     } catch (e) {}
   }
-
-  @override
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
 }

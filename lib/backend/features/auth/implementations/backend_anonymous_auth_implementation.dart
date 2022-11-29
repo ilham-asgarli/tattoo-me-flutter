@@ -16,9 +16,4 @@ class BackendAnonymousAuthImplementation extends BackendAnonymousAuthInterface {
       }
     } catch (e) {}
   }
-
-  @override
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
 }
