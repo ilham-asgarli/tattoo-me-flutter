@@ -33,6 +33,8 @@
   "signIn": "Sign in",
   "signInDescription": "Sign in to your account",
   "forgotPassword": "Forget password?",
+  "emptyEmailWarning": "Enter email",
+  "emptyPasswordWarning": "Enter password",
   "haveAccount": "Do you already have an account?",
   "haveNoAccount": "Don't have an account?",
   "privacyPolicy": "Privacy policy",

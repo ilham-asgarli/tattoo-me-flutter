@@ -7,11 +7,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:tattoo/presentation/features/sign-up-in/view-models/sign_up_in_view_model.dart';
 import 'package:tattoo/presentation/widgets/fractionally_sized_circular_progress_indicator.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
+import 'package:tattoo/utils/ui/validators/email_validator.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
+import '../../../../utils/ui/validators/password_validator.dart';
 
 class SignUpIn extends StatefulWidget {
   const SignUpIn({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class SignUpIn extends StatefulWidget {
 
 class _SignUpInState extends State<SignUpIn> {
   late SignUpInViewModel _signUpInViewModel;
+  final GlobalKey<FormState> _signFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -106,57 +109,71 @@ class _SignUpInState extends State<SignUpIn> {
   }
 
   Widget buildSignArea(SignState state) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: context.mediumValue,
-        right: context.mediumValue,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          TextField(
-            decoration: InputDecoration(
-              constraints: const BoxConstraints(maxHeight: 50),
-              filled: true,
-              fillColor: AppColors.tertiary,
-              hintText: LocaleKeys.email.tr(),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: HexColor("#595959"),
+    return Form(
+      key: _signFormKey,
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: context.mediumValue,
+          right: context.mediumValue,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                isCollapsed: true,
+                contentPadding: const EdgeInsets.all(12),
+                filled: true,
+                fillColor: AppColors.tertiary,
+                hintText: LocaleKeys.email.tr(),
+                border: const OutlineInputBorder(),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: HexColor("#595959"),
+                  ),
                 ),
               ),
+              onSaved: _signUpInViewModel.onSavedEmail,
+              validator: (value) {
+                return EmailValidator(value).validate();
+              },
             ),
-          ),
-          widget.verticalSpace(10),
-          TextField(
-            decoration: InputDecoration(
-              constraints: const BoxConstraints(maxHeight: 50),
-              filled: true,
-              fillColor: AppColors.tertiary,
-              hintText: LocaleKeys.password.tr(),
-              border: const OutlineInputBorder(),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: HexColor("#595959"),
+            widget.verticalSpace(10),
+            TextFormField(
+              decoration: InputDecoration(
+                isCollapsed: true,
+                contentPadding: const EdgeInsets.all(12),
+                filled: true,
+                fillColor: AppColors.tertiary,
+                hintText: LocaleKeys.password.tr(),
+                border: const OutlineInputBorder(),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: HexColor("#595959"),
+                  ),
                 ),
               ),
+              onSaved: _signUpInViewModel.onSavedPassword,
+              validator: (value) {
+                return PasswordValidator(value).validate();
+              },
             ),
-          ),
-          widget.verticalSpace(15),
-          Visibility(
-            visible: (state is! SignUp && state is! SigningUp),
-            maintainState: true,
-            maintainAnimation: true,
-            maintainSize: true,
-            child: Text(LocaleKeys.forgotPassword.tr()),
-          ),
-        ],
+            widget.verticalSpace(15),
+            Visibility(
+              visible: (state is! SignUp && state is! SigningUp),
+              maintainState: true,
+              maintainAnimation: true,
+              maintainSize: true,
+              child: Text(LocaleKeys.forgotPassword.tr()),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -178,7 +195,10 @@ class _SignUpInState extends State<SignUpIn> {
       ),
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        _signUpInViewModel.signInUp();
+        if (_signFormKey.currentState!.validate()) {
+          _signFormKey.currentState?.save();
+          _signUpInViewModel.signInUp();
+        }
       },
       child: (state is SigningIn || state is SigningUp)
           ? const FractionallySizedCircularProgressIndicator(

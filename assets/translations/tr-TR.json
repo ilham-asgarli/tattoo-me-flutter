@@ -33,6 +33,8 @@
   "signIn": "Oturum aç",
   "signInDescription": "Hesabınıza giriş yapın",
   "forgotPassword" : "Şifreni mi unuttun?",
+  "emptyEmailWarning": "E-posta girin",
+  "emptyPasswordWarning": "Şifre girin",
   "haveAccount": "Hesabın zaten var mı?",
   "haveNoAccount": "Hesabın yok mu?",
   "privacyPolicy": "Gizlilik sözleşmesi",

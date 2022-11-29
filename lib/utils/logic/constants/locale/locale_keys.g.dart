@@ -34,6 +34,8 @@ abstract class  LocaleKeys {
   static const signIn = 'signIn';
   static const signInDescription = 'signInDescription';
   static const forgotPassword = 'forgotPassword';
+  static const emptyEmailWarning = 'emptyEmailWarning';
+  static const emptyPasswordWarning = 'emptyPasswordWarning';
   static const haveAccount = 'haveAccount';
   static const haveNoAccount = 'haveNoAccount';
   static const privacyPolicy = 'privacyPolicy';

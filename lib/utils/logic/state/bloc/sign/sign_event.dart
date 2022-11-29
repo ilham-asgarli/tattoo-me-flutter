@@ -1,25 +1,26 @@
 part of 'sign_bloc.dart';
 
 abstract class SignEvent extends Equatable {
-  const SignEvent();
+  final UserModel? userModel;
+
+  const SignEvent({this.userModel});
+
+  @override
+  List<dynamic> get props => [userModel];
 }
 
 class ChangeSignEvent extends SignEvent {
-  @override
-  List<Object?> get props => [];
+  const ChangeSignEvent({super.userModel});
 }
 
 class SigningEvent extends SignEvent {
-  @override
-  List<Object?> get props => [];
+  const SigningEvent({super.userModel});
 }
 
 class SignedEvent extends SignEvent {
-  @override
-  List<Object?> get props => [];
+  const SignedEvent({super.userModel});
 }
 
 class SignOutEvent extends SignEvent {
-  @override
-  List<Object?> get props => [];
+  const SignOutEvent({super.userModel});
 }

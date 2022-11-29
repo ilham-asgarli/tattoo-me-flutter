@@ -1,43 +1,52 @@
 part of 'sign_bloc.dart';
 
 abstract class SignState extends Equatable {
-  const SignState();
+  final UserModel? userModel;
+
+  const SignState({this.userModel});
+
+  @override
+  List<dynamic> get props => [userModel];
 }
 
 abstract class SignUpState extends SignState {
-  const SignUpState();
+  final UserModel? signUpUserModel;
+
+  const SignUpState({this.signUpUserModel}) : super(userModel: signUpUserModel);
+
+  @override
+  List<dynamic> get props => [signUpUserModel];
 }
 
 abstract class SignInState extends SignState {
-  const SignInState();
+  final UserModel? signInUserModel;
+
+  const SignInState({this.signInUserModel}) : super(userModel: signInUserModel);
+
+  @override
+  List<dynamic> get props => [signInUserModel];
 }
 
 class SignUp extends SignUpState {
-  @override
-  List<Object> get props => [];
+  const SignUp({super.signUpUserModel});
 }
 
 class SigningUp extends SignUpState {
-  @override
-  List<Object> get props => [];
+  const SigningUp({super.signUpUserModel});
 }
 
 class SignedUp extends SignUpState {
-  @override
-  List<Object> get props => [];
+  const SignedUp({super.signUpUserModel});
 }
 
 class SignIn extends SignInState {
-  @override
-  List<Object> get props => [];
+  const SignIn({super.signInUserModel});
 }
 
 class SigningIn extends SignInState {
-  @override
-  List<Object> get props => [];
+  const SigningIn({super.signInUserModel});
 }
 
 class SignedIn extends SignInState {
-  @override
-  List<Object> get props => [];
+  const SignedIn({super.signInUserModel});
 }
