@@ -4,4 +4,5 @@ import '../../../models/auth/user_model.dart';
 abstract class EmailAuthInterface {
   Future<IResponseModel<void>> signUpWithEmailAndPassword(UserModel userModel);
   Future<IResponseModel<void>> signInWithEmailAndPassword(UserModel userModel);
+  IResponseModel<void> linkWithEmailAndPassword(UserModel userModel);
 }

@@ -8,4 +8,6 @@ abstract class BackendEmailAuthInterface {
   Future<void> signInWithEmailAndPassword(UserModel userModel);
 
   AuthCredential getCredential(UserModel userModel);
+
+  Future<void> linkWithEmailAndPassword(UserModel userModel);
 }

@@ -24,4 +24,12 @@ class EmailAuthImplementation extends EmailAuthInterface {
     emailAuth.signInWithEmailAndPassword(userModel);
     return ResponseModel();
   }
+
+  @override
+  IResponseModel<void> linkWithEmailAndPassword(
+    UserModel userModel,
+  ) {
+    emailAuth.linkWithEmailAndPassword(userModel);
+    return ResponseModel();
+  }
 }
