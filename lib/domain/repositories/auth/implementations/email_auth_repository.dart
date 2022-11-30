@@ -34,4 +34,9 @@ class EmailAuthRepository extends EmailAuthInterface {
         await emailAuth.linkWithEmailAndPassword(userModel);
     return baseResponse;
   }
+
+  @override
+  bool emailVerified() {
+    return emailAuth.emailVerified();
+  }
 }

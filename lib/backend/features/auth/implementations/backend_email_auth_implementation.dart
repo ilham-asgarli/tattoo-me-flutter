@@ -51,4 +51,13 @@ class BackendEmailAuthImplementation extends BackendEmailAuthInterface {
     AuthCredential authCredential = getCredential(userModel);
     return await auth.linkWithCredential(authCredential);
   }
+
+  @override
+  bool emailVerified() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return false;
+    }
+    return user.emailVerified;
+  }
 }

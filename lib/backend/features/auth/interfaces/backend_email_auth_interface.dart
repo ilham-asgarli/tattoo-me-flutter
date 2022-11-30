@@ -11,4 +11,6 @@ abstract class BackendEmailAuthInterface {
   AuthCredential getCredential(UserModel userModel);
 
   Future<BaseResponse> linkWithEmailAndPassword(UserModel userModel);
+
+  bool emailVerified();
 }

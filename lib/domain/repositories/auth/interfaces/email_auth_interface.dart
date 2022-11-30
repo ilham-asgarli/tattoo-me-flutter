@@ -5,4 +5,5 @@ abstract class EmailAuthInterface {
   Future<BaseResponse> signUpWithEmailAndPassword(UserModel userModel);
   Future<BaseResponse> signInWithEmailAndPassword(UserModel userModel);
   Future<BaseResponse> linkWithEmailAndPassword(UserModel userModel);
+  bool emailVerified();
 }

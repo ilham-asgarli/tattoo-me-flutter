@@ -13,12 +13,6 @@ class AuthRepository extends AuthInterface {
   }
 
   @override
-  Future<BaseResponse> getNotAnonymousCurrentUser() async {
-    BaseResponse baseResponse = await auth.getNotAnonymousCurrentUser();
-    return baseResponse;
-  }
-
-  @override
   Future<BaseResponse> getCurrentUser() async {
     BaseResponse baseResponse = await auth.getCurrentUser();
     return baseResponse;

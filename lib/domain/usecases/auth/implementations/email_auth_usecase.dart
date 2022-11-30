@@ -18,4 +18,9 @@ class EmailAuthUseCase extends EmailAuthInterface {
     }
     return baseResponse;
   }
+
+  @override
+  bool isSignedInWithVerifiedEmail() {
+    return emailAuthRepository.emailVerified();
+  }
 }
