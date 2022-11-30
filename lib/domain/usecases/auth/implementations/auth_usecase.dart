@@ -9,7 +9,7 @@ class AuthUseCase extends AuthInterface {
 
   @override
   Future<bool> isSignedIn() async {
-    BaseResponse baseResponse = await auth.getNotAnonymousCurrentUser();
+    BaseResponse baseResponse = await auth.getCurrentUser();
     return baseResponse is BaseSuccess;
   }
 }
