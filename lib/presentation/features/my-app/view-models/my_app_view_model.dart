@@ -13,9 +13,7 @@ class MyAppViewModel extends BaseViewModel {
     EmailAuthUseCase emailAuthUseCase = EmailAuthUseCase();
 
     if (!emailAuthUseCase.isSignedInWithVerifiedEmail()) {
-      /*AnonymousAuthRepository anonymousAuth = AnonymousAuthRepository();
-      BaseResponse baseResponse = await anonymousAuth.signInAnonymously();
-
+      /*
       if (baseResponse is BaseSuccess) {
         FlutterNativeSplash.remove();
       }*/
