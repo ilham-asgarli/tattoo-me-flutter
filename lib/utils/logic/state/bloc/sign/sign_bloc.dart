@@ -8,15 +8,26 @@ part 'sign_state.dart';
 class SignBloc extends Bloc<SignEvent, SignState> {
   SignBloc() : super(const SignIn()) {
     on<ChangeSignEvent>(_onChangeSignEvent);
+    on<ChangeSignInStatusEvent>(_onChangeSignInStatusEvent);
     on<SigningEvent>(_onSigningEvent);
     on<SignedEvent>(_onSignedEvent);
     on<SignOutEvent>(_onSignOutEvent);
+    on<SignErrorEvent>(_onSignErrorEvent);
   }
 
   _onChangeSignEvent(ChangeSignEvent event, Emitter<SignState> emit) {
     emit(
       state is SignIn
           ? SignUp(signUpUserModel: event.userModel)
+          : SignIn(signInUserModel: event.userModel),
+    );
+  }
+
+  _onChangeSignInStatusEvent(
+      ChangeSignInStatusEvent event, Emitter<SignState> emit) {
+    emit(
+      state is SignIn
+          ? SignedIn(signInUserModel: event.userModel)
           : SignIn(signInUserModel: event.userModel),
     );
   }
@@ -38,6 +49,18 @@ class SignBloc extends Bloc<SignEvent, SignState> {
   }
 
   _onSignOutEvent(SignOutEvent event, Emitter<SignState> emit) {
-    emit(SignIn(signInUserModel: event.userModel));
+    if (state is SigningOut) {
+      emit(SignIn(signInUserModel: event.userModel));
+    } else if (state is SignedIn) {
+      emit(SigningOut(signOutUserModel: event.userModel));
+    }
+  }
+
+  _onSignErrorEvent(SignErrorEvent event, Emitter<SignState> emit) {
+    if (state is SigningUp) {
+      emit(SignUp(signUpUserModel: event.userModel));
+    } else if (state is SigningIn) {
+      emit(SignIn(signInUserModel: event.userModel));
+    }
   }
 }

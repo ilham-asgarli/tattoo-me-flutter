@@ -13,6 +13,10 @@ class ChangeSignEvent extends SignEvent {
   const ChangeSignEvent({super.userModel});
 }
 
+class ChangeSignInStatusEvent extends SignEvent {
+  const ChangeSignInStatusEvent({super.userModel});
+}
+
 class SigningEvent extends SignEvent {
   const SigningEvent({super.userModel});
 }
@@ -23,4 +27,8 @@ class SignedEvent extends SignEvent {
 
 class SignOutEvent extends SignEvent {
   const SignOutEvent({super.userModel});
+}
+
+class SignErrorEvent extends SignEvent {
+  const SignErrorEvent({super.userModel});
 }

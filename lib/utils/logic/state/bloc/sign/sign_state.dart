@@ -27,6 +27,16 @@ abstract class SignInState extends SignState {
   List<dynamic> get props => [signInUserModel];
 }
 
+abstract class SignOutState extends SignState {
+  final UserModel? signOutUserModel;
+
+  const SignOutState({this.signOutUserModel})
+      : super(userModel: signOutUserModel);
+
+  @override
+  List<dynamic> get props => [signOutUserModel];
+}
+
 class SignUp extends SignUpState {
   const SignUp({super.signUpUserModel});
 }
@@ -49,4 +59,8 @@ class SigningIn extends SignInState {
 
 class SignedIn extends SignInState {
   const SignedIn({super.signInUserModel});
+}
+
+class SigningOut extends SignOutState {
+  const SigningOut({super.signOutUserModel});
 }

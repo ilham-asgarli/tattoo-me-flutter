@@ -2,7 +2,7 @@ import 'package:tattoo/backend/features/auth/implementations/backend_anonymous_a
 import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/domain/repositories/auth/interfaces/anonymous_auth_interface.dart';
 
-class AnonymousAuthImplementation extends AnonymousAuthInterface {
+class AnonymousAuthRepository extends AnonymousAuthInterface {
   final BackendAnonymousAuthImplementation auth =
       BackendAnonymousAuthImplementation();
 

@@ -195,11 +195,11 @@ class _SignUpInState extends State<SignUpIn> {
           ),
         ),
       ),
-      onPressed: () {
+      onPressed: () async {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_signFormKey.currentState!.validate()) {
           _signFormKey.currentState?.save();
-          _signUpInViewModel.signInUp();
+          await _signUpInViewModel.signInUp(mounted);
         }
       },
       child: (state is SigningIn || state is SigningUp)

@@ -4,7 +4,7 @@ import 'package:tattoo/domain/models/auth/user_model.dart';
 
 import '../interfaces/email_auth_interface.dart';
 
-class EmailAuthImplementation extends EmailAuthInterface {
+class EmailAuthRepository extends EmailAuthInterface {
   final BackendEmailAuthImplementation emailAuth =
       BackendEmailAuthImplementation();
 

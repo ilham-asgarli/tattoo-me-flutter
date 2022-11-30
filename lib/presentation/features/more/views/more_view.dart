@@ -9,6 +9,7 @@ import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
+import '../../../widgets/fractionally_sized_circular_progress_indicator.dart';
 
 class MoreView extends StatefulWidget {
   const MoreView({Key? key}) : super(key: key);
@@ -54,6 +55,8 @@ class _MoreViewState extends State<MoreView> {
   }
 
   Widget buildSignUpOrSignIn() {
+    SignState signState = context.watch<SignBloc>().state;
+
     return ElevatedButton(
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0),
@@ -68,15 +71,20 @@ class _MoreViewState extends State<MoreView> {
           ),
         ),
       ),
-      onPressed: () {
-        _moreViewModel.signInUpOut();
+      onPressed: () async {
+        await _moreViewModel.signInUpOut(mounted);
       },
-      child: Text(
-        context.watch<SignBloc>().state is SignedIn
-            ? LocaleKeys.signOut.tr()
-            : LocaleKeys.signUpOrSignIn.tr(),
-        style: const TextStyle(color: Colors.black),
-      ),
+      child: (signState is SigningOut)
+          ? const FractionallySizedCircularProgressIndicator(
+              factor: 0.5,
+              color: Colors.black,
+            )
+          : Text(
+              signState is SignedIn
+                  ? LocaleKeys.signOut.tr()
+                  : LocaleKeys.signUpOrSignIn.tr(),
+              style: const TextStyle(color: Colors.black),
+            ),
     );
   }
 

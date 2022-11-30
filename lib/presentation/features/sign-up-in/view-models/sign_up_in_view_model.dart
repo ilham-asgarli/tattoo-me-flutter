@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tattoo/core/base/models/base_error.dart';
+import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/core/base/view-models/base_view_model.dart';
 import 'package:tattoo/core/router/core/router_service.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
+import 'package:tattoo/domain/repositories/auth/implementations/email_auth_repository.dart';
 
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
@@ -23,18 +26,36 @@ class SignUpInViewModel extends BaseViewModel {
     }
   }
 
-  void signInUp() {
+  Future<void> signInUp(bool mounted) async {
     SignState signState = context.read<SignBloc>().state;
 
     if (signState is SignIn || signState is SignUp || signState is SignedUp) {
       BlocProvider.of<SignBloc>(context)
           .add(SigningEvent(userModel: userModel));
 
-      Future.delayed(const Duration(seconds: 3)).then((value) {
-        BlocProvider.of<SignBloc>(context)
-            .add(SignedEvent(userModel: userModel));
-        RouterService.instance.pop();
-      });
+      EmailAuthRepository emailAuthRepository = EmailAuthRepository();
+      if (signState is SignUp) {
+        BaseResponse baseResponse =
+            await emailAuthRepository.signUpWithEmailAndPassword(userModel);
+        closePageAfterSign(mounted, baseResponse);
+      } else {
+        BaseResponse baseResponse =
+            await emailAuthRepository.signInWithEmailAndPassword(userModel);
+        closePageAfterSign(mounted, baseResponse);
+      }
+    }
+  }
+
+  void closePageAfterSign(bool mounted, BaseResponse baseResponse) {
+    if (baseResponse is BaseError) {
+      BlocProvider.of<SignBloc>(context)
+          .add(SignErrorEvent(userModel: userModel));
+      return;
+    }
+
+    if (mounted) {
+      BlocProvider.of<SignBloc>(context).add(SignedEvent(userModel: userModel));
+      RouterService.instance.pop();
     }
   }
 

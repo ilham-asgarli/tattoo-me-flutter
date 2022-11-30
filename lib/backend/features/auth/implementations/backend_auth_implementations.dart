@@ -32,6 +32,16 @@ class BackendAuthImplementation extends BackendAuthInterface {
   }
 
   @override
+  Future<BaseResponse> getNotAnonymousCurrentUser() async {
+    if (FirebaseAuth.instance.currentUser != null &&
+        !FirebaseAuth.instance.currentUser!.isAnonymous) {
+      return BaseSuccess(data: UserModel(email: "", password: ""));
+    } else {
+      return BaseError();
+    }
+  }
+
+  @override
   Future<BaseResponse> getCurrentUser() async {
     if (FirebaseAuth.instance.currentUser != null) {
       return BaseSuccess(data: UserModel(email: "", password: ""));
