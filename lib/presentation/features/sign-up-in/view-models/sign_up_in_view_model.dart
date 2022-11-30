@@ -6,6 +6,7 @@ import 'package:tattoo/core/base/view-models/base_view_model.dart';
 import 'package:tattoo/core/router/core/router_service.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
 import 'package:tattoo/domain/repositories/auth/implementations/email_auth_repository.dart';
+import 'package:tattoo/domain/usecases/auth/implementations/email_auth_usecase.dart';
 
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
@@ -34,9 +35,10 @@ class SignUpInViewModel extends BaseViewModel {
           .add(SigningEvent(userModel: userModel));
 
       EmailAuthRepository emailAuthRepository = EmailAuthRepository();
+      EmailAuthUseCase emailAuthUseCase = EmailAuthUseCase();
       if (signState is SignUp) {
         BaseResponse baseResponse =
-            await emailAuthRepository.signUpWithEmailAndPassword(userModel);
+            await emailAuthUseCase.signUpWithEmailAndPassword(userModel);
         closePageAfterSign(mounted, baseResponse);
       } else {
         BaseResponse baseResponse =
