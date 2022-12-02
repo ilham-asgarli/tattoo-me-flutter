@@ -10,6 +10,10 @@ extension ImagePathExtension on String {
   String get toPNG => 'assets/images/$this.png';
 }
 
+extension Env on String {
+  String get toEnv => 'assets/env/$this.env';
+}
+
 extension StringCasingExtension on String {
   String toFirstLetterCapitalized() =>
       length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';

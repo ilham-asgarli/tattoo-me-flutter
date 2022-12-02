@@ -1,3 +1,3 @@
 class EnvConstants {
-  static const encrypt = "encrypt.env";
+  static const encrypt = "encrypt";
 }
