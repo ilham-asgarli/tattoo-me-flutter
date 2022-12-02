@@ -9,26 +9,43 @@ abstract class SignEvent extends Equatable {
   List<dynamic> get props => [userModel];
 }
 
+class RestoreSignInEvent extends SignEvent {
+  final UserModel restoreSignInUserModel;
+
+  const RestoreSignInEvent({required this.restoreSignInUserModel})
+      : super(userModel: restoreSignInUserModel);
+}
+
 class ChangeSignEvent extends SignEvent {
-  const ChangeSignEvent({super.userModel});
+  const ChangeSignEvent();
 }
 
 class ChangeSignInStatusEvent extends SignEvent {
-  const ChangeSignInStatusEvent({super.userModel});
+  const ChangeSignInStatusEvent();
 }
 
 class SigningEvent extends SignEvent {
-  const SigningEvent({super.userModel});
+  const SigningEvent();
 }
 
 class SignedEvent extends SignEvent {
-  const SignedEvent({super.userModel});
+  final UserModel signedUserModel;
+
+  const SignedEvent({required this.signedUserModel})
+      : super(userModel: signedUserModel);
+}
+
+class SigningOutEvent extends SignEvent {
+  const SigningOutEvent();
 }
 
 class SignOutEvent extends SignEvent {
-  const SignOutEvent({super.userModel});
+  final UserModel signOutUserModel;
+
+  const SignOutEvent({required this.signOutUserModel})
+      : super(userModel: signOutUserModel);
 }
 
 class SignErrorEvent extends SignEvent {
-  const SignErrorEvent({super.userModel});
+  const SignErrorEvent();
 }

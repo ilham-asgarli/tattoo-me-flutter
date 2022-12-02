@@ -7,7 +7,7 @@ import '../../../../core/base/models/base_error.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../core/exceptions/auth/auth_exception.dart';
 
-class BackendAuthImplementation extends BackendAuthInterface {
+class BackendAuth extends BackendAuthInterface {
   AuthException authException = AuthException();
 
   @override

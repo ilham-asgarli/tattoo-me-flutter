@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_response.dart';
+import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/core/base/view-models/base_view_model.dart';
 import 'package:tattoo/core/router/core/router_service.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
 import 'package:tattoo/domain/repositories/auth/implementations/email_auth_repository.dart';
-import 'package:tattoo/domain/usecases/auth/implementations/email_auth_usecase.dart';
 
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
@@ -31,32 +31,32 @@ class SignUpInViewModel extends BaseViewModel {
     SignState signState = context.read<SignBloc>().state;
 
     if (signState is SignIn || signState is SignUp || signState is SignedUp) {
-      BlocProvider.of<SignBloc>(context)
-          .add(SigningEvent(userModel: userModel));
+      BlocProvider.of<SignBloc>(context).add(const SigningEvent());
 
       EmailAuthRepository emailAuthRepository = EmailAuthRepository();
-      EmailAuthUseCase emailAuthUseCase = EmailAuthUseCase();
       if (signState is SignUp) {
-        BaseResponse baseResponse =
-            await emailAuthUseCase.signUpWithEmailAndPassword(userModel);
+        BaseResponse<UserModel> baseResponse =
+            await emailAuthRepository.signUpWithEmailAndPassword(userModel);
         closePageAfterSign(mounted, baseResponse);
       } else {
-        BaseResponse baseResponse =
+        BaseResponse<UserModel> baseResponse =
             await emailAuthRepository.signInWithEmailAndPassword(userModel);
         closePageAfterSign(mounted, baseResponse);
       }
     }
   }
 
-  void closePageAfterSign(bool mounted, BaseResponse baseResponse) {
+  void closePageAfterSign(bool mounted, BaseResponse<UserModel> baseResponse) {
     if (baseResponse is BaseError) {
-      BlocProvider.of<SignBloc>(context)
-          .add(SignErrorEvent(userModel: userModel));
+      BlocProvider.of<SignBloc>(context).add(const SignErrorEvent());
       return;
     }
 
-    if (mounted) {
-      BlocProvider.of<SignBloc>(context).add(SignedEvent(userModel: userModel));
+    if (mounted &&
+        baseResponse is BaseSuccess<UserModel> &&
+        baseResponse.data != null) {
+      BlocProvider.of<SignBloc>(context)
+          .add(SignedEvent(signedUserModel: baseResponse.data!));
       RouterService.instance.pop();
     }
   }
@@ -64,8 +64,7 @@ class SignUpInViewModel extends BaseViewModel {
   void changeSign() {
     SignState signState = context.read<SignBloc>().state;
     if (signState is SignIn || signState is SignUp || signState is SignedUp) {
-      BlocProvider.of<SignBloc>(context)
-          .add(ChangeSignEvent(userModel: signState.userModel));
+      BlocProvider.of<SignBloc>(context).add(const ChangeSignEvent());
     }
   }
 

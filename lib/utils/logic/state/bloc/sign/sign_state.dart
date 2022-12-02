@@ -1,66 +1,50 @@
 part of 'sign_bloc.dart';
 
 abstract class SignState extends Equatable {
-  final UserModel? userModel;
+  final UserModel userModel;
 
-  const SignState({this.userModel});
+  const SignState({required this.userModel});
 
   @override
   List<dynamic> get props => [userModel];
 }
 
 abstract class SignUpState extends SignState {
-  final UserModel? signUpUserModel;
-
-  const SignUpState({this.signUpUserModel}) : super(userModel: signUpUserModel);
-
-  @override
-  List<dynamic> get props => [signUpUserModel];
+  const SignUpState({required super.userModel});
 }
 
 abstract class SignInState extends SignState {
-  final UserModel? signInUserModel;
-
-  const SignInState({this.signInUserModel}) : super(userModel: signInUserModel);
-
-  @override
-  List<dynamic> get props => [signInUserModel];
+  const SignInState({required super.userModel});
 }
 
 abstract class SignOutState extends SignState {
-  final UserModel? signOutUserModel;
-
-  const SignOutState({this.signOutUserModel})
-      : super(userModel: signOutUserModel);
-
-  @override
-  List<dynamic> get props => [signOutUserModel];
+  const SignOutState({required super.userModel});
 }
 
 class SignUp extends SignUpState {
-  const SignUp({super.signUpUserModel});
+  const SignUp({required super.userModel});
 }
 
 class SigningUp extends SignUpState {
-  const SigningUp({super.signUpUserModel});
+  const SigningUp({required super.userModel});
 }
 
 class SignedUp extends SignUpState {
-  const SignedUp({super.signUpUserModel});
+  const SignedUp({required super.userModel});
 }
 
 class SignIn extends SignInState {
-  const SignIn({super.signInUserModel});
+  const SignIn({required super.userModel});
 }
 
 class SigningIn extends SignInState {
-  const SigningIn({super.signInUserModel});
+  const SigningIn({required super.userModel});
 }
 
 class SignedIn extends SignInState {
-  const SignedIn({super.signInUserModel});
+  const SignedIn({required super.userModel});
 }
 
 class SigningOut extends SignOutState {
-  const SigningOut({super.signOutUserModel});
+  const SigningOut({required super.userModel});
 }

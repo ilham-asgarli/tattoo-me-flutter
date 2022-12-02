@@ -1,10 +1,10 @@
 import 'package:tattoo/domain/repositories/auth/interfaces/auth_interface.dart';
 
-import '../../../../backend/features/auth/implementations/backend_auth_implementations.dart';
+import '../../../../backend/features/auth/implementations/backend_auth.dart';
 import '../../../../core/base/models/base_response.dart';
 
 class AuthRepository extends AuthInterface {
-  final BackendAuthImplementation auth = BackendAuthImplementation();
+  final BackendAuth auth = BackendAuth();
 
   @override
   Future<BaseResponse> signOut() async {

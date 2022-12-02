@@ -1,27 +1,26 @@
-import 'package:tattoo/backend/features/auth/implementations/backend_email_auth_implementation.dart';
+import 'package:tattoo/backend/features/auth/implementations/backend_email_auth.dart';
 import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
 
 import '../interfaces/email_auth_interface.dart';
 
 class EmailAuthRepository extends EmailAuthInterface {
-  final BackendEmailAuthImplementation emailAuth =
-      BackendEmailAuthImplementation();
+  final BackendEmailAuth emailAuth = BackendEmailAuth();
 
   @override
-  Future<BaseResponse> signUpWithEmailAndPassword(
+  Future<BaseResponse<UserModel>> signUpWithEmailAndPassword(
     UserModel userModel,
   ) async {
-    BaseResponse baseResponse =
+    BaseResponse<UserModel> baseResponse =
         await emailAuth.signUpWithEmailAndPassword(userModel);
     return baseResponse;
   }
 
   @override
-  Future<BaseResponse> signInWithEmailAndPassword(
+  Future<BaseResponse<UserModel>> signInWithEmailAndPassword(
     UserModel userModel,
   ) async {
-    BaseResponse baseResponse =
+    BaseResponse<UserModel> baseResponse =
         await emailAuth.signInWithEmailAndPassword(userModel);
     return baseResponse;
   }

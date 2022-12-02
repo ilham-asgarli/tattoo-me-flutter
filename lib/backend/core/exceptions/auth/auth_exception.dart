@@ -4,7 +4,7 @@ import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_response.dart';
 
 class AuthException {
-  BaseResponse auth(Object exception) {
+  BaseResponse<T> auth<T>(Object exception) {
     if (exception is FirebaseAuthException) {
       switch (exception.code) {
         case 'user-not-found':

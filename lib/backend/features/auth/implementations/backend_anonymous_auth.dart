@@ -5,7 +5,7 @@ import '../../../../core/base/models/base_response.dart';
 import '../../../core/exceptions/auth/auth_exception.dart';
 import '../interfaces/backend_anonymous_auth_interface.dart';
 
-class BackendAnonymousAuthImplementation extends BackendAnonymousAuthInterface {
+class BackendAnonymousAuth extends BackendAnonymousAuthInterface {
   AuthException authException = AuthException();
 
   @override
