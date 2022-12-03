@@ -40,6 +40,8 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
 
   @override
   Future<BaseResponse> updateLastAppEntryDate(UserModel userModel) async {
+    userModel.lastAppEntryDate = DateTime.now();
+
     try {
       await users.doc(userModel.id).update(
           BackendUserModel.fromUserModel(userModel: userModel).toJson());

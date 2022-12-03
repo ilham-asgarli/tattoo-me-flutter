@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
+import 'package:tattoo/domain/repositories/auth/implementations/auth_repository.dart';
 import 'package:tattoo/domain/repositories/auth/implementations/auto_auth_repository.dart';
 import 'package:tattoo/domain/usecases/auth/implementations/auth_usecase.dart';
 
@@ -13,17 +14,37 @@ import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 class MyAppViewModel extends BaseViewModel {
   MyAppViewModel({required super.context});
 
-  void initAndRemoveSplashScreen() async {
-    AuthUseCase authUseCase = AuthUseCase();
+  AutoAuthRepository autoAuthRepository = AutoAuthRepository();
+  AuthRepository authRepository = AuthRepository();
+  AuthUseCase authUseCase = AuthUseCase();
 
-    if (!authUseCase.isSignedIn()) {
-      SignBloc signBloc = BlocProvider.of<SignBloc>(context);
+  void initAndRemoveSplashScreen() async {
+    SignBloc signBloc = BlocProvider.of<SignBloc>(context);
+    if (authUseCase.isSignedIn() && signBloc.state is SignIn) {
+      BlocProvider.of<SignBloc>(context).add(const ChangeSignInStatusEvent());
+      FlutterNativeSplash.remove();
+
+      BaseResponse<UserModel> userResponse = authRepository.getCurrentUser();
+
+      if (userResponse is BaseSuccess<UserModel>) {
+        BaseResponse baseResponse = await autoAuthRepository
+            .updateLastAppEntryDate(UserModel(id: userResponse.data?.id));
+
+        if (baseResponse is BaseSuccess) {
+          FlutterNativeSplash.remove();
+        }
+      }
+    } else {
       UserModel userModel = signBloc.state.userModel;
 
       if (userModel.id != null && userModel.id!.isNotEmpty) {
-        FlutterNativeSplash.remove();
+        BaseResponse baseResponse = await autoAuthRepository
+            .updateLastAppEntryDate(UserModel(id: userModel.id));
+
+        if (baseResponse is BaseSuccess) {
+          FlutterNativeSplash.remove();
+        }
       } else {
-        AutoAuthRepository autoAuthRepository = AutoAuthRepository();
         BaseResponse<UserModel> baseResponse =
             await autoAuthRepository.createUser(UserModel());
         if (baseResponse is BaseSuccess<UserModel>) {
@@ -32,9 +53,6 @@ class MyAppViewModel extends BaseViewModel {
           FlutterNativeSplash.remove();
         }
       }
-    } else {
-      BlocProvider.of<SignBloc>(context).add(const ChangeSignInStatusEvent());
-      FlutterNativeSplash.remove();
     }
   }
 

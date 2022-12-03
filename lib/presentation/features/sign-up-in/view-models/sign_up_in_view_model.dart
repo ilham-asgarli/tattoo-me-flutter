@@ -13,7 +13,7 @@ import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 class SignUpInViewModel extends BaseViewModel {
   SignUpInViewModel({required super.context});
 
-  UserModel userModel = UserModel(email: "", password: "");
+  UserModel userModel = UserModel();
 
   void onSavedEmail(String? value) {
     if (value != null) {
@@ -29,6 +29,7 @@ class SignUpInViewModel extends BaseViewModel {
 
   Future<void> signInUp(bool mounted) async {
     SignState signState = context.read<SignBloc>().state;
+    print(signState);
 
     if (signState is SignIn || signState is SignUp || signState is SignedUp) {
       BlocProvider.of<SignBloc>(context).add(const SigningEvent());
@@ -44,6 +45,8 @@ class SignUpInViewModel extends BaseViewModel {
         closePageAfterSign(mounted, baseResponse);
       }
     }
+
+    print("******************************* $signState");
   }
 
   void closePageAfterSign(bool mounted, BaseResponse<UserModel> baseResponse) {

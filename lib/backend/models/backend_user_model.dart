@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tattoo/core/base/models/base_model.dart';
+import 'package:tattoo/core/extensions/map_extension.dart';
 
 import '../../domain/models/auth/user_model.dart';
 import '../core/encrypt/core_encrypt.dart';
@@ -8,7 +9,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   String? id;
   String? email;
   String? password;
-  int balance = 0;
+  int? balance;
   Timestamp? createdDate;
   Timestamp? lastAppEntryDate;
 
@@ -16,7 +17,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     this.id,
     this.email,
     this.password,
-    this.balance = 0,
+    this.balance,
     this.createdDate,
     this.lastAppEntryDate,
   });
@@ -27,7 +28,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     password = userModel.password != null
         ? CoreEncrypt().cryptFile(userModel.password!)
         : null;
-    balance = userModel.balance ?? 0;
+    balance = userModel.balance;
     createdDate = userModel.createdDate != null
         ? Timestamp.fromDate(userModel.createdDate!)
         : null;
@@ -65,12 +66,14 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "email": email,
-      "password": password,
-      "balance": balance,
-      "createdDate": createdDate,
-      "lastAppEntryDate": lastAppEntryDate,
-    };
+    Map<String, dynamic> map = {};
+
+    map.putIfNotNull("email", email);
+    map.putIfNotNull("password", password);
+    map.putIfNotNull("balance", balance);
+    map.putIfNotNull("createdDate", createdDate);
+    map.putIfNotNull("lastAppEntryDate", lastAppEntryDate);
+
+    return map;
   }
 }
