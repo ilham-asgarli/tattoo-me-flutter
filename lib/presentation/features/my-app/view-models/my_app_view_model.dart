@@ -32,7 +32,12 @@ class MyAppViewModel extends BaseViewModel {
     UserModel userModel = signBloc.state.userModel;
 
     if (userModel.id != null && userModel.id!.isNotEmpty) {
-      await updateLastAppEntryDateAndRemoveSplashScreen(userModel.id);
+      BaseResponse baseResponse = await autoAuthRepository
+          .updateLastAppEntryDate(UserModel(id: userModel.id));
+
+      if (baseResponse is BaseSuccess) {
+        FlutterNativeSplash.remove();
+      }
     } else {
       BaseResponse<UserModel> baseResponse =
           await autoAuthRepository.createUser(UserModel());
@@ -45,21 +50,17 @@ class MyAppViewModel extends BaseViewModel {
   }
 
   Future<void> onSignedInWithEmail() async {
-    BlocProvider.of<SignBloc>(context).add(const ChangeSignInStatusEvent());
-
+    SignBloc signBloc = BlocProvider.of<SignBloc>(context);
     BaseResponse<UserModel> userResponse = authRepository.getCurrentUser();
 
     if (userResponse is BaseSuccess<UserModel>) {
-      await updateLastAppEntryDateAndRemoveSplashScreen(userResponse.data?.id);
-    }
-  }
+      BaseResponse baseResponse = await autoAuthRepository
+          .updateLastAppEntryDate(UserModel(id: userResponse.data?.id));
 
-  Future<void> updateLastAppEntryDateAndRemoveSplashScreen(String? id) async {
-    BaseResponse baseResponse =
-        await autoAuthRepository.updateLastAppEntryDate(UserModel(id: id));
-
-    if (baseResponse is BaseSuccess) {
-      FlutterNativeSplash.remove();
+      if (baseResponse is BaseSuccess) {
+        signBloc.add(const ChangeSignInStatusEvent());
+        FlutterNativeSplash.remove();
+      }
     }
   }
 
