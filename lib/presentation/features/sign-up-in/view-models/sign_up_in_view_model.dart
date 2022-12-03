@@ -29,7 +29,6 @@ class SignUpInViewModel extends BaseViewModel {
 
   Future<void> signInUp(bool mounted) async {
     SignState signState = context.read<SignBloc>().state;
-    print(signState);
 
     if (signState is SignIn || signState is SignUp || signState is SignedUp) {
       BlocProvider.of<SignBloc>(context).add(const SigningEvent());
@@ -45,8 +44,6 @@ class SignUpInViewModel extends BaseViewModel {
         closePageAfterSign(mounted, baseResponse);
       }
     }
-
-    print("******************************* $signState");
   }
 
   void closePageAfterSign(bool mounted, BaseResponse<UserModel> baseResponse) {
