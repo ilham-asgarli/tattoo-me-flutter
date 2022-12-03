@@ -3,7 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
 import 'package:tattoo/domain/repositories/auth/implementations/auto_auth_repository.dart';
-import 'package:tattoo/domain/usecases/auth/implementations/email_auth_usecase.dart';
+import 'package:tattoo/domain/usecases/auth/implementations/auth_usecase.dart';
 
 import '../../../../core/base/models/base_success.dart';
 import '../../../../core/base/view-models/base_view_model.dart';
@@ -14,9 +14,9 @@ class MyAppViewModel extends BaseViewModel {
   MyAppViewModel({required super.context});
 
   void initAndRemoveSplashScreen() async {
-    EmailAuthUseCase emailAuthUseCase = EmailAuthUseCase();
+    AuthUseCase authUseCase = AuthUseCase();
 
-    if (!emailAuthUseCase.isSignedInWithVerifiedEmail()) {
+    if (!authUseCase.isSignedIn()) {
       SignBloc signBloc = BlocProvider.of<SignBloc>(context);
       UserModel userModel = signBloc.state.userModel;
 

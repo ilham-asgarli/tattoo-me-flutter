@@ -16,25 +16,27 @@ class BackendAuth extends BackendAuthInterface {
       await FirebaseAuth.instance.signOut();
       return BaseSuccess();
     } catch (e) {
-      return BaseError(message: "");
+      return BaseError();
     }
   }
 
   @override
-  Future<BaseResponse> linkWithCredential(AuthCredential authCredential) async {
+  Future<BaseResponse<UserModel>> linkWithCredential(
+      AuthCredential authCredential) async {
     try {
       final credential = await FirebaseAuth.instance.currentUser
           ?.linkWithCredential(authCredential);
-      return BaseSuccess(data: UserModel(email: "", password: ""));
+      return BaseSuccess(data: UserModel(id: credential?.user?.uid));
     } catch (e) {
       return authException.auth(e);
     }
   }
 
   @override
-  Future<BaseResponse> getCurrentUser() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      return BaseSuccess(data: UserModel(email: "", password: ""));
+  BaseResponse<UserModel> getCurrentUser() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return BaseSuccess(data: UserModel(id: user.uid));
     } else {
       return BaseError();
     }

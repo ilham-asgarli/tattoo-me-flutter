@@ -1,3 +1,4 @@
+import 'package:tattoo/domain/models/auth/user_model.dart';
 import 'package:tattoo/domain/repositories/auth/interfaces/auth_interface.dart';
 
 import '../../../../backend/features/auth/implementations/backend_auth.dart';
@@ -13,8 +14,8 @@ class AuthRepository extends AuthInterface {
   }
 
   @override
-  Future<BaseResponse> getCurrentUser() async {
-    BaseResponse baseResponse = await auth.getCurrentUser();
+  BaseResponse<UserModel> getCurrentUser() {
+    BaseResponse<UserModel> baseResponse = auth.getCurrentUser();
     return baseResponse;
   }
 }

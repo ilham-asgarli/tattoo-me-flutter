@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tattoo/domain/models/auth/user_model.dart';
 
 import '../../../../core/base/models/base_response.dart';
 
 abstract class BackendAuthInterface {
-  Future<BaseResponse> getCurrentUser();
+  BaseResponse<UserModel> getCurrentUser();
 
   Future<BaseResponse> signOut();
 
-  Future<BaseResponse> linkWithCredential(AuthCredential authCredential);
+  Future<BaseResponse<UserModel>> linkWithCredential(
+      AuthCredential authCredential);
 }

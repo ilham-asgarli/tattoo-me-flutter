@@ -26,4 +26,10 @@ class AuthUseCase extends AuthInterface {
     }
     return BaseError();
   }
+
+  @override
+  bool isSignedIn() {
+    BaseResponse<UserModel> baseResponse = authRepository.getCurrentUser();
+    return baseResponse is BaseSuccess<UserModel>;
+  }
 }

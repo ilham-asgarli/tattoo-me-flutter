@@ -24,7 +24,9 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   BackendUserModel.fromUserModel({required UserModel userModel}) {
     id = userModel.id;
     email = userModel.email;
-    password = CoreEncrypt().cryptFile(userModel.password ?? "");
+    password = userModel.password != null
+        ? CoreEncrypt().cryptFile(userModel.password!)
+        : null;
     balance = userModel.balance ?? 0;
     createdDate = userModel.createdDate != null
         ? Timestamp.fromDate(userModel.createdDate!)
