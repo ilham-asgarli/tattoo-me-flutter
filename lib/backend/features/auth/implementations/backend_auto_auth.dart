@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tattoo/backend/models/backend_user_model.dart';
+import 'package:tattoo/backend/models/auth/backend_user_model.dart';
 import 'package:tattoo/backend/utils/constants/firebase/users/users_collection_constants.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_response.dart';
@@ -17,7 +17,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
   Future<BaseResponse<UserModel>> createUser(UserModel userModel) async {
     try {
       BackendUserModel backendUserModel =
-          BackendUserModel.fromUserModel(userModel: userModel);
+          BackendUserModel.from(userModel: userModel);
 
       backendUserModel.balance = 30;
       backendUserModel.createdDate = Timestamp.now();
@@ -32,7 +32,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
       }
 
       return BaseSuccess<UserModel>(
-          data: backendUserModel.toUserModel(userModel: backendUserModel));
+          data: backendUserModel.to(userModel: backendUserModel));
     } catch (e) {
       return BaseError();
     }
@@ -43,8 +43,9 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
     userModel.lastAppEntryDate = DateTime.now();
 
     try {
-      await users.doc(userModel.id).update(
-          BackendUserModel.fromUserModel(userModel: userModel).toJson());
+      await users
+          .doc(userModel.id)
+          .update(BackendUserModel.from(userModel: userModel).toJson());
       return BaseSuccess();
     } catch (e) {
       return BaseError();

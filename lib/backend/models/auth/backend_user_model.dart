@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tattoo/core/base/models/base_model.dart';
 import 'package:tattoo/core/extensions/map_extension.dart';
 
-import '../../domain/models/auth/user_model.dart';
-import '../core/encrypt/core_encrypt.dart';
+import '../../../domain/models/auth/user_model.dart';
+import '../../core/encrypt/core_encrypt.dart';
 
 class BackendUserModel extends BaseModel<BackendUserModel> {
   String? id;
@@ -22,7 +22,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     this.lastAppEntryDate,
   });
 
-  BackendUserModel.fromUserModel({required UserModel userModel}) {
+  BackendUserModel.from({required UserModel userModel}) {
     id = userModel.id;
     email = userModel.email;
     password = userModel.password != null
@@ -37,7 +37,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
         : null;
   }
 
-  UserModel toUserModel({required BackendUserModel userModel}) {
+  UserModel to({required BackendUserModel userModel}) {
     return UserModel(
       id: userModel.id,
       email: userModel.email,
@@ -49,8 +49,6 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
           : null,
     );
   }
-
-  BackendUserModel.sign({required this.email, required this.password});
 
   @override
   BackendUserModel fromJson(Map<String, dynamic> json) {
