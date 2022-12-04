@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/base/views/base_app_lifecycle_view.dart';
+import '../../../../core/base/views/base_view.dart';
 import '../../../../core/constants/app/global_key_constants.dart';
 import '../../../../utils/logic/config/router/config_router.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
@@ -14,21 +15,8 @@ import '../../../../utils/ui/config/theme/common/common_theme.dart';
 import '../../../widgets/have_no.dart';
 import '../view-models/my_app_view_model.dart';
 
-class MyAppView extends StatefulWidget {
-  const MyAppView({Key? key}) : super(key: key);
-
-  @override
-  State<MyAppView> createState() => _MyAppViewState();
-}
-
-class _MyAppViewState extends State<MyAppView> {
-  late MyAppViewModel _myAppViewModel;
-
-  @override
-  void initState() {
-    _myAppViewModel = MyAppViewModel(context: context);
-    super.initState();
-  }
+class MyAppView extends View<MyAppViewModel> {
+  MyAppView({super.key}) : super(viewModelBuilder: () => MyAppViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +41,9 @@ class _MyAppViewState extends State<MyAppView> {
       child: MaterialApp(
         scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
         debugShowCheckedModeBanner: false,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
+        localizationsDelegates: viewModel.context.localizationDelegates,
+        supportedLocales: viewModel.context.supportedLocales,
+        locale: viewModel.context.locale,
         themeMode: themeState.themeMode,
         theme: CommonTheme.instance.getTheme(
           appTheme: themeState.appTheme,
@@ -68,7 +56,7 @@ class _MyAppViewState extends State<MyAppView> {
         scaffoldMessengerKey: GlobalKeyConstants.scaffoldMessengerKey,
         navigatorKey: GlobalKeyConstants.navigatorKey,
         onGenerateRoute: ConfigRouter.instance.generateRoute,
-        initialRoute: _myAppViewModel.getInitialRoute(),
+        initialRoute: viewModel.getInitialRoute(),
         builder: (context, Widget? child) {
           return buildNetworkCubit(child);
         },
@@ -77,7 +65,7 @@ class _MyAppViewState extends State<MyAppView> {
   }
 
   Widget buildNetworkCubit(Widget? child) {
-    final networkCubitState = context.watch<NetworkCubit>().state;
+    final networkCubitState = viewModel.context.watch<NetworkCubit>().state;
 
     return BlocBuilder<NetworkCubit, NetworkState>(
       builder: (context, NetworkState state) {
@@ -86,7 +74,7 @@ class _MyAppViewState extends State<MyAppView> {
         }
 
         if (networkCubitState is! NetworkInitial) {
-          _myAppViewModel.initAndRemoveSplashScreen();
+          viewModel.initAndRemoveSplashScreen();
         }
 
         if (networkCubitState is ConnectionSuccess) {

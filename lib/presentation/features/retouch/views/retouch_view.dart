@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tattoo/core/base/views/base_view.dart';
 import 'package:tattoo/core/extensions/context_extension.dart';
 import 'package:tattoo/core/extensions/int_extension.dart';
 import 'package:tattoo/core/extensions/string_extension.dart';
@@ -16,36 +17,25 @@ import 'package:tattoo/utils/logic/state/cubit/retouch/retouch_cubit.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../components/retouch_background.dart';
 
-class RetouchView extends StatefulWidget {
-  const RetouchView({Key? key}) : super(key: key);
+class RetouchView extends View<RetouchViewModel> {
+  final String? imageLink;
 
-  @override
-  State<RetouchView> createState() => _RetouchViewState();
-}
-
-class _RetouchViewState extends State<RetouchView> {
-  late RetouchViewModel _retouchViewModel;
-
-  @override
-  void initState() {
-    _retouchViewModel = RetouchViewModel(context: context);
-    super.initState();
-  }
+  RetouchView({required this.imageLink, super.key})
+      : super(viewModelBuilder: () => RetouchViewModel());
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RetouchCubit(),
       child: WillPopScope(
-        onWillPop: _retouchViewModel.onBackPressed,
+        onWillPop: viewModel.onBackPressed,
         child: Scaffold(
           extendBodyBehindAppBar: true,
           appBar: buildAppBar(),
           body: Stack(
             children: [
               RetouchBackground(
-                image:
-                    "https://tattooton.com/wp-content/uploads/2015/12/Tattoos-For-Men-in-2016.26-768x1024.jpg",
+                image: imageLink ?? "",
               ),
               BlocBuilder<RetouchCubit, RetouchState>(
                 builder: (context, state) {
@@ -56,15 +46,15 @@ class _RetouchViewState extends State<RetouchView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           buildTitle(state),
-                          widget.dynamicVerticalSpace(context, 0.1),
+                          viewModel.widget.dynamicVerticalSpace(context, 0.1),
                           state.isReady
                               ? const RetouchReady()
                               : const AnimatedRetouching(),
-                          widget.verticalSpace(75),
+                          viewModel.widget.verticalSpace(75),
                           buildLoadingArea(state),
-                          widget.verticalSpace(10),
+                          viewModel.widget.verticalSpace(10),
                           buildLoadingDescriptionArea(),
-                          widget.dynamicVerticalSpace(context, 0.05),
+                          viewModel.widget.dynamicVerticalSpace(context, 0.05),
                           state.isReady ? buildShowResult() : buildTimeArea(),
                         ],
                       ),
@@ -86,7 +76,7 @@ class _RetouchViewState extends State<RetouchView> {
       ),
       leading: CloseButton(
         onPressed: () async {
-          await _retouchViewModel.onBackPressed();
+          await viewModel.onBackPressed();
         },
       ),
       backgroundColor: Colors.transparent,

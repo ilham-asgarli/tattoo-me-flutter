@@ -18,7 +18,7 @@ class ConfigRouter {
     switch (settings.name) {
       case RouterConstants.home:
         return normalNavigate(
-          const HomeView(),
+          HomeView(),
           RouterConstants.home,
         );
       case RouterConstants.tattooChoose:
@@ -28,7 +28,7 @@ class ConfigRouter {
         );
       case RouterConstants.signUpIn:
         return normalNavigate(
-          const SignUpIn(),
+          SignUpIn(),
           RouterConstants.signUpIn,
         );
       case RouterConstants.photo:
@@ -38,7 +38,7 @@ class ConfigRouter {
         );
       case RouterConstants.retouch:
         return normalNavigate(
-          const RetouchView(),
+          RetouchView(imageLink: settings.arguments as String?),
           RouterConstants.retouch,
         );
       default:

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tattoo/core/base/models/base_model.dart';
-import 'package:tattoo/domain/models/design-request/design_request_model.dart';
+import 'package:tattoo/domain/models/design-request/design_model.dart';
 
 import '../design-request-images/backend_design_request_image_model.dart';
 
@@ -25,7 +25,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
     this.designRequestImageModels,
   });
 
-  BackendDesignRequestModel.from({required DesignRequestModel model}) {
+  BackendDesignRequestModel.from({required DesignModel model}) {
     id = model.id;
     userId = model.userId;
     designerId = model.designerId;
@@ -40,8 +40,8 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
         .toList();
   }
 
-  DesignRequestModel to({required BackendDesignRequestModel model}) {
-    return DesignRequestModel(
+  DesignModel to({required BackendDesignRequestModel model}) {
+    return DesignModel(
       id: model.id,
       userId: model.userId,
       designerId: model.designerId,

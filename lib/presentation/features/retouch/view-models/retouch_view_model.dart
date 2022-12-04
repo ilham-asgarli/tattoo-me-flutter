@@ -6,8 +6,6 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 
 class RetouchViewModel extends BaseViewModel {
-  RetouchViewModel({required super.context});
-
   Future<bool> onBackPressed() async {
     BlocProvider.of<HomeTabCubit>(context).changeTab(2);
 

@@ -1,8 +1,9 @@
 import 'package:tattoo/core/base/models/base_model.dart';
 
 import 'design_request_image_model.dart';
+import 'design_response_image_model.dart';
 
-class DesignRequestModel extends BaseModel<DesignRequestModel> {
+class DesignModel extends BaseModel<DesignModel> {
   String? id;
   String? userId;
   String? designerId;
@@ -11,8 +12,9 @@ class DesignRequestModel extends BaseModel<DesignRequestModel> {
   bool? finished;
   DateTime? createdDate;
   List<DesignRequestImageModel>? designRequestImageModels;
+  List<DesignResponseImageModel>? designResponseImageModels;
 
-  DesignRequestModel({
+  DesignModel({
     this.id,
     this.userId,
     this.designerId,
@@ -21,11 +23,12 @@ class DesignRequestModel extends BaseModel<DesignRequestModel> {
     this.finished,
     this.createdDate,
     this.designRequestImageModels,
+    this.designResponseImageModels,
   });
 
   @override
-  DesignRequestModel fromJson(Map<String, dynamic> json) {
-    return DesignRequestModel(
+  DesignModel fromJson(Map<String, dynamic> json) {
+    return DesignModel(
       id: json["id"],
       userId: json["userId"],
       designerId: json["designerId"],
@@ -34,6 +37,7 @@ class DesignRequestModel extends BaseModel<DesignRequestModel> {
       finished: json["finished"],
       createdDate: json["createdDate"],
       designRequestImageModels: json["designRequestImageModels"],
+      designResponseImageModels: json["designResponseImageModels"],
     );
   }
 
@@ -48,6 +52,7 @@ class DesignRequestModel extends BaseModel<DesignRequestModel> {
       "finished": finished,
       "createdDate": createdDate,
       "designRequestImageModels": designRequestImageModels,
+      "designResponseImageModels": designResponseImageModels,
     };
   }
 }

@@ -3,29 +3,25 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tattoo/presentation/features/tattoo-choose/components/progress_dialog.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:tattoo/core/base/views/base_view.dart';
+import 'package:tattoo/presentation/features/tattoo-choose/view-models/tattoo_choose_view_model.dart';
 import 'package:tattoo/utils/logic/helpers/gallery/editor_helper.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
-import '../../../../core/router/core/router_service.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/helpers/gallery/gallery_helper.dart';
 import '../../../widgets/resizeable_widget.dart';
 
-class TattooChooseView extends StatefulWidget {
+class TattooChooseView extends View<TattooChooseViewModel> {
   final XFile imageFile;
 
-  const TattooChooseView({required this.imageFile, Key? key}) : super(key: key);
-
-  @override
-  State<TattooChooseView> createState() => _TattooChooseViewState();
-}
-
-class _TattooChooseViewState extends State<TattooChooseView> {
-  XFile? imageFile;
+  TattooChooseView({super.key, required this.imageFile})
+      : super(
+            viewModelBuilder: () =>
+                TattooChooseViewModel(imageFile: imageFile));
 
   Offset position = const Offset(0, 0);
   double prevScale = 1;
@@ -34,12 +30,20 @@ class _TattooChooseViewState extends State<TattooChooseView> {
   double width = 0;
   double height = 0;
 
-  void updatePosition(Offset newPosition) =>
-      setState(() => position += newPosition);
+  void updatePosition(Offset newPosition) {
+    position += newPosition;
+    viewModel.buildView();
+  }
 
-  void updateScale(double zoom) => setState(() => scale = prevScale * zoom);
+  void updateScale(double zoom) {
+    scale = prevScale * zoom;
+    viewModel.buildView();
+  }
 
-  void commitScale() => setState(() => prevScale = scale);
+  void commitScale() {
+    prevScale = scale;
+    viewModel.buildView();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +59,7 @@ class _TattooChooseViewState extends State<TattooChooseView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Visibility(
-              visible: imageFile != null,
+              visible: viewModel.frontImageFile != null,
               child: Text(
                 LocaleKeys.tattooChooseDescription.tr(),
                 textAlign: TextAlign.center,
@@ -64,11 +68,14 @@ class _TattooChooseViewState extends State<TattooChooseView> {
                 ),
               ),
             ),
-            widget.verticalSpace(50),
+            viewModel.widget.verticalSpace(50),
             buildInfoArea(),
-            buildEditArea(),
-            widget.verticalSpace(20),
-            imageFile == null ? buildAddTattoo() : buildSend(),
+            Screenshot(
+              controller: viewModel.screenshotController,
+              child: buildEditArea(),
+            ),
+            viewModel.widget.verticalSpace(20),
+            viewModel.frontImageFile == null ? buildAddTattoo() : buildSend(),
           ],
         ),
       ),
@@ -82,15 +89,15 @@ class _TattooChooseViewState extends State<TattooChooseView> {
       child: Stack(
         children: [
           Image.file(
-            width: context.dynamicWidth(1),
-            height: context.dynamicHeight(0.6),
+            width: viewModel.context.dynamicWidth(1),
+            height: viewModel.context.dynamicHeight(0.6),
             fit: BoxFit.cover,
             File(
-              widget.imageFile.path,
+              imageFile.path,
             ),
           ),
           Visibility(
-            visible: imageFile != null,
+            visible: viewModel.frontImageFile != null,
             child: Builder(builder: (context) {
               return Positioned(
                 left: position.dx,
@@ -120,21 +127,11 @@ class _TattooChooseViewState extends State<TattooChooseView> {
     return ElevatedButton(
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(
-          Size(context.dynamicWidth(0.9), 30),
+          Size(viewModel.context.dynamicWidth(0.9), 30),
         ),
         backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
       ),
-      onPressed: () async {
-        showGeneralDialog(
-          context: context,
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return const ProgressDialog();
-          },
-        );
-        Future.delayed(const Duration(seconds: 1)).then((value) {
-          RouterService.instance.pushNamed(path: RouterConstants.retouch);
-        });
-      },
+      onPressed: viewModel.onTapSend,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -144,7 +141,7 @@ class _TattooChooseViewState extends State<TattooChooseView> {
               fontSize: 15,
             ),
           ),
-          widget.horizontalSpace(10),
+          viewModel.widget.horizontalSpace(10),
           const Icon(Icons.arrow_forward),
         ],
       ),
@@ -155,7 +152,7 @@ class _TattooChooseViewState extends State<TattooChooseView> {
     return ElevatedButton.icon(
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(
-          Size(context.dynamicWidth(0.8), 50),
+          Size(viewModel.context.dynamicWidth(0.8), 50),
         ),
         backgroundColor: MaterialStateProperty.all<Color>(AppColors.tertiary),
       ),
@@ -164,16 +161,15 @@ class _TattooChooseViewState extends State<TattooChooseView> {
         color: Colors.white,
       ),
       onPressed: () async {
-        imageFile = await GalleryHelper.instance.getFromGallery();
-        if (imageFile != null) {
-          var size = await GalleryHelper.instance
-              .computeSize(context, File(imageFile!.path));
-          setState(() {
-            width = size[0];
-            height = size[1];
-          });
+        viewModel.frontImageFile =
+            await GalleryHelper.instance.getFromGallery();
+        if (viewModel.frontImageFile != null) {
+          var size = await GalleryHelper.instance.computeSize(
+              viewModel.context, File(viewModel.frontImageFile!.path));
+          width = size[0];
+          height = size[1];
         }
-        setState(() {});
+        viewModel.buildView();
       },
       label: Text(
         LocaleKeys.addTattoo.tr(),
@@ -186,7 +182,7 @@ class _TattooChooseViewState extends State<TattooChooseView> {
   }
 
   Widget buildTattoo(double width, double height, double angle) {
-    return imageFile != null
+    return viewModel.frontImageFile != null
         ? Transform.rotate(
             angle: angle,
             child: Image.file(
@@ -194,7 +190,7 @@ class _TattooChooseViewState extends State<TattooChooseView> {
               height: height,
               fit: BoxFit.fill,
               File(
-                imageFile!.path,
+                viewModel.frontImageFile!.path,
               ),
             ),
           )
@@ -204,16 +200,16 @@ class _TattooChooseViewState extends State<TattooChooseView> {
   Widget buildInfoArea() {
     return Container(
       padding: EdgeInsets.only(
-        left: context.lowValue,
-        right: context.lowValue,
-        top: context.lowValue / 1.5,
-        bottom: context.lowValue / 1.5,
+        left: viewModel.context.lowValue,
+        right: viewModel.context.lowValue,
+        top: viewModel.context.lowValue / 1.5,
+        bottom: viewModel.context.lowValue / 1.5,
       ),
       color: AppColors.tertiary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          widget.horizontalSpace(10),
+          viewModel.widget.horizontalSpace(10),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -222,12 +218,12 @@ class _TattooChooseViewState extends State<TattooChooseView> {
                   "Tasarım ücreti:",
                   textAlign: TextAlign.center,
                 ),
-                widget.horizontalSpace(10),
+                viewModel.widget.horizontalSpace(10),
                 const Text(
                   "${30}",
                   textAlign: TextAlign.center,
                 ),
-                widget.horizontalSpace(5),
+                viewModel.widget.horizontalSpace(5),
                 const Icon(
                   Icons.stars_rounded,
                   color: Colors.green,
@@ -235,7 +231,7 @@ class _TattooChooseViewState extends State<TattooChooseView> {
               ],
             ),
           ),
-          widget.horizontalSpace(10),
+          viewModel.widget.horizontalSpace(10),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -244,12 +240,12 @@ class _TattooChooseViewState extends State<TattooChooseView> {
                   "Bakiyeniz:",
                   textAlign: TextAlign.center,
                 ),
-                widget.horizontalSpace(10),
+                viewModel.widget.horizontalSpace(10),
                 const Text(
                   "${30}",
                   textAlign: TextAlign.center,
                 ),
-                widget.horizontalSpace(5),
+                viewModel.widget.horizontalSpace(5),
                 const Icon(
                   Icons.stars_rounded,
                   color: Colors.green,
@@ -257,7 +253,7 @@ class _TattooChooseViewState extends State<TattooChooseView> {
               ],
             ),
           ),
-          widget.horizontalSpace(10),
+          viewModel.widget.horizontalSpace(10),
         ],
       ),
     );
@@ -265,20 +261,18 @@ class _TattooChooseViewState extends State<TattooChooseView> {
 
   Future<File> crop() async {
     String? editedImagePath = await EditorHelper.instance
-        .getEditedImagePath(context, imageFile?.path);
+        .getEditedImagePath(viewModel.context, viewModel.frontImageFile?.path);
 
     if (editedImagePath != null) {
-      setState(() {
-        imageFile = XFile(editedImagePath);
-      });
+      viewModel.frontImageFile = XFile(editedImagePath);
+      viewModel.buildView();
     }
 
-    return File(imageFile!.path);
+    return File(viewModel.frontImageFile!.path);
   }
 
   void close() {
-    setState(() {
-      imageFile = null;
-    });
+    viewModel.frontImageFile = null;
+    viewModel.buildView();
   }
 }

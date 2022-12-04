@@ -16,6 +16,7 @@ class RetouchBackground extends StatelessWidget {
             image,
           ),
           fit: BoxFit.cover,
+          filterQuality: FilterQuality.low,
         ),
       ),
       child: BackdropFilter(

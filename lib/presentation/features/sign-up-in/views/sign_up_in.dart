@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tattoo/core/base/views/base_view.dart';
 import 'package:tattoo/presentation/features/sign-up-in/view-models/sign_up_in_view_model.dart';
 import 'package:tattoo/presentation/widgets/fractionally_sized_circular_progress_indicator.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
@@ -15,22 +16,10 @@ import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../utils/ui/validators/password_validator.dart';
 
-class SignUpIn extends StatefulWidget {
-  const SignUpIn({Key? key}) : super(key: key);
-
-  @override
-  State<SignUpIn> createState() => _SignUpInState();
-}
-
-class _SignUpInState extends State<SignUpIn> {
-  late SignUpInViewModel _signUpInViewModel;
+class SignUpIn extends View<SignUpInViewModel> {
   final GlobalKey<FormState> _signFormKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    _signUpInViewModel = SignUpInViewModel(context: context);
-    super.initState();
-  }
+  SignUpIn({super.key}) : super(viewModelBuilder: () => SignUpInViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +28,7 @@ class _SignUpInState extends State<SignUpIn> {
         return WillPopScope(
           onWillPop: () {
             FocusManager.instance.primaryFocus?.unfocus();
-            return _signUpInViewModel.onBackPressed();
+            return viewModel.onBackPressed();
           },
           child: Scaffold(
             appBar: buildAppBar(),
@@ -49,15 +38,15 @@ class _SignUpInState extends State<SignUpIn> {
                   FontAwesomeIcons.user,
                   size: 50,
                 ),
-                widget.verticalSpace(20),
+                viewModel.widget.verticalSpace(20),
                 buildSignDescription(state),
-                widget.dynamicVerticalSpace(context, 0.05),
+                viewModel.widget.dynamicVerticalSpace(context, 0.05),
                 buildMoreDescription(),
-                widget.dynamicVerticalSpace(context, 0.05),
+                viewModel.widget.dynamicVerticalSpace(context, 0.05),
                 buildSignArea(state),
-                widget.verticalSpace(20),
+                viewModel.widget.verticalSpace(20),
                 buildSignButton(state),
-                widget.dynamicVerticalSpace(context, 0.15),
+                viewModel.widget.dynamicVerticalSpace(context, 0.15),
                 buildChangeSign(state),
               ],
             ),
@@ -72,7 +61,7 @@ class _SignUpInState extends State<SignUpIn> {
       leading: BackButton(
         onPressed: () {
           FocusManager.instance.primaryFocus?.unfocus();
-          _signUpInViewModel.onBackPressed();
+          viewModel.onBackPressed();
         },
       ),
     );
@@ -94,8 +83,8 @@ class _SignUpInState extends State<SignUpIn> {
   Widget buildMoreDescription() {
     return Padding(
       padding: EdgeInsets.only(
-        left: context.mediumValue,
-        right: context.mediumValue,
+        left: viewModel.context.mediumValue,
+        right: viewModel.context.mediumValue,
       ),
       child: Text(
         LocaleKeys.moreDescription.tr(),
@@ -113,8 +102,8 @@ class _SignUpInState extends State<SignUpIn> {
       key: _signFormKey,
       child: Padding(
         padding: EdgeInsets.only(
-          left: context.mediumValue,
-          right: context.mediumValue,
+          left: viewModel.context.mediumValue,
+          right: viewModel.context.mediumValue,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -137,12 +126,12 @@ class _SignUpInState extends State<SignUpIn> {
                   ),
                 ),
               ),
-              onSaved: _signUpInViewModel.onSavedEmail,
+              onSaved: viewModel.onSavedEmail,
               validator: (value) {
                 return EmailValidator(value).validate();
               },
             ),
-            widget.verticalSpace(10),
+            viewModel.widget.verticalSpace(10),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
@@ -161,12 +150,12 @@ class _SignUpInState extends State<SignUpIn> {
                   ),
                 ),
               ),
-              onSaved: _signUpInViewModel.onSavedPassword,
+              onSaved: viewModel.onSavedPassword,
               validator: (value) {
                 return PasswordValidator(value).validate();
               },
             ),
-            widget.verticalSpace(15),
+            viewModel.widget.verticalSpace(15),
             Visibility(
               visible: (state is! SignUp && state is! SigningUp),
               maintainState: true,
@@ -185,7 +174,7 @@ class _SignUpInState extends State<SignUpIn> {
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0),
         fixedSize: MaterialStateProperty.all<Size>(
-          Size(context.width / 1.5, 40),
+          Size(viewModel.context.width / 1.5, 40),
         ),
         backgroundColor:
             MaterialStateProperty.all<Color>(AppColors.secondColor),
@@ -199,7 +188,7 @@ class _SignUpInState extends State<SignUpIn> {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_signFormKey.currentState!.validate()) {
           _signFormKey.currentState?.save();
-          await _signUpInViewModel.signInUp(mounted);
+          await viewModel.signInUp(viewModel.mounted);
         }
       },
       child: (state is SigningIn || state is SigningUp)
@@ -221,9 +210,7 @@ class _SignUpInState extends State<SignUpIn> {
       maintainAnimation: true,
       maintainSize: true,
       child: GestureDetector(
-        onTap: () {
-          _signUpInViewModel.changeSign();
-        },
+        onTap: viewModel.changeSign,
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
@@ -235,12 +222,12 @@ class _SignUpInState extends State<SignUpIn> {
                     ? LocaleKeys.haveAccount.tr()
                     : LocaleKeys.haveNoAccount.tr(),
               ),
-              widget.horizontalSpace(10),
+              viewModel.widget.horizontalSpace(10),
               const FaIcon(
                 FontAwesomeIcons.user,
                 size: 15,
               ),
-              widget.horizontalSpace(5),
+              viewModel.widget.horizontalSpace(5),
               Text(
                 (state is SignUp || state is SigningUp)
                     ? LocaleKeys.signIn.tr()

@@ -12,8 +12,6 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 class MyAppViewModel extends BaseViewModel {
-  MyAppViewModel({required super.context});
-
   AutoAuthRepository autoAuthRepository = AutoAuthRepository();
   AuthRepository authRepository = AuthRepository();
   AuthUseCase authUseCase = AuthUseCase();

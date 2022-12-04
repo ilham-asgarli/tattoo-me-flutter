@@ -1,7 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-abstract class BaseViewModel {
-  final BuildContext context;
+import '../views/base_view.dart';
 
-  BaseViewModel({required this.context});
+abstract class BaseViewModel extends ChangeNotifier {
+  //@protected
+  late void Function() buildView;
+  late View<BaseViewModel> widget;
+  late BuildContext context;
+  late bool mounted;
+
+  //@protected
+  @mustCallSuper
+  void initState() {}
 }

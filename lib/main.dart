@@ -64,7 +64,7 @@ Widget app() {
       ],
       child: DevicePreview(
         enabled: false, //!kReleaseMode
-        builder: (context) => const MyAppView(),
+        builder: (context) => MyAppView(),
       ),
     ),
   );

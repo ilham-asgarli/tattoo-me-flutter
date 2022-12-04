@@ -10,8 +10,6 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 class MoreViewModel extends BaseViewModel {
-  MoreViewModel({required super.context});
-
   Future<void> signInUpOut(bool mounted) async {
     SignState signState = context.read<SignBloc>().state;
 

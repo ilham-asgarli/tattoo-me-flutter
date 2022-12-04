@@ -12,12 +12,12 @@ import '../../more/views/more_view.dart';
 import '../../ready/views/ready_view.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
-  final List<Widget> _items = const [
-    GalleryView(),
-    CreditsView(),
-    ReadyView(),
+  final List<Widget> _items = [
+    const GalleryView(),
+    const CreditsView(),
+    const ReadyView(),
     MoreView(),
   ];
 

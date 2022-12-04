@@ -2,42 +2,43 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tattoo/backend/utils/constants/firebase/design-requests/design_requests_collection_constants.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
+import 'package:tattoo/domain/models/design-request/design_model.dart';
 
 import '../../../../core/base/models/base_response.dart';
-import '../../../../domain/models/design-request/design_request_image_model.dart';
-import '../../../models/design-request-images/backend_design_request_image_model.dart';
+import '../../../models/design-requests/backend_design_request_model.dart';
 import '../interface/backend_design_request_interface.dart';
 
-class BackendDesignRequest extends BackendDesignRequestImageInterface {
+class BackendDesignRequest extends BackendDesignRequestInterface {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   CollectionReference designRequests = FirebaseFirestore.instance
       .collection(DesignRequestsCollectionConstants.designRequests);
 
   @override
-  Future<BaseResponse<DesignRequestImageModel>> createDesignRequestImage(
-      DesignRequestImageModel model) async {
+  Future<BaseResponse<DesignModel>> createDesignRequest(
+      DesignModel designRequestModel) async {
     try {
       DocumentReference documentReference = await designRequests.add(
-        BackendDesignRequestImageModel.from(
-          model: model,
-        ),
+        BackendDesignRequestModel.from(
+          model: designRequestModel,
+        ).toJson(),
       );
 
-      model.id = documentReference.id;
+      designRequestModel.id = documentReference.id;
 
-      return BaseSuccess<DesignRequestImageModel>(data: model);
+      return BaseSuccess<DesignModel>(data: designRequestModel);
     } catch (e) {
       return BaseError();
     }
   }
 
   @override
-  Future<BaseResponse> updateDesignRequestImage(
-      DesignRequestImageModel model) async {
+  Future<BaseResponse> updateDesignRequest(
+      DesignModel designRequestModel) async {
     try {
-      await designRequests.doc(model.id).update(
-            BackendDesignRequestImageModel.from(
-              model: model,
+      await designRequests.doc(designRequestModel.id).update(
+            BackendDesignRequestModel.from(
+              model: designRequestModel,
             ).toJson(),
           );
 

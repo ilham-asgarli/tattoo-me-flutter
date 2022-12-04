@@ -11,8 +11,6 @@ import 'package:tattoo/domain/repositories/auth/implementations/email_auth_repos
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 class SignUpInViewModel extends BaseViewModel {
-  SignUpInViewModel({required super.context});
-
   UserModel userModel = UserModel();
 
   void onSavedEmail(String? value) {

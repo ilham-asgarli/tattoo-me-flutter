@@ -23,6 +23,7 @@ dependencies:
   firebase_core: ^2.3.0
   firebase_auth: ^4.1.4
   cloud_firestore: ^4.1.0
+  firebase_storage: ^11.0.6
 
   easy_localization: ^3.0.1
   http: ^0.13.4
@@ -57,6 +58,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_dotenv: ^5.0.2
   encrypt: ^5.0.1
+  screenshot: ^1.2.3
 
 dev_dependencies:
   flutter_test:
