@@ -45,7 +45,7 @@ class ReadyView extends View<ReadyViewModel> {
       ),
       itemCount: designModels.length,
       itemBuilder: (context, index) {
-        DesignModel? designModel = designModels[index];
+        DesignModel designModel = designModels[index];
         int imageIndex = designModel.designResponseImageModels
                 ?.indexWhere((element) => element.name == "1") ??
             0;
@@ -55,6 +55,7 @@ class ReadyView extends View<ReadyViewModel> {
           onTap: () {
             RouterService.instance.pushNamed(
               path: RouterConstants.photo,
+              data: designModel,
             );
           },
           child: Stack(

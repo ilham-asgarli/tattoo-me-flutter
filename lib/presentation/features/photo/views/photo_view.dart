@@ -8,8 +8,12 @@ import 'package:tattoo/presentation/features/photo/components/retouch_alert.dart
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
+import '../../../../domain/models/design-request/design_model.dart';
+
 class PhotoView extends StatefulWidget {
-  const PhotoView({Key? key}) : super(key: key);
+  final DesignModel designModel;
+
+  const PhotoView({required this.designModel, Key? key}) : super(key: key);
 
   @override
   State<PhotoView> createState() => _PhotoViewState();
@@ -75,11 +79,18 @@ class _PhotoViewState extends State<PhotoView> {
   }
 
   Widget buildPhotoArena() {
+    int oldImageIndex = widget.designModel.designResponseImageModels
+            ?.indexWhere((element) => element.name == "1") ??
+        0;
+    oldImageIndex = oldImageIndex >= 0 ? oldImageIndex : 0;
+
     return GestureDetector(
       child: Image.network(
         isNew
-            ? "https://p4.wallpaperbetter.com/wallpaper/747/956/923/5bd129b86d085-wallpaper-preview.jpg"
-            : "https://cdn.evrimagaci.org/sK8sxf5_U3dC1BG8OC6HfoTKYns=/825x0/filters:no_upscale()/evrimagaci.org%2Fpublic%2Fcontent_media%2F31bfaf50061c34cd13eeda3b0ba04e27.png",
+            ? ""
+            : widget.designModel.designResponseImageModels![oldImageIndex]
+                    .link ??
+                "",
         fit: BoxFit.cover,
         width: context.dynamicWidth(1),
         height: context.dynamicHeight(0.6),
