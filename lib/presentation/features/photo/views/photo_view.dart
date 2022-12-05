@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tattoo/core/extensions/context_extension.dart';
 import 'package:tattoo/core/extensions/widget_extension.dart';
 import 'package:tattoo/presentation/features/photo/components/evaluate_designer_alert.dart';
 import 'package:tattoo/presentation/features/photo/components/retouch_alert.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
+import 'package:tattoo/utils/logic/state/cubit/photo/photo_cubit.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../domain/models/design-request/design_model.dart';
@@ -20,8 +22,6 @@ class PhotoView extends StatefulWidget {
 }
 
 class _PhotoViewState extends State<PhotoView> {
-  bool isNew = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +57,11 @@ class _PhotoViewState extends State<PhotoView> {
             ),
           ),
           Switch(
-            value: isNew,
+            value: context.read<PhotoCubit>().state.isSwitch,
             inactiveTrackColor: Colors.grey,
             activeColor: Colors.grey,
             onChanged: (bool value) {
-              setState(() {
-                isNew = !isNew;
-              });
+              BlocProvider.of<PhotoCubit>(context).changePhoto();
             },
           ),
           Text(
@@ -86,7 +84,7 @@ class _PhotoViewState extends State<PhotoView> {
 
     return GestureDetector(
       child: Image.network(
-        isNew
+        context.read<PhotoCubit>().state.isSwitch
             ? ""
             : widget.designModel.designResponseImageModels![oldImageIndex]
                     .link ??
@@ -96,19 +94,13 @@ class _PhotoViewState extends State<PhotoView> {
         height: context.dynamicHeight(0.6),
       ),
       onTapDown: (details) {
-        setState(() {
-          isNew = false;
-        });
+        BlocProvider.of<PhotoCubit>(context).showOldPhoto();
       },
       onTapUp: (details) {
-        setState(() {
-          isNew = true;
-        });
+        BlocProvider.of<PhotoCubit>(context).showNewPhoto();
       },
       onTapCancel: () {
-        setState(() {
-          isNew = true;
-        });
+        BlocProvider.of<PhotoCubit>(context).showNewPhoto();
       },
     );
   }
