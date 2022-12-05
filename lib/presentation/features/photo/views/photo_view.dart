@@ -24,27 +24,31 @@ class PhotoView extends StatefulWidget {
 class _PhotoViewState extends State<PhotoView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: buildAppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                buildPhotoArena(),
-              ],
-            ),
+    return BlocBuilder<PhotoCubit, PhotoState>(
+      builder: (context, state) {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: buildAppBar(context, state),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildPhotoArena(context, state),
+                  ],
+                ),
+              ),
+              buildButtonsArena(),
+            ],
           ),
-          buildButtonsArena(),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(BuildContext context, PhotoState state) {
     return AppBar(
       leading: const CloseButton(),
       title: Row(
@@ -57,7 +61,7 @@ class _PhotoViewState extends State<PhotoView> {
             ),
           ),
           Switch(
-            value: context.read<PhotoCubit>().state.isSwitch,
+            value: state.isSwitch,
             inactiveTrackColor: Colors.grey,
             activeColor: Colors.grey,
             onChanged: (bool value) {
@@ -76,7 +80,7 @@ class _PhotoViewState extends State<PhotoView> {
     );
   }
 
-  Widget buildPhotoArena() {
+  Widget buildPhotoArena(BuildContext context, PhotoState state) {
     int oldImageIndex = widget.designModel.designResponseImageModels
             ?.indexWhere((element) => element.name == "1") ??
         0;
@@ -84,7 +88,7 @@ class _PhotoViewState extends State<PhotoView> {
 
     return GestureDetector(
       child: Image.network(
-        context.read<PhotoCubit>().state.isSwitch
+        state.isSwitch
             ? ""
             : widget.designModel.designResponseImageModels![oldImageIndex]
                     .link ??
