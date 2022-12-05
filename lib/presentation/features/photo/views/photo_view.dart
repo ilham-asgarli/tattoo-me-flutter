@@ -24,31 +24,30 @@ class PhotoView extends StatefulWidget {
 class _PhotoViewState extends State<PhotoView> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PhotoCubit, PhotoState>(
-      builder: (context, state) {
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: buildAppBar(context, state),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildPhotoArena(context, state),
-                  ],
-                ),
+    return BlocProvider(
+      create: (_) => PhotoCubit(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: buildAppBar(),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildPhotoArena(),
+                ],
               ),
-              buildButtonsArena(),
-            ],
-          ),
-        );
-      },
+            ),
+            buildButtonsArena(),
+          ],
+        ),
+      ),
     );
   }
 
-  AppBar buildAppBar(BuildContext context, PhotoState state) {
+  AppBar buildAppBar() {
     return AppBar(
       leading: const CloseButton(),
       title: Row(
@@ -61,7 +60,7 @@ class _PhotoViewState extends State<PhotoView> {
             ),
           ),
           Switch(
-            value: state.isSwitch,
+            value: context.read<PhotoCubit>().state.isSwitch,
             inactiveTrackColor: Colors.grey,
             activeColor: Colors.grey,
             onChanged: (bool value) {
@@ -80,7 +79,7 @@ class _PhotoViewState extends State<PhotoView> {
     );
   }
 
-  Widget buildPhotoArena(BuildContext context, PhotoState state) {
+  Widget buildPhotoArena() {
     int oldImageIndex = widget.designModel.designResponseImageModels
             ?.indexWhere((element) => element.name == "1") ??
         0;
@@ -88,7 +87,7 @@ class _PhotoViewState extends State<PhotoView> {
 
     return GestureDetector(
       child: Image.network(
-        state.isSwitch
+        context.read<PhotoCubit>().state.isSwitch
             ? ""
             : widget.designModel.designResponseImageModels![oldImageIndex]
                     .link ??
