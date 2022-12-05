@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:tattoo/core/base/views/base_view.dart';
 import 'package:tattoo/presentation/features/tattoo-choose/view-models/tattoo_choose_view_model.dart';
 import 'package:tattoo/utils/logic/helpers/gallery/editor_helper.dart';
+import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/extensions/context_extension.dart';
@@ -214,13 +216,13 @@ class TattooChooseView extends View<TattooChooseViewModel> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Tasarım ücreti:",
+                 Text(
+                  "${}:",
                   textAlign: TextAlign.center,
                 ),
                 viewModel.widget.horizontalSpace(10),
-                const Text(
-                  "${30}",
+                Text(
+                  "${viewModel.context.watch<SignBloc>().state.userModel.balance}",
                   textAlign: TextAlign.center,
                 ),
                 viewModel.widget.horizontalSpace(5),
@@ -236,8 +238,8 @@ class TattooChooseView extends View<TattooChooseViewModel> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Bakiyeniz:",
+                 Text(
+                  "${}:",
                   textAlign: TextAlign.center,
                 ),
                 viewModel.widget.horizontalSpace(10),

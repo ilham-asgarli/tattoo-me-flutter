@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tattoo/backend/utils/constants/app/app_constants.dart';
 import 'package:tattoo/backend/utils/constants/firebase/design-requests/design_requests_collection_constants.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
@@ -12,11 +13,14 @@ import '../../../../domain/models/design-request/design_response_image_model.dar
 import '../../../models/design-requests/backend_design_request_model.dart';
 import '../../../models/design-requests/backend_design_response_image_model.dart';
 import '../../../utils/constants/firebase/design-request-images/design_requests_collection_constants.dart';
+import '../../../utils/constants/firebase/users/users_collection_constants.dart';
 import '../interface/backend_send_design_request_interface.dart';
 
 class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  CollectionReference users =
+      FirebaseFirestore.instance.collection(UsersCollectionConstants.users);
   CollectionReference designRequests = FirebaseFirestore.instance
       .collection(DesignRequestsCollectionConstants.designRequests);
   CollectionReference designRequestImages = FirebaseFirestore.instance
@@ -26,15 +30,33 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
 
   @override
   Future<BaseResponse<DesignModel>> sendDesignRequest(
-      DesignModel designRequestModel) async {
+    DesignModel designRequestModel,
+  ) async {
     try {
       DocumentReference designRequestsDocumentReference = designRequests.doc();
       Reference designRequestImageReference = designRequestImagesReference
           .child(designRequestsDocumentReference.id);
 
-      await sendFiles(designRequestModel, designRequestImageReference);
-      await sendRequests(designRequestsDocumentReference, designRequestModel,
-          designRequestImageReference);
+      await firestore.runTransaction((transaction) async {
+        DocumentReference userDocument = users.doc(designRequestModel.userId);
+        DocumentSnapshot userDocumentSnapshot =
+            await transaction.get(userDocument);
+
+        if (userDocumentSnapshot.exists &&
+            userDocumentSnapshot.get("balance") >=
+                AppConstants.tattooDesignPrice) {
+          await sendFiles(designRequestModel, designRequestImageReference);
+          await sendRequests(transaction, designRequestsDocumentReference,
+              designRequestModel, designRequestImageReference);
+          transaction.update(userDocument, {
+            "balance": FieldValue.increment(-AppConstants.tattooDesignPrice)
+          });
+        } else {
+          throw BaseError(message: "Insufficient credits");
+        }
+      }, maxAttempts: 1).catchError((e) {
+        throw e.toString();
+      });
 
       designRequestModel.id = designRequestsDocumentReference.id;
       return BaseSuccess<DesignModel>(data: designRequestModel);
@@ -61,12 +83,12 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
   }
 
   Future<void> sendRequests(
+    Transaction transaction,
     DocumentReference<Object?> designRequestsDocumentReference,
     DesignModel designRequestModel,
     Reference designRequestImageReference,
   ) async {
-    WriteBatch batch = FirebaseFirestore.instance.batch();
-    batch.set(
+    transaction.set(
       designRequestsDocumentReference,
       BackendDesignRequestModel.from(
         model: designRequestModel,
@@ -92,7 +114,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           ),
         );
 
-        batch.set(
+        transaction.set(
           designRequestImagesDocumentReference,
           BackendDesignResponseImageModel(
             link: link,
@@ -102,7 +124,5 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
         );
       }
     }
-
-    await batch.commit();
   }
 }

@@ -12,6 +12,7 @@
   "sendToDesigner": "Tasarımcıya gönder",
   "addTattoo": "Dövme ekle",
   "balance": "Bakiyeniz: ",
+  "designPrice": "Tasarım ücreti",
   "packets": "Avantajlı paketler",
   "monthlySub": "Aylık abonelik",
   "sub": "Abone ol",
@@ -65,5 +66,5 @@
   "close": "Kapat",
   "writeNoteHere": "Lütfen notunuzu buraya yazın",
   "sentForRetouch": "Teşekkür ederiz.Notunuz tasarımcıya gönderildi !",
-  "retouchAlertTitle": "Dövme tasarımı düzeltme talebiniz ücretsiz yapılacaktır. Lütfen tasarımda yapmak istediğiniz değişikliği not bölümüne yazarak tasarımcımıza gönderin"
+  "retouchAlertTitle": "Dövme tasarımı düzeltme talebiniz ücretsiz yapılacaktır. Lütfen tasarımda yapmak istediğiniz değişikliği not bölümüne yazarak tasarımcımıza gönderin",
 }

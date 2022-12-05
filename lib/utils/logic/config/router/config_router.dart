@@ -11,6 +11,7 @@ import '../../../../presentation/features/sign-up-in/views/sign_up_in.dart';
 import '../../../../presentation/features/tattoo-choose/views/tattoo_choose_view.dart';
 import '../../constants/router/router_constants.dart';
 import '../../state/cubit/photo/photo_cubit.dart';
+import '../../state/cubit/retouch/retouch_cubit.dart';
 
 class ConfigRouter {
   static final ConfigRouter instance = ConfigRouter._init();
@@ -44,7 +45,10 @@ class ConfigRouter {
         );
       case RouterConstants.retouch:
         return normalNavigate(
-          RetouchView(imageLink: settings.arguments as String?),
+          BlocProvider<RetouchCubit>(
+            create: (context) => RetouchCubit(),
+            child: RetouchView(imageLink: settings.arguments as String?),
+          ),
           RouterConstants.retouch,
         );
       default:

@@ -69,12 +69,13 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
   Stream<BaseResponse<List<DesignModel>>> getDesignRequestStream(
       String userId) async* {
     try {
-      List<DesignModel> designModels = [];
       Stream<QuerySnapshot> designRequestsStream =
           designRequests.where("userId", isEqualTo: userId).snapshots();
 
       await for (QuerySnapshot designRequestsDocumentSnapshot
           in designRequestsStream) {
+        List<DesignModel> designModels = [];
+
         for (var element in designRequestsDocumentSnapshot.docs) {
           Map<String, dynamic>? designRequestsData =
               element.data() as Map<String, dynamic>?;

@@ -25,45 +25,40 @@ class RetouchView extends View<RetouchViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RetouchCubit>(
-      create: (context) => RetouchCubit(),
-      child: WillPopScope(
-        onWillPop: viewModel.onBackPressed,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: buildAppBar(),
-          body: Stack(
-            children: [
-              RetouchBackground(
-                image: imageLink,
+    return WillPopScope(
+      onWillPop: viewModel.onBackPressed,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: buildAppBar(),
+        body: Stack(
+          children: [
+            RetouchBackground(
+              image: imageLink,
+            ),
+            SafeArea(
+              child: Padding(
+                padding: context.paddingLow,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildTitle(context),
+                    viewModel.widget.dynamicVerticalSpace(context, 0.1),
+                    context.watch<RetouchCubit>().state.isReady
+                        ? const RetouchReady()
+                        : const AnimatedRetouching(),
+                    viewModel.widget.verticalSpace(75),
+                    buildLoadingArea(context),
+                    viewModel.widget.verticalSpace(10),
+                    buildLoadingDescriptionArea(),
+                    viewModel.widget.dynamicVerticalSpace(context, 0.05),
+                    context.watch<RetouchCubit>().state.isReady
+                        ? buildShowResult()
+                        : buildTimeArea(),
+                  ],
+                ),
               ),
-              BlocBuilder<RetouchCubit, RetouchState>(
-                builder: (context, state) {
-                  return SafeArea(
-                    child: Padding(
-                      padding: context.paddingLow,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          buildTitle(state),
-                          viewModel.widget.dynamicVerticalSpace(context, 0.1),
-                          state.isReady
-                              ? const RetouchReady()
-                              : const AnimatedRetouching(),
-                          viewModel.widget.verticalSpace(75),
-                          buildLoadingArea(state),
-                          viewModel.widget.verticalSpace(10),
-                          buildLoadingDescriptionArea(),
-                          viewModel.widget.dynamicVerticalSpace(context, 0.05),
-                          state.isReady ? buildShowResult() : buildTimeArea(),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -92,17 +87,17 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  Widget buildTitle(RetouchState state) {
+  Widget buildTitle(BuildContext context) {
     return Text(
-      state.isReady
+      context.watch<RetouchCubit>().state.isReady
           ? LocaleKeys.retouchEnded.tr()
-          : state.inRetouch
+          : context.watch<RetouchCubit>().state.inRetouch
               ? LocaleKeys.retouchingPhoto.tr()
-              : state.inQueue
+              : context.watch<RetouchCubit>().state.inQueue
                   ? LocaleKeys.outOfWorkTimeDescription.tr()
                   : "",
       style: TextStyle(
-        fontSize: state.inQueue ? 18 : 22,
+        fontSize: context.watch<RetouchCubit>().state.inQueue ? 18 : 22,
         fontWeight: FontWeight.w300,
       ),
       textAlign: TextAlign.center,
@@ -130,21 +125,27 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  Widget buildLoadingArea(RetouchState state) {
+  Widget buildLoadingArea(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Expanded(
-          child: buildLoading(left: true, isDone: state is RetouchInQueue),
+          child: buildLoading(
+              left: true,
+              isDone: context.watch<RetouchCubit>().state is RetouchInQueue),
         ),
         Expanded(
-          child: buildLoading(isDone: state is RetouchInControl),
+          child: buildLoading(
+              isDone: context.watch<RetouchCubit>().state is RetouchInControl),
         ),
         Expanded(
-          child: buildLoading(isDone: state is RetouchInRetouch),
+          child: buildLoading(
+              isDone: context.watch<RetouchCubit>().state is RetouchInRetouch),
         ),
         Expanded(
-          child: buildLoading(right: true, isDone: state is RetouchIsReady),
+          child: buildLoading(
+              right: true,
+              isDone: context.watch<RetouchCubit>().state is RetouchIsReady),
         ),
       ],
     );

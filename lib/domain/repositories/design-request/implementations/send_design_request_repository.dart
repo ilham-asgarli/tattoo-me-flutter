@@ -9,7 +9,8 @@ class SendDesignRequestRepository extends SendDesignRequestInterface {
 
   @override
   Future<BaseResponse<DesignModel>> sendDesignRequest(
-      DesignModel designRequestModel) async {
+    DesignModel designRequestModel,
+  ) async {
     BaseResponse<DesignModel> baseResponse =
         await backendSendDesignRequest.sendDesignRequest(designRequestModel);
     return baseResponse;
