@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tattoo/presentation/features/photo/views/photo_view.dart';
 import 'package:tattoo/presentation/features/retouch/views/retouch_view.dart';
@@ -9,6 +10,7 @@ import '../../../../presentation/features/not-found-navigation/views/not_found_n
 import '../../../../presentation/features/sign-up-in/views/sign_up_in.dart';
 import '../../../../presentation/features/tattoo-choose/views/tattoo_choose_view.dart';
 import '../../constants/router/router_constants.dart';
+import '../../state/cubit/photo/photo_cubit.dart';
 
 class ConfigRouter {
   static final ConfigRouter instance = ConfigRouter._init();
@@ -34,7 +36,10 @@ class ConfigRouter {
         );
       case RouterConstants.photo:
         return normalNavigate(
-          PhotoView(designModel: settings.arguments as DesignModel),
+          BlocProvider<PhotoCubit>(
+            create: (_) => PhotoCubit(),
+            child: PhotoView(designModel: settings.arguments as DesignModel),
+          ),
           RouterConstants.photo,
         );
       case RouterConstants.retouch:

@@ -6,7 +6,7 @@ abstract class PhotoState extends Equatable {
   const PhotoState(this.isSwitch);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [isSwitch];
 }
 
 class PhotoOld extends PhotoState {

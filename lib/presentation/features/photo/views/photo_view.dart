@@ -24,25 +24,22 @@ class PhotoView extends StatefulWidget {
 class _PhotoViewState extends State<PhotoView> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => PhotoCubit(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: buildAppBar(),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildPhotoArena(),
-                ],
-              ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: buildAppBar(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildPhotoArena(),
+              ],
             ),
-            buildButtonsArena(),
-          ],
-        ),
+          ),
+          buildButtonsArena(),
+        ],
       ),
     );
   }
@@ -60,7 +57,7 @@ class _PhotoViewState extends State<PhotoView> {
             ),
           ),
           Switch(
-            value: context.read<PhotoCubit>().state.isSwitch,
+            value: context.watch<PhotoCubit>().state.isSwitch,
             inactiveTrackColor: Colors.grey,
             activeColor: Colors.grey,
             onChanged: (bool value) {
@@ -87,8 +84,8 @@ class _PhotoViewState extends State<PhotoView> {
 
     return GestureDetector(
       child: Image.network(
-        context.read<PhotoCubit>().state.isSwitch
-            ? ""
+        context.watch<PhotoCubit>().state.isSwitch
+            ? "https://api.army.mil/e2/c/images/2022/06/23/2fd53c88/max1200.jpg"
             : widget.designModel.designResponseImageModels![oldImageIndex]
                     .link ??
                 "",

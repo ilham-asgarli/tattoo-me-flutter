@@ -25,7 +25,7 @@ class RetouchView extends View<RetouchViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<RetouchCubit>(
       create: (context) => RetouchCubit(),
       child: WillPopScope(
         onWillPop: viewModel.onBackPressed,
