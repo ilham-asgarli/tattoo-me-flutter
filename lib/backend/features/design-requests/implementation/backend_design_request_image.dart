@@ -4,11 +4,11 @@ import 'package:tattoo/core/base/models/base_success.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../domain/models/design-request/design_response_image_model.dart';
-import '../../../models/design-request-images/backend_design_response_image_model.dart';
+import '../../../models/design-requests/backend_design_response_image_model.dart';
 import '../../../utils/constants/firebase/design-request-images/design_requests_collection_constants.dart';
-import '../interface/backend_design_request_interface.dart';
+import '../interface/backend_design_request_images_interface.dart';
 
-class BackendDesignRequestImage extends BackendDesignRequestImageInterface {
+class BackendDesignRequestImage extends BackendDesignRequestImagesInterface {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference designRequestImages = FirebaseFirestore.instance
       .collection(DesignRequestImageCollectionConstants.designRequestImages);

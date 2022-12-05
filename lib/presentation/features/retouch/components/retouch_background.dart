@@ -1,9 +1,10 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class RetouchBackground extends StatelessWidget {
-  final String image;
+  final String? image;
 
   const RetouchBackground({required this.image, Key? key}) : super(key: key);
 
@@ -12,8 +13,8 @@ class RetouchBackground extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(
-            image,
+          image: CachedNetworkImageProvider(
+            image ?? "",
           ),
           fit: BoxFit.cover,
           filterQuality: FilterQuality.low,

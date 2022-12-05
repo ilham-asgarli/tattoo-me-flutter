@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
   final List<Widget> _items = [
     const GalleryView(),
     const CreditsView(),
-    const ReadyView(),
+    ReadyView(),
     MoreView(),
   ];
 
@@ -30,7 +30,10 @@ class HomeView extends StatelessWidget {
             children: [
               Expanded(
                 child: Center(
-                  child: _items[state.index],
+                  child: IndexedStack(
+                    index: state.index,
+                    children: _items,
+                  ),
                 ),
               ),
               const Divider(

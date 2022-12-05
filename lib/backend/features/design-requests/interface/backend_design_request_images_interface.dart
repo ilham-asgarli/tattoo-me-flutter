@@ -2,7 +2,7 @@ import 'package:tattoo/domain/models/design-request/design_response_image_model.
 
 import '../../../../core/base/models/base_response.dart';
 
-abstract class BackendDesignRequestImageInterface {
+abstract class BackendDesignRequestImagesInterface {
   Future<BaseResponse<DesignResponseImageModel>> createDesignRequestImage(
     DesignResponseImageModel model,
   );

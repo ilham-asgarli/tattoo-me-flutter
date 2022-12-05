@@ -1,4 +1,5 @@
 import 'package:tattoo/core/base/models/base_model.dart';
+import 'package:tattoo/core/extensions/map_extension.dart';
 import 'package:tattoo/domain/models/design-request/design_request_image_model.dart';
 
 class BackendDesignRequestImageModel
@@ -34,9 +35,11 @@ class BackendDesignRequestImageModel
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "name": name,
-      "image": image,
-    };
+    Map<String, dynamic> map = {};
+
+    map.putIfNotNull("name", name);
+    map.putIfNotNull("image", image);
+
+    return map;
   }
 }

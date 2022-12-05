@@ -51,4 +51,32 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
       return BaseError();
     }
   }
+
+  @override
+  Future<BaseResponse<UserModel>> getUserWithId(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot = await users.doc(id).get();
+      Map<String, dynamic>? data =
+          documentSnapshot.data() as Map<String, dynamic>?;
+
+      if (data != null) {
+        return BaseSuccess<UserModel>(
+          data: BackendUserModel().to(
+            userModel: BackendUserModel(
+              id: documentSnapshot.id,
+              balance: data["balance"],
+              createdDate: data["createdDate"],
+              lastAppEntryDate: data["lastAppEntryDate"],
+              email: data["email"],
+              password: data["password"],
+            ),
+          ),
+        );
+      } else {
+        return BaseSuccess<UserModel>(data: UserModel());
+      }
+    } catch (e) {
+      return BaseError(message: e.toString());
+    }
+  }
 }

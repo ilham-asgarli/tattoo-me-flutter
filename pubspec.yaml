@@ -36,7 +36,7 @@ dependencies:
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
   logger: ^1.1.0
-  cached_network_image: ^3.2.1
+  cached_network_image: ^3.2.3
   animations: ^2.0.3
   auto_size_text: ^3.0.0
   json_annotation: ^4.6.0

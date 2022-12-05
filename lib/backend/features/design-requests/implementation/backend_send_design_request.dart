@@ -9,8 +9,8 @@ import 'package:tattoo/domain/models/design-request/design_model.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../domain/models/design-request/design_response_image_model.dart';
-import '../../../models/design-request-images/backend_design_response_image_model.dart';
 import '../../../models/design-requests/backend_design_request_model.dart';
+import '../../../models/design-requests/backend_design_response_image_model.dart';
 import '../../../utils/constants/firebase/design-request-images/design_requests_collection_constants.dart';
 import '../interface/backend_send_design_request_interface.dart';
 
@@ -29,14 +29,12 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
       DesignModel designRequestModel) async {
     try {
       DocumentReference designRequestsDocumentReference = designRequests.doc();
-      DocumentReference designRequestImagesDocumentReference =
-          designRequestImages.doc();
       Reference designRequestImageReference = designRequestImagesReference
           .child(designRequestsDocumentReference.id);
 
       await sendFiles(designRequestModel, designRequestImageReference);
       await sendRequests(designRequestsDocumentReference, designRequestModel,
-          designRequestImageReference, designRequestImagesDocumentReference);
+          designRequestImageReference);
 
       designRequestModel.id = designRequestsDocumentReference.id;
       return BaseSuccess<DesignModel>(data: designRequestModel);
@@ -63,10 +61,10 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
   }
 
   Future<void> sendRequests(
-      DocumentReference<Object?> designRequestsDocumentReference,
-      DesignModel designRequestModel,
-      Reference designRequestImageReference,
-      DocumentReference<Object?> designRequestImagesDocumentReference) async {
+    DocumentReference<Object?> designRequestsDocumentReference,
+    DesignModel designRequestModel,
+    Reference designRequestImageReference,
+  ) async {
     WriteBatch batch = FirebaseFirestore.instance.batch();
     batch.set(
       designRequestsDocumentReference,
@@ -82,18 +80,25 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             .child(element.name!)
             .getDownloadURL();
 
-        designRequestModel.designResponseImageModels
-            ?.add(DesignResponseImageModel(
-          id: designRequestImagesDocumentReference.id,
-          requestId: designRequestsDocumentReference.id,
-          link: link,
-        ));
+        DocumentReference designRequestImagesDocumentReference =
+            designRequestImages.doc();
+
+        designRequestModel.designResponseImageModels?.add(
+          DesignResponseImageModel(
+            id: designRequestImagesDocumentReference.id,
+            requestId: designRequestsDocumentReference.id,
+            link: link,
+            name: element.name,
+          ),
+        );
 
         batch.set(
           designRequestImagesDocumentReference,
           BackendDesignResponseImageModel(
-                  link: link, requestId: designRequestsDocumentReference.id)
-              .toJson(),
+            link: link,
+            requestId: designRequestsDocumentReference.id,
+            name: element.name,
+          ).toJson(),
         );
       }
     }

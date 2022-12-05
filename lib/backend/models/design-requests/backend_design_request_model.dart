@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tattoo/core/base/models/base_model.dart';
+import 'package:tattoo/core/extensions/map_extension.dart';
 import 'package:tattoo/domain/models/design-request/design_model.dart';
 
-import '../design-request-images/backend_design_request_image_model.dart';
+import 'backend_design_request_image_model.dart';
+import 'backend_design_response_image_model.dart';
 
 class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
   String? id;
@@ -13,6 +15,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
   bool? finished;
   Timestamp? createdDate;
   List<BackendDesignRequestImageModel>? designRequestImageModels;
+  List<BackendDesignResponseImageModel>? designResponseImageModels;
 
   BackendDesignRequestModel({
     this.id,
@@ -23,6 +26,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
     this.finished,
     this.createdDate,
     this.designRequestImageModels,
+    this.designResponseImageModels,
   });
 
   BackendDesignRequestModel.from({required DesignModel model}) {
@@ -38,6 +42,9 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
     designRequestImageModels = model.designRequestImageModels
         ?.map((e) => BackendDesignRequestImageModel.from(model: e))
         .toList();
+    designResponseImageModels = model.designResponseImageModels
+        ?.map((e) => BackendDesignResponseImageModel.from(model: e))
+        .toList();
   }
 
   DesignModel to({required BackendDesignRequestModel model}) {
@@ -51,6 +58,9 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
       createdDate: model.createdDate != null ? createdDate?.toDate() : null,
       designRequestImageModels: model.designRequestImageModels
           ?.map((e) => BackendDesignRequestImageModel().to(model: e))
+          .toList(),
+      designResponseImageModels: model.designResponseImageModels
+          ?.map((e) => BackendDesignResponseImageModel().to(model: e))
           .toList(),
     );
   }
@@ -70,13 +80,15 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "userId": userId,
-      "designerId": designerId,
-      "previousRequestId": previousRequestId,
-      "retouchId": retouchId,
-      "finished": finished,
-      "createdDate": createdDate,
-    };
+    Map<String, dynamic> map = {};
+
+    map.putIfNotNull("userId", userId);
+    map.putIfNotNull("designerId", designerId);
+    map.putIfNotNull("previousRequestId", previousRequestId);
+    map.putIfNotNull("retouchId", retouchId);
+    map.putIfNotNull("finished", finished);
+    map.putIfNotNull("createdDate", createdDate);
+
+    return map;
   }
 }

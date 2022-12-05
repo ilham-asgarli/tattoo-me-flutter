@@ -35,7 +35,7 @@ class RetouchView extends View<RetouchViewModel> {
           body: Stack(
             children: [
               RetouchBackground(
-                image: imageLink ?? "",
+                image: imageLink,
               ),
               BlocBuilder<RetouchCubit, RetouchState>(
                 builder: (context, state) {

@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
@@ -85,9 +87,9 @@ class _CreditsViewState extends State<CreditsView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "${0}",
-                  style: TextStyle(fontSize: 25),
+                Text(
+                  "${context.read<SignBloc>().state.userModel.balance ?? 0}",
+                  style: const TextStyle(fontSize: 25),
                 ),
                 Icon(
                   Icons.star,

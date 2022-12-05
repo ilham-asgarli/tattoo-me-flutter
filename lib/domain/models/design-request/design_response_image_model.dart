@@ -4,11 +4,13 @@ class DesignResponseImageModel extends BaseModel<DesignResponseImageModel> {
   String? id;
   String? requestId;
   String? link;
+  String? name;
 
   DesignResponseImageModel({
     this.id,
     this.requestId,
     this.link,
+    this.name,
   });
 
   @override
@@ -17,6 +19,7 @@ class DesignResponseImageModel extends BaseModel<DesignResponseImageModel> {
       id: json["id"],
       requestId: json["requestId"],
       link: json["link"],
+      name: json["name"],
     );
   }
 
@@ -26,6 +29,7 @@ class DesignResponseImageModel extends BaseModel<DesignResponseImageModel> {
       "id": id,
       "requestId": requestId,
       "link": link,
+      "name": name,
     };
   }
 }

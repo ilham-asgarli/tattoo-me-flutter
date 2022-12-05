@@ -34,7 +34,13 @@ class MyAppViewModel extends BaseViewModel {
           .updateLastAppEntryDate(UserModel(id: userModel.id));
 
       if (baseResponse is BaseSuccess) {
-        FlutterNativeSplash.remove();
+        BaseResponse<UserModel> userBaseResponse =
+            await autoAuthRepository.getUserWithId(userModel.id!);
+        if (userBaseResponse is BaseSuccess<UserModel>) {
+          signBloc.add(RestoreSignInEvent(
+              restoreSignInUserModel: userBaseResponse.data!));
+          FlutterNativeSplash.remove();
+        }
       }
     } else {
       BaseResponse<UserModel> baseResponse =

@@ -19,4 +19,11 @@ class AutoAuthRepository extends AutoAuthInterface {
         await backendAutoAuth.updateLastAppEntryDate(userModel);
     return baseResponse;
   }
+
+  @override
+  Future<BaseResponse<UserModel>> getUserWithId(String id) async {
+    BaseResponse<UserModel> baseResponse =
+        await backendAutoAuth.getUserWithId(id);
+    return baseResponse;
+  }
 }
