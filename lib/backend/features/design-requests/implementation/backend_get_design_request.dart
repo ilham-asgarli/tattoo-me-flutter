@@ -35,27 +35,23 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
         Map<String, dynamic>? designRequestImagesData =
             element.data() as Map<String, dynamic>?;
         if (designRequestImagesData != null) {
-          designResponseImageModels.add(BackendDesignResponseImageModel(
-            id: designRequestImagesData["id"],
-            requestId: designRequestImagesData["requestId"],
-            link: designRequestImagesData["link"],
-          ));
+          BackendDesignResponseImageModel backendDesignResponseImageModel =
+              BackendDesignResponseImageModel()
+                  .fromJson(designRequestImagesData);
+          backendDesignResponseImageModel.id = element.id;
+          designResponseImageModels.add(backendDesignResponseImageModel);
         }
       }
 
       if (designRequestsData != null) {
+        BackendDesignRequestModel backendDesignRequestModel =
+            BackendDesignRequestModel().fromJson(designRequestsData);
+        backendDesignRequestModel.designResponseImageModels =
+            designResponseImageModels;
+
         return BaseSuccess<DesignModel>(
             data: BackendDesignRequestModel().to(
-          model: BackendDesignRequestModel(
-            id: designRequestsData["id"],
-            userId: designRequestsData["userId"],
-            designerId: designRequestsData["designerId"],
-            retouchId: designRequestsData["retouchId"],
-            previousRequestId: designRequestsData["previousRequestId"],
-            finished: designRequestsData["finished"],
-            createdDate: designRequestsData["createdDate"],
-            designResponseImageModels: designResponseImageModels,
-          ),
+          model: backendDesignRequestModel,
         ));
       } else {
         return BaseSuccess<DesignModel>(data: DesignModel());
@@ -90,30 +86,24 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
             Map<String, dynamic>? designRequestImagesData =
                 element.data() as Map<String, dynamic>?;
             if (designRequestImagesData != null) {
-              designResponseImageModels.add(
-                BackendDesignResponseImageModel(
-                  id: designRequestImagesData["id"],
-                  requestId: designRequestImagesData["requestId"],
-                  link: designRequestImagesData["link"],
-                  name: designRequestImagesData["name"],
-                ),
-              );
+              BackendDesignResponseImageModel backendDesignResponseImageModel =
+                  BackendDesignResponseImageModel()
+                      .fromJson(designRequestImagesData);
+              backendDesignResponseImageModel.id = element.id;
+
+              designResponseImageModels.add(backendDesignResponseImageModel);
             }
           }
 
           if (designRequestsData != null) {
+            BackendDesignRequestModel backendDesignRequestModel =
+                BackendDesignRequestModel().fromJson(designRequestsData);
+            backendDesignRequestModel.designResponseImageModels =
+                designResponseImageModels;
+
             designModels.add(
               BackendDesignRequestModel().to(
-                model: BackendDesignRequestModel(
-                  id: designRequestsData["id"],
-                  userId: designRequestsData["userId"],
-                  designerId: designRequestsData["designerId"],
-                  retouchId: designRequestsData["retouchId"],
-                  previousRequestId: designRequestsData["previousRequestId"],
-                  finished: designRequestsData["finished"],
-                  createdDate: designRequestsData["createdDate"],
-                  designResponseImageModels: designResponseImageModels,
-                ),
+                model: backendDesignRequestModel,
               ),
             );
           }

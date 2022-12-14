@@ -14,14 +14,16 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
       FirebaseFirestore.instance.collection(UsersCollectionConstants.users);
 
   @override
-  Future<BaseResponse<UserModel>> createUser(UserModel userModel) async {
+  Future<BaseResponse<UserModel>> createUser({String? userId}) async {
     try {
+      UserModel userModel = UserModel(
+        id: userId,
+        balance: 30,
+        createdDate: DateTime.now(),
+        lastAppEntryDate: DateTime.now(),
+      );
       BackendUserModel backendUserModel =
           BackendUserModel.from(userModel: userModel);
-
-      backendUserModel.balance = 30;
-      backendUserModel.createdDate = Timestamp.now();
-      backendUserModel.lastAppEntryDate = Timestamp.now();
 
       if (backendUserModel.id == null) {
         DocumentReference documentReference =
@@ -77,6 +79,31 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
       }
     } catch (e) {
       return BaseError(message: e.toString());
+    }
+  }
+
+  @override
+  Stream<BaseResponse<UserModel>> getUserInfo(String userId) async* {
+    try {
+      Stream<DocumentSnapshot> userSnapshots = users.doc(userId).snapshots();
+      await for (var userSnapshot in userSnapshots) {
+        Map<String, dynamic>? userData =
+            userSnapshot.data() as Map<String, dynamic>?;
+
+        if (userData != null) {
+          BackendUserModel backendUserModel =
+              BackendUserModel().fromJson(userData);
+          backendUserModel.id = userId;
+
+          yield BaseSuccess(
+            data: BackendUserModel().to(
+              userModel: backendUserModel,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      BaseError(message: e.toString());
     }
   }
 }

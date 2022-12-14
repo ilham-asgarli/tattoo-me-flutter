@@ -49,3 +49,10 @@ class SignOutEvent extends SignEvent {
 class SignErrorEvent extends SignEvent {
   const SignErrorEvent();
 }
+
+class ListenChangesEvent extends SignEvent {
+  final UserModel listenChangesUserModel;
+
+  const ListenChangesEvent({required this.listenChangesUserModel})
+      : super(userModel: listenChangesUserModel);
+}

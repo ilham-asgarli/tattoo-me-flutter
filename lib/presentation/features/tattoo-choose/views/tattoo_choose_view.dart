@@ -216,13 +216,13 @@ class TattooChooseView extends View<TattooChooseViewModel> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text(
-                  "${}:",
+                Text(
+                  "${LocaleKeys.designPrice.tr()}:",
                   textAlign: TextAlign.center,
                 ),
                 viewModel.widget.horizontalSpace(10),
-                Text(
-                  "${viewModel.context.watch<SignBloc>().state.userModel.balance}",
+                const Text(
+                  "${30}",
                   textAlign: TextAlign.center,
                 ),
                 viewModel.widget.horizontalSpace(5),
@@ -238,13 +238,13 @@ class TattooChooseView extends View<TattooChooseViewModel> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text(
-                  "${}:",
+                Text(
+                  "${LocaleKeys.balance.tr()}:",
                   textAlign: TextAlign.center,
                 ),
                 viewModel.widget.horizontalSpace(10),
-                const Text(
-                  "${30}",
+                Text(
+                  "${viewModel.context.watch<SignBloc>().state.userModel.balance}",
                   textAlign: TextAlign.center,
                 ),
                 viewModel.widget.horizontalSpace(5),

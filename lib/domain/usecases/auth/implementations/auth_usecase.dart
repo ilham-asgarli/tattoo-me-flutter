@@ -14,7 +14,7 @@ class AuthUseCase extends AuthInterface {
   @override
   Future<BaseResponse<UserModel>> signOut() async {
     BaseResponse<UserModel> baseResponse =
-        await autoAuthRepository.createUser(UserModel());
+        await autoAuthRepository.createUser();
     if (baseResponse is BaseSuccess) {
       BaseResponse signOutResponse = await authRepository.signOut();
 

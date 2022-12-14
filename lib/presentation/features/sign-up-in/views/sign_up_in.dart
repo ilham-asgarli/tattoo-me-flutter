@@ -69,7 +69,7 @@ class SignUpIn extends View<SignUpInViewModel> {
 
   Widget buildSignDescription(SignState state) {
     return Text(
-      (state is SignUp || state is SigningUp)
+      (state is SignUpState)
           ? LocaleKeys.signUp.tr()
           : LocaleKeys.signInDescription.tr(),
       textAlign: TextAlign.center,
@@ -157,7 +157,7 @@ class SignUpIn extends View<SignUpInViewModel> {
             ),
             viewModel.widget.verticalSpace(15),
             Visibility(
-              visible: (state is! SignUp && state is! SigningUp),
+              visible: (state is! SignUpState),
               maintainState: true,
               maintainAnimation: true,
               maintainSize: true,
@@ -197,7 +197,9 @@ class SignUpIn extends View<SignUpInViewModel> {
               color: Colors.black,
             )
           : Text(
-              state is SignUp ? LocaleKeys.signUp.tr() : LocaleKeys.signIn.tr(),
+              state is SignUpState
+                  ? LocaleKeys.signUp.tr()
+                  : LocaleKeys.signIn.tr(),
               style: const TextStyle(color: Colors.black),
             ),
     );
@@ -205,7 +207,7 @@ class SignUpIn extends View<SignUpInViewModel> {
 
   Widget buildChangeSign(SignState state) {
     return Visibility(
-      visible: (state is! SignUp && state is! SigningUp),
+      visible: (state is! SignUpState),
       maintainState: true,
       maintainAnimation: true,
       maintainSize: true,
@@ -218,7 +220,7 @@ class SignUpIn extends View<SignUpInViewModel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                (state is SignUp || state is SigningUp)
+                (state is SignUpState)
                     ? LocaleKeys.haveAccount.tr()
                     : LocaleKeys.haveNoAccount.tr(),
               ),
@@ -229,7 +231,7 @@ class SignUpIn extends View<SignUpInViewModel> {
               ),
               viewModel.widget.horizontalSpace(5),
               Text(
-                (state is SignUp || state is SigningUp)
+                (state is SignUpState)
                     ? LocaleKeys.signIn.tr()
                     : LocaleKeys.signUp.tr(),
                 style: const TextStyle(fontWeight: FontWeight.bold),

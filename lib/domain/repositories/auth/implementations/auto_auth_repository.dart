@@ -7,9 +7,8 @@ class AutoAuthRepository extends AutoAuthInterface {
   final BackendAutoAuth backendAutoAuth = BackendAutoAuth();
 
   @override
-  Future<BaseResponse<UserModel>> createUser(UserModel userModel) async {
-    BaseResponse<UserModel> baseResponse =
-        await backendAutoAuth.createUser(userModel);
+  Future<BaseResponse<UserModel>> createUser() async {
+    BaseResponse<UserModel> baseResponse = await backendAutoAuth.createUser();
     return baseResponse;
   }
 
@@ -25,5 +24,10 @@ class AutoAuthRepository extends AutoAuthInterface {
     BaseResponse<UserModel> baseResponse =
         await backendAutoAuth.getUserWithId(id);
     return baseResponse;
+  }
+
+  @override
+  Stream<BaseResponse<UserModel>> getUserInfo(String id) {
+    return backendAutoAuth.getUserInfo(id);
   }
 }

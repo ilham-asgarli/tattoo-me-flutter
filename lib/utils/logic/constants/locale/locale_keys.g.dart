@@ -13,6 +13,7 @@ abstract class  LocaleKeys {
   static const sendToDesigner = 'sendToDesigner';
   static const addTattoo = 'addTattoo';
   static const balance = 'balance';
+  static const designPrice = 'designPrice';
   static const packets = 'packets';
   static const monthlySub = 'monthlySub';
   static const sub = 'sub';

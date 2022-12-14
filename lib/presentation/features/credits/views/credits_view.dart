@@ -88,7 +88,7 @@ class _CreditsViewState extends State<CreditsView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "${context.read<SignBloc>().state.userModel.balance ?? 0}",
+                  "${context.watch<SignBloc>().state.userModel.balance ?? 0}",
                   style: const TextStyle(fontSize: 25),
                 ),
                 Icon(

@@ -24,10 +24,8 @@ class BackendEmailAuth extends BackendEmailAuthInterface {
         password: userModel.password ?? "",
       );
 
-      userModel.id = credential.user?.uid;
-
       final BaseResponse<UserModel> baseResponse =
-          await backendAutoAuth.createUser(userModel);
+          await backendAutoAuth.createUser(userId: credential.user?.uid);
 
       if (baseResponse is BaseSuccess<UserModel>) {
         return BaseSuccess<UserModel>(data: baseResponse.data);
