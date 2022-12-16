@@ -4,16 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tattoo/core/extensions/context_extension.dart';
 import 'package:tattoo/core/extensions/widget_extension.dart';
+import 'package:tattoo/domain/models/design-response/design_response_model.dart';
 import 'package:tattoo/presentation/features/photo/components/evaluate_designer_alert.dart';
 import 'package:tattoo/presentation/features/photo/components/retouch_alert.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 import 'package:tattoo/utils/logic/state/cubit/photo/photo_cubit.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
-import '../../../../domain/models/design-request/design_model.dart';
-
 class PhotoView extends StatefulWidget {
-  final DesignModel designModel;
+  final DesignResponseModel designModel;
 
   const PhotoView({required this.designModel, Key? key}) : super(key: key);
 
@@ -77,7 +76,8 @@ class _PhotoViewState extends State<PhotoView> {
   }
 
   Widget buildPhotoArena() {
-    int oldImageIndex = widget.designModel.designResponseImageModels
+    int oldImageIndex = widget
+            .designModel.designRequestModel?.designRequestImageModels2
             ?.indexWhere((element) => element.name == "1") ??
         0;
     oldImageIndex = oldImageIndex >= 0 ? oldImageIndex : 0;
@@ -85,9 +85,9 @@ class _PhotoViewState extends State<PhotoView> {
     return GestureDetector(
       child: Image.network(
         context.watch<PhotoCubit>().state.isSwitch
-            ? "https://api.army.mil/e2/c/images/2022/06/23/2fd53c88/max1200.jpg"
-            : widget.designModel.designResponseImageModels![oldImageIndex]
-                    .link ??
+            ? widget.designModel.imageLink ?? ""
+            : widget.designModel.designRequestModel
+                    ?.designRequestImageModels2![oldImageIndex].link ??
                 "",
         fit: BoxFit.cover,
         width: context.dynamicWidth(1),

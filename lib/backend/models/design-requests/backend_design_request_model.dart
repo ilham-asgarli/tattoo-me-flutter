@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tattoo/core/base/models/base_model.dart';
 import 'package:tattoo/core/extensions/map_extension.dart';
-import 'package:tattoo/domain/models/design-request/design_model.dart';
+import 'package:tattoo/domain/models/design-request/design_request_model.dart';
 
 import 'backend_design_request_image_model.dart';
-import 'backend_design_response_image_model.dart';
 
 class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
   String? id;
@@ -14,8 +13,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
   String? retouchId;
   bool? finished;
   Timestamp? createdDate;
-  List<BackendDesignRequestImageModel>? designRequestImageModels;
-  List<BackendDesignResponseImageModel>? designResponseImageModels;
+  List<BackendDesignRequestImageModel>? designResponseImageModels;
 
   BackendDesignRequestModel({
     this.id,
@@ -25,11 +23,10 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
     this.retouchId,
     this.finished,
     this.createdDate,
-    this.designRequestImageModels,
     this.designResponseImageModels,
   });
 
-  BackendDesignRequestModel.from({required DesignModel model}) {
+  BackendDesignRequestModel.from({required DesignRequestModel model}) {
     id = model.id;
     userId = model.userId;
     designerId = model.designerId;
@@ -39,28 +36,22 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
     createdDate = model.createdDate != null
         ? Timestamp.fromDate(model.createdDate!)
         : null;
-    designRequestImageModels = model.designRequestImageModels
+    designResponseImageModels = model.designRequestImageModels2
         ?.map((e) => BackendDesignRequestImageModel.from(model: e))
-        .toList();
-    designResponseImageModels = model.designResponseImageModels
-        ?.map((e) => BackendDesignResponseImageModel.from(model: e))
         .toList();
   }
 
-  DesignModel to({required BackendDesignRequestModel model}) {
-    return DesignModel(
+  DesignRequestModel to({required BackendDesignRequestModel model}) {
+    return DesignRequestModel(
       id: model.id,
       userId: model.userId,
       designerId: model.designerId,
       previousRequestId: model.previousRequestId,
       retouchId: model.retouchId,
       finished: model.finished,
-      createdDate: model.createdDate != null ? createdDate?.toDate() : null,
-      designRequestImageModels: model.designRequestImageModels
+      createdDate: model.createdDate?.toDate(),
+      designRequestImageModels2: model.designResponseImageModels
           ?.map((e) => BackendDesignRequestImageModel().to(model: e))
-          .toList(),
-      designResponseImageModels: model.designResponseImageModels
-          ?.map((e) => BackendDesignResponseImageModel().to(model: e))
           .toList(),
     );
   }

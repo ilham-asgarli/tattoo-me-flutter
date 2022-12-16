@@ -9,7 +9,8 @@ import 'package:tattoo/presentation/features/ready/views/empty_view.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/router/core/router_service.dart';
-import '../../../../domain/models/design-request/design_model.dart';
+import '../../../../domain/models/design-request/design_request_model.dart';
+import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../widgets/blinking_widget.dart';
@@ -19,13 +20,13 @@ class ReadyView extends View<ReadyViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<BaseResponse<List<DesignModel>>>(
+    return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
       stream: viewModel.getDesignRequestRepository.getDesignRequestStream(
           context.read<SignBloc>().state.userModel.id ?? ""),
       builder: (context, snapshot) {
-        BaseResponse<List<DesignModel>>? baseResponse = snapshot.data;
-        if (baseResponse is BaseSuccess<List<DesignModel>>) {
-          List<DesignModel>? designModels = baseResponse.data;
+        BaseResponse<List<DesignResponseModel>>? baseResponse = snapshot.data;
+        if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
+          List<DesignResponseModel>? designModels = baseResponse.data;
           if (designModels != null && designModels.isNotEmpty) {
             return buildImageGrid(designModels);
           } else {
@@ -38,33 +39,42 @@ class ReadyView extends View<ReadyViewModel> {
     );
   }
 
-  GridView buildImageGrid(List<DesignModel> designModels) {
+  GridView buildImageGrid(List<DesignResponseModel> designModels) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
       ),
       itemCount: designModels.length,
       itemBuilder: (context, index) {
-        DesignModel designModel = designModels[index];
-        int imageIndex = designModel.designResponseImageModels
+        DesignRequestModel? designRequestModel =
+            designModels[index].designRequestModel;
+        int imageIndex = designRequestModel?.designRequestImageModels2
                 ?.indexWhere((element) => element.name == "1") ??
             0;
         imageIndex = imageIndex >= 0 ? imageIndex : 0;
 
         return InkWell(
           onTap: () {
-            RouterService.instance.pushNamed(
-              path: RouterConstants.photo,
-              data: designModel,
-            );
+            if (designRequestModel?.finished ?? false) {
+              RouterService.instance.pushNamed(
+                path: RouterConstants.photo,
+                data: designModels[index],
+              );
+            } else {
+              RouterService.instance.pushNamed(
+                path: RouterConstants.retouch,
+                data: designRequestModel
+                    ?.designRequestImageModels2?[imageIndex].link,
+              );
+            }
           },
           child: Stack(
             fit: StackFit.expand,
             children: [
-              buildImage(
-                  designModel.designResponseImageModels?[imageIndex].link ??
-                      ""),
-              buildRetouching(designModels[index].finished ?? false),
+              buildImage(designRequestModel
+                      ?.designRequestImageModels2?[imageIndex].link ??
+                  ""),
+              buildRetouching(designRequestModel?.finished ?? false),
             ],
           ),
         );

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tattoo/domain/models/design-response/design_response_model.dart';
 import 'package:tattoo/presentation/features/photo/views/photo_view.dart';
 import 'package:tattoo/presentation/features/retouch/views/retouch_view.dart';
 
-import '../../../../domain/models/design-request/design_model.dart';
 import '../../../../presentation/features/home/views/home_view.dart';
 import '../../../../presentation/features/not-found-navigation/views/not_found_navigation_view.dart';
 import '../../../../presentation/features/sign-up-in/views/sign_up_in.dart';
@@ -39,7 +39,8 @@ class ConfigRouter {
         return normalNavigate(
           BlocProvider<PhotoCubit>(
             create: (_) => PhotoCubit(),
-            child: PhotoView(designModel: settings.arguments as DesignModel),
+            child: PhotoView(
+                designModel: settings.arguments as DesignResponseModel),
           ),
           RouterConstants.photo,
         );

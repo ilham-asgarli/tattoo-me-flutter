@@ -1,17 +1,17 @@
 import 'package:tattoo/core/base/models/base_model.dart';
 
-class DesignRequestImageModel extends BaseModel<DesignRequestImageModel> {
+class DesignRequestImageModel1 extends BaseModel<DesignRequestImageModel1> {
   String? name;
   dynamic image;
 
-  DesignRequestImageModel({
+  DesignRequestImageModel1({
     required this.name,
     required this.image,
   });
 
   @override
-  DesignRequestImageModel fromJson(Map<String, dynamic> json) {
-    return DesignRequestImageModel(
+  DesignRequestImageModel1 fromJson(Map<String, dynamic> json) {
+    return DesignRequestImageModel1(
       name: json["name"],
       image: json["image"],
     );

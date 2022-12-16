@@ -1,35 +1,46 @@
 import 'package:tattoo/core/base/models/base_model.dart';
 import 'package:tattoo/core/extensions/map_extension.dart';
-import 'package:tattoo/domain/models/design-request/design_request_image_model.dart';
+
+import '../../../domain/models/design-request/design_request_image_model_2.dart';
 
 class BackendDesignRequestImageModel
     extends BaseModel<BackendDesignRequestImageModel> {
+  String? id;
+  String? requestId;
+  String? link;
   String? name;
-  dynamic image;
 
   BackendDesignRequestImageModel({
+    this.id,
+    this.requestId,
+    this.link,
     this.name,
-    this.image,
   });
 
   BackendDesignRequestImageModel.from(
-      {required DesignRequestImageModel model}) {
+      {required DesignRequestImageModel2 model}) {
+    id = model.id;
+    requestId = model.requestId;
+    link = model.link;
     name = model.name;
-    image = model.image;
   }
 
-  DesignRequestImageModel to({required BackendDesignRequestImageModel model}) {
-    return DesignRequestImageModel(
+  DesignRequestImageModel2 to({required BackendDesignRequestImageModel model}) {
+    return DesignRequestImageModel2(
+      id: model.id,
+      requestId: model.requestId,
+      link: model.link,
       name: model.name,
-      image: model.image,
     );
   }
 
   @override
   BackendDesignRequestImageModel fromJson(Map<String, dynamic> json) {
     return BackendDesignRequestImageModel(
+      id: json["id"],
+      requestId: json["requestId"],
+      link: json["link"],
       name: json["name"],
-      image: json["image"],
     );
   }
 
@@ -37,8 +48,9 @@ class BackendDesignRequestImageModel
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {};
 
+    map.putIfNotNull("requestId", requestId);
+    map.putIfNotNull("link", link);
     map.putIfNotNull("name", name);
-    map.putIfNotNull("image", image);
 
     return map;
   }

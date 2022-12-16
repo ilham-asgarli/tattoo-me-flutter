@@ -1,9 +1,9 @@
 import 'package:tattoo/core/base/models/base_model.dart';
 
-import 'design_request_image_model.dart';
-import 'design_response_image_model.dart';
+import 'design_request_image_model_1.dart';
+import 'design_request_image_model_2.dart';
 
-class DesignModel extends BaseModel<DesignModel> {
+class DesignRequestModel extends BaseModel<DesignRequestModel> {
   String? id;
   String? userId;
   String? designerId;
@@ -11,10 +11,10 @@ class DesignModel extends BaseModel<DesignModel> {
   String? retouchId;
   bool? finished;
   DateTime? createdDate;
-  List<DesignRequestImageModel>? designRequestImageModels;
-  List<DesignResponseImageModel>? designResponseImageModels;
+  List<DesignRequestImageModel1>? designRequestImageModels1;
+  List<DesignRequestImageModel2>? designRequestImageModels2;
 
-  DesignModel({
+  DesignRequestModel({
     this.id,
     this.userId,
     this.designerId,
@@ -22,13 +22,13 @@ class DesignModel extends BaseModel<DesignModel> {
     this.retouchId,
     this.finished,
     this.createdDate,
-    this.designRequestImageModels,
-    this.designResponseImageModels,
+    this.designRequestImageModels1,
+    this.designRequestImageModels2,
   });
 
   @override
-  DesignModel fromJson(Map<String, dynamic> json) {
-    return DesignModel(
+  DesignRequestModel fromJson(Map<String, dynamic> json) {
+    return DesignRequestModel(
       id: json["id"],
       userId: json["userId"],
       designerId: json["designerId"],
@@ -36,8 +36,8 @@ class DesignModel extends BaseModel<DesignModel> {
       retouchId: json["retouchId"],
       finished: json["finished"],
       createdDate: json["createdDate"],
-      designRequestImageModels: json["designRequestImageModels"],
-      designResponseImageModels: json["designResponseImageModels"],
+      designRequestImageModels1: json["designRequestImageModels"],
+      designRequestImageModels2: json["designResponseImageModels"],
     );
   }
 
@@ -51,8 +51,8 @@ class DesignModel extends BaseModel<DesignModel> {
       "retouchId": retouchId,
       "finished": finished,
       "createdDate": createdDate,
-      "designRequestImageModels": designRequestImageModels,
-      "designResponseImageModels": designResponseImageModels,
+      "designRequestImageModels": designRequestImageModels1,
+      "designResponseImageModels": designRequestImageModels2,
     };
   }
 }

@@ -3,10 +3,10 @@ import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
 
 import '../../../../core/base/models/base_response.dart';
-import '../../../../domain/models/design-request/design_response_image_model.dart';
-import '../../../models/design-requests/backend_design_response_image_model.dart';
+import '../../../../domain/models/design-request/design_request_image_model_2.dart';
+import '../../../models/design-requests/backend_design_request_image_model.dart';
 import '../../../utils/constants/firebase/design-request-images/design_requests_collection_constants.dart';
-import '../interface/backend_design_request_images_interface.dart';
+import '../interfaces/backend_design_request_images_interface.dart';
 
 class BackendDesignRequestImage extends BackendDesignRequestImagesInterface {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -14,18 +14,18 @@ class BackendDesignRequestImage extends BackendDesignRequestImagesInterface {
       .collection(DesignRequestImageCollectionConstants.designRequestImages);
 
   @override
-  Future<BaseResponse<DesignResponseImageModel>> createDesignRequestImage(
-      DesignResponseImageModel model) async {
+  Future<BaseResponse<DesignRequestImageModel2>> createDesignRequestImage(
+      DesignRequestImageModel2 model) async {
     try {
       DocumentReference documentReference = await designRequestImages.add(
-        BackendDesignResponseImageModel.from(
+        BackendDesignRequestImageModel.from(
           model: model,
         ).toJson(),
       );
 
       model.id = documentReference.id;
 
-      return BaseSuccess<DesignResponseImageModel>(data: model);
+      return BaseSuccess<DesignRequestImageModel2>(data: model);
     } catch (e) {
       return BaseError();
     }
@@ -33,10 +33,10 @@ class BackendDesignRequestImage extends BackendDesignRequestImagesInterface {
 
   @override
   Future<BaseResponse> updateDesignRequestImage(
-      DesignResponseImageModel model) async {
+      DesignRequestImageModel2 model) async {
     try {
       await designRequestImages.doc(model.id).update(
-            BackendDesignResponseImageModel.from(
+            BackendDesignRequestImageModel.from(
               model: model,
             ).toJson(),
           );
