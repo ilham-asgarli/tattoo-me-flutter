@@ -34,9 +34,10 @@ void main() async {
         : await getApplicationDocumentsDirectory(),
   );
   HydratedBlocOverrides.runZoned(
-    () => runApp(
-      app(),
-    ),
+        () =>
+        runApp(
+          app(),
+        ),
     storage: storage,
   );
 }

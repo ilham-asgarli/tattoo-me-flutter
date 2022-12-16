@@ -25,6 +25,8 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
       .collection(DesignRequestsCollectionConstants.designRequests);
   CollectionReference designRequestImages = FirebaseFirestore.instance
       .collection(DesignRequestImageCollectionConstants.designRequestImages);
+  CollectionReference designers =
+      FirebaseFirestore.instance.collection("designers");
   Reference designRequestImagesReference = FirebaseStorage.instance
       .ref(DesignRequestImageCollectionConstants.designRequestImages);
 
@@ -46,6 +48,13 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             userDocumentSnapshot.get("balance") >=
                 AppConstants.tattooDesignPrice) {
           await sendFiles(designRequestModel, designRequestImageReference);
+
+          String? designerId = await assignDesigner();
+          if (designerId == null) {
+            throw BaseError(message: "No designer");
+          }
+          designRequestModel.designerId = designerId;
+
           await sendRequests(transaction, designRequestsDocumentReference,
               designRequestModel, designRequestImageReference);
           transaction.update(userDocument, {
@@ -124,5 +133,27 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
         );
       }
     }
+  }
+
+  Future<String?> assignDesigner() async {
+    QuerySnapshot workingDesignersQuerySnapshot =
+        await designers.where("working", isEqualTo: true).get();
+
+    String? designerId;
+    int lastMinAssignmentCount = -1;
+    for (DocumentSnapshot workingDesignerDocumentSnapshot
+        in workingDesignersQuerySnapshot.docs) {
+      QuerySnapshot designRequestsQuerySnapshot = await designRequests
+          .where("designerId", isEqualTo: workingDesignerDocumentSnapshot.id)
+          .get();
+
+      if (lastMinAssignmentCount < 0 ||
+          lastMinAssignmentCount > designRequestsQuerySnapshot.size) {
+        lastMinAssignmentCount = designRequestsQuerySnapshot.size;
+        designerId = workingDesignerDocumentSnapshot.id;
+      }
+    }
+
+    return designerId;
   }
 }
