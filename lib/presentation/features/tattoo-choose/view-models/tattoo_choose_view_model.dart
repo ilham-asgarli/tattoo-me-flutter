@@ -7,7 +7,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/core/base/view-models/base_view_model.dart';
 import 'package:tattoo/domain/models/design-request/design_request_image_model_1.dart';
-import 'package:tattoo/domain/repositories/design-request/implementations/send_design_request_repository.dart';
+import 'package:tattoo/domain/repositories/design-requests/implementations/send_design_request_repository.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 
 import '../../../../core/base/models/base_response.dart';
