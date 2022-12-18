@@ -9,4 +9,6 @@ abstract class BackendDesignResponseInterface {
   Future<BaseResponse> deleteDesign(String designId);
 
   Future<BaseResponse> evaluateDesigner(String designId, int rating);
+
+  Future<BaseResponse<DesignResponseModel>> getDesignResponse(String designId);
 }

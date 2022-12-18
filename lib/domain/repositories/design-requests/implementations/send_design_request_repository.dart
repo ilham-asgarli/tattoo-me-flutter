@@ -15,4 +15,17 @@ class SendDesignRequestRepository extends SendDesignRequestInterface {
         await backendSendDesignRequest.sendDesignRequest(designRequestModel);
     return baseResponse;
   }
+
+  @override
+  Future<BaseResponse<DesignRequestModel>> sendRetouchDesignRequest(
+    DesignRequestModel designRequestModel,
+    String comment,
+  ) async {
+    BaseResponse<DesignRequestModel> baseResponse =
+        await backendSendDesignRequest.sendRetouchDesignRequest(
+      designRequestModel,
+      comment,
+    );
+    return baseResponse;
+  }
 }

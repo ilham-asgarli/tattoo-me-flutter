@@ -27,6 +27,9 @@ class MyAppView extends View<MyAppViewModel> {
 
   Widget buildThemeBloc() {
     return BlocBuilder<ThemeBloc, ThemeState>(
+      buildWhen: (ThemeState previous, ThemeState current) {
+        return previous != current;
+      },
       builder: (BuildContext context, ThemeState state) {
         ThemeHelper.instance
             .setSystemUIOverlayStyleWithAppTheme(state.appTheme);
@@ -68,6 +71,9 @@ class MyAppView extends View<MyAppViewModel> {
     final networkCubitState = viewModel.context.watch<NetworkCubit>().state;
 
     return BlocBuilder<NetworkCubit, NetworkState>(
+      buildWhen: (NetworkState previous, NetworkState current) {
+        return previous != current;
+      },
       builder: (context, NetworkState state) {
         if (child == null) {
           return const SizedBox();

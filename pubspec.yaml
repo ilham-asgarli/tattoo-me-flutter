@@ -59,6 +59,9 @@ dependencies:
   flutter_dotenv: ^5.0.2
   encrypt: ^5.0.1
   screenshot: ^1.2.3
+  share_plus: ^6.3.0
+  flutter_downloader: ^1.9.1
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

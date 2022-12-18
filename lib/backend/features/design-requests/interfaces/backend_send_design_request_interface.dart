@@ -6,4 +6,9 @@ abstract class BackendSendDesignRequestInterface {
   Future<BaseResponse<DesignRequestModel>> sendDesignRequest(
     DesignRequestModel designRequestModel,
   );
+
+  Future<BaseResponse<DesignRequestModel>> sendRetouchDesignRequest(
+    DesignRequestModel designRequestModel,
+    String comment,
+  );
 }

@@ -68,5 +68,6 @@ abstract class  LocaleKeys {
   static const writeNoteHere = 'writeNoteHere';
   static const sentForRetouch = 'sentForRetouch';
   static const retouchAlertTitle = 'retouchAlertTitle';
+  static const retouchCommentEmptyWarning = 'retouchCommentEmptyWarning';
 
 }

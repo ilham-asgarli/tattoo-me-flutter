@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tattoo/backend/models/design-requests/backend_design_request_model.dart';
 import 'package:tattoo/backend/models/design-responses/backend_design_response_model.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
@@ -12,6 +13,8 @@ class BackendDesignResponse extends BackendDesignResponseInterface {
 
   CollectionReference designResponses =
       FirebaseFirestore.instance.collection("design-responses");
+  CollectionReference designRequests =
+      FirebaseFirestore.instance.collection("design-requests");
 
   @override
   Future<BaseResponse> updateDesignResponse(
@@ -42,5 +45,46 @@ class BackendDesignResponse extends BackendDesignResponseInterface {
       id: designId,
       rating: rating,
     ));
+  }
+
+  @override
+  Future<BaseResponse<DesignResponseModel>> getDesignResponse(
+      String designId) async {
+    try {
+      Map<String, dynamic>? data = (await designResponses.doc(designId).get())
+          .data() as Map<String, dynamic>?;
+
+      if (data != null) {
+        BackendDesignResponseModel backendDesignResponseModel =
+            BackendDesignResponseModel().fromJson(data);
+        backendDesignResponseModel.id = designId;
+
+        Map<String, dynamic>? designRequestData = (await designRequests
+                .doc(backendDesignResponseModel.requestId)
+                .get())
+            .data() as Map<String, dynamic>?;
+
+        if (designRequestData != null) {
+          BackendDesignRequestModel backendDesignRequestModel =
+              BackendDesignRequestModel().fromJson(designRequestData);
+          DesignResponseModel designResponseModel =
+              BackendDesignResponseModel().to(
+            model: backendDesignResponseModel,
+          );
+          designResponseModel.designRequestModel =
+              BackendDesignRequestModel().to(model: backendDesignRequestModel);
+
+          return BaseSuccess(
+            data: designResponseModel,
+          );
+        } else {
+          return BaseError();
+        }
+      } else {
+        return BaseError();
+      }
+    } catch (e) {
+      return BaseError();
+    }
   }
 }

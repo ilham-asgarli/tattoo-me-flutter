@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tattoo/backend/models/retouches/backend_retouches_model.dart';
 import 'package:tattoo/backend/utils/constants/app/app_constants.dart';
 import 'package:tattoo/backend/utils/constants/firebase/design-requests/design_requests_collection_constants.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
@@ -27,6 +28,8 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
       .collection(DesignRequestImageCollectionConstants.designRequestImages);
   CollectionReference designers =
       FirebaseFirestore.instance.collection("designers");
+  CollectionReference retouches =
+      FirebaseFirestore.instance.collection("retouches");
   Reference designRequestImagesReference = FirebaseStorage.instance
       .ref(DesignRequestImageCollectionConstants.designRequestImages);
 
@@ -74,6 +77,54 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
     }
   }
 
+  @override
+  Future<BaseResponse<DesignRequestModel>> sendRetouchDesignRequest(
+      DesignRequestModel designRequestModel, String comment) async {
+    try {
+      DocumentReference designRequestDocumentReference = designRequests.doc();
+
+      await firestore.runTransaction((transaction) async {
+        DocumentReference designRequestDocument =
+            designRequests.doc(designRequestModel.previousRequestId);
+        DocumentSnapshot designRequestDocumentSnapshot =
+            await transaction.get(designRequestDocument);
+
+        Map<String, dynamic>? designRequestData =
+            designRequestDocumentSnapshot.data() as Map<String, dynamic>?;
+
+        if (designRequestData != null) {
+          BackendDesignRequestModel backendDesignRequestModel =
+              BackendDesignRequestModel().fromJson(designRequestData);
+
+          if (backendDesignRequestModel.retouchId == null &&
+              backendDesignRequestModel.previousRequestId == null) {
+            String? designerId = await assignDesigner();
+            if (designerId == null) {
+              throw BaseError(message: "No designer");
+            }
+            designRequestModel.designerId = designerId;
+
+            await sendRetouchRequests(
+              transaction,
+              designRequestDocumentReference,
+              designRequestModel,
+              comment,
+            );
+          } else {
+            throw BaseError(message: "Retouched");
+          }
+        }
+      }, maxAttempts: 1).catchError((e) {
+        throw e.toString();
+      });
+
+      designRequestModel.id = designRequestDocumentReference.id;
+      return BaseSuccess<DesignRequestModel>(data: designRequestModel);
+    } catch (e) {
+      return BaseError(message: e.toString());
+    }
+  }
+
   Future<void> sendFiles(DesignRequestModel designRequestModel,
       Reference designRequestImageReference) async {
     for (var element in designRequestModel.designRequestImageModels1 ?? []) {
@@ -114,25 +165,56 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
         DocumentReference designRequestImagesDocumentReference =
             designRequestImages.doc();
 
-        designRequestModel.designRequestImageModels2?.add(
-          DesignRequestImageModel2(
-            id: designRequestImagesDocumentReference.id,
-            requestId: designRequestsDocumentReference.id,
-            link: link,
-            name: element.name,
-          ),
+        DesignRequestImageModel2 designRequestImageModel2 =
+            DesignRequestImageModel2(
+          id: designRequestImagesDocumentReference.id,
+          requestId: designRequestsDocumentReference.id,
+          link: link,
+          name: element.name,
         );
+
+        designRequestModel.designRequestImageModels2
+            ?.add(designRequestImageModel2);
 
         transaction.set(
           designRequestImagesDocumentReference,
-          BackendDesignRequestImageModel(
-            link: link,
-            requestId: designRequestsDocumentReference.id,
-            name: element.name,
-          ).toJson(),
+          BackendDesignRequestImageModel.from(model: designRequestImageModel2)
+              .toJson(),
         );
       }
     }
+  }
+
+  Future<void> sendRetouchRequests(
+    Transaction transaction,
+    DocumentReference<Object?> designRequestsDocumentReference,
+    DesignRequestModel designRequestModel,
+    String comment,
+  ) async {
+    transaction.set(
+      designRequestsDocumentReference,
+      BackendDesignRequestModel.from(
+        model: designRequestModel,
+      ).toJson(),
+    );
+
+    DocumentReference retouchesDocumentReference = retouches.doc();
+    transaction.set(
+      retouchesDocumentReference,
+      BackendRetouchesModel(
+        id: retouchesDocumentReference.id,
+        userId: designRequestModel.userId,
+        designId: designRequestModel.id,
+        comment: comment,
+      ).toJson(),
+    );
+
+    transaction.update(
+      designRequests.doc(designRequestModel.previousRequestId),
+      BackendDesignRequestModel(
+        retouchId: designRequestsDocumentReference.id,
+      ).toJson(),
+    );
   }
 
   Future<String?> assignDesigner() async {

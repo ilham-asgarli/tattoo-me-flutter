@@ -18,10 +18,12 @@ class MyAppViewModel extends BaseViewModel {
 
   void initAndRemoveSplashScreen() async {
     SignBloc signBloc = BlocProvider.of<SignBloc>(context);
-    if (authUseCase.isSignedIn() && signBloc.state is SignIn) {
-      await onSignedInWithEmail();
-    } else {
-      await onNotSignedInWithEmail();
+    if (signBloc.state is SignIn) {
+      if (authUseCase.isSignedIn()) {
+        await onSignedInWithEmail();
+      } else {
+        await onNotSignedInWithEmail();
+      }
     }
   }
 

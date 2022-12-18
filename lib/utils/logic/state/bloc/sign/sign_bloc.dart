@@ -25,11 +25,13 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
   }
 
   _onRestoreSignInEvent(RestoreSignInEvent event, Emitter<SignState> emit) {
+    print("RestoreSignInEvent");
     emit(SignIn(userModel: event.restoreSignInUserModel));
     listenUser();
   }
 
   _onChangeSignEvent(ChangeSignEvent event, Emitter<SignState> emit) {
+    print("ChangeSignEvent");
     emit(
       state is SignIn
           ? SignUp(userModel: state.userModel)
@@ -39,6 +41,7 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
 
   _onChangeSignInStatusEvent(
       ChangeSignInStatusEvent event, Emitter<SignState> emit) {
+    print("ChangeSignInStatusEvent");
     emit(
       state is SignIn
           ? SignedIn(userModel: state.userModel)
@@ -48,6 +51,7 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
   }
 
   _onSigningEvent(SigningEvent event, Emitter<SignState> emit) {
+    print("SigningEvent");
     if (state is SignUp) {
       emit(SigningUp(userModel: state.userModel));
     } else if (state is SignIn || state is SignedUp) {
@@ -56,6 +60,7 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
   }
 
   _onSignedEvent(SignedEvent event, Emitter<SignState> emit) {
+    print("SignedEvent");
     if (state is SigningUp) {
       emit(SignedUp(userModel: state.userModel));
     } else if (state is SigningIn) {
@@ -65,14 +70,18 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
   }
 
   _onSigningOutEvent(SigningOutEvent event, Emitter<SignState> emit) {
+    print("SigningOutEvent");
     emit(SigningOut(userModel: state.userModel));
   }
 
   _onSignOutEvent(SignOutEvent event, Emitter<SignState> emit) {
+    print("SignOutEvent");
     emit(SignIn(userModel: event.signOutUserModel));
+    listenUser();
   }
 
   _onSignErrorEvent(SignErrorEvent event, Emitter<SignState> emit) {
+    print("SignErrorEvent");
     if (state is SigningUp) {
       emit(SignUp(userModel: state.userModel));
     } else if (state is SigningIn) {
@@ -81,6 +90,7 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
   }
 
   _onListenChangesEvent(ListenChangesEvent event, Emitter<SignState> emit) {
+    print("ListenChangesEvent");
     emit(state.copyWith(event.listenChangesUserModel));
   }
 

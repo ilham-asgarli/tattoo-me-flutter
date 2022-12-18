@@ -2,12 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tattoo/domain/repositories/design-responses/implementations/design_responses_repository.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 
+import '../../../../domain/models/design-response/design_response_model.dart';
+
 class EvaluateDesignerAlert extends StatelessWidget {
-  EvaluateDesignerAlert({Key? key}) : super(key: key);
+  final DesignResponseModel designModel;
+
+  EvaluateDesignerAlert({required this.designModel, Key? key})
+      : super(key: key);
 
   final alertKey = UniqueKey();
+  int rating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +62,14 @@ class EvaluateDesignerAlert extends StatelessWidget {
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
               ),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(context);
+                if (designModel.id != null) {
+                  DesignResponseRepository designResponseRepository =
+                      DesignResponseRepository();
+                  await designResponseRepository.evaluateDesigner(
+                      designModel.id!, rating);
+                }
               },
               child: Text(LocaleKeys.send.tr()),
             ),
@@ -71,7 +84,7 @@ class EvaluateDesignerAlert extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         RatingBar.builder(
-          initialRating: 0,
+          initialRating: designModel.rating?.toDouble() ?? 1,
           minRating: 1,
           direction: Axis.horizontal,
           allowHalfRating: false,
@@ -82,7 +95,9 @@ class EvaluateDesignerAlert extends StatelessWidget {
             Icons.star,
             color: Colors.green,
           ),
-          onRatingUpdate: (rating) {},
+          onRatingUpdate: (rating) {
+            this.rating = rating.toInt();
+          },
         ),
       ],
     );

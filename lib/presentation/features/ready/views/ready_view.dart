@@ -20,21 +20,26 @@ class ReadyView extends View<ReadyViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
-      stream: viewModel.getDesignRequestRepository.getDesignRequestStream(
-          context.read<SignBloc>().state.userModel.id ?? ""),
-      builder: (context, snapshot) {
-        BaseResponse<List<DesignResponseModel>>? baseResponse = snapshot.data;
-        if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
-          List<DesignResponseModel>? designModels = baseResponse.data;
-          if (designModels != null && designModels.isNotEmpty) {
-            return buildImageGrid(designModels);
-          } else {
-            return const EmptyView();
-          }
-        } else {
-          return const EmptyView();
-        }
+    return BlocBuilder<SignBloc, SignState>(
+      builder: (context, state) {
+        return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
+          stream: viewModel.getDesignRequestRepository
+              .getDesignRequestStream(state.userModel.id ?? ""),
+          builder: (context, snapshot) {
+            BaseResponse<List<DesignResponseModel>>? baseResponse =
+                snapshot.data;
+            if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
+              List<DesignResponseModel>? designModels = baseResponse.data;
+              if (designModels != null && designModels.isNotEmpty) {
+                return buildImageGrid(designModels);
+              } else {
+                return const EmptyView();
+              }
+            } else {
+              return const EmptyView();
+            }
+          },
+        );
       },
     );
   }
@@ -58,7 +63,10 @@ class ReadyView extends View<ReadyViewModel> {
             if (designRequestModel?.finished ?? false) {
               RouterService.instance.pushNamed(
                 path: RouterConstants.photo,
-                data: designModels[index],
+                data: [
+                  designModels[index],
+                  viewModel.buildView,
+                ],
               );
             } else {
               RouterService.instance.pushNamed(

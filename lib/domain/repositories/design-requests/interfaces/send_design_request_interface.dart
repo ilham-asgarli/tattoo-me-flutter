@@ -5,4 +5,9 @@ abstract class SendDesignRequestInterface {
   Future<BaseResponse<DesignRequestModel>> sendDesignRequest(
     DesignRequestModel designRequestModel,
   );
+
+  Future<BaseResponse<DesignRequestModel>> sendRetouchDesignRequest(
+    DesignRequestModel designRequestModel,
+    String comment,
+  );
 }

@@ -14,23 +14,25 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
       FirebaseFirestore.instance.collection(UsersCollectionConstants.users);
 
   @override
-  Future<BaseResponse<UserModel>> createUser({String? userId}) async {
+  Future<BaseResponse<UserModel>> createUser({UserModel? userModel}) async {
     try {
-      UserModel userModel = UserModel(
-        id: userId,
+      UserModel model = UserModel(
+        id: userModel?.id,
+        email: userModel?.email,
+        password: userModel?.password,
         balance: 30,
         createdDate: DateTime.now(),
         lastAppEntryDate: DateTime.now(),
       );
       BackendUserModel backendUserModel =
-          BackendUserModel.from(userModel: userModel);
+          BackendUserModel.from(userModel: model);
 
       if (backendUserModel.id == null) {
         DocumentReference documentReference =
             await users.add(backendUserModel.toJson());
         backendUserModel.id = documentReference.id;
       } else {
-        await users.doc(userModel.id).set(backendUserModel.toJson());
+        await users.doc(model.id).set(backendUserModel.toJson());
       }
 
       return BaseSuccess<UserModel>(
@@ -55,23 +57,19 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
   }
 
   @override
-  Future<BaseResponse<UserModel>> getUserWithId(String id) async {
+  Future<BaseResponse<UserModel>> getUserWithId(String userId) async {
     try {
-      DocumentSnapshot documentSnapshot = await users.doc(id).get();
+      DocumentSnapshot documentSnapshot = await users.doc(userId).get();
       Map<String, dynamic>? data =
           documentSnapshot.data() as Map<String, dynamic>?;
 
       if (data != null) {
+        BackendUserModel backendUserModel = BackendUserModel().fromJson(data);
+        backendUserModel.id = userId;
+
         return BaseSuccess<UserModel>(
           data: BackendUserModel().to(
-            userModel: BackendUserModel(
-              id: documentSnapshot.id,
-              balance: data["balance"],
-              createdDate: data["createdDate"],
-              lastAppEntryDate: data["lastAppEntryDate"],
-              email: data["email"],
-              password: data["password"],
-            ),
+            userModel: backendUserModel,
           ),
         );
       } else {

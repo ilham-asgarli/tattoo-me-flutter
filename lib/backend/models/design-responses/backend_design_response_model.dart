@@ -5,6 +5,7 @@ import 'package:tattoo/domain/models/design-response/design_response_model.dart'
 
 class BackendDesignResponseModel extends BaseModel<BackendDesignResponseModel> {
   String? id;
+  String? requestId;
   String? designerId;
   String? imageLink;
   num? rating;
@@ -13,6 +14,7 @@ class BackendDesignResponseModel extends BaseModel<BackendDesignResponseModel> {
 
   BackendDesignResponseModel({
     this.id,
+    this.requestId,
     this.designerId,
     this.imageLink,
     this.rating,
@@ -22,6 +24,7 @@ class BackendDesignResponseModel extends BaseModel<BackendDesignResponseModel> {
 
   BackendDesignResponseModel.from({required DesignResponseModel model}) {
     id = model.id;
+    requestId = model.requestId;
     designerId = model.designerId;
     imageLink = model.imageLink;
     rating = model.rating;
@@ -34,6 +37,7 @@ class BackendDesignResponseModel extends BaseModel<BackendDesignResponseModel> {
   DesignResponseModel to({required BackendDesignResponseModel model}) {
     return DesignResponseModel(
       id: model.id,
+      requestId: model.requestId,
       designerId: model.designerId,
       imageLink: model.imageLink,
       rating: model.rating,
@@ -46,6 +50,7 @@ class BackendDesignResponseModel extends BaseModel<BackendDesignResponseModel> {
   BackendDesignResponseModel fromJson(Map<String, dynamic> json) {
     return BackendDesignResponseModel(
       id: json["id"],
+      requestId: json["requestId"],
       designerId: json["designerId"],
       imageLink: json["imageLink"],
       rating: json["rating"],
@@ -58,6 +63,7 @@ class BackendDesignResponseModel extends BaseModel<BackendDesignResponseModel> {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {};
 
+    map.putIfNotNull("requestId", designerId);
     map.putIfNotNull("designerId", designerId);
     map.putIfNotNull("imageLink", imageLink);
     map.putIfNotNull("rating", rating);

@@ -75,6 +75,10 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
 
       await for (QuerySnapshot designRequestsDocumentSnapshot
           in designRequestsStream) {
+        if (designRequestsDocumentSnapshot.size == 0) {
+          yield BaseError(message: "Empty");
+        }
+
         List<DesignResponseModel> designResponseModels = [];
 
         for (var element in designRequestsDocumentSnapshot.docs) {
@@ -85,13 +89,16 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
             BackendDesignRequestModel backendDesignRequestModel =
                 BackendDesignRequestModel().fromJson(designRequestsData);
 
-            if (backendDesignRequestModel.retouchId != null) {
+            /*if (backendDesignRequestModel.retouchId != null) {
               continue;
-            }
+            }*/
 
             QuerySnapshot designRequestImagesQuerySnapshot =
                 await designRequestImages
-                    .where("requestId", isEqualTo: element.id)
+                    .where("requestId",
+                        isEqualTo:
+                            backendDesignRequestModel.previousRequestId ??
+                                element.id)
                     .get();
 
             List<BackendDesignRequestImageModel> designResponseImageModels = [];
@@ -147,6 +154,7 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
                 BackendDesignRequestModel().to(
               model: backendDesignRequestModel,
             );
+            designResponseModels.last.designRequestModel?.id = element.id;
           }
 
           designResponseModels.sort((a, b) {
@@ -165,6 +173,7 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
           yield BaseSuccess<List<DesignResponseModel>>(
             data: designResponseModels,
           );
+          await Future.delayed(const Duration(seconds: 1));
         }
       }
     } catch (e) {

@@ -66,5 +66,6 @@
   "close": "Close",
   "writeNoteHere": "Please write your note here",
   "sentForRetouch": "Thank you. Your note has been sent to the designer !",
-  "retouchAlertTitle": "Your tattoo design correction request will be made free of charge. Please write the change you want to make in the design in the note section and send it to our designer"
+  "retouchAlertTitle": "Your tattoo design correction request will be made free of charge. Please write the change you want to make in the design in the note section and send it to our designer",
+  "retouchCommentEmptyWarning": "Please enter retouch message"
 }

@@ -4,6 +4,7 @@ import '../design-request/design_request_model.dart';
 
 class DesignResponseModel extends BaseModel<DesignResponseModel> {
   String? id;
+  String? requestId;
   String? designerId;
   String? imageLink;
   num? rating;
@@ -13,6 +14,7 @@ class DesignResponseModel extends BaseModel<DesignResponseModel> {
 
   DesignResponseModel({
     this.id,
+    this.requestId,
     this.designerId,
     this.imageLink,
     this.rating,
@@ -25,6 +27,7 @@ class DesignResponseModel extends BaseModel<DesignResponseModel> {
   DesignResponseModel fromJson(Map<String, dynamic> json) {
     return DesignResponseModel(
       id: json["id"],
+      requestId: json["requestId"],
       designerId: json["designerId"],
       imageLink: json["imageLink"],
       rating: json["rating"],
@@ -37,6 +40,7 @@ class DesignResponseModel extends BaseModel<DesignResponseModel> {
   Map<String, dynamic> toJson() {
     return {
       "id": id,
+      "requestId": requestId,
       "designerId": designerId,
       "imageLink": imageLink,
       "rating": rating,

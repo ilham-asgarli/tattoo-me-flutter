@@ -17,9 +17,9 @@ import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../utils/ui/validators/password_validator.dart';
 
 class SignUpIn extends View<SignUpInViewModel> {
-  final GlobalKey<FormState> _signFormKey = GlobalKey<FormState>();
-
   SignUpIn({super.key}) : super(viewModelBuilder: () => SignUpInViewModel());
+
+  final GlobalKey<FormState> _signFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

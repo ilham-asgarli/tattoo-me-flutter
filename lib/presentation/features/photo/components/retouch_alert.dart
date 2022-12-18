@@ -1,10 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
+import 'package:tattoo/utils/logic/state/bloc/retouch-alert/retouch_alert_bloc.dart';
+
+import '../../../../core/base/models/base_response.dart';
+import '../../../../domain/models/design-request/design_request_model.dart';
+import '../../../../domain/models/design-response/design_response_model.dart';
+import '../../../../domain/repositories/design-requests/implementations/send_design_request_repository.dart';
+import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/ui/validators/retouch_comment_validator.dart';
 
 class RetouchAlert extends StatefulWidget {
-  const RetouchAlert({Key? key}) : super(key: key);
+  final DesignResponseModel designModel;
+
+  const RetouchAlert({required this.designModel, Key? key}) : super(key: key);
 
   @override
   State<RetouchAlert> createState() => _RetouchAlertState();
@@ -12,9 +24,8 @@ class RetouchAlert extends StatefulWidget {
 
 class _RetouchAlertState extends State<RetouchAlert> {
   final alertKey = UniqueKey();
-
-  bool isSent = false;
-  bool isSending = false;
+  final GlobalKey<FormState> _retouchFormKey = GlobalKey<FormState>();
+  String? comment;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +43,8 @@ class _RetouchAlertState extends State<RetouchAlert> {
   }
 
   Row? buildTitle(BuildContext context) {
-    return isSent
+    return context.watch<RetouchAlertBloc>().state.retouchSendingState ==
+            RetouchSendingState.sent
         ? null
         : Row(
             children: [
@@ -50,46 +62,61 @@ class _RetouchAlertState extends State<RetouchAlert> {
           );
   }
 
-  Column buildContent() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: Text(
-            LocaleKeys.retouchAlertTitle.tr(),
-            style: const TextStyle(color: Colors.black),
-          ),
-        ),
-        Card(
-          elevation: 0,
-          color: Colors.white,
-          margin: EdgeInsets.zero,
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: isSent
-                ? Text(
-                    LocaleKeys.sentForRetouch.tr(),
-                    style: const TextStyle(color: Colors.black),
-                    textAlign: TextAlign.center,
-                  )
-                : TextField(
-                    minLines: 5,
-                    maxLines: 5,
-                    cursorColor: Colors.black,
-                    style: const TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: LocaleKeys.writeNoteHere.tr(),
-                      hintStyle: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15,
+  Widget buildContent() {
+    return Form(
+      key: _retouchFormKey,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Text(
+                LocaleKeys.retouchAlertTitle.tr(),
+                style: const TextStyle(color: Colors.black),
+              ),
+            ),
+            Card(
+              elevation: 0,
+              color: Colors.white,
+              margin: EdgeInsets.zero,
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: context
+                            .watch<RetouchAlertBloc>()
+                            .state
+                            .retouchSendingState ==
+                        RetouchSendingState.sent
+                    ? Text(
+                        LocaleKeys.sentForRetouch.tr(),
+                        style: const TextStyle(color: Colors.black),
+                        textAlign: TextAlign.center,
+                      )
+                    : TextFormField(
+                        minLines: 5,
+                        maxLines: 5,
+                        cursorColor: Colors.black,
+                        style: const TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: LocaleKeys.writeNoteHere.tr(),
+                          hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 15,
+                          ),
+                        ),
+                        onSaved: (String? value) {
+                          comment = value;
+                        },
+                        validator: (value) {
+                          return RetouchCommentValidator(value).validate();
+                        },
                       ),
-                    ),
-                  ),
-          ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -105,24 +132,38 @@ class _RetouchAlertState extends State<RetouchAlert> {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
                 ),
-                onPressed: () {
-                  if (isSent && isSending) {
+                onPressed: () async {
+                  if (context
+                          .read<RetouchAlertBloc>()
+                          .state
+                          .retouchSendingState ==
+                      RetouchSendingState.sent) {
                     Navigator.pop(context);
                     return;
                   }
 
-                  setState(() {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    isSending = true;
-                  });
+                  if (_retouchFormKey.currentState!.validate()) {
+                    _retouchFormKey.currentState?.save();
 
-                  Future.delayed(const Duration(seconds: 1)).then((value) {
-                    setState(() {
-                      isSent = true;
-                    });
-                  });
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    BlocProvider.of<RetouchAlertBloc>(context)
+                        .add(StartRetouchSending());
+
+                    if (comment != null) {
+                      BaseResponse<DesignRequestModel> baseResponse =
+                          await sendDesignRetouch(comment!);
+                      if (mounted) {
+                        BlocProvider.of<RetouchAlertBloc>(context)
+                            .add(EndRetouchSending());
+                      }
+                    }
+                  }
                 },
-                child: (!isSent && isSending)
+                child: (context
+                            .watch<RetouchAlertBloc>()
+                            .state
+                            .retouchSendingState ==
+                        RetouchSendingState.sending)
                     ? SizedBox(
                         height: 20,
                         width: 20,
@@ -134,7 +175,13 @@ class _RetouchAlertState extends State<RetouchAlert> {
                         ),
                       )
                     : Text(
-                        isSent ? LocaleKeys.close.tr() : LocaleKeys.send.tr(),
+                        context
+                                    .watch<RetouchAlertBloc>()
+                                    .state
+                                    .retouchSendingState ==
+                                RetouchSendingState.sent
+                            ? LocaleKeys.close.tr()
+                            : LocaleKeys.send.tr(),
                       ),
               ),
             ),
@@ -142,5 +189,25 @@ class _RetouchAlertState extends State<RetouchAlert> {
         ),
       ),
     ];
+  }
+
+  Future<BaseResponse<DesignRequestModel>> sendDesignRetouch(
+      String comment) async {
+    SendDesignRequestRepository sendDesignRequestRepository =
+        SendDesignRequestRepository();
+    String? userId = context.read<SignBloc>().state.userModel.id;
+
+    BaseResponse<DesignRequestModel> baseResponse =
+        await sendDesignRequestRepository.sendRetouchDesignRequest(
+      DesignRequestModel(
+        id: widget.designModel.id,
+        userId: userId,
+        createdDate: DateTime.now(),
+        finished: false,
+        previousRequestId: widget.designModel.requestId,
+      ),
+      comment,
+    );
+    return baseResponse;
   }
 }

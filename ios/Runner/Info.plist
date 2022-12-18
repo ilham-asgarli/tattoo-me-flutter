@@ -52,5 +52,10 @@
     <string>Upload image</string>
     <key>NSCameraUsageDescription</key>
     <string>Upload image from camera</string>
+
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key><true/>
+    </dict>
 </dict>
 </plist>
