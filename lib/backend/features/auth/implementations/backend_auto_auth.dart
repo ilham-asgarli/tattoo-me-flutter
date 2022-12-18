@@ -20,7 +20,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         id: userModel?.id,
         email: userModel?.email,
         password: userModel?.password,
-        balance: 30,
+        balance: 0,
         createdDate: DateTime.now(),
         lastAppEntryDate: DateTime.now(),
       );
