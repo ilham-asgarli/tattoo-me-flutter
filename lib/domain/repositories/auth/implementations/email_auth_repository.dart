@@ -38,4 +38,10 @@ class EmailAuthRepository extends EmailAuthInterface {
   bool emailVerified() {
     return emailAuth.emailVerified();
   }
+
+  @override
+  Future<BaseResponse> sendPasswordResetEmail(String email) async {
+    BaseResponse baseResponse = await emailAuth.sendPasswordResetEmail(email);
+    return baseResponse;
+  }
 }

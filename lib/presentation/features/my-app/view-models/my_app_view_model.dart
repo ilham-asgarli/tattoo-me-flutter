@@ -4,7 +4,7 @@ import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
 import 'package:tattoo/domain/repositories/auth/implementations/auth_repository.dart';
 import 'package:tattoo/domain/repositories/auth/implementations/auto_auth_repository.dart';
-import 'package:tattoo/domain/usecases/auth/implementations/auth_usecase.dart';
+import 'package:tattoo/domain/repositories/auth/implementations/email_auth_repository.dart';
 
 import '../../../../core/base/models/base_success.dart';
 import '../../../../core/base/view-models/base_view_model.dart';
@@ -14,12 +14,12 @@ import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 class MyAppViewModel extends BaseViewModel {
   AutoAuthRepository autoAuthRepository = AutoAuthRepository();
   AuthRepository authRepository = AuthRepository();
-  AuthUseCase authUseCase = AuthUseCase();
+  EmailAuthRepository emailAuthRepository = EmailAuthRepository();
 
   void initAndRemoveSplashScreen() async {
     SignBloc signBloc = BlocProvider.of<SignBloc>(context);
     if (signBloc.state is SignIn) {
-      if (authUseCase.isSignedIn()) {
+      if (emailAuthRepository.emailVerified()) {
         await onSignedInWithEmail();
       } else {
         await onNotSignedInWithEmail();

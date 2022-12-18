@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:tattoo/core/base/views/base_view.dart';
+import 'package:tattoo/presentation/features/sign-up-in/components/forgot_password_alert.dart';
 import 'package:tattoo/presentation/features/sign-up-in/view-models/sign_up_in_view_model.dart';
 import 'package:tattoo/presentation/widgets/fractionally_sized_circular_progress_indicator.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
@@ -20,6 +21,8 @@ class SignUpIn extends View<SignUpInViewModel> {
   SignUpIn({super.key}) : super(viewModelBuilder: () => SignUpInViewModel());
 
   final GlobalKey<FormState> _signFormKey = GlobalKey<FormState>();
+
+  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +113,7 @@ class SignUpIn extends View<SignUpInViewModel> {
           children: [
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 isCollapsed: true,
                 contentPadding: const EdgeInsets.all(12),
@@ -134,6 +138,9 @@ class SignUpIn extends View<SignUpInViewModel> {
             viewModel.widget.verticalSpace(10),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
+              obscureText: isPasswordVisible,
+              enableSuggestions: false,
+              autocorrect: false,
               decoration: InputDecoration(
                 isCollapsed: true,
                 contentPadding: const EdgeInsets.all(12),
@@ -149,6 +156,16 @@ class SignUpIn extends View<SignUpInViewModel> {
                     color: HexColor("#595959"),
                   ),
                 ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    isPasswordVisible = !isPasswordVisible;
+                    viewModel.buildView();
+                  },
+                  icon: const Icon(
+                    Icons.remove_red_eye_rounded,
+                    color: Colors.white,
+                  ),
+                ),
               ),
               onSaved: viewModel.onSavedPassword,
               validator: (value) {
@@ -156,12 +173,15 @@ class SignUpIn extends View<SignUpInViewModel> {
               },
             ),
             viewModel.widget.verticalSpace(15),
-            Visibility(
-              visible: (state is! SignUpState),
-              maintainState: true,
-              maintainAnimation: true,
-              maintainSize: true,
-              child: Text(LocaleKeys.forgotPassword.tr()),
+            GestureDetector(
+              onTap: forgotPassword,
+              child: Visibility(
+                visible: (state is! SignUpState),
+                maintainState: true,
+                maintainAnimation: true,
+                maintainSize: true,
+                child: Text(LocaleKeys.forgotPassword.tr()),
+              ),
             ),
           ],
         ),
@@ -240,6 +260,16 @@ class SignUpIn extends View<SignUpInViewModel> {
           ),
         ),
       ),
+    );
+  }
+
+  void forgotPassword() {
+    showDialog(
+      context: viewModel.context,
+      barrierDismissible: false,
+      builder: (context) {
+        return const ForgotPasswordAlert();
+      },
     );
   }
 }

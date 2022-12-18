@@ -26,6 +26,8 @@ class BackendEmailAuth extends BackendEmailAuthInterface {
 
       userModel.id = credential.user?.uid;
 
+      await credential.user?.sendEmailVerification();
+
       final BaseResponse<UserModel> baseResponse =
           await backendAutoAuth.createUser(userModel: userModel);
 
@@ -48,7 +50,12 @@ class BackendEmailAuth extends BackendEmailAuthInterface {
         password: userModel.password ?? "",
       );
       userModel.id = credential.user?.uid;
-      return BaseSuccess<UserModel>(data: userModel);
+
+      if (credential.user?.emailVerified ?? false) {
+        return BaseSuccess<UserModel>(data: userModel);
+      } else {
+        return BaseError(message: "Email not verified");
+      }
     } catch (e) {
       return authException.auth(e);
     }
@@ -75,5 +82,15 @@ class BackendEmailAuth extends BackendEmailAuthInterface {
       return false;
     }
     return user.emailVerified;
+  }
+
+  @override
+  Future<BaseResponse> sendPasswordResetEmail(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return BaseSuccess();
+    } catch (e) {
+      return BaseError(message: e.toString());
+    }
   }
 }

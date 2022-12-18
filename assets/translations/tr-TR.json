@@ -72,5 +72,6 @@
   "errorMailBody": "Lütfen hatayı tarif edin...",
   "errorMailRecipients": {
     "0": "tattoo11tattoo@gmail.com"
-  }
+  },
+  "sendForgotPasswordEmail": "Yenileme e-postası gönder"
 }

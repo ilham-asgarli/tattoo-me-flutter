@@ -61,7 +61,7 @@ class SignUpInViewModel extends BaseViewModel {
 
   void changeSign() {
     SignState signState = context.read<SignBloc>().state;
-    if (signState is SignIn || signState is SignUp || signState is SignedUp) {
+    if (signState is SignIn || signState is SignUpState) {
       BlocProvider.of<SignBloc>(context).add(const ChangeSignEvent());
     }
   }
@@ -73,7 +73,7 @@ class SignUpInViewModel extends BaseViewModel {
       return false;
     }
 
-    if (signState is SignUp) {
+    if (signState is SignUpState) {
       changeSign();
       return false;
     } else {

@@ -72,5 +72,6 @@
   "errorMailBody": "Please describe the error...",
   "errorMailRecipients": {
     "0": "tattoo11tattoo@gmail.com"
-  }
+  },
+  "sendForgotPasswordEmail": "Send reset email"
 }

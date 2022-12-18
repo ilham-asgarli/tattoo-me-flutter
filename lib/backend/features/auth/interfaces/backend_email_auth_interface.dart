@@ -13,4 +13,6 @@ abstract class BackendEmailAuthInterface {
   Future<BaseResponse> linkWithEmailAndPassword(UserModel userModel);
 
   bool emailVerified();
+
+  Future<BaseResponse> sendPasswordResetEmail(String email);
 }

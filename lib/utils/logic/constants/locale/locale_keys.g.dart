@@ -73,5 +73,6 @@ abstract class  LocaleKeys {
   static const errorMailBody = 'errorMailBody';
   static const errorMailRecipients_0 = 'errorMailRecipients.0';
   static const errorMailRecipients = 'errorMailRecipients';
+  static const sendForgotPasswordEmail = 'sendForgotPasswordEmail';
 
 }
