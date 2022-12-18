@@ -67,5 +67,10 @@
   "writeNoteHere": "Please write your note here",
   "sentForRetouch": "Thank you. Your note has been sent to the designer !",
   "retouchAlertTitle": "Your tattoo design correction request will be made free of charge. Please write the change you want to make in the design in the note section and send it to our designer",
-  "retouchCommentEmptyWarning": "Please enter retouch message"
+  "retouchCommentEmptyWarning": "Please enter retouch message",
+  "errorMailSubject": "Tattoo bug report",
+  "errorMailBody": "Please describe the error...",
+  "errorMailRecipients": {
+    "0": "tattoo11tattoo@gmail.com"
+  }
 }

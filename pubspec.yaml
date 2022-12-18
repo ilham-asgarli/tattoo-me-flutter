@@ -62,6 +62,7 @@ dependencies:
   share_plus: ^6.3.0
   flutter_downloader: ^1.9.1
   permission_handler: ^10.2.0
+  flutter_email_sender: ^5.2.0
 
 dev_dependencies:
   flutter_test:

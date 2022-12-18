@@ -1,6 +1,8 @@
+import 'package:centered_singlechildscrollview/centered_singlechildscrollview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tattoo/presentation/features/more/view-models/more_view_model.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
@@ -18,7 +20,8 @@ class MoreView extends View<MoreViewModel> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
+      child: CenteredSingleChildScrollView(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           viewModel.widget.dynamicVerticalSpace(context, 0.1),
           const FaIcon(
@@ -88,42 +91,61 @@ class MoreView extends View<MoreViewModel> {
           buildFeature(
             FontAwesomeIcons.handshake,
             LocaleKeys.privacyPolicy.tr(),
+            () {},
           ),
           buildFeature(
             FontAwesomeIcons.rotate,
             LocaleKeys.checkUpdates.tr(),
+            () {},
           ),
           buildFeature(
             FontAwesomeIcons.envelope,
             LocaleKeys.reportMistake.tr(),
+            sendErrorMail,
           ),
         ],
       ),
     );
   }
 
-  Widget buildFeature(IconData icon, String text) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.tertiary,
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
-      ),
-      width: viewModel.context.width / 2 - 10 - 50,
-      height: viewModel.context.width / 2 - 10 - 50,
-      child: Padding(
-        padding: viewModel.context.paddingLow,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FaIcon(icon),
-            viewModel.widget.verticalSpace(15),
-            Text(
-              text,
-              textAlign: TextAlign.center,
-            ),
-          ],
+  Widget buildFeature(IconData icon, String text, Function() onTap) {
+    return InkWell(
+      splashColor: Colors.green,
+      borderRadius: const BorderRadius.all(Radius.circular(15)),
+      onTap: onTap,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: AppColors.tertiary,
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        width: viewModel.context.width / 2 - 10 - 50,
+        height: viewModel.context.width / 2 - 10 - 50,
+        child: Padding(
+          padding: viewModel.context.paddingLow,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FaIcon(icon),
+              viewModel.widget.verticalSpace(15),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> sendErrorMail() async {
+    final Email email = Email(
+      subject: LocaleKeys.errorMailSubject.tr(),
+      body: LocaleKeys.errorMailBody.tr(),
+      recipients: [LocaleKeys.errorMailRecipients.tr(gender: "0")],
+      isHTML: false,
+    );
+
+    await FlutterEmailSender.send(email);
   }
 }

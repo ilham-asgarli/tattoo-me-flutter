@@ -67,5 +67,10 @@
   "writeNoteHere": "Lütfen notunuzu buraya yazın",
   "sentForRetouch": "Teşekkür ederiz.Notunuz tasarımcıya gönderildi !",
   "retouchAlertTitle": "Dövme tasarımı düzeltme talebiniz ücretsiz yapılacaktır. Lütfen tasarımda yapmak istediğiniz değişikliği not bölümüne yazarak tasarımcımıza gönderin",
-  "retouchCommentEmptyWarning": "Lütfen rötuş mesajı girin"
+  "retouchCommentEmptyWarning": "Lütfen rötuş mesajı girin",
+  "errorMailSubject": "Tattoo hata raporu",
+  "errorMailBody": "Lütfen hatayı tarif edin...",
+  "errorMailRecipients": {
+    "0": "tattoo11tattoo@gmail.com"
+  }
 }

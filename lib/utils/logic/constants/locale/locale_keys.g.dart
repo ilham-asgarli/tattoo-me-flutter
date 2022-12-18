@@ -69,5 +69,9 @@ abstract class  LocaleKeys {
   static const sentForRetouch = 'sentForRetouch';
   static const retouchAlertTitle = 'retouchAlertTitle';
   static const retouchCommentEmptyWarning = 'retouchCommentEmptyWarning';
+  static const errorMailSubject = 'errorMailSubject';
+  static const errorMailBody = 'errorMailBody';
+  static const errorMailRecipients_0 = 'errorMailRecipients.0';
+  static const errorMailRecipients = 'errorMailRecipients';
 
 }
