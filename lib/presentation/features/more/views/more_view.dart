@@ -111,7 +111,6 @@ class MoreView extends View<MoreViewModel> {
 
   Widget buildFeature(IconData icon, String text, Function() onTap) {
     return InkWell(
-      splashColor: Colors.green,
       borderRadius: const BorderRadius.all(Radius.circular(15)),
       onTap: onTap,
       child: Ink(
