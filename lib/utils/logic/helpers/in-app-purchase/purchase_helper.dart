@@ -294,11 +294,13 @@ class _MyAppState extends State<_MyApp> {
 
                     if (productDetails.id == _kConsumableId) {
                       _inAppPurchase.buyConsumable(
-                          purchaseParam: purchaseParam,
-                          autoConsume: _kAutoConsume);
+                        purchaseParam: purchaseParam,
+                        autoConsume: _kAutoConsume,
+                      );
                     } else {
                       _inAppPurchase.buyNonConsumable(
-                          purchaseParam: purchaseParam);
+                        purchaseParam: purchaseParam,
+                      );
                     }
                   },
                   child: Text(productDetails.price),
