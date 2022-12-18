@@ -75,39 +75,41 @@ class _CreditsViewState extends State<CreditsView> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            widget.verticalSpace(10),
-            Text(
-              LocaleKeys.balance.tr(),
-              style: const TextStyle(fontSize: 18),
-            ),
-            widget.verticalSpace(10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "${context.watch<SignBloc>().state.userModel.balance ?? 0}",
-                  style: const TextStyle(fontSize: 25),
-                ),
-                Icon(
-                  Icons.star,
-                  color: HexColor("#77BD52"),
-                ),
-              ],
-            ),
-            widget.verticalSpace(10),
-            Text(
-              LocaleKeys.creditsDescription.tr(),
-              textAlign: TextAlign.center,
-            ),
-            widget.verticalSpace(30),
-            buildSubWidget(),
-            widget.verticalSpace(40),
-            buildBuyWidget(),
-            widget.verticalSpace(20),
-          ],
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              widget.verticalSpace(10),
+              Text(
+                LocaleKeys.balance.tr(),
+                style: const TextStyle(fontSize: 18),
+              ),
+              widget.verticalSpace(10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "${context.watch<SignBloc>().state.userModel.balance ?? 0}",
+                    style: const TextStyle(fontSize: 25),
+                  ),
+                  Icon(
+                    Icons.star,
+                    color: HexColor("#77BD52"),
+                  ),
+                ],
+              ),
+              widget.verticalSpace(10),
+              Text(
+                LocaleKeys.creditsDescription.tr(),
+                textAlign: TextAlign.center,
+              ),
+              widget.verticalSpace(30),
+              buildSubWidget(),
+              widget.verticalSpace(40),
+              buildBuyWidget(),
+              widget.verticalSpace(20),
+            ],
+          ),
         ),
       ),
     );

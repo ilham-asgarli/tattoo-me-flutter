@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:tattoo/presentation/features/more/view-models/more_view_model.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
@@ -96,7 +97,7 @@ class MoreView extends View<MoreViewModel> {
           buildFeature(
             FontAwesomeIcons.rotate,
             LocaleKeys.checkUpdates.tr(),
-            () {},
+            checkForUpdates,
           ),
           buildFeature(
             FontAwesomeIcons.envelope,
@@ -147,5 +148,9 @@ class MoreView extends View<MoreViewModel> {
     );
 
     await FlutterEmailSender.send(email);
+  }
+
+  Future<void> checkForUpdates() async {
+    await StoreRedirect.redirect();
   }
 }

@@ -20,27 +20,29 @@ class ReadyView extends View<ReadyViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignBloc, SignState>(
-      builder: (context, state) {
-        return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
-          stream: viewModel.getDesignRequestRepository
-              .getDesignRequestStream(state.userModel.id ?? ""),
-          builder: (context, snapshot) {
-            BaseResponse<List<DesignResponseModel>>? baseResponse =
-                snapshot.data;
-            if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
-              List<DesignResponseModel>? designModels = baseResponse.data;
-              if (designModels != null && designModels.isNotEmpty) {
-                return buildImageGrid(designModels);
+    return Scaffold(
+      body: BlocBuilder<SignBloc, SignState>(
+        builder: (context, state) {
+          return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
+            stream: viewModel.getDesignRequestRepository
+                .getDesignRequestStream(state.userModel.id ?? ""),
+            builder: (context, snapshot) {
+              BaseResponse<List<DesignResponseModel>>? baseResponse =
+                  snapshot.data;
+              if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
+                List<DesignResponseModel>? designModels = baseResponse.data;
+                if (designModels != null && designModels.isNotEmpty) {
+                  return buildImageGrid(designModels);
+                } else {
+                  return const EmptyView();
+                }
               } else {
                 return const EmptyView();
               }
-            } else {
-              return const EmptyView();
-            }
-          },
-        );
-      },
+            },
+          );
+        },
+      ),
     );
   }
 

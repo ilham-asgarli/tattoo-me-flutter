@@ -63,6 +63,7 @@ dependencies:
   flutter_downloader: ^1.9.1
   permission_handler: ^10.2.0
   flutter_email_sender: ^5.2.0
+  store_redirect: ^2.0.1
 
 dev_dependencies:
   flutter_test:
