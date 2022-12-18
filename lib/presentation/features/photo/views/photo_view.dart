@@ -132,7 +132,7 @@ class _PhotoViewState extends State<PhotoView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
+              Ink(
                 width: context.dynamicWidth(0.35),
                 height: 80,
                 decoration: BoxDecoration(
@@ -145,7 +145,7 @@ class _PhotoViewState extends State<PhotoView> {
                   evaluateDesigner,
                 ),
               ),
-              Container(
+              Ink(
                 height: 80,
                 width: context.dynamicWidth(0.35),
                 decoration: BoxDecoration(
@@ -186,6 +186,7 @@ class _PhotoViewState extends State<PhotoView> {
   Widget buildButton(String text, IconData iconData, Function() onTap) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

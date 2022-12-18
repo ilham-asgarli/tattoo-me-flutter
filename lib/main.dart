@@ -50,7 +50,7 @@ Widget app() {
   return EasyLocalization(
     supportedLocales: LocaleConstants.supportedLocales,
     path: LocaleConstants.path,
-    startLocale: LocaleConstants.trTR,
+    startLocale: !kReleaseMode ? LocaleConstants.trTR : null,
     fallbackLocale: LocaleConstants.enUS,
     child: MultiBlocProvider(
       providers: [

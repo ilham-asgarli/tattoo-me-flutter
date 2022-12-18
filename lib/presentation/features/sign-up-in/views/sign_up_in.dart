@@ -114,6 +114,7 @@ class SignUpIn extends View<SignUpInViewModel> {
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 isCollapsed: true,
                 contentPadding: const EdgeInsets.all(12),
@@ -138,7 +139,7 @@ class SignUpIn extends View<SignUpInViewModel> {
             viewModel.widget.verticalSpace(10),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              obscureText: isPasswordVisible,
+              obscureText: !isPasswordVisible,
               enableSuggestions: false,
               autocorrect: false,
               decoration: InputDecoration(

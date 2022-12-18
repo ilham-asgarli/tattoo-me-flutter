@@ -134,6 +134,9 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
                 backendDesignResponseModel.id =
                     designResponsesQuerySnapshot.docs.first.id;
               } else {
+                yield BaseSuccess<List<DesignResponseModel>>(
+                  data: designResponseModels,
+                );
                 continue;
               }
             } else {
@@ -141,6 +144,9 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
             }
 
             if (backendDesignResponseModel.deleted ?? false) {
+              yield BaseSuccess<List<DesignResponseModel>>(
+                data: designResponseModels,
+              );
               continue;
             }
 
@@ -173,7 +179,6 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
           yield BaseSuccess<List<DesignResponseModel>>(
             data: designResponseModels,
           );
-          await Future.delayed(const Duration(seconds: 1));
         }
       }
     } catch (e) {
