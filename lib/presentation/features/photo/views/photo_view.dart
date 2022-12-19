@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
@@ -102,8 +104,18 @@ class _PhotoViewState extends State<PhotoView> {
     oldImageIndex = oldImageIndex >= 0 ? oldImageIndex : 0;
 
     return GestureDetector(
-      child: Image.network(
-        context.watch<PhotoCubit>().state.isSwitch
+      child: CachedNetworkImage(
+        placeholder: (context, url) {
+          return Center(
+            child: CircularProgressIndicator.adaptive(
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                HexColor("#666666"),
+              ),
+            ),
+          );
+        },
+        imageUrl: context.watch<PhotoCubit>().state.isSwitch
             ? designModel.imageLink ?? ""
             : designModel.designRequestModel
                     ?.designRequestImageModels2![oldImageIndex].link ??
