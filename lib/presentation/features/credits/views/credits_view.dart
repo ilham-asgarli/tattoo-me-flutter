@@ -124,8 +124,14 @@ class _CreditsViewState extends State<CreditsView> {
       children: _buyList.map((item) {
         return SizedBox(
           width: context.width / 2 - 15,
-          child: BuyItem(
-            buyMap: item,
+          child: InkWell(
+            onTap: () {},
+            borderRadius: const BorderRadius.all(
+              Radius.circular(5),
+            ),
+            child: BuyItem(
+              buyMap: item,
+            ),
           ),
         );
       }).toList(),
@@ -154,8 +160,16 @@ class _CreditsViewState extends State<CreditsView> {
           ),
           child: index == 0
               ? buildSubHeader()
-              : SubscribeItem(
-                  subscriptionMap: _subscriptionList[index - 1],
+              : InkWell(
+                  onTap: () {},
+                  borderRadius: index == _subscriptionList.length
+                      ? const BorderRadius.vertical(
+                          bottom: Radius.circular(10),
+                        )
+                      : null,
+                  child: SubscribeItem(
+                    subscriptionMap: _subscriptionList[index - 1],
+                  ),
                 ),
         );
       },

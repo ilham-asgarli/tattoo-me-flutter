@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 
@@ -11,7 +12,7 @@ class BuyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Ink(
       decoration: BoxDecoration(
         color: HexColor("#77BD52"),
         borderRadius: const BorderRadius.all(
@@ -48,12 +49,12 @@ class BuyItem extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          Ink(
             padding: context.paddingLow,
             width: double.infinity,
             decoration: const BoxDecoration(
               color: Colors.green,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(5)),
             ),
             child: Text(
               LocaleKeys.buy.tr(),

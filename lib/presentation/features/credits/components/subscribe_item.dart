@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 
@@ -13,7 +14,7 @@ class SubscribeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Ink(
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Row(
