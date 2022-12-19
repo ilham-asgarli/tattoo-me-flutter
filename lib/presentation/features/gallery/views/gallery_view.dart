@@ -53,6 +53,9 @@ class GalleryView extends StatelessWidget {
   Widget buildAddPhoto(BuildContext context) {
     return Center(
       child: InkWell(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
         onTap: () async {
           XFile? imageFile = await GalleryHelper.instance.getFromGallery();
           if (imageFile != null) {
@@ -62,7 +65,7 @@ class GalleryView extends StatelessWidget {
             );
           }
         },
-        child: Container(
+        child: Ink(
           width: context.dynamicWidth(0.45),
           height: context.dynamicWidth(0.45),
           decoration: BoxDecoration(
