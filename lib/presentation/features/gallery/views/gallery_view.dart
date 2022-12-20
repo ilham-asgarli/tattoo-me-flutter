@@ -25,7 +25,7 @@ class GalleryView extends StatelessWidget {
       body: Stack(
         children: [
           RetouchBackground(
-            image: "ic_bg_3".toJPG,
+            image: "ic_bg".toJPG,
             sigmaX: 0,
             sigmaY: 0,
             backgroundColor: Colors.black.withOpacity(0.6),
