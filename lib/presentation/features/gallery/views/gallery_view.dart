@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tattoo/core/extensions/context_extension.dart';
+import 'package:tattoo/core/extensions/string_extension.dart';
 import 'package:tattoo/core/extensions/widget_extension.dart';
 
 import '../../../../core/router/core/router_service.dart';
@@ -16,37 +18,70 @@ class GalleryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: buildAppBar(),
-        body: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                top: 150,
-                left: 10,
-                right: 10,
-                child: Text(
-                  LocaleKeys.galleryDescription.tr(),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              buildAddPhoto(context),
-            ],
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      appBar: buildAppBar(),
+      body: Stack(
+        children: [
+          /*RetouchBackground(
+            image: "ic_bg_8".toJPEG,
+            backgroundColor: Colors.transparent,
+          ),*/
+          SizedBox(
+            height: double.infinity,
+            child: Image.asset(
+              "ic_bg_3".toJPEG,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  top: 150,
+                  left: 10,
+                  right: 10,
+                  child: Text(
+                    LocaleKeys.galleryDescription.tr(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                buildAddPhoto(context),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
   AppBar buildAppBar() {
     return AppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       title: Text(
         LocaleKeys.appName.tr(),
       ),
       centerTitle: true,
+      actions: [
+        IconButton(
+          onPressed: () {
+            RouterService.instance.pushNamed(
+              path: RouterConstants.more,
+            );
+          },
+          icon: const Icon(
+            Icons.more_horiz_rounded,
+            size: 30,
+          ),
+        ),
+      ],
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tattoo/presentation/features/more/views/more_view.dart';
 import 'package:tattoo/presentation/features/photo/views/photo_view.dart';
 import 'package:tattoo/presentation/features/retouch/views/retouch_view.dart';
 
@@ -33,6 +34,11 @@ class ConfigRouter {
         return normalNavigate(
           SignUpIn(),
           RouterConstants.signUpIn,
+        );
+      case RouterConstants.more:
+        return normalNavigate(
+          MoreView(),
+          RouterConstants.more,
         );
       case RouterConstants.photo:
         return normalNavigate(

@@ -8,7 +8,6 @@ import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../credits/views/credits_view.dart';
 import '../../gallery/views/gallery_view.dart';
-import '../../more/views/more_view.dart';
 import '../../ready/views/ready_view.dart';
 
 class HomeView extends StatelessWidget {
@@ -18,7 +17,7 @@ class HomeView extends StatelessWidget {
     const GalleryView(),
     const CreditsView(),
     ReadyView(),
-    MoreView(),
+    //MoreView(),
   ];
 
   @override
@@ -62,29 +61,47 @@ class HomeView extends StatelessWidget {
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: AppColors.mainColor,
+        backgroundColor: AppColors.mainColor, // AppColors.mainColor
         elevation: 0,
         selectedFontSize: 12,
         items: [
           BottomNavigationBarItem(
+            backgroundColor: Colors.transparent,
             label: LocaleKeys.homeBottomNavBarLabels_gallery.tr(),
-            icon: const FaIcon(FontAwesomeIcons.circlePlus),
-          ),
-          BottomNavigationBarItem(
-            label: LocaleKeys.homeBottomNavBarLabels_credits.tr(),
-            icon: const FaIcon(
-              FontAwesomeIcons.star,
-              size: 20,
+            icon: const Padding(
+              padding: EdgeInsets.all(5),
+              child: FaIcon(
+                FontAwesomeIcons.circlePlus,
+              ),
             ),
           ),
           BottomNavigationBarItem(
-            label: LocaleKeys.homeBottomNavBarLabels_ready.tr(),
-            icon: const FaIcon(FontAwesomeIcons.check),
+            backgroundColor: Colors.transparent,
+            label: LocaleKeys.homeBottomNavBarLabels_credits.tr(),
+            icon: const Padding(
+              padding: EdgeInsets.all(5),
+              child: FaIcon(
+                FontAwesomeIcons.star,
+                size: 20,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
+            backgroundColor: Colors.transparent,
+            label: LocaleKeys.homeBottomNavBarLabels_ready.tr(),
+            icon: const Padding(
+              padding: EdgeInsets.only(top: 5, bottom: 5),
+              child: FaIcon(
+                FontAwesomeIcons.checkToSlot,
+                size: 21,
+              ),
+            ),
+          ),
+          /*BottomNavigationBarItem(
+          backgroundColor: Colors.transparent,
             label: LocaleKeys.homeBottomNavBarLabels_more.tr(),
             icon: const FaIcon(FontAwesomeIcons.ellipsis),
-          ),
+          ),*/
         ],
         onTap: (index) {
           BlocProvider.of<HomeTabCubit>(context).changeTab(index);

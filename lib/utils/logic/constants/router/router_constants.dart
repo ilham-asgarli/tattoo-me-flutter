@@ -12,4 +12,5 @@ class RouterConstants {
   static const signUpIn = "/signUpIn";
   static const photo = "/photo";
   static const retouch = "/retouch";
+  static const more = "/more";
 }

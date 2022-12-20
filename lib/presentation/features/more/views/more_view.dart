@@ -21,29 +21,36 @@ class MoreView extends View<MoreViewModel> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: CenteredSingleChildScrollView(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          viewModel.widget.dynamicVerticalSpace(context, 0.1),
-          const FaIcon(
-            FontAwesomeIcons.user,
-            size: 50,
-          ),
-          viewModel.widget.verticalSpace(20),
-          buildSignUpOrSignIn(),
-          Padding(
-            padding: viewModel.context.paddingLow,
-            child: Text(
-              LocaleKeys.moreDescription.tr(),
-              style: const TextStyle(fontSize: 11),
-              textAlign: TextAlign.center,
+      child: Scaffold(
+        appBar: buildAppBar(),
+        body: CenteredSingleChildScrollView(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            viewModel.widget.dynamicVerticalSpace(context, 0.1),
+            const FaIcon(
+              FontAwesomeIcons.user,
+              size: 50,
             ),
-          ),
-          viewModel.widget.dynamicVerticalSpace(context, 0.1),
-          buildFeatures(),
-        ],
+            viewModel.widget.verticalSpace(20),
+            buildSignUpOrSignIn(),
+            Padding(
+              padding: viewModel.context.paddingLow,
+              child: Text(
+                LocaleKeys.moreDescription.tr(),
+                style: const TextStyle(fontSize: 11),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            viewModel.widget.dynamicVerticalSpace(context, 0.1),
+            buildFeatures(),
+          ],
+        ),
       ),
     );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar();
   }
 
   Widget buildSignUpOrSignIn() {
