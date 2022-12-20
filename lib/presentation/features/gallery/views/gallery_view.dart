@@ -24,10 +24,6 @@ class GalleryView extends StatelessWidget {
       appBar: buildAppBar(),
       body: Stack(
         children: [
-          /*RetouchBackground(
-            image: "ic_bg_8".toJPEG,
-            backgroundColor: Colors.transparent,
-          ),*/
           SizedBox(
             height: double.infinity,
             child: Image.asset(
