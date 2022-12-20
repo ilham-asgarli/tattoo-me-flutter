@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tattoo/core/extensions/context_extension.dart';
 import 'package:tattoo/core/extensions/string_extension.dart';
 import 'package:tattoo/core/extensions/widget_extension.dart';
+import 'package:tattoo/presentation/features/retouch/components/retouch_background.dart';
 
 import '../../../../core/router/core/router_service.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
@@ -24,12 +25,11 @@ class GalleryView extends StatelessWidget {
       appBar: buildAppBar(),
       body: Stack(
         children: [
-          SizedBox(
-            height: double.infinity,
-            child: Image.asset(
-              "ic_bg_3".toJPEG,
-              fit: BoxFit.cover,
-            ),
+          RetouchBackground(
+            image: "ic_bg_3".toJPG,
+            sigmaX: 0,
+            sigmaY: 0,
+            backgroundColor: Colors.black.withOpacity(0.6),
           ),
           SizedBox(
             width: double.infinity,
@@ -96,15 +96,15 @@ class GalleryView extends StatelessWidget {
             );
           }
         },
-        child: Ink(
+        child: SizedBox(
           width: context.dynamicWidth(0.45),
           height: context.dynamicWidth(0.45),
-          decoration: BoxDecoration(
+          /*decoration: BoxDecoration(
             color: AppColors.tertiary,
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),
-          ),
+          ),*/
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -4,9 +4,10 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import 'advantageous.dart';
 
 class BuyItem extends StatelessWidget {
-  final Map<String, Object> buyMap;
+  final Map<String, dynamic> buyMap;
 
   const BuyItem({Key? key, required this.buyMap}) : super(key: key);
 
@@ -19,47 +20,55 @@ class BuyItem extends StatelessWidget {
           Radius.circular(5),
         ),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          Container(
-            padding: context.paddingLow,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          Advantageous(
+            isAdvantageous: buyMap["isAdvantageous"],
+          ),
+          Column(
+            children: [
+              Container(
+                padding: context.paddingLow,
+                child: Column(
                   children: [
-                    Text(buyMap["count"].toString()),
-                    const Icon(
-                      Icons.star,
-                      size: 20,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(buyMap["count"].toString()),
+                        const Icon(
+                          Icons.star,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "₺ ${buyMap["price"]}",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      LocaleKeys.noExtraCredits.tr(),
+                      style: const TextStyle(fontSize: 11),
                     ),
                   ],
                 ),
-                Text(
-                  "₺ ${buyMap["price"]}",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              ),
+              Ink(
+                padding: context.paddingLow,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.green,
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(5)),
                 ),
-                Text(
-                  LocaleKeys.noExtraCredits.tr(),
-                  style: const TextStyle(fontSize: 11),
+                child: Text(
+                  LocaleKeys.buy.tr(),
+                  textAlign: TextAlign.center,
                 ),
-              ],
-            ),
-          ),
-          Ink(
-            padding: context.paddingLow,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(5)),
-            ),
-            child: Text(
-              LocaleKeys.buy.tr(),
-              textAlign: TextAlign.center,
-            ),
+              ),
+            ],
           ),
         ],
       ),

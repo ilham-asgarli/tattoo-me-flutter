@@ -23,52 +23,64 @@ class _CreditsViewState extends State<CreditsView> {
     {
       "price": 119.99,
       "count": 150,
+      "isAdvantageous": false,
     },
     {
-      "price": 249.99,
+      "price": 214.99,
       "count": 300,
+      "isAdvantageous": true,
     },
     {
-      "price": 429.99,
+      "price": 384.99,
       "count": 600,
+      "isAdvantageous": false,
     },
     {
-      "price": 499.99,
+      "price": 519.99,
       "count": 900,
+      "isAdvantageous": false,
     },
     {
-      "price": 899.99,
+      "price": 934.99,
       "count": 1800,
+      "isAdvantageous": false,
     },
   ];
   final List<Map<String, Object>> _buyList = [
     {
       "price": 29.99,
       "count": 30,
+      "isAdvantageous": false,
     },
     {
-      "price": 79.99,
+      "price": 82.99,
       "count": 90,
+      "isAdvantageous": false,
     },
     {
       "price": 129.99,
       "count": 150,
+      "isAdvantageous": false,
     },
     {
-      "price": 249.99,
+      "price": 238.99,
       "count": 300,
+      "isAdvantageous": true,
     },
     {
-      "price": 374.99,
+      "price": 438.99,
       "count": 600,
+      "isAdvantageous": false,
     },
     {
-      "price": 449.99,
+      "price": 604.99,
       "count": 900,
+      "isAdvantageous": false,
     },
     {
-      "price": 649.99,
+      "price": 1112.99,
       "count": 1800,
+      "isAdvantageous": false,
     },
   ];
 

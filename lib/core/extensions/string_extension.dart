@@ -9,6 +9,7 @@ extension ImagePathExtension on String {
   String get toSVG => 'assets/images/svg/$this.svg';
   String get toPNG => 'assets/images/$this.png';
   String get toJPEG => 'assets/images/$this.jpeg';
+  String get toJPG => 'assets/images/$this.jpg';
 }
 
 extension Env on String {

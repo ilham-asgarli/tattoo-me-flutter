@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tattoo/utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../credits/views/credits_view.dart';
 import '../../gallery/views/gallery_view.dart';
 import '../../ready/views/ready_view.dart';
@@ -61,7 +60,7 @@ class HomeView extends StatelessWidget {
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: AppColors.mainColor, // AppColors.mainColor
+        backgroundColor: Colors.transparent, // AppColors.mainColor
         elevation: 0,
         selectedFontSize: 12,
         items: [
@@ -72,6 +71,7 @@ class HomeView extends StatelessWidget {
               padding: EdgeInsets.all(5),
               child: FaIcon(
                 FontAwesomeIcons.circlePlus,
+                size: 20,
               ),
             ),
           ),
@@ -93,7 +93,7 @@ class HomeView extends StatelessWidget {
               padding: EdgeInsets.only(top: 5, bottom: 5),
               child: FaIcon(
                 FontAwesomeIcons.checkToSlot,
-                size: 21,
+                size: 20,
               ),
             ),
           ),
