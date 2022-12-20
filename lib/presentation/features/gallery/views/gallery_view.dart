@@ -21,7 +21,6 @@ class GalleryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      extendBody: true,
       appBar: buildAppBar(),
       body: Stack(
         children: [
