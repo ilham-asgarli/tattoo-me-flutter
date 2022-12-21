@@ -2,61 +2,40 @@ part of 'retouch_cubit.dart';
 
 @immutable
 abstract class RetouchState extends Equatable {
-  final bool inQueue = false;
-  final bool inControl = false;
-  final bool inRetouch = false;
-  final bool isReady = false;
-
   @override
-  List<Object> get props => [inQueue, inControl, inRetouch, isReady];
+  List<Object> get props => [];
+}
+
+class RetouchInitial extends RetouchState {
+  @override
+  List<Object> get props => [];
 }
 
 class RetouchInQueue extends RetouchState {
-  @override
-  bool get inQueue => true;
+  final List<DesignRequestModel>? inQueueDesignRequestModels;
+
+  RetouchInQueue({required this.inQueueDesignRequestModels});
 
   @override
-  List<Object> get props => [inQueue];
+  List<Object> get props => [inQueueDesignRequestModels ?? []];
 }
 
-class RetouchInControl extends RetouchInQueue {
-  @override
-  bool get inControl => true;
+class RetouchInRetouch extends RetouchInQueue {
+  final List<DesignRequestModel>? inRetouchDesignRequestModels;
+
+  RetouchInRetouch({required this.inRetouchDesignRequestModels})
+      : super(inQueueDesignRequestModels: null);
 
   @override
-  bool get inQueue => false;
-
-  @override
-  List<Object> get props => [inQueue, inControl];
-}
-
-class RetouchInRetouch extends RetouchInControl {
-  @override
-  bool get inRetouch => true;
-
-  @override
-  bool get inQueue => false;
-
-  @override
-  bool get inControl => false;
-
-  @override
-  List<Object> get props => [inQueue, inControl, inRetouch];
+  List<Object> get props => [inRetouchDesignRequestModels ?? []];
 }
 
 class RetouchIsReady extends RetouchInRetouch {
-  @override
-  bool get isReady => true;
+  final DesignResponseModel? designResponseModel;
+
+  RetouchIsReady({required this.designResponseModel})
+      : super(inRetouchDesignRequestModels: null);
 
   @override
-  bool get inQueue => false;
-
-  @override
-  bool get inControl => false;
-
-  @override
-  bool get inRetouch => false;
-
-  @override
-  List<Object> get props => [inQueue, inControl, inRetouch, isReady];
+  List<Object> get props => [designResponseModel ?? DesignResponseModel()];
 }

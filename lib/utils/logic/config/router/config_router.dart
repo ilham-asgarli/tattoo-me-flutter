@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tattoo/domain/models/design-request/design_request_model.dart';
 import 'package:tattoo/presentation/features/more/views/more_view.dart';
 import 'package:tattoo/presentation/features/photo/views/photo_view.dart';
 import 'package:tattoo/presentation/features/retouch/views/retouch_view.dart';
@@ -49,10 +50,13 @@ class ConfigRouter {
           RouterConstants.photo,
         );
       case RouterConstants.retouch:
+        List list = settings.arguments as List;
+        DesignRequestModel? designRequestModel = list[0];
+
         return normalNavigate(
           BlocProvider<RetouchCubit>(
-            create: (context) => RetouchCubit(),
-            child: RetouchView(imageLink: settings.arguments as String?),
+            create: (context) => RetouchCubit(designRequestModel),
+            child: RetouchView(list: list),
           ),
           RouterConstants.retouch,
         );

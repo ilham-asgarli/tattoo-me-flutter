@@ -87,4 +87,39 @@ class BackendDesignResponse extends BackendDesignResponseInterface {
       return BaseError();
     }
   }
+
+  @override
+  Stream<BaseResponse<DesignResponseModel>> getDesignRequestStream(
+      String requestId) async* {
+    try {
+      Stream<QuerySnapshot> designRequestsStream =
+          designResponses.where("requestId", isEqualTo: requestId).snapshots();
+
+      await for (QuerySnapshot designResponseDocumentSnapshot
+          in designRequestsStream) {
+        if (designResponseDocumentSnapshot.size == 0) {
+          yield BaseError(message: "Empty");
+        } else {
+          Map<String, dynamic>? designResponseData =
+              designResponseDocumentSnapshot.docs.first.data()
+                  as Map<String, dynamic>?;
+
+          if (designResponseData != null) {
+            BackendDesignResponseModel backendDesignResponseModel =
+                BackendDesignResponseModel().fromJson(designResponseData);
+            backendDesignResponseModel.id =
+                designResponseDocumentSnapshot.docs.first.id;
+
+            yield BaseSuccess<DesignResponseModel>(
+              data: BackendDesignResponseModel().to(
+                model: backendDesignResponseModel,
+              ),
+            );
+          }
+        }
+      }
+    } catch (e) {
+      yield BaseError(message: e.toString());
+    }
+  }
 }

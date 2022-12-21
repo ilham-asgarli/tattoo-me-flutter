@@ -28,4 +28,12 @@ class DesignResponseRepository extends DesignResponsesInterface {
         await backendDesignResponse.getDesignResponse(designId);
     return baseResponse;
   }
+
+  @override
+  Stream<BaseResponse<DesignResponseModel>> getDesignRequestStream(
+      String requestId) {
+    Stream<BaseResponse<DesignResponseModel>> stream =
+        backendDesignResponse.getDesignRequestStream(requestId);
+    return stream;
+  }
 }

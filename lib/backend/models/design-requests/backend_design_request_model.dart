@@ -13,6 +13,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
   String? retouchId;
   bool? finished;
   Timestamp? createdDate;
+  Timestamp? startDesignDate;
   List<BackendDesignRequestImageModel>? designResponseImageModels;
 
   BackendDesignRequestModel({
@@ -23,6 +24,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
     this.retouchId,
     this.finished,
     this.createdDate,
+    this.startDesignDate,
     this.designResponseImageModels,
   });
 
@@ -35,6 +37,9 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
     finished = model.finished;
     createdDate = model.createdDate != null
         ? Timestamp.fromDate(model.createdDate!)
+        : null;
+    startDesignDate = model.startDesignDate != null
+        ? Timestamp.fromDate(model.startDesignDate!)
         : null;
     designResponseImageModels = model.designRequestImageModels2
         ?.map((e) => BackendDesignRequestImageModel.from(model: e))
@@ -50,6 +55,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
       retouchId: model.retouchId,
       finished: model.finished,
       createdDate: model.createdDate?.toDate(),
+      startDesignDate: model.startDesignDate?.toDate(),
       designRequestImageModels2: model.designResponseImageModels
           ?.map((e) => BackendDesignRequestImageModel().to(model: e))
           .toList(),
@@ -66,6 +72,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
       retouchId: json["retouchId"],
       finished: json["finished"],
       createdDate: json["createdDate"],
+      startDesignDate: json["startDesignDate"],
     );
   }
 
@@ -79,6 +86,7 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
     map.putIfNotNull("retouchId", retouchId);
     map.putIfNotNull("finished", finished);
     map.putIfNotNull("createdDate", createdDate);
+    map.putIfNotNull("startDesignDate", startDesignDate);
 
     return map;
   }

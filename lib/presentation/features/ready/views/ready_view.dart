@@ -73,8 +73,10 @@ class ReadyView extends View<ReadyViewModel> {
             } else {
               RouterService.instance.pushNamed(
                 path: RouterConstants.retouch,
-                data: designRequestModel
-                    ?.designRequestImageModels2?[imageIndex].link,
+                data: [
+                  designModels[index].designRequestModel,
+                  viewModel.buildView,
+                ],
               );
             }
           },

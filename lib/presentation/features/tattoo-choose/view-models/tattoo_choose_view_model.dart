@@ -46,7 +46,7 @@ class TattooChooseViewModel extends BaseViewModel {
       if (baseResponse is BaseSuccess<DesignRequestModel>) {
         RouterService.instance.pushNamed(
           path: RouterConstants.retouch,
-          data: baseResponse.data?.designRequestImageModels2?[0].link,
+          data: baseResponse.data,
         );
       } else {
         if (mounted) {

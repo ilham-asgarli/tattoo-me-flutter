@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:tattoo/core/base/views/base_view.dart';
@@ -14,50 +15,74 @@ import 'package:tattoo/presentation/features/retouch/components/retouch_ready.da
 import 'package:tattoo/presentation/features/retouch/view-models/retouch_view_model.dart';
 import 'package:tattoo/utils/logic/state/cubit/retouch/retouch_cubit.dart';
 
+import '../../../../core/router/core/router_service.dart';
+import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../components/retouch_background.dart';
 
 class RetouchView extends View<RetouchViewModel> {
-  final String? imageLink;
+  final List list;
+  late final DesignRequestModel? designRequestModel;
+  late final Function() rebuild;
 
-  RetouchView({required this.imageLink, super.key})
-      : super(viewModelBuilder: () => RetouchViewModel());
+  RetouchView({required this.list, super.key})
+      : super(viewModelBuilder: () => RetouchViewModel()) {
+    designRequestModel = list[0];
+    rebuild = list[1];
+  }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: viewModel.onBackPressed,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: buildAppBar(),
-        body: Stack(
-          children: [
-            RetouchBackground(
-              image: imageLink,
-            ),
-            SafeArea(
-              child: Padding(
-                padding: context.paddingLow,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildTitle(context),
-                    viewModel.widget.dynamicVerticalSpace(context, 0.1),
-                    context.watch<RetouchCubit>().state.isReady
-                        ? const RetouchReady()
-                        : const AnimatedRetouching(),
-                    viewModel.widget.verticalSpace(75),
-                    buildLoadingArea(context),
-                    viewModel.widget.verticalSpace(10),
-                    buildLoadingDescriptionArea(),
-                    viewModel.widget.dynamicVerticalSpace(context, 0.05),
-                    context.watch<RetouchCubit>().state.isReady
-                        ? buildShowResult()
-                        : buildTimeArea(),
-                  ],
+    int imageIndex = designRequestModel?.designRequestImageModels2
+            ?.indexWhere((element) => element.name == "1") ??
+        0;
+    imageIndex = imageIndex >= 0 ? imageIndex : 0;
+
+    return BlocBuilder<RetouchCubit, RetouchState>(
+      builder: (context, state) {
+        viewModel.computeEndTime(state);
+
+        return WillPopScope(
+          onWillPop: viewModel.onBackPressed,
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: buildAppBar(),
+            body: Stack(
+              children: [
+                RetouchBackground(
+                  image: designRequestModel
+                      ?.designRequestImageModels2?[imageIndex].link,
                 ),
-              ),
+                buildBody(),
+              ],
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  SafeArea buildBody() {
+    return SafeArea(
+      child: Padding(
+        padding: viewModel.context.paddingLow,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildTitle(),
+            viewModel.widget.dynamicVerticalSpace(viewModel.context, 0.1),
+            viewModel.context.watch<RetouchCubit>().state is RetouchIsReady
+                ? const RetouchReady()
+                : const AnimatedRetouching(),
+            viewModel.widget.verticalSpace(75),
+            buildLoadingArea(),
+            viewModel.widget.verticalSpace(10),
+            buildLoadingDescriptionArea(),
+            viewModel.widget.dynamicVerticalSpace(viewModel.context, 0.05),
+            viewModel.context.watch<RetouchCubit>().state is RetouchIsReady
+                ? buildShowResult()
+                : buildTimeArea(),
           ],
         ),
       ),
@@ -87,17 +112,19 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  Widget buildTitle(BuildContext context) {
+  Widget buildTitle() {
+    RetouchState state = viewModel.context.watch<RetouchCubit>().state;
+
     return Text(
-      context.watch<RetouchCubit>().state.isReady
+      state is RetouchIsReady
           ? LocaleKeys.retouchEnded.tr()
-          : context.watch<RetouchCubit>().state.inRetouch
+          : state is RetouchInRetouch
               ? LocaleKeys.retouchingPhoto.tr()
-              : context.watch<RetouchCubit>().state.inQueue
+              : state is RetouchInQueue
                   ? LocaleKeys.outOfWorkTimeDescription.tr()
                   : "",
       style: TextStyle(
-        fontSize: context.watch<RetouchCubit>().state.inQueue ? 18 : 22,
+        fontSize: state is RetouchInQueue ? 18 : 22,
         fontWeight: FontWeight.w300,
       ),
       textAlign: TextAlign.center,
@@ -109,7 +136,6 @@ class RetouchView extends View<RetouchViewModel> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         buildLoadingDescription(LocaleKeys.queue.tr()),
-        buildLoadingDescription(LocaleKeys.control.tr()),
         buildLoadingDescription(LocaleKeys.retouching.tr()),
         buildLoadingDescription(LocaleKeys.ready.tr()),
       ],
@@ -125,27 +151,19 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  Widget buildLoadingArea(BuildContext context) {
+  Widget buildLoadingArea() {
+    RetouchState state = viewModel.context.watch<RetouchCubit>().state;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Expanded(
-          child: buildLoading(
-              left: true,
-              isDone: context.watch<RetouchCubit>().state is RetouchInQueue),
+          child: buildLoading(left: true, isDone: state is RetouchInQueue),
         ),
         Expanded(
-          child: buildLoading(
-              isDone: context.watch<RetouchCubit>().state is RetouchInControl),
+          child: buildLoading(isDone: state is RetouchInRetouch),
         ),
         Expanded(
-          child: buildLoading(
-              isDone: context.watch<RetouchCubit>().state is RetouchInRetouch),
-        ),
-        Expanded(
-          child: buildLoading(
-              right: true,
-              isDone: context.watch<RetouchCubit>().state is RetouchIsReady),
+          child: buildLoading(right: true, isDone: state is RetouchIsReady),
         ),
       ],
     );
@@ -179,7 +197,19 @@ class RetouchView extends View<RetouchViewModel> {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        RetouchState state = viewModel.context.read<RetouchCubit>().state;
+        if (state is RetouchIsReady) {
+          RouterService.instance.pushNamedAndRemoveUntil(
+            path: RouterConstants.photo,
+            removeUntilPageName: RouterConstants.home,
+            data: [
+              state.designResponseModel,
+              rebuild,
+            ],
+          );
+        }
+      },
       child: Text(
         LocaleKeys.showResult.tr(),
       ),
@@ -187,10 +217,12 @@ class RetouchView extends View<RetouchViewModel> {
   }
 
   Widget buildTimeArea() {
-    int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 600;
-
     return CountdownTimer(
-      endTime: endTime,
+      onEnd: () {
+        BlocProvider.of<RetouchCubit>(viewModel.context)
+            .listenToDesignStatus(designRequestModel);
+      },
+      controller: CountdownTimerController(endTime: viewModel.endTime),
       widgetBuilder: (context, time) {
         return RichText(
           text: TextSpan(
@@ -200,7 +232,7 @@ class RetouchView extends View<RetouchViewModel> {
               ),
               TextSpan(
                 text:
-                    "    ${time?.hours.toFixed(2).concatIfNotEmpty(":")}${time?.min.toFixed(2).concatIfNotEmpty(":")}${time?.sec.toFixed(2)}",
+                    "    ${time?.hours.toFixed(2).concatIfNotEmpty(":")}${time?.min.toFixed(2, visibility: true).concatIfNotEmpty(":")}${time?.sec.toFixed(2)}",
                 style: const TextStyle(
                   fontSize: 18,
                 ),

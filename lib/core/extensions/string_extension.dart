@@ -1,8 +1,8 @@
 extension StringLocalization on String {}
 
 extension StringConcat on String {
-  concat(String s) => this + s;
-  concatIfNotEmpty(String s) => isNotEmpty ? this + s : "";
+  String concat(String s) => this + s;
+  String concatIfNotEmpty(String s) => isNotEmpty ? this + s : "";
 }
 
 extension ImagePathExtension on String {

@@ -77,107 +77,155 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
           in designRequestsStream) {
         if (designRequestsDocumentSnapshot.size == 0) {
           yield BaseError(message: "Empty");
-        }
+        } else {
+          List<DesignResponseModel> designResponseModels = [];
 
-        List<DesignResponseModel> designResponseModels = [];
+          for (var element in designRequestsDocumentSnapshot.docs) {
+            Map<String, dynamic>? designRequestsData =
+                element.data() as Map<String, dynamic>?;
 
-        for (var element in designRequestsDocumentSnapshot.docs) {
-          Map<String, dynamic>? designRequestsData =
-              element.data() as Map<String, dynamic>?;
+            if (designRequestsData != null) {
+              BackendDesignRequestModel backendDesignRequestModel =
+                  BackendDesignRequestModel().fromJson(designRequestsData);
 
-          if (designRequestsData != null) {
-            BackendDesignRequestModel backendDesignRequestModel =
-                BackendDesignRequestModel().fromJson(designRequestsData);
-
-            /*if (backendDesignRequestModel.retouchId != null) {
+              /*if (backendDesignRequestModel.retouchId != null) {
               continue;
             }*/
 
-            QuerySnapshot designRequestImagesQuerySnapshot =
-                await designRequestImages
-                    .where("requestId",
-                        isEqualTo:
-                            backendDesignRequestModel.previousRequestId ??
-                                element.id)
-                    .get();
+              QuerySnapshot designRequestImagesQuerySnapshot =
+                  await designRequestImages
+                      .where("requestId",
+                          isEqualTo:
+                              backendDesignRequestModel.previousRequestId ??
+                                  element.id)
+                      .get();
 
-            List<BackendDesignRequestImageModel> designResponseImageModels = [];
-            for (var element in designRequestImagesQuerySnapshot.docs) {
-              Map<String, dynamic>? designRequestImagesData =
-                  element.data() as Map<String, dynamic>?;
-              if (designRequestImagesData != null) {
-                BackendDesignRequestImageModel backendDesignResponseImageModel =
-                    BackendDesignRequestImageModel()
-                        .fromJson(designRequestImagesData);
-                backendDesignResponseImageModel.id = element.id;
+              List<BackendDesignRequestImageModel> designResponseImageModels =
+                  [];
+              for (var element in designRequestImagesQuerySnapshot.docs) {
+                Map<String, dynamic>? designRequestImagesData =
+                    element.data() as Map<String, dynamic>?;
+                if (designRequestImagesData != null) {
+                  BackendDesignRequestImageModel
+                      backendDesignResponseImageModel =
+                      BackendDesignRequestImageModel()
+                          .fromJson(designRequestImagesData);
+                  backendDesignResponseImageModel.id = element.id;
 
-                designResponseImageModels.add(backendDesignResponseImageModel);
+                  designResponseImageModels
+                      .add(backendDesignResponseImageModel);
+                }
               }
-            }
 
-            backendDesignRequestModel.designResponseImageModels =
-                designResponseImageModels;
+              backendDesignRequestModel.designResponseImageModels =
+                  designResponseImageModels;
 
-            QuerySnapshot designResponsesQuerySnapshot = await designResponses
-                .where("requestId", isEqualTo: element.id)
-                .get();
+              QuerySnapshot designResponsesQuerySnapshot = await designResponses
+                  .where("requestId", isEqualTo: element.id)
+                  .get();
 
-            BackendDesignResponseModel backendDesignResponseModel;
-            if (designResponsesQuerySnapshot.size > 0) {
-              Map<String, dynamic>? designResponseData =
-                  designResponsesQuerySnapshot.docs.first.data()
-                      as Map<String, dynamic>?;
+              BackendDesignResponseModel backendDesignResponseModel;
+              if (designResponsesQuerySnapshot.size > 0) {
+                Map<String, dynamic>? designResponseData =
+                    designResponsesQuerySnapshot.docs.first.data()
+                        as Map<String, dynamic>?;
 
-              if (designResponseData != null) {
-                backendDesignResponseModel =
-                    BackendDesignResponseModel().fromJson(designResponseData);
-                backendDesignResponseModel.id =
-                    designResponsesQuerySnapshot.docs.first.id;
+                if (designResponseData != null) {
+                  backendDesignResponseModel =
+                      BackendDesignResponseModel().fromJson(designResponseData);
+                  backendDesignResponseModel.id =
+                      designResponsesQuerySnapshot.docs.first.id;
+                } else {
+                  yield BaseSuccess<List<DesignResponseModel>>(
+                    data: designResponseModels,
+                  );
+                  continue;
+                }
               } else {
+                backendDesignResponseModel = BackendDesignResponseModel();
+              }
+
+              if (backendDesignResponseModel.deleted ?? false) {
                 yield BaseSuccess<List<DesignResponseModel>>(
                   data: designResponseModels,
                 );
                 continue;
               }
-            } else {
-              backendDesignResponseModel = BackendDesignResponseModel();
-            }
 
-            if (backendDesignResponseModel.deleted ?? false) {
-              yield BaseSuccess<List<DesignResponseModel>>(
-                data: designResponseModels,
+              designResponseModels.add(
+                BackendDesignResponseModel().to(
+                  model: backendDesignResponseModel,
+                ),
               );
-              continue;
+
+              designResponseModels.last.designRequestModel =
+                  BackendDesignRequestModel().to(
+                model: backendDesignRequestModel,
+              );
+              designResponseModels.last.designRequestModel?.id = element.id;
             }
 
-            designResponseModels.add(
-              BackendDesignResponseModel().to(
-                model: backendDesignResponseModel,
-              ),
-            );
+            designResponseModels.sort((a, b) {
+              return a.designRequestModel?.createdDate?.compareTo(
+                      b.designRequestModel?.createdDate ?? DateTime.now()) ??
+                  0;
+            });
 
-            designResponseModels.last.designRequestModel =
-                BackendDesignRequestModel().to(
-              model: backendDesignRequestModel,
-            );
-            designResponseModels.last.designRequestModel?.id = element.id;
+            designResponseModels.sort((a, b) {
+              if (b.designRequestModel?.finished ?? false) {
+                return -1;
+              }
+              return 1;
+            });
           }
-
-          designResponseModels.sort((a, b) {
-            return a.designRequestModel?.createdDate?.compareTo(
-                    b.designRequestModel?.createdDate ?? DateTime.now()) ??
-                0;
-          });
-
-          designResponseModels.sort((a, b) {
-            if (b.designRequestModel?.finished ?? false) {
-              return -1;
-            }
-            return 1;
-          });
 
           yield BaseSuccess<List<DesignResponseModel>>(
             data: designResponseModels,
+          );
+        }
+      }
+    } catch (e) {
+      yield BaseError(message: e.toString());
+    }
+  }
+
+  @override
+  Stream<BaseResponse<List<DesignRequestModel>>>
+      getNotFinishedDesignRequestForDesignerStream(
+          DesignRequestModel? designRequestModel) async* {
+    try {
+      Stream<QuerySnapshot> designRequestsStream = designRequests
+          .where("designerId", isEqualTo: designRequestModel?.designerId)
+          .where("finished", isEqualTo: false)
+          .orderBy("createdDate")
+          .endAtDocument(await designRequests.doc(designRequestModel?.id).get())
+          .snapshots();
+
+      await for (QuerySnapshot designResponseDocumentSnapshot
+          in designRequestsStream) {
+        if (designResponseDocumentSnapshot.size == 0) {
+          yield BaseError(message: "Empty");
+        } else {
+          List<DesignRequestModel> designRequestModels = [];
+
+          for (var documentSnapshot in designResponseDocumentSnapshot.docs) {
+            Map<String, dynamic>? designRequestData =
+                documentSnapshot.data() as Map<String, dynamic>?;
+
+            if (designRequestData != null) {
+              BackendDesignRequestModel backenddesignRequestModel =
+                  BackendDesignRequestModel().fromJson(designRequestData);
+              backenddesignRequestModel.id = documentSnapshot.id;
+              designRequestModels.add(
+                BackendDesignRequestModel().to(
+                  model: backenddesignRequestModel,
+                ),
+              );
+            }
+          }
+
+          yield BaseSuccess<List<DesignRequestModel>>(
+            data: designRequestModels,
           );
         }
       }

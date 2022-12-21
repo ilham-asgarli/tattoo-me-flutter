@@ -10,4 +10,9 @@ abstract class GetDesignRequestInterface {
   Stream<BaseResponse<List<DesignResponseModel>>> getDesignRequestStream(
     String userId,
   );
+
+  Stream<BaseResponse<List<DesignRequestModel>>>
+      getNotFinishedDesignRequestForDesignerStream(
+    DesignRequestModel? designRequestModel,
+  );
 }

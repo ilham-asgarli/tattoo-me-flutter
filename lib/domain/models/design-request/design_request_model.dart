@@ -11,6 +11,7 @@ class DesignRequestModel extends BaseModel<DesignRequestModel> {
   String? retouchId;
   bool? finished;
   DateTime? createdDate;
+  DateTime? startDesignDate;
   List<DesignRequestImageModel1>? designRequestImageModels1;
   List<DesignRequestImageModel2>? designRequestImageModels2;
 
@@ -22,6 +23,7 @@ class DesignRequestModel extends BaseModel<DesignRequestModel> {
     this.retouchId,
     this.finished,
     this.createdDate,
+    this.startDesignDate,
     this.designRequestImageModels1,
     this.designRequestImageModels2,
   });
@@ -36,6 +38,7 @@ class DesignRequestModel extends BaseModel<DesignRequestModel> {
       retouchId: json["retouchId"],
       finished: json["finished"],
       createdDate: json["createdDate"],
+      startDesignDate: json["startDesignDate"],
       designRequestImageModels1: json["designRequestImageModels"],
       designRequestImageModels2: json["designResponseImageModels"],
     );
@@ -51,6 +54,7 @@ class DesignRequestModel extends BaseModel<DesignRequestModel> {
       "retouchId": retouchId,
       "finished": finished,
       "createdDate": createdDate,
+      "startDesignDate": startDesignDate,
       "designRequestImageModels": designRequestImageModels1,
       "designResponseImageModels": designRequestImageModels2,
     };
