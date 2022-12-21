@@ -37,7 +37,6 @@ class RetouchCubit extends Cubit<RetouchState> {
           return;
         }
 
-        print(designRequestModel?.id);
         if (baseResponseList.data!.length > 3) {
           emit(RetouchInQueue(
             inQueueDesignRequestModels: baseResponseList.data,

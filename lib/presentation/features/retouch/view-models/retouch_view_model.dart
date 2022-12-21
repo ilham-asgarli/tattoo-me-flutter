@@ -8,8 +8,8 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 
 class RetouchViewModel extends BaseViewModel {
-  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 600;
-  final Duration oneDesignDuration = const Duration(minutes: 1);
+  int endTime = DateTime.now().millisecondsSinceEpoch;
+  final Duration oneDesignDuration = const Duration(minutes: 5);
 
   Future<bool> onBackPressed() async {
     BlocProvider.of<HomeTabCubit>(context).changeTab(2);
@@ -38,12 +38,11 @@ class RetouchViewModel extends BaseViewModel {
       Duration difference =
           DateTime.now().difference(designRequestModels[0].startDesignDate!);
 
-      if (difference.inMinutes <= 5) {
-        print(difference.inMilliseconds);
+      if (difference.inMinutes <= oneDesignDuration.inMinutes) {
         endTime = DateTime.now().millisecondsSinceEpoch +
             (designRequestModels.length - 2) *
                 oneDesignDuration.inMilliseconds +
-            difference.inMilliseconds;
+            (oneDesignDuration.inMilliseconds - difference.inMilliseconds);
       } else {
         endTime = DateTime.now().millisecondsSinceEpoch +
             (designRequestModels.length - 1) * oneDesignDuration.inMilliseconds;

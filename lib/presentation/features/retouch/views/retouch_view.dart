@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:tattoo/core/base/views/base_view.dart';
@@ -222,7 +221,7 @@ class RetouchView extends View<RetouchViewModel> {
         BlocProvider.of<RetouchCubit>(viewModel.context)
             .listenToDesignStatus(designRequestModel);
       },
-      controller: CountdownTimerController(endTime: viewModel.endTime),
+      endTime: viewModel.endTime,
       widgetBuilder: (context, time) {
         return RichText(
           text: TextSpan(
@@ -232,7 +231,7 @@ class RetouchView extends View<RetouchViewModel> {
               ),
               TextSpan(
                 text:
-                    "    ${time?.hours.toFixed(2).concatIfNotEmpty(":")}${time?.min.toFixed(2, visibility: true).concatIfNotEmpty(":")}${time?.sec.toFixed(2)}",
+                    "    ${time?.hours.toFixed(2).concatIfNotEmpty(":") ?? ""}${time?.min.toFixed(2, visibility: true).concatIfNotEmpty(":") ?? "00:"}${time?.sec.toFixed(2) ?? "00"}",
                 style: const TextStyle(
                   fontSize: 18,
                 ),

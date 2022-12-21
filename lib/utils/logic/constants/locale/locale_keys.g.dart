@@ -75,5 +75,6 @@ abstract class  LocaleKeys {
   static const errorMailRecipients = 'errorMailRecipients';
   static const sendForgotPasswordEmail = 'sendForgotPasswordEmail';
   static const advantageous = 'advantageous';
+  static const checking = 'checking';
 
 }
