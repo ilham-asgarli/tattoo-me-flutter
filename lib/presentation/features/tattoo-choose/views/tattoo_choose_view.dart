@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:tattoo/core/base/views/base_view.dart';
 import 'package:tattoo/presentation/features/tattoo-choose/view-models/tattoo_choose_view_model.dart';
 import 'package:tattoo/utils/logic/helpers/gallery/editor_helper.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
@@ -17,14 +16,17 @@ import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/helpers/gallery/gallery_helper.dart';
 import '../../../widgets/resizeable_widget.dart';
 
-class TattooChooseView extends View<TattooChooseViewModel> {
+class TattooChooseView extends StatefulWidget {
   final XFile imageFile;
 
-  TattooChooseView({super.key, required this.imageFile})
-      : super(
-            viewModelBuilder: () =>
-                TattooChooseViewModel(imageFile: imageFile));
+  const TattooChooseView({required this.imageFile, Key? key}) : super(key: key);
 
+  @override
+  State<TattooChooseView> createState() => _TattooChooseViewState();
+}
+
+class _TattooChooseViewState extends State<TattooChooseView> {
+  late final TattooChooseViewModel viewModel;
   Offset position = const Offset(0, 0);
   double prevScale = 1;
   double scale = 1;
@@ -33,18 +35,27 @@ class TattooChooseView extends View<TattooChooseViewModel> {
   double height = 0;
 
   void updatePosition(Offset newPosition) {
-    position += newPosition;
-    viewModel.buildView();
+    setState(() {
+      position += newPosition;
+    });
   }
 
   void updateScale(double zoom) {
-    scale = prevScale * zoom;
-    viewModel.buildView();
+    setState(() {
+      scale = prevScale * zoom;
+    });
   }
 
   void commitScale() {
-    prevScale = scale;
-    viewModel.buildView();
+    setState(() {
+      prevScale = scale;
+    });
+  }
+
+  @override
+  void initState() {
+    viewModel = TattooChooseViewModel(imageFile: widget.imageFile);
+    super.initState();
   }
 
   @override
@@ -70,13 +81,13 @@ class TattooChooseView extends View<TattooChooseViewModel> {
                 ),
               ),
             ),
-            viewModel.widget.verticalSpace(50),
+            widget.verticalSpace(50),
             buildInfoArea(),
             Screenshot(
               controller: viewModel.screenshotController,
               child: buildEditArea(),
             ),
-            viewModel.widget.verticalSpace(20),
+            widget.verticalSpace(20),
             viewModel.frontImageFile == null ? buildAddTattoo() : buildSend(),
           ],
         ),
@@ -91,11 +102,11 @@ class TattooChooseView extends View<TattooChooseViewModel> {
       child: Stack(
         children: [
           Image.file(
-            width: viewModel.context.dynamicWidth(1),
-            height: viewModel.context.dynamicHeight(0.6),
+            width: context.dynamicWidth(1),
+            height: context.dynamicHeight(0.6),
             fit: BoxFit.cover,
             File(
-              imageFile.path,
+              widget.imageFile.path,
             ),
           ),
           Visibility(
@@ -129,11 +140,13 @@ class TattooChooseView extends View<TattooChooseViewModel> {
     return ElevatedButton(
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(
-          Size(viewModel.context.dynamicWidth(0.9), 30),
+          Size(context.dynamicWidth(0.9), 30),
         ),
         backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
       ),
-      onPressed: viewModel.onTapSend,
+      onPressed: () {
+        viewModel.onTapSend(context, mounted);
+      },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -143,7 +156,7 @@ class TattooChooseView extends View<TattooChooseViewModel> {
               fontSize: 15,
             ),
           ),
-          viewModel.widget.horizontalSpace(10),
+          widget.horizontalSpace(10),
           const Icon(Icons.arrow_forward),
         ],
       ),
@@ -154,7 +167,7 @@ class TattooChooseView extends View<TattooChooseViewModel> {
     return ElevatedButton.icon(
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(
-          Size(viewModel.context.dynamicWidth(0.8), 50),
+          Size(context.dynamicWidth(0.8), 50),
         ),
         backgroundColor: MaterialStateProperty.all<Color>(AppColors.tertiary),
       ),
@@ -166,12 +179,12 @@ class TattooChooseView extends View<TattooChooseViewModel> {
         viewModel.frontImageFile =
             await GalleryHelper.instance.getFromGallery();
         if (viewModel.frontImageFile != null) {
-          var size = await GalleryHelper.instance.computeSize(
-              viewModel.context, File(viewModel.frontImageFile!.path));
+          var size = await GalleryHelper.instance
+              .computeSize(context, File(viewModel.frontImageFile!.path));
           width = size[0];
           height = size[1];
         }
-        viewModel.buildView();
+        setState(() {});
       },
       label: Text(
         LocaleKeys.addTattoo.tr(),
@@ -202,16 +215,16 @@ class TattooChooseView extends View<TattooChooseViewModel> {
   Widget buildInfoArea() {
     return Container(
       padding: EdgeInsets.only(
-        left: viewModel.context.lowValue,
-        right: viewModel.context.lowValue,
-        top: viewModel.context.lowValue / 1.5,
-        bottom: viewModel.context.lowValue / 1.5,
+        left: context.lowValue,
+        right: context.lowValue,
+        top: context.lowValue / 1.5,
+        bottom: context.lowValue / 1.5,
       ),
       color: AppColors.tertiary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          viewModel.widget.horizontalSpace(10),
+          widget.horizontalSpace(10),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -220,12 +233,12 @@ class TattooChooseView extends View<TattooChooseViewModel> {
                   "${LocaleKeys.designPrice.tr()}:",
                   textAlign: TextAlign.center,
                 ),
-                viewModel.widget.horizontalSpace(10),
+                widget.horizontalSpace(10),
                 const Text(
                   "${30}",
                   textAlign: TextAlign.center,
                 ),
-                viewModel.widget.horizontalSpace(5),
+                widget.horizontalSpace(5),
                 const Icon(
                   Icons.stars_rounded,
                   color: Colors.green,
@@ -233,7 +246,7 @@ class TattooChooseView extends View<TattooChooseViewModel> {
               ],
             ),
           ),
-          viewModel.widget.horizontalSpace(10),
+          widget.horizontalSpace(10),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -242,12 +255,12 @@ class TattooChooseView extends View<TattooChooseViewModel> {
                   "${LocaleKeys.balance.tr()}:",
                   textAlign: TextAlign.center,
                 ),
-                viewModel.widget.horizontalSpace(10),
+                widget.horizontalSpace(10),
                 Text(
-                  "${viewModel.context.watch<SignBloc>().state.userModel.balance}",
+                  "${context.watch<SignBloc>().state.userModel.balance}",
                   textAlign: TextAlign.center,
                 ),
-                viewModel.widget.horizontalSpace(5),
+                widget.horizontalSpace(5),
                 const Icon(
                   Icons.stars_rounded,
                   color: Colors.green,
@@ -255,7 +268,7 @@ class TattooChooseView extends View<TattooChooseViewModel> {
               ],
             ),
           ),
-          viewModel.widget.horizontalSpace(10),
+          widget.horizontalSpace(10),
         ],
       ),
     );
@@ -263,18 +276,20 @@ class TattooChooseView extends View<TattooChooseViewModel> {
 
   Future<File> crop() async {
     String? editedImagePath = await EditorHelper.instance
-        .getEditedImagePath(viewModel.context, viewModel.frontImageFile?.path);
+        .getEditedImagePath(context, viewModel.frontImageFile?.path);
 
     if (editedImagePath != null) {
-      viewModel.frontImageFile = XFile(editedImagePath);
-      viewModel.buildView();
+      setState(() {
+        viewModel.frontImageFile = XFile(editedImagePath);
+      });
     }
 
     return File(viewModel.frontImageFile!.path);
   }
 
   void close() {
-    viewModel.frontImageFile = null;
-    viewModel.buildView();
+    setState(() {
+      viewModel.frontImageFile = null;
+    });
   }
 }

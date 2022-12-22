@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tattoo/core/base/view-models/base_view_model.dart';
 import 'package:tattoo/core/extensions/date_time_extension.dart';
@@ -13,7 +14,7 @@ class RetouchViewModel extends BaseViewModel {
   int endTime = DateTime.now().millisecondsSinceEpoch;
   final Duration oneDesignDuration = const Duration(minutes: 5);
 
-  Future<bool> onBackPressed() async {
+  Future<bool> onBackPressed(BuildContext context) async {
     BlocProvider.of<HomeTabCubit>(context).changeTab(2);
 
     RouterService.instance.popUntil(
@@ -23,7 +24,7 @@ class RetouchViewModel extends BaseViewModel {
     return true;
   }
 
-  void computeEndTime(RetouchState state) {
+  void computeEndTime(BuildContext context, RetouchState state) {
     List<DesignRequestModel>? designRequestModels;
 
     if (state is RetouchInRetouch) {
@@ -56,14 +57,15 @@ class RetouchViewModel extends BaseViewModel {
               oneDesignDuration.inMilliseconds;
     }
 
-    addNotWorkTime(designRequestModels);
+    addNotWorkTime(context, designRequestModels);
 
     if (endTime == DateTime.now().millisecondsSinceEpoch) {
       endTime += oneDesignDuration.inMilliseconds;
     }
   }
 
-  void addNotWorkTime(List<DesignRequestModel>? designRequestModels) {
+  void addNotWorkTime(
+      BuildContext context, List<DesignRequestModel>? designRequestModels) {
     DateTime workStartDate = DateTime.now();
     if (DateTime.now().hour < 12) {
       workStartDate = DateTime.now().copyWith(

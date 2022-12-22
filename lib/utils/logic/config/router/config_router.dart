@@ -33,7 +33,7 @@ class ConfigRouter {
         );
       case RouterConstants.signUpIn:
         return normalNavigate(
-          SignUpIn(),
+          const SignUpIn(),
           RouterConstants.signUpIn,
         );
       case RouterConstants.more:

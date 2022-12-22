@@ -1,59 +1,39 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
-import '../view-models/base_view_model.dart';
+class BaseView<T> extends StatefulWidget {
+  const BaseView({
+    Key? key,
+    required this.viewModel,
+    required this.onPageBuilder,
+    required this.onModelReady,
+    this.onDispose,
+  }) : super(key: key);
+  final Widget Function(BuildContext context, T value) onPageBuilder;
+  final T viewModel;
+  final void Function(T model) onModelReady;
+  final VoidCallback? onDispose;
 
-abstract class View<T extends BaseViewModel> extends StatefulWidget {
-  View({
-    required this.viewModelBuilder,
-    super.key,
-  });
-
-  final T Function() viewModelBuilder;
-  final _viewModelInstance = _ViewModelInstance<T>();
-
-  T get viewModel => _viewModelInstance.value!;
-
-  Widget build(BuildContext context);
-
-  @nonVirtual
   @override
-  State<View<T>> createState() => _ViewState<T>();
+  State<BaseView> createState() => _BaseViewState();
 }
 
-class _ViewState<T extends BaseViewModel> extends State<View<T>> {
-  late T _viewModel;
-
+class _BaseViewState<T> extends State<BaseView<T>> {
+  late T model;
   @override
   void initState() {
+    model = widget.viewModel;
+    widget.onModelReady(model);
     super.initState();
-    _initViewModel();
-    _viewModel.initState();
   }
 
   @override
   void dispose() {
-    _viewModel.dispose();
     super.dispose();
-  }
-
-  void _initViewModel() {
-    _viewModel = widget.viewModelBuilder();
-    _viewModel.buildView = () => setState(() {});
-    _viewModel.addListener(_viewModel.buildView);
-
-    _viewModel.widget = widget;
-    _viewModel.context = context;
-    _viewModel.mounted = mounted;
+    if (widget.onDispose != null) widget.onDispose?.call();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget._viewModelInstance.value = _viewModel;
-    return widget.build(context);
+    return widget.onPageBuilder(context, model);
   }
-}
-
-class _ViewModelInstance<T> {
-  T? value;
 }

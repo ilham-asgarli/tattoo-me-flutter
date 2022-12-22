@@ -10,13 +10,14 @@ import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
-import '../../../../core/base/views/base_view.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../widgets/fractionally_sized_circular_progress_indicator.dart';
 
-class MoreView extends View<MoreViewModel> {
-  MoreView({super.key}) : super(viewModelBuilder: () => MoreViewModel());
+class MoreView extends StatelessWidget {
+  final MoreViewModel viewModel = MoreViewModel();
+
+  MoreView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +26,23 @@ class MoreView extends View<MoreViewModel> {
       body: CenteredSingleChildScrollView(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          viewModel.widget.dynamicVerticalSpace(context, 0.1),
+          context.widget.dynamicVerticalSpace(context, 0.1),
           const FaIcon(
             FontAwesomeIcons.user,
             size: 50,
           ),
-          viewModel.widget.verticalSpace(20),
-          buildSignUpOrSignIn(),
+          context.widget.verticalSpace(20),
+          buildSignUpOrSignIn(context),
           Padding(
-            padding: viewModel.context.paddingLow,
+            padding: context.paddingLow,
             child: Text(
               LocaleKeys.moreDescription.tr(),
               style: const TextStyle(fontSize: 11),
               textAlign: TextAlign.center,
             ),
           ),
-          viewModel.widget.dynamicVerticalSpace(context, 0.1),
-          buildFeatures(),
+          context.widget.dynamicVerticalSpace(context, 0.1),
+          buildFeatures(context),
         ],
       ),
     );
@@ -51,14 +52,14 @@ class MoreView extends View<MoreViewModel> {
     return AppBar();
   }
 
-  Widget buildSignUpOrSignIn() {
-    SignState signState = viewModel.context.watch<SignBloc>().state;
+  Widget buildSignUpOrSignIn(BuildContext context) {
+    SignState signState = context.watch<SignBloc>().state;
 
     return ElevatedButton(
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0),
         fixedSize: MaterialStateProperty.all<Size>(
-          Size(viewModel.context.width / 1.5, 40),
+          Size(context.width / 1.5, 40),
         ),
         backgroundColor:
             MaterialStateProperty.all<Color>(AppColors.secondColor),
@@ -69,7 +70,7 @@ class MoreView extends View<MoreViewModel> {
         ),
       ),
       onPressed: () async {
-        await viewModel.signInUpOut(viewModel.mounted);
+        await viewModel.signInUpOut(context);
       },
       child: (signState is SigningOut)
           ? const FractionallySizedCircularProgressIndicator(
@@ -85,9 +86,9 @@ class MoreView extends View<MoreViewModel> {
     );
   }
 
-  Widget buildFeatures() {
+  Widget buildFeatures(BuildContext context) {
     return Padding(
-      padding: viewModel.context.paddingLow,
+      padding: context.paddingLow,
       child: Wrap(
         alignment: WrapAlignment.start,
         spacing: 10,
@@ -95,16 +96,19 @@ class MoreView extends View<MoreViewModel> {
         direction: Axis.horizontal,
         children: [
           buildFeature(
+            context,
             FontAwesomeIcons.handshake,
             LocaleKeys.privacyPolicy.tr(),
             () {},
           ),
           buildFeature(
+            context,
             FontAwesomeIcons.rotate,
             LocaleKeys.checkUpdates.tr(),
             checkForUpdates,
           ),
           buildFeature(
+            context,
             FontAwesomeIcons.envelope,
             LocaleKeys.reportMistake.tr(),
             sendErrorMail,
@@ -114,7 +118,8 @@ class MoreView extends View<MoreViewModel> {
     );
   }
 
-  Widget buildFeature(IconData icon, String text, Function() onTap) {
+  Widget buildFeature(
+      BuildContext context, IconData icon, String text, Function() onTap) {
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(15)),
       onTap: onTap,
@@ -123,15 +128,15 @@ class MoreView extends View<MoreViewModel> {
           color: AppColors.tertiary,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
-        width: viewModel.context.width / 2 - 10 - 50,
-        height: viewModel.context.width / 2 - 10 - 50,
+        width: context.width / 2 - 10 - 50,
+        height: context.width / 2 - 10 - 50,
         child: Padding(
-          padding: viewModel.context.paddingLow,
+          padding: context.paddingLow,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FaIcon(icon),
-              viewModel.widget.verticalSpace(15),
+              context.widget.verticalSpace(15),
               Text(
                 text,
                 textAlign: TextAlign.center,

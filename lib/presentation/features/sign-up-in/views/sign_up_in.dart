@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tattoo/core/base/views/base_view.dart';
 import 'package:tattoo/presentation/features/sign-up-in/components/forgot_password_alert.dart';
 import 'package:tattoo/presentation/features/sign-up-in/view-models/sign_up_in_view_model.dart';
 import 'package:tattoo/presentation/widgets/fractionally_sized_circular_progress_indicator.dart';
@@ -17,12 +16,16 @@ import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../utils/ui/validators/password_validator.dart';
 
-class SignUpIn extends View<SignUpInViewModel> {
-  SignUpIn({super.key}) : super(viewModelBuilder: () => SignUpInViewModel());
+class SignUpIn extends StatefulWidget {
+  const SignUpIn({Key? key}) : super(key: key);
 
+  @override
+  State<SignUpIn> createState() => _SignUpInState();
+}
+
+class _SignUpInState extends State<SignUpIn> {
+  final SignUpInViewModel viewModel = SignUpInViewModel();
   final GlobalKey<FormState> _signFormKey = GlobalKey<FormState>();
-
-  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class SignUpIn extends View<SignUpInViewModel> {
         return WillPopScope(
           onWillPop: () {
             FocusManager.instance.primaryFocus?.unfocus();
-            return viewModel.onBackPressed();
+            return viewModel.onBackPressed(context);
           },
           child: Scaffold(
             appBar: buildAppBar(),
@@ -41,15 +44,15 @@ class SignUpIn extends View<SignUpInViewModel> {
                   FontAwesomeIcons.user,
                   size: 50,
                 ),
-                viewModel.widget.verticalSpace(20),
+                widget.verticalSpace(20),
                 buildSignDescription(state),
-                viewModel.widget.dynamicVerticalSpace(context, 0.05),
+                widget.dynamicVerticalSpace(context, 0.05),
                 buildMoreDescription(),
-                viewModel.widget.dynamicVerticalSpace(context, 0.05),
+                widget.dynamicVerticalSpace(context, 0.05),
                 buildSignArea(state),
-                viewModel.widget.verticalSpace(20),
+                widget.verticalSpace(20),
                 buildSignButton(state),
-                viewModel.widget.dynamicVerticalSpace(context, 0.15),
+                widget.dynamicVerticalSpace(context, 0.15),
                 buildChangeSign(state),
               ],
             ),
@@ -64,7 +67,7 @@ class SignUpIn extends View<SignUpInViewModel> {
       leading: BackButton(
         onPressed: () {
           FocusManager.instance.primaryFocus?.unfocus();
-          viewModel.onBackPressed();
+          viewModel.onBackPressed(context);
         },
       ),
     );
@@ -86,8 +89,8 @@ class SignUpIn extends View<SignUpInViewModel> {
   Widget buildMoreDescription() {
     return Padding(
       padding: EdgeInsets.only(
-        left: viewModel.context.mediumValue,
-        right: viewModel.context.mediumValue,
+        left: context.mediumValue,
+        right: context.mediumValue,
       ),
       child: Text(
         LocaleKeys.moreDescription.tr(),
@@ -105,8 +108,8 @@ class SignUpIn extends View<SignUpInViewModel> {
       key: _signFormKey,
       child: Padding(
         padding: EdgeInsets.only(
-          left: viewModel.context.mediumValue,
-          right: viewModel.context.mediumValue,
+          left: context.mediumValue,
+          right: context.mediumValue,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -136,10 +139,10 @@ class SignUpIn extends View<SignUpInViewModel> {
                 return EmailValidator(value).validate();
               },
             ),
-            viewModel.widget.verticalSpace(10),
+            widget.verticalSpace(10),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              obscureText: !isPasswordVisible,
+              obscureText: !viewModel.isPasswordVisible,
               enableSuggestions: false,
               autocorrect: false,
               decoration: InputDecoration(
@@ -159,8 +162,10 @@ class SignUpIn extends View<SignUpInViewModel> {
                 ),
                 suffixIcon: IconButton(
                   onPressed: () {
-                    isPasswordVisible = !isPasswordVisible;
-                    viewModel.buildView();
+                    setState(() {
+                      viewModel.isPasswordVisible =
+                          !viewModel.isPasswordVisible;
+                    });
                   },
                   icon: const Icon(
                     Icons.remove_red_eye_rounded,
@@ -173,7 +178,7 @@ class SignUpIn extends View<SignUpInViewModel> {
                 return PasswordValidator(value).validate();
               },
             ),
-            viewModel.widget.verticalSpace(15),
+            widget.verticalSpace(15),
             GestureDetector(
               onTap: forgotPassword,
               child: Visibility(
@@ -195,7 +200,7 @@ class SignUpIn extends View<SignUpInViewModel> {
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0),
         fixedSize: MaterialStateProperty.all<Size>(
-          Size(viewModel.context.width / 1.5, 40),
+          Size(context.width / 1.5, 40),
         ),
         backgroundColor:
             MaterialStateProperty.all<Color>(AppColors.secondColor),
@@ -209,7 +214,7 @@ class SignUpIn extends View<SignUpInViewModel> {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_signFormKey.currentState!.validate()) {
           _signFormKey.currentState?.save();
-          await viewModel.signInUp(viewModel.mounted);
+          await viewModel.signInUp(context, mounted);
         }
       },
       child: (state is SigningIn || state is SigningUp)
@@ -233,7 +238,9 @@ class SignUpIn extends View<SignUpInViewModel> {
       maintainAnimation: true,
       maintainSize: true,
       child: GestureDetector(
-        onTap: viewModel.changeSign,
+        onTap: () {
+          viewModel.changeSign(context);
+        },
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
@@ -245,12 +252,12 @@ class SignUpIn extends View<SignUpInViewModel> {
                     ? LocaleKeys.haveAccount.tr()
                     : LocaleKeys.haveNoAccount.tr(),
               ),
-              viewModel.widget.horizontalSpace(10),
+              widget.horizontalSpace(10),
               const FaIcon(
                 FontAwesomeIcons.user,
                 size: 15,
               ),
-              viewModel.widget.horizontalSpace(5),
+              widget.horizontalSpace(5),
               Text(
                 (state is SignUpState)
                     ? LocaleKeys.signIn.tr()
@@ -266,7 +273,7 @@ class SignUpIn extends View<SignUpInViewModel> {
 
   void forgotPassword() {
     showDialog(
-      context: viewModel.context,
+      context: context,
       barrierDismissible: false,
       builder: (context) {
         return const ForgotPasswordAlert();

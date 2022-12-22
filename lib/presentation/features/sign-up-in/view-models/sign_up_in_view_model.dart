@@ -12,6 +12,7 @@ import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 class SignUpInViewModel extends BaseViewModel {
   UserModel userModel = UserModel();
+  bool isPasswordVisible = false;
 
   void onSavedEmail(String? value) {
     if (value != null) {
@@ -25,7 +26,7 @@ class SignUpInViewModel extends BaseViewModel {
     }
   }
 
-  Future<void> signInUp(bool mounted) async {
+  Future<void> signInUp(BuildContext context, bool mounted) async {
     SignState signState = context.read<SignBloc>().state;
 
     if (signState is SignIn || signState is SignUp || signState is SignedUp) {
@@ -35,16 +36,21 @@ class SignUpInViewModel extends BaseViewModel {
       if (signState is SignUp) {
         BaseResponse<UserModel> baseResponse =
             await emailAuthRepository.signUpWithEmailAndPassword(userModel);
-        closePageAfterSign(mounted, baseResponse);
+        if (mounted) {
+          closePageAfterSign(context, mounted, baseResponse);
+        }
       } else {
         BaseResponse<UserModel> baseResponse =
             await emailAuthRepository.signInWithEmailAndPassword(userModel);
-        closePageAfterSign(mounted, baseResponse);
+        if (mounted) {
+          closePageAfterSign(context, mounted, baseResponse);
+        }
       }
     }
   }
 
-  void closePageAfterSign(bool mounted, BaseResponse<UserModel> baseResponse) {
+  void closePageAfterSign(BuildContext context, bool mounted,
+      BaseResponse<UserModel> baseResponse) {
     if (baseResponse is BaseError) {
       BlocProvider.of<SignBloc>(context).add(const SignErrorEvent());
       return;
@@ -59,14 +65,14 @@ class SignUpInViewModel extends BaseViewModel {
     }
   }
 
-  void changeSign() {
+  void changeSign(BuildContext context) {
     SignState signState = context.read<SignBloc>().state;
     if (signState is SignIn || signState is SignUpState) {
       BlocProvider.of<SignBloc>(context).add(const ChangeSignEvent());
     }
   }
 
-  Future<bool> onBackPressed() async {
+  Future<bool> onBackPressed(BuildContext context) async {
     SignState signState = context.read<SignBloc>().state;
 
     if (signState is SigningIn || signState is SigningUp) {
@@ -74,7 +80,7 @@ class SignUpInViewModel extends BaseViewModel {
     }
 
     if (signState is SignUpState) {
-      changeSign();
+      changeSign(context);
       return false;
     } else {
       Navigator.pop(context);

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:tattoo/core/base/models/base_response.dart';
@@ -16,18 +17,18 @@ class MyAppViewModel extends BaseViewModel {
   AuthRepository authRepository = AuthRepository();
   EmailAuthRepository emailAuthRepository = EmailAuthRepository();
 
-  void initAndRemoveSplashScreen() async {
+  void initAndRemoveSplashScreen(BuildContext context) async {
     SignBloc signBloc = BlocProvider.of<SignBloc>(context);
     if (signBloc.state is SignIn) {
       if (emailAuthRepository.emailVerified()) {
-        await onSignedInWithEmail();
+        await onSignedInWithEmail(context);
       } else {
-        await onNotSignedInWithEmail();
+        await onNotSignedInWithEmail(context);
       }
     }
   }
 
-  Future<void> onNotSignedInWithEmail() async {
+  Future<void> onNotSignedInWithEmail(BuildContext context) async {
     SignBloc signBloc = BlocProvider.of<SignBloc>(context);
     UserModel userModel = signBloc.state.userModel;
 
@@ -55,7 +56,7 @@ class MyAppViewModel extends BaseViewModel {
     }
   }
 
-  Future<void> onSignedInWithEmail() async {
+  Future<void> onSignedInWithEmail(BuildContext context) async {
     SignBloc signBloc = BlocProvider.of<SignBloc>(context);
     BaseResponse<UserModel> userResponse = authRepository.getCurrentUser();
 

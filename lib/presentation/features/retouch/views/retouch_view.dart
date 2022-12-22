@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tattoo/core/base/views/base_view.dart';
 import 'package:tattoo/core/extensions/context_extension.dart';
 import 'package:tattoo/core/extensions/int_extension.dart';
 import 'package:tattoo/core/extensions/string_extension.dart';
@@ -20,13 +19,13 @@ import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../components/retouch_background.dart';
 
-class RetouchView extends View<RetouchViewModel> {
+class RetouchView extends StatelessWidget {
   final List list;
   late final DesignRequestModel? designRequestModel;
   late final Function() rebuild;
+  final RetouchViewModel viewModel = RetouchViewModel();
 
-  RetouchView({required this.list, super.key})
-      : super(viewModelBuilder: () => RetouchViewModel()) {
+  RetouchView({required this.list, Key? key}) : super(key: key) {
     designRequestModel = list[0];
     rebuild = list[1];
   }
@@ -40,20 +39,22 @@ class RetouchView extends View<RetouchViewModel> {
 
     return BlocBuilder<RetouchCubit, RetouchState>(
       builder: (context, state) {
-        viewModel.computeEndTime(state);
+        viewModel.computeEndTime(context, state);
 
         return WillPopScope(
-          onWillPop: viewModel.onBackPressed,
+          onWillPop: () {
+            return viewModel.onBackPressed(context);
+          },
           child: Scaffold(
             extendBodyBehindAppBar: true,
-            appBar: buildAppBar(),
+            appBar: buildAppBar(context),
             body: Stack(
               children: [
                 RetouchBackground(
                   image: designRequestModel
                       ?.designRequestImageModels2?[imageIndex].link,
                 ),
-                buildBody(),
+                buildBody(context),
               ],
             ),
           ),
@@ -62,40 +63,40 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  SafeArea buildBody() {
+  Widget buildBody(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: viewModel.context.paddingLow,
+        padding: context.paddingLow,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildTitle(),
-            viewModel.widget.dynamicVerticalSpace(viewModel.context, 0.1),
-            viewModel.context.watch<RetouchCubit>().state is RetouchIsReady
+            buildTitle(context),
+            context.widget.dynamicVerticalSpace(context, 0.1),
+            context.watch<RetouchCubit>().state is RetouchIsReady
                 ? const RetouchReady()
                 : const AnimatedRetouching(),
-            viewModel.widget.verticalSpace(75),
-            buildLoadingArea(),
-            viewModel.widget.verticalSpace(10),
+            context.widget.verticalSpace(75),
+            buildLoadingArea(context),
+            context.widget.verticalSpace(10),
             buildLoadingDescriptionArea(),
-            viewModel.widget.dynamicVerticalSpace(viewModel.context, 0.05),
-            viewModel.context.watch<RetouchCubit>().state is RetouchIsReady
-                ? buildShowResult()
-                : buildTimeArea(),
+            context.widget.dynamicVerticalSpace(context, 0.05),
+            context.watch<RetouchCubit>().state is RetouchIsReady
+                ? buildShowResult(context)
+                : buildTimeArea(context),
           ],
         ),
       ),
     );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
       leading: CloseButton(
         onPressed: () async {
-          await viewModel.onBackPressed();
+          await viewModel.onBackPressed(context);
         },
       ),
       backgroundColor: Colors.transparent,
@@ -111,8 +112,8 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  Widget buildTitle() {
-    RetouchState state = viewModel.context.watch<RetouchCubit>().state;
+  Widget buildTitle(BuildContext context) {
+    RetouchState state = context.watch<RetouchCubit>().state;
 
     return Text(
       state is RetouchIsReady
@@ -150,8 +151,8 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  Widget buildLoadingArea() {
-    RetouchState state = viewModel.context.watch<RetouchCubit>().state;
+  Widget buildLoadingArea(BuildContext context) {
+    RetouchState state = context.watch<RetouchCubit>().state;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -185,7 +186,7 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  Widget buildShowResult() {
+  Widget buildShowResult(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.green),
@@ -197,7 +198,7 @@ class RetouchView extends View<RetouchViewModel> {
         ),
       ),
       onPressed: () {
-        RetouchState state = viewModel.context.read<RetouchCubit>().state;
+        RetouchState state = context.read<RetouchCubit>().state;
         if (state is RetouchIsReady) {
           RouterService.instance.pushNamedAndRemoveUntil(
             path: RouterConstants.photo,
@@ -215,13 +216,11 @@ class RetouchView extends View<RetouchViewModel> {
     );
   }
 
-  Widget buildTimeArea() {
+  Widget buildTimeArea(BuildContext context) {
     return CountdownTimer(
       onEnd: () {
-        if (viewModel.mounted) {
-          BlocProvider.of<RetouchCubit>(viewModel.context)
-              .listenToDesignStatus(designRequestModel);
-        }
+        BlocProvider.of<RetouchCubit>(context)
+            .listenToDesignStatus(designRequestModel);
       },
       endTime: viewModel.endTime,
       widgetBuilder: (context, time) {

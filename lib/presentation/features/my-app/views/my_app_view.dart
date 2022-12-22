@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/base/views/base_app_lifecycle_view.dart';
-import '../../../../core/base/views/base_view.dart';
 import '../../../../core/constants/app/global_key_constants.dart';
 import '../../../../utils/logic/config/router/config_router.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
@@ -15,8 +14,10 @@ import '../../../../utils/ui/config/theme/common/common_theme.dart';
 import '../../../widgets/have_no.dart';
 import '../view-models/my_app_view_model.dart';
 
-class MyAppView extends View<MyAppViewModel> {
-  MyAppView({super.key}) : super(viewModelBuilder: () => MyAppViewModel());
+class MyAppView extends StatelessWidget {
+  MyAppView({Key? key}) : super(key: key);
+
+  final MyAppViewModel viewModel = MyAppViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +35,19 @@ class MyAppView extends View<MyAppViewModel> {
         ThemeHelper.instance
             .setSystemUIOverlayStyleWithAppTheme(state.appTheme);
 
-        return buildApp(state);
+        return buildApp(context, state);
       },
     );
   }
 
-  Widget buildApp(ThemeState themeState) {
+  Widget buildApp(BuildContext context, ThemeState themeState) {
     return BaseAppLifeCycleView(
       child: MaterialApp(
         scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
         debugShowCheckedModeBanner: false,
-        localizationsDelegates: viewModel.context.localizationDelegates,
-        supportedLocales: viewModel.context.supportedLocales,
-        locale: viewModel.context.locale,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         themeMode: themeState.themeMode,
         theme: CommonTheme.instance.getTheme(
           appTheme: themeState.appTheme,
@@ -61,14 +62,14 @@ class MyAppView extends View<MyAppViewModel> {
         onGenerateRoute: ConfigRouter.instance.generateRoute,
         initialRoute: viewModel.getInitialRoute(),
         builder: (context, Widget? child) {
-          return buildNetworkCubit(child);
+          return buildNetworkCubit(context, child);
         },
       ),
     );
   }
 
-  Widget buildNetworkCubit(Widget? child) {
-    final networkCubitState = viewModel.context.watch<NetworkCubit>().state;
+  Widget buildNetworkCubit(BuildContext context, Widget? child) {
+    final networkCubitState = context.watch<NetworkCubit>().state;
 
     return BlocBuilder<NetworkCubit, NetworkState>(
       buildWhen: (NetworkState previous, NetworkState current) {
@@ -80,7 +81,7 @@ class MyAppView extends View<MyAppViewModel> {
         }
 
         if (networkCubitState is! NetworkInitial) {
-          viewModel.initAndRemoveSplashScreen();
+          viewModel.initAndRemoveSplashScreen(context);
         }
 
         if (networkCubitState is ConnectionSuccess) {

@@ -27,7 +27,7 @@ class TattooChooseViewModel extends BaseViewModel {
   final ScreenshotController screenshotController = ScreenshotController();
   XFile? frontImageFile;
 
-  Future<void> onTapSend() async {
+  Future<void> onTapSend(BuildContext context, bool mounted) async {
     showProgressDialog(context);
 
     SignBloc signBloc = context.read<SignBloc>();
