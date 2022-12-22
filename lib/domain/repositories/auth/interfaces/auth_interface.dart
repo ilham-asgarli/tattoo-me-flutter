@@ -1,4 +1,4 @@
-import 'package:tattoo/domain/models/auth/user_model.dart';
+import '../../../models/auth/user_model.dart';
 
 import '../../../../core/base/models/base_response.dart';
 

@@ -1,5 +1,5 @@
-import 'package:tattoo/domain/models/auth/user_model.dart';
-import 'package:tattoo/domain/repositories/auth/interfaces/auth_interface.dart';
+import '../../../models/auth/user_model.dart';
+import '../interfaces/auth_interface.dart';
 
 import '../../../../backend/features/auth/implementations/backend_auth.dart';
 import '../../../../core/base/models/base_response.dart';

@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tattoo/core/extensions/context_extension.dart';
+
+import '../../../../core/extensions/context_extension.dart';
 
 class ProgressDialog extends StatelessWidget {
   const ProgressDialog({Key? key}) : super(key: key);

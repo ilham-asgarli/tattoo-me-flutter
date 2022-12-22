@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/core/extensions/string_extension.dart';
-import 'package:tattoo/presentation/features/ready/view-models/ready_view_model.dart';
-import 'package:tattoo/presentation/features/ready/views/empty_view.dart';
-import 'package:tattoo/utils/logic/state/cubit/ready/ready_cubit.dart';
+import '../../../../core/base/models/base_success.dart';
+import '../../../../core/extensions/string_extension.dart';
+import '../view-models/ready_view_model.dart';
+import 'empty_view.dart';
+import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/router/core/router_service.dart';

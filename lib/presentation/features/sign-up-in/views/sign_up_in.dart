@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tattoo/presentation/features/sign-up-in/components/forgot_password_alert.dart';
-import 'package:tattoo/presentation/features/sign-up-in/view-models/sign_up_in_view_model.dart';
-import 'package:tattoo/presentation/widgets/fractionally_sized_circular_progress_indicator.dart';
-import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
-import 'package:tattoo/utils/ui/validators/email_validator.dart';
+import '../components/forgot_password_alert.dart';
+import '../view-models/sign_up_in_view_model.dart';
+import '../../../widgets/fractionally_sized_circular_progress_indicator.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/ui/validators/email_validator.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';

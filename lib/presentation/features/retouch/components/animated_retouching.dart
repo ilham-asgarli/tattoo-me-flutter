@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tattoo/core/extensions/context_extension.dart';
-import 'package:tattoo/core/extensions/string_extension.dart';
-import 'package:tattoo/presentation/widgets/auto_index.dart';
+import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/string_extension.dart';
+import '../../../widgets/auto_index.dart';
 
 class AnimatedRetouching extends StatelessWidget {
   const AnimatedRetouching({Key? key}) : super(key: key);

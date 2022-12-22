@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/domain/models/design-request/design_request_model.dart';
-import 'package:tattoo/domain/repositories/design-requests/implementations/get_design_request_repository.dart';
-import 'package:tattoo/domain/repositories/design-responses/implementations/design_responses_repository.dart';
+import '../../../../../core/base/models/base_success.dart';
+import '../../../../../domain/models/design-request/design_request_model.dart';
+import '../../../../../domain/repositories/design-requests/implementations/get_design_request_repository.dart';
+import '../../../../../domain/repositories/design-responses/implementations/design_responses_repository.dart';
 
 import '../../../../../domain/models/design-response/design_response_model.dart';
 

@@ -1,4 +1,4 @@
-import 'package:tattoo/core/base/models/base_model.dart';
+import '../../../core/base/models/base_model.dart';
 
 class DesignRequestImageModel2 extends BaseModel<DesignRequestImageModel2> {
   String? id;

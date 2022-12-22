@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tattoo/core/base/models/base_error.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/core/base/view-models/base_view_model.dart';
-import 'package:tattoo/core/router/core/router_service.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
-import 'package:tattoo/domain/repositories/auth/implementations/email_auth_repository.dart';
+import '../../../../core/base/models/base_error.dart';
+import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
+import '../../../../core/base/view-models/base_view_model.dart';
+import '../../../../core/router/core/router_service.dart';
+import '../../../../domain/models/auth/user_model.dart';
+import '../../../../domain/repositories/auth/implementations/email_auth_repository.dart';
 
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 

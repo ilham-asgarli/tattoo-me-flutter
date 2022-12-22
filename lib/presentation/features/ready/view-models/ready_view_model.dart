@@ -1,5 +1,5 @@
-import 'package:tattoo/core/base/view-models/base_view_model.dart';
-import 'package:tattoo/domain/repositories/design-requests/implementations/get_design_request_repository.dart';
+import '../../../../core/base/view-models/base_view_model.dart';
+import '../../../../domain/repositories/design-requests/implementations/get_design_request_repository.dart';
 
 class ReadyViewModel extends BaseViewModel {
   GetDesignRequestRepository getDesignRequestRepository =

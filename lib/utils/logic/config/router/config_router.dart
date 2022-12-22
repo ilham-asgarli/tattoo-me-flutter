@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tattoo/domain/models/design-request/design_request_model.dart';
-import 'package:tattoo/presentation/features/more/views/more_view.dart';
-import 'package:tattoo/presentation/features/photo/views/photo_view.dart';
-import 'package:tattoo/presentation/features/retouch/views/retouch_view.dart';
 
+import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../presentation/features/home/views/home_view.dart';
+import '../../../../presentation/features/more/views/more_view.dart';
 import '../../../../presentation/features/not-found-navigation/views/not_found_navigation_view.dart';
+import '../../../../presentation/features/photo/views/photo_view.dart';
+import '../../../../presentation/features/retouch/views/retouch_view.dart';
 import '../../../../presentation/features/sign-up-in/views/sign_up_in.dart';
 import '../../../../presentation/features/tattoo-choose/views/tattoo_choose_view.dart';
 import '../../constants/router/router_constants.dart';

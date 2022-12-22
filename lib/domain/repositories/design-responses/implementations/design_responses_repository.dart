@@ -1,5 +1,5 @@
-import 'package:tattoo/backend/features/design-responses/implementations/backend_design_request.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
+import '../../../../backend/features/design-responses/implementations/backend_design_request.dart';
+import '../../../../core/base/models/base_response.dart';
 
 import '../../../models/design-response/design_response_model.dart';
 import '../interfaces/design_responses_interface.dart';

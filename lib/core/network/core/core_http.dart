@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:tattoo/core/base/models/base_response.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
 
 import '../../../../utils/logic/constants/api/api_url_constants.dart';
 import '../../base/models/base_error.dart';
 import '../../base/models/base_http.dart';
 import '../../base/models/base_model.dart';
+import '../../base/models/base_response.dart';
+import '../../base/models/base_success.dart';
 import '../../constants/enums/http_request_enum.dart';
 import '../../exceptions/network/http_exception.dart';
 

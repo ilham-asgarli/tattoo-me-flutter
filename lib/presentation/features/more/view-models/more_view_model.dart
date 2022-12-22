@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tattoo/core/base/view-models/base_view_model.dart';
-import 'package:tattoo/domain/usecases/auth/implementations/auth_usecase.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
+import '../../../../core/base/view-models/base_view_model.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/auth/user_model.dart';
+import '../../../../domain/usecases/auth/implementations/auth_usecase.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 

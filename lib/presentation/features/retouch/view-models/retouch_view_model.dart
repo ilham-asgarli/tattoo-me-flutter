@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tattoo/core/base/view-models/base_view_model.dart';
-import 'package:tattoo/core/extensions/date_time_extension.dart';
-import 'package:tattoo/core/extensions/int_extension.dart';
-import 'package:tattoo/domain/models/design-request/design_request_model.dart';
-import 'package:tattoo/utils/logic/state/cubit/retouch/retouch_cubit.dart';
+import '../../../../core/base/view-models/base_view_model.dart';
+import '../../../../core/extensions/date_time_extension.dart';
+import '../../../../core/extensions/int_extension.dart';
+import '../../../../domain/models/design-request/design_request_model.dart';
+import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
 
 import '../../../../core/router/core/router_service.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';

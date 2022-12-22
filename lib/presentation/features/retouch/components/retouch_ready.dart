@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tattoo/core/extensions/context_extension.dart';
+import '../../../../core/extensions/context_extension.dart';
 
 class RetouchReady extends StatelessWidget {
   const RetouchReady({Key? key}) : super(key: key);

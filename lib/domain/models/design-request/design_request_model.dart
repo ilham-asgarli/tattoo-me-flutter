@@ -1,4 +1,4 @@
-import 'package:tattoo/core/base/models/base_model.dart';
+import '../../../core/base/models/base_model.dart';
 
 import 'design_request_image_model_1.dart';
 import 'design_request_image_model_2.dart';

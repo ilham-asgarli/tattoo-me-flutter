@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:tattoo/presentation/features/credits/components/advantageous.dart';
+import 'advantageous.dart';
 
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';

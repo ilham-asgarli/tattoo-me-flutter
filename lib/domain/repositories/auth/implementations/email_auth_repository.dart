@@ -1,4 +1,4 @@
-import 'package:tattoo/backend/features/auth/implementations/backend_email_auth.dart';
+import '../../../../backend/features/auth/implementations/backend_email_auth.dart';
 import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
 

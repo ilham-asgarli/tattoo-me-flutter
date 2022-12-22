@@ -1,9 +1,8 @@
-import 'package:tattoo/core/base/models/base_error.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/domain/repositories/auth/implementations/auth_repository.dart';
-
+import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
 import '../../../models/auth/user_model.dart';
+import '../../../repositories/auth/implementations/auth_repository.dart';
 import '../../../repositories/auth/implementations/auto_auth_repository.dart';
 import '../interfaces/auth_interface.dart';
 

@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
-import 'package:tattoo/domain/repositories/auth/implementations/auth_repository.dart';
-import 'package:tattoo/domain/repositories/auth/implementations/auto_auth_repository.dart';
-import 'package:tattoo/domain/repositories/auth/implementations/email_auth_repository.dart';
 
+import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
 import '../../../../core/base/view-models/base_view_model.dart';
+import '../../../../domain/models/auth/user_model.dart';
+import '../../../../domain/repositories/auth/implementations/auth_repository.dart';
+import '../../../../domain/repositories/auth/implementations/auto_auth_repository.dart';
+import '../../../../domain/repositories/auth/implementations/email_auth_repository.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 

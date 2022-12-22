@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tattoo/presentation/widgets/auto_bool.dart';
+
+import 'auto_bool.dart';
 
 class BlinkingWidget extends StatefulWidget {
   final Widget child;

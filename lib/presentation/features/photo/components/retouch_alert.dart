@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
-import 'package:tattoo/utils/logic/state/bloc/retouch-alert/retouch_alert_bloc.dart';
+import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/state/bloc/retouch-alert/retouch_alert_bloc.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';

@@ -1,7 +1,7 @@
-import 'package:tattoo/backend/features/auth/implementations/backend_auto_auth.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
-import 'package:tattoo/domain/repositories/auth/interfaces/auto_auth_interface.dart';
+import '../../../../backend/features/auth/implementations/backend_auto_auth.dart';
+import '../../../../core/base/models/base_response.dart';
+import '../../../models/auth/user_model.dart';
+import '../interfaces/auto_auth_interface.dart';
 
 class AutoAuthRepository extends AutoAuthInterface {
   final BackendAutoAuth backendAutoAuth = BackendAutoAuth();

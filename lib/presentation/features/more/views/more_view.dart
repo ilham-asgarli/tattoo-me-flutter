@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:store_redirect/store_redirect.dart';
-import 'package:tattoo/presentation/features/more/view-models/more_view_model.dart';
-import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
-import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
-import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
+import '../view-models/more_view_model.dart';
+import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
-import 'package:tattoo/domain/repositories/auth/implementations/auto_auth_repository.dart';
+import '../../../../../core/base/models/base_success.dart';
+import '../../../../../domain/models/auth/user_model.dart';
+import '../../../../../domain/repositories/auth/implementations/auto_auth_repository.dart';
 
 part 'sign_event.dart';
 part 'sign_state.dart';

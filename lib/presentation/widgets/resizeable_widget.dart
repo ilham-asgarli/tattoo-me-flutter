@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tattoo/utils/logic/helpers/gallery/gallery_helper.dart';
+import '../../utils/logic/helpers/gallery/gallery_helper.dart';
 
 class ResizeableWidget extends StatefulWidget {
   final double width;
