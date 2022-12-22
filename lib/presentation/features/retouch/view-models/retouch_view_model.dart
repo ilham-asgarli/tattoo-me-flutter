@@ -1,14 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/base/view-models/base_view_model.dart';
 import '../../../../core/extensions/date_time_extension.dart';
 import '../../../../core/extensions/int_extension.dart';
-import '../../../../domain/models/design-request/design_request_model.dart';
-import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
-
 import '../../../../core/router/core/router_service.dart';
+import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
+import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
 
 class RetouchViewModel extends BaseViewModel {
   int endTime = DateTime.now().millisecondsSinceEpoch;
@@ -76,7 +76,7 @@ class RetouchViewModel extends BaseViewModel {
         microsecond: 0,
       );
       BlocProvider.of<RetouchCubit>(context).inQueue(designRequestModels);
-    } else if (DateTime.now().hour > 20) {
+    } else if (DateTime.now().hour >= 20) {
       workStartDate = DateTime.now().copyWith(
         day: DateTime.now().day + 1,
         hour: 12,
