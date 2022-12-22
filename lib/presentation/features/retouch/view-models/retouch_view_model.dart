@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tattoo/core/base/view-models/base_view_model.dart';
+import 'package:tattoo/core/extensions/date_time_extension.dart';
+import 'package:tattoo/core/extensions/int_extension.dart';
 import 'package:tattoo/domain/models/design-request/design_request_model.dart';
 import 'package:tattoo/utils/logic/state/cubit/retouch/retouch_cubit.dart';
 
@@ -40,16 +42,50 @@ class RetouchViewModel extends BaseViewModel {
 
       if (difference.inMinutes <= oneDesignDuration.inMinutes) {
         endTime = DateTime.now().millisecondsSinceEpoch +
-            (designRequestModels.length - 2) *
+            (designRequestModels.length - 2).toZeroOrPositive() *
                 oneDesignDuration.inMilliseconds +
             (oneDesignDuration.inMilliseconds - difference.inMilliseconds);
       } else {
         endTime = DateTime.now().millisecondsSinceEpoch +
-            (designRequestModels.length - 1) * oneDesignDuration.inMilliseconds;
+            (designRequestModels.length - 1).toZeroOrPositive() *
+                oneDesignDuration.inMilliseconds;
       }
     } else {
       endTime = DateTime.now().millisecondsSinceEpoch +
-          (designRequestModels.length - 1) * oneDesignDuration.inMilliseconds;
+          (designRequestModels.length - 1).toZeroOrPositive() *
+              oneDesignDuration.inMilliseconds;
     }
+
+    addNotWorkTime(designRequestModels);
+
+    if (endTime == DateTime.now().millisecondsSinceEpoch) {
+      endTime += oneDesignDuration.inMilliseconds;
+    }
+  }
+
+  void addNotWorkTime(List<DesignRequestModel>? designRequestModels) {
+    DateTime workStartDate = DateTime.now();
+    if (DateTime.now().hour < 12) {
+      workStartDate = DateTime.now().copyWith(
+        hour: 12,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
+      BlocProvider.of<RetouchCubit>(context).inQueue(designRequestModels);
+    } else if (DateTime.now().hour > 20) {
+      workStartDate = DateTime.now().copyWith(
+        day: DateTime.now().day + 1,
+        hour: 12,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        microsecond: 0,
+      );
+      BlocProvider.of<RetouchCubit>(context).inQueue(designRequestModels);
+    }
+
+    endTime += workStartDate.difference(DateTime.now()).inMilliseconds;
   }
 }

@@ -62,6 +62,12 @@ class RetouchCubit extends Cubit<RetouchState> {
     });
   }
 
+  void inQueue(List<DesignRequestModel>? designRequestModels) {
+    emit(RetouchInQueue(
+      inQueueDesignRequestModels: designRequestModels,
+    ));
+  }
+
   @override
   Future<void> close() {
     _retouchSubscription?.cancel();

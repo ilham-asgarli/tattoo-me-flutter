@@ -218,8 +218,10 @@ class RetouchView extends View<RetouchViewModel> {
   Widget buildTimeArea() {
     return CountdownTimer(
       onEnd: () {
-        BlocProvider.of<RetouchCubit>(viewModel.context)
-            .listenToDesignStatus(designRequestModel);
+        if (viewModel.mounted) {
+          BlocProvider.of<RetouchCubit>(viewModel.context)
+              .listenToDesignStatus(designRequestModel);
+        }
       },
       endTime: viewModel.endTime,
       widgetBuilder: (context, time) {
