@@ -13,6 +13,7 @@ import 'package:tattoo/core/extensions/string_extension.dart';
 import 'package:tattoo/utils/logic/constants/env/env_constants.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 import 'package:tattoo/utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
+import 'package:tattoo/utils/logic/state/cubit/ready/ready_cubit.dart';
 
 import 'core/cache/shared_preferences_manager.dart';
 import 'core/constants/app/locale_constants.dart';
@@ -65,6 +66,9 @@ Widget app() {
         ),
         BlocProvider(
           create: (_) => HomeTabCubit(),
+        ),
+        BlocProvider(
+          create: (_) => ReadyCubit(),
         ),
       ],
       child: DevicePreview(

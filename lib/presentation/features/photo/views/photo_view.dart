@@ -18,30 +18,21 @@ import 'package:tattoo/presentation/features/photo/components/retouch_alert.dart
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 import 'package:tattoo/utils/logic/state/bloc/retouch-alert/retouch_alert_bloc.dart';
 import 'package:tattoo/utils/logic/state/cubit/photo/photo_cubit.dart';
+import 'package:tattoo/utils/logic/state/cubit/ready/ready_cubit.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/base/models/base_response.dart';
 
 class PhotoView extends StatefulWidget {
-  final List list;
+  final DesignResponseModel designModel;
 
-  const PhotoView({required this.list, Key? key}) : super(key: key);
+  const PhotoView({required this.designModel, Key? key}) : super(key: key);
 
   @override
   State<PhotoView> createState() => _PhotoViewState();
 }
 
 class _PhotoViewState extends State<PhotoView> {
-  late final DesignResponseModel designModel;
-  late final Function() rebuild;
-
-  @override
-  void initState() {
-    designModel = widget.list[0];
-    rebuild = widget.list[1];
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,8 +88,8 @@ class _PhotoViewState extends State<PhotoView> {
   }
 
   Widget buildPhotoArena() {
-    int oldImageIndex = designModel
-            .designRequestModel?.designRequestImageModels2
+    int oldImageIndex = widget
+            .designModel.designRequestModel?.designRequestImageModels2
             ?.indexWhere((element) => element.name == "1") ??
         0;
     oldImageIndex = oldImageIndex >= 0 ? oldImageIndex : 0;
@@ -116,8 +107,8 @@ class _PhotoViewState extends State<PhotoView> {
           );
         },
         imageUrl: context.watch<PhotoCubit>().state.isSwitch
-            ? designModel.imageLink ?? ""
-            : designModel.designRequestModel
+            ? widget.designModel.imageLink ?? ""
+            : widget.designModel.designRequestModel
                     ?.designRequestImageModels2![oldImageIndex].link ??
                 "",
         fit: BoxFit.cover,
@@ -223,7 +214,8 @@ class _PhotoViewState extends State<PhotoView> {
     DesignResponseRepository designResponseRepository =
         DesignResponseRepository();
     BaseResponse<DesignResponseModel> baseResponse =
-        await designResponseRepository.getDesignResponse(designModel.id ?? "");
+        await designResponseRepository
+            .getDesignResponse(widget.designModel.id ?? "");
 
     if (baseResponse is BaseSuccess<DesignResponseModel> &&
         baseResponse.data != null &&
@@ -244,7 +236,8 @@ class _PhotoViewState extends State<PhotoView> {
     DesignResponseRepository designResponseRepository =
         DesignResponseRepository();
     BaseResponse<DesignResponseModel> baseResponse =
-        await designResponseRepository.getDesignResponse(designModel.id ?? "");
+        await designResponseRepository
+            .getDesignResponse(widget.designModel.id ?? "");
 
     if (baseResponse is BaseSuccess<DesignResponseModel> &&
         baseResponse.data != null &&
@@ -266,12 +259,12 @@ class _PhotoViewState extends State<PhotoView> {
   }
 
   Future<void> share() async {
-    await Share.share(designModel.imageLink ?? "");
+    await Share.share(widget.designModel.imageLink ?? "");
   }
 
   Future<void> save() async {
     final taskId = await FlutterDownloader.enqueue(
-      url: designModel.imageLink ?? "",
+      url: widget.designModel.imageLink ?? "",
       savedDir: (await getExternalStorageDirectory())?.path ?? "",
       showNotification: true,
       openFileFromNotification: true,
@@ -280,12 +273,14 @@ class _PhotoViewState extends State<PhotoView> {
   }
 
   Future<void> delete() async {
-    if (designModel.id != null) {
+    if (widget.designModel.id != null) {
       DesignResponseRepository designResponseRepository =
           DesignResponseRepository();
-      await designResponseRepository.deleteDesign(designModel.id!);
+      await designResponseRepository.deleteDesign(widget.designModel.id!);
 
-      rebuild();
+      if (mounted) {
+        BlocProvider.of<ReadyCubit>(context).rebuild();
+      }
       RouterService.instance.pop();
     }
   }

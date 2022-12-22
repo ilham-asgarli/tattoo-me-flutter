@@ -6,6 +6,7 @@ import 'package:tattoo/presentation/features/more/views/more_view.dart';
 import 'package:tattoo/presentation/features/photo/views/photo_view.dart';
 import 'package:tattoo/presentation/features/retouch/views/retouch_view.dart';
 
+import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../presentation/features/home/views/home_view.dart';
 import '../../../../presentation/features/not-found-navigation/views/not_found_navigation_view.dart';
 import '../../../../presentation/features/sign-up-in/views/sign_up_in.dart';
@@ -45,18 +46,19 @@ class ConfigRouter {
         return normalNavigate(
           BlocProvider<PhotoCubit>(
             create: (_) => PhotoCubit(),
-            child: PhotoView(list: settings.arguments as List),
+            child: PhotoView(
+                designModel: settings.arguments as DesignResponseModel),
           ),
           RouterConstants.photo,
         );
       case RouterConstants.retouch:
-        List list = settings.arguments as List;
-        DesignRequestModel? designRequestModel = list[0];
+        DesignRequestModel? designRequestModel =
+            settings.arguments as DesignRequestModel?;
 
         return normalNavigate(
           BlocProvider<RetouchCubit>(
             create: (context) => RetouchCubit(designRequestModel),
-            child: RetouchView(list: list),
+            child: RetouchView(designRequestModel: designRequestModel),
           ),
           RouterConstants.retouch,
         );

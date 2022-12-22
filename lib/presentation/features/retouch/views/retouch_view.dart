@@ -20,15 +20,10 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../components/retouch_background.dart';
 
 class RetouchView extends StatelessWidget {
-  final List list;
   late final DesignRequestModel? designRequestModel;
-  late final Function() rebuild;
   final RetouchViewModel viewModel = RetouchViewModel();
 
-  RetouchView({required this.list, Key? key}) : super(key: key) {
-    designRequestModel = list[0];
-    rebuild = list[1];
-  }
+  RetouchView({required this.designRequestModel, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -203,10 +198,7 @@ class RetouchView extends StatelessWidget {
           RouterService.instance.pushNamedAndRemoveUntil(
             path: RouterConstants.photo,
             removeUntilPageName: RouterConstants.home,
-            data: [
-              state.designResponseModel,
-              rebuild,
-            ],
+            data: state.designResponseModel,
           );
         }
       },

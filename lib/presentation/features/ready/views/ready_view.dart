@@ -5,6 +5,7 @@ import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/core/extensions/string_extension.dart';
 import 'package:tattoo/presentation/features/ready/view-models/ready_view_model.dart';
 import 'package:tattoo/presentation/features/ready/views/empty_view.dart';
+import 'package:tattoo/utils/logic/state/cubit/ready/ready_cubit.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/router/core/router_service.dart';
@@ -28,23 +29,27 @@ class _ReadyViewState extends State<ReadyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<SignBloc, SignState>(
-        builder: (context, state) {
-          return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
-            stream: viewModel.getDesignRequestRepository
-                .getDesignRequestStream(state.userModel.id ?? ""),
-            builder: (context, snapshot) {
-              BaseResponse<List<DesignResponseModel>>? baseResponse =
-                  snapshot.data;
-              if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
-                List<DesignResponseModel>? designModels = baseResponse.data;
-                if (designModels != null && designModels.isNotEmpty) {
-                  return buildImageGrid(designModels);
-                } else {
-                  return const EmptyView();
-                }
-              } else {
-                return const EmptyView();
-              }
+        builder: (context, signState) {
+          return BlocBuilder<ReadyCubit, ReadyState>(
+            builder: (context, readyState) {
+              return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
+                stream: viewModel.getDesignRequestRepository
+                    .getDesignRequestStream(signState.userModel.id ?? ""),
+                builder: (context, snapshot) {
+                  BaseResponse<List<DesignResponseModel>>? baseResponse =
+                      snapshot.data;
+                  if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
+                    List<DesignResponseModel>? designModels = baseResponse.data;
+                    if (designModels != null && designModels.isNotEmpty) {
+                      return buildImageGrid(designModels);
+                    } else {
+                      return const EmptyView();
+                    }
+                  } else {
+                    return const EmptyView();
+                  }
+                },
+              );
             },
           );
         },
@@ -71,22 +76,12 @@ class _ReadyViewState extends State<ReadyView> {
             if (designRequestModel?.finished ?? false) {
               RouterService.instance.pushNamed(
                 path: RouterConstants.photo,
-                data: [
-                  designModels[index],
-                  () {
-                    setState(() {});
-                  },
-                ],
+                data: designModels[index],
               );
             } else {
               RouterService.instance.pushNamed(
                 path: RouterConstants.retouch,
-                data: [
-                  designModels[index].designRequestModel,
-                  () {
-                    setState(() {});
-                  },
-                ],
+                data: designModels[index].designRequestModel,
               );
             }
           },
