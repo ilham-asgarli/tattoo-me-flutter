@@ -9,7 +9,6 @@ class PurchaseNotAvailableEvent extends PurchaseEvent {
   final List<ProductDetails> products;
   final List<PurchaseDetails> purchases;
   final List<String> notFoundIds;
-  final List<String> consumables;
   final bool purchasePending;
   final bool loading;
 
@@ -18,19 +17,11 @@ class PurchaseNotAvailableEvent extends PurchaseEvent {
     required this.products,
     required this.purchases,
     required this.notFoundIds,
-    required this.consumables,
     required this.purchasePending,
     required this.loading,
   });
 
   @override
-  List<Object?> get props => [
-        isAvailable,
-        products,
-        purchases,
-        notFoundIds,
-        consumables,
-        purchasePending,
-        loading
-      ];
+  List<Object?> get props =>
+      [isAvailable, products, purchases, notFoundIds, purchasePending, loading];
 }

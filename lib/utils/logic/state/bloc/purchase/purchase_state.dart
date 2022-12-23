@@ -23,7 +23,6 @@ class PurchaseState {
     List<String>? notFoundIds,
     List<ProductDetails>? products,
     List<PurchaseDetails>? purchases,
-    List<String>? consumables,
     bool? isAvailable,
     bool? purchasePending,
     bool? loading,

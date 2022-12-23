@@ -41,7 +41,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
       notFoundIds: event.notFoundIds,
       purchases: event.purchases,
       products: event.products,
-      consumables: event.consumables,
     ));
   }
 
@@ -141,7 +140,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
           products: [],
           purchases: [],
           notFoundIds: [],
-          consumables: [],
           purchasePending: false,
           loading: false,
         ),
@@ -166,7 +164,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
           products: productDetailResponse.productDetails,
           purchases: [],
           notFoundIds: productDetailResponse.notFoundIDs,
-          consumables: [],
           purchasePending: false,
           loading: false,
         ),
@@ -182,7 +179,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
           products: productDetailResponse.productDetails,
           purchases: [],
           notFoundIds: productDetailResponse.notFoundIDs,
-          consumables: [],
           purchasePending: false,
           loading: false,
         ),
@@ -195,7 +191,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
         isAvailable: isAvailable,
         products: productDetailResponse.productDetails,
         notFoundIds: productDetailResponse.notFoundIDs,
-        consumables: [],
         purchasePending: false,
         loading: false,
       ),
