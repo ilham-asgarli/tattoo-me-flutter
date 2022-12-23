@@ -1,15 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/purchase/purchase_constants.dart';
 import 'advantageous.dart';
 
 class BuyItem extends StatelessWidget {
-  final Map<String, dynamic> buyMap;
+  final ProductDetails productDetails;
 
-  const BuyItem({Key? key, required this.buyMap}) : super(key: key);
+  const BuyItem({Key? key, required this.productDetails}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class BuyItem extends StatelessWidget {
       child: Stack(
         children: [
           Advantageous(
-            isAdvantageous: buyMap["isAdvantageous"],
+            isAdvantageous: productDetails.id ==
+                PurchaseConstants.inAppProducts.keys.toList()[3],
           ),
           Column(
             children: [
@@ -34,7 +37,8 @@ class BuyItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(buyMap["count"].toString()),
+                        Text(PurchaseConstants.inAppProducts[productDetails.id]
+                            .toString()),
                         const Icon(
                           Icons.star,
                           size: 20,
@@ -42,7 +46,7 @@ class BuyItem extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "₺ ${buyMap["price"]}",
+                      "₺ ${productDetails.price}",
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

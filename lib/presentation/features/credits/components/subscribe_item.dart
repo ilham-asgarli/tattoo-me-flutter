@@ -1,16 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'advantageous.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/purchase/purchase_constants.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
+import 'advantageous.dart';
 
 class SubscribeItem extends StatelessWidget {
-  final Map<String, dynamic> subscriptionMap;
+  final ProductDetails productDetails;
 
   const SubscribeItem({
     Key? key,
-    required this.subscriptionMap,
+    required this.productDetails,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,8 @@ class SubscribeItem extends StatelessWidget {
       child: Stack(
         children: [
           Advantageous(
-            isAdvantageous: subscriptionMap["isAdvantageous"],
+            isAdvantageous: productDetails.id ==
+                PurchaseConstants.subscriptions.keys.toList()[1],
           ),
           Padding(
             padding: const EdgeInsets.all(15),
@@ -30,7 +33,8 @@ class SubscribeItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "${subscriptionMap["count"]}",
+                      PurchaseConstants.subscriptions[productDetails.id]
+                          .toString(),
                       style: TextStyle(
                         color: AppColors.secondColor,
                         fontSize: 15,
@@ -47,7 +51,7 @@ class SubscribeItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "₺ ${subscriptionMap["price"]}",
+                      "₺ ${productDetails.price}",
                       style: TextStyle(
                         color: AppColors.secondColor,
                         fontSize: 20,

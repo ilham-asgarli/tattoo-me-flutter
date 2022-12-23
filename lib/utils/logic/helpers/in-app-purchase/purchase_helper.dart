@@ -8,6 +8,7 @@ import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 
+import '../../constants/purchase/purchase_constants.dart';
 import 'consumable_store.dart';
 
 void main() {
@@ -20,15 +21,11 @@ void main() {
 // To try without auto-consume on another platform, change `true` to `false` here.
 final bool _kAutoConsume = Platform.isIOS || true;
 
-const String _kConsumableId = 'consumable';
 const String _kUpgradeId = 'upgrade';
-const String _kSilverSubscriptionId = 'subscription_silver';
-const String _kGoldSubscriptionId = 'subscription_gold';
-const List<String> _kProductIds = <String>[
-  _kConsumableId,
+List<String> _kProductIds = <String>[
+  ...PurchaseConstants.inAppProducts.keys,
   _kUpgradeId,
-  _kSilverSubscriptionId,
-  _kGoldSubscriptionId,
+  ...PurchaseConstants.subscriptions.keys,
 ];
 
 class _MyApp extends StatefulWidget {
@@ -292,7 +289,8 @@ class _MyAppState extends State<_MyApp> {
                       );
                     }
 
-                    if (productDetails.id == _kConsumableId) {
+                    if (PurchaseConstants.inAppProducts.keys
+                        .contains(productDetails.id)) {
                       _inAppPurchase.buyConsumable(
                         purchaseParam: purchaseParam,
                         autoConsume: _kAutoConsume,
@@ -321,9 +319,9 @@ class _MyAppState extends State<_MyApp> {
               leading: CircularProgressIndicator(),
               title: Text('Fetching consumables...')));
     }
-    if (!_isAvailable || _notFoundIds.contains(_kConsumableId)) {
+    /*if (!_isAvailable || _notFoundIds.contains(_kConsumableId)) {
       return const Card();
-    }
+    }*/
     const ListTile consumableHeader =
         ListTile(title: Text('Purchased consumables'));
     final List<Widget> tokens = _consumables.map((String id) {
@@ -393,7 +391,8 @@ class _MyAppState extends State<_MyApp> {
 
   Future<void> deliverProduct(PurchaseDetails purchaseDetails) async {
     // IMPORTANT!! Always verify purchase details before delivering the product.
-    if (purchaseDetails.productID == _kConsumableId) {
+    if (PurchaseConstants.inAppProducts.keys
+        .contains(purchaseDetails.productID)) {
       await ConsumableStore.save(purchaseDetails.purchaseID!);
       final List<String> consumables = await ConsumableStore.load();
       setState(() {
@@ -443,7 +442,9 @@ class _MyAppState extends State<_MyApp> {
           }
         }
         if (Platform.isAndroid) {
-          if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
+          if (!_kAutoConsume &&
+              PurchaseConstants.inAppProducts.keys
+                  .contains(purchaseDetails.productID)) {
             final InAppPurchaseAndroidPlatformAddition androidAddition =
                 _inAppPurchase.getPlatformAddition<
                     InAppPurchaseAndroidPlatformAddition>();
@@ -497,15 +498,16 @@ class _MyAppState extends State<_MyApp> {
     // The old subscription is only required on Android since Apple handles this internally
     // by using the subscription group feature in iTunesConnect.
     GooglePlayPurchaseDetails? oldSubscription;
-    if (productDetails.id == _kSilverSubscriptionId &&
-        purchases[_kGoldSubscriptionId] != null) {
-      oldSubscription =
-          purchases[_kGoldSubscriptionId]! as GooglePlayPurchaseDetails;
-    } else if (productDetails.id == _kGoldSubscriptionId &&
-        purchases[_kSilverSubscriptionId] != null) {
-      oldSubscription =
-          purchases[_kSilverSubscriptionId]! as GooglePlayPurchaseDetails;
+    if (PurchaseConstants.subscriptions.keys.contains(productDetails.id)) {
+      for (String subscription in PurchaseConstants.subscriptions.keys) {
+        if (purchases[subscription] != null) {
+          oldSubscription =
+              purchases[subscription]! as GooglePlayPurchaseDetails;
+          break;
+        }
+      }
     }
+
     return oldSubscription;
   }
 }

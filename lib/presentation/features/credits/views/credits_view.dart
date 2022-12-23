@@ -2,11 +2,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:tattoo/utils/logic/constants/purchase/purchase_constants.dart';
+import 'package:tattoo/utils/logic/helpers/purchase/purchase_helper.dart';
+import 'package:tattoo/utils/logic/state/bloc/purchase/purchase_bloc.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../components/buy_item.dart';
 import '../components/subscribe_item.dart';
@@ -19,71 +23,6 @@ class CreditsView extends StatefulWidget {
 }
 
 class _CreditsViewState extends State<CreditsView> {
-  final List<Map<String, Object>> _subscriptionList = [
-    {
-      "price": 119.99,
-      "count": 150,
-      "isAdvantageous": false,
-    },
-    {
-      "price": 214.99,
-      "count": 300,
-      "isAdvantageous": true,
-    },
-    {
-      "price": 384.99,
-      "count": 600,
-      "isAdvantageous": false,
-    },
-    {
-      "price": 519.99,
-      "count": 900,
-      "isAdvantageous": false,
-    },
-    {
-      "price": 934.99,
-      "count": 1800,
-      "isAdvantageous": false,
-    },
-  ];
-  final List<Map<String, Object>> _buyList = [
-    {
-      "price": 29.99,
-      "count": 30,
-      "isAdvantageous": false,
-    },
-    {
-      "price": 82.99,
-      "count": 90,
-      "isAdvantageous": false,
-    },
-    {
-      "price": 129.99,
-      "count": 150,
-      "isAdvantageous": false,
-    },
-    {
-      "price": 238.99,
-      "count": 300,
-      "isAdvantageous": true,
-    },
-    {
-      "price": 438.99,
-      "count": 600,
-      "isAdvantageous": false,
-    },
-    {
-      "price": 604.99,
-      "count": 900,
-      "isAdvantageous": false,
-    },
-    {
-      "price": 1112.99,
-      "count": 1800,
-      "isAdvantageous": false,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -128,21 +67,37 @@ class _CreditsViewState extends State<CreditsView> {
   }
 
   Wrap buildBuyWidget() {
+    List<ProductDetails> products =
+        context.watch<PurchaseBloc>().state.products;
+    Iterable<ProductDetails> productsIterable = products.where((element) {
+      return PurchaseConstants.inAppProducts.keys.contains(element.id);
+    });
+
+    products = productsIterable.toList();
+    products.sort(
+      (a, b) {
+        return PurchaseConstants.inAppProducts[a.id]!
+            .compareTo(PurchaseConstants.inAppProducts[b.id]!);
+      },
+    );
+
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
       spacing: 10,
       runSpacing: 10,
       direction: Axis.horizontal,
-      children: _buyList.map((item) {
+      children: products.map((item) {
         return SizedBox(
           width: context.width / 2 - 15,
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              PurchaseHelper.instance.onTap(context, item);
+            },
             borderRadius: const BorderRadius.all(
               Radius.circular(5),
             ),
             child: BuyItem(
-              buyMap: item,
+              productDetails: item,
             ),
           ),
         );
@@ -151,11 +106,25 @@ class _CreditsViewState extends State<CreditsView> {
   }
 
   ListView buildSubWidget() {
+    List<ProductDetails> products =
+        context.watch<PurchaseBloc>().state.products;
+    Iterable<ProductDetails> productsIterable = products.where((element) {
+      return PurchaseConstants.subscriptions.keys.contains(element.id);
+    });
+
+    products = productsIterable.toList();
+    products.sort(
+      (a, b) {
+        return PurchaseConstants.subscriptions[a.id]!
+            .compareTo(PurchaseConstants.subscriptions[b.id]!);
+      },
+    );
+
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.all(10),
-      itemCount: _subscriptionList.length + 1,
+      itemCount: products.length + 1,
       itemBuilder: (context, index) {
         return Container(
           decoration: BoxDecoration(
@@ -164,7 +133,7 @@ class _CreditsViewState extends State<CreditsView> {
                 ? const BorderRadius.vertical(
                     top: Radius.circular(10),
                   )
-                : index == _subscriptionList.length
+                : index == products.length
                     ? const BorderRadius.vertical(
                         bottom: Radius.circular(10),
                       )
@@ -173,14 +142,16 @@ class _CreditsViewState extends State<CreditsView> {
           child: index == 0
               ? buildSubHeader()
               : InkWell(
-                  onTap: () {},
-                  borderRadius: index == _subscriptionList.length
+                  onTap: () {
+                    PurchaseHelper.instance.onTap(context, products[index - 1]);
+                  },
+                  borderRadius: index == products.length
                       ? const BorderRadius.vertical(
                           bottom: Radius.circular(10),
                         )
                       : null,
                   child: SubscribeItem(
-                    subscriptionMap: _subscriptionList[index - 1],
+                    productDetails: products[index - 1],
                   ),
                 ),
         );

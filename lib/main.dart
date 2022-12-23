@@ -9,6 +9,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tattoo/utils/logic/state/bloc/purchase/purchase_bloc.dart';
 
 import 'core/cache/shared_preferences_manager.dart';
 import 'core/constants/app/locale_constants.dart';
@@ -69,6 +70,9 @@ Widget app() {
         ),
         BlocProvider(
           create: (_) => ReadyCubit(),
+        ),
+        BlocProvider(
+          create: (_) => PurchaseBloc(),
         ),
       ],
       child: DevicePreview(
