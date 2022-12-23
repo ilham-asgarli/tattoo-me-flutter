@@ -9,7 +9,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   String? id;
   String? email;
   String? password;
-  int? balance;
+  dynamic balance;
   Timestamp? createdDate;
   Timestamp? lastAppEntryDate;
 

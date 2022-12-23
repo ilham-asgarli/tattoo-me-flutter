@@ -72,7 +72,7 @@ Widget app() {
           create: (_) => ReadyCubit(),
         ),
         BlocProvider(
-          create: (_) => PurchaseBloc(),
+          create: (_) => PurchaseBloc(_),
         ),
       ],
       child: DevicePreview(

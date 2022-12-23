@@ -46,7 +46,7 @@ class BuyItem extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "₺ ${productDetails.price}",
+                      "${productDetails.currencySymbol} ${productDetails.rawPrice}",
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

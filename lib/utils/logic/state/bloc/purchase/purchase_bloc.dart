@@ -3,10 +3,15 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
+import 'package:tattoo/domain/models/auth/user_model.dart';
+import 'package:tattoo/domain/repositories/auth/implementations/auto_auth_repository.dart';
+import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 
 import '../../../constants/purchase/purchase_constants.dart';
 
@@ -14,18 +19,21 @@ part 'purchase_event.dart';
 part 'purchase_state.dart';
 
 class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
+  BuildContext context;
   final InAppPurchase inAppPurchase = InAppPurchase.instance;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   final bool kAutoConsume = Platform.isIOS || true;
 
-  PurchaseBloc() : super(PurchaseState()) {
+  PurchaseBloc(this.context) : super(PurchaseState()) {
     on<PurchaseNotAvailableEvent>(_onNotAvailableEvent);
 
     init();
   }
 
   _onNotAvailableEvent(
-      PurchaseNotAvailableEvent event, Emitter<PurchaseState> emit) {
+    PurchaseNotAvailableEvent event,
+    Emitter<PurchaseState> emit,
+  ) {
     emit(state.copyWith(
       isAvailable: event.isAvailable,
       loading: event.loading,
@@ -57,7 +65,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
           handleError(purchaseDetails.error!);
-          print(purchaseDetails.error);
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
           final bool valid = await _verifyPurchase(purchaseDetails);
@@ -92,6 +99,12 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   Future<void> deliverProduct(PurchaseDetails purchaseDetails) async {
     if (PurchaseConstants.inAppProducts.keys
         .contains(purchaseDetails.productID)) {
+      AutoAuthRepository authRepository = AutoAuthRepository();
+      authRepository.updateBalance(
+        UserModel(id: context.read<SignBloc>().state.userModel.id),
+        PurchaseConstants.inAppProducts[purchaseDetails.productID] ?? 0,
+      );
+
       emit(state.copyWith(
         purchasePending: false,
       ));

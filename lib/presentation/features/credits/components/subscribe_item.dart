@@ -51,7 +51,7 @@ class SubscribeItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "₺ ${productDetails.price}",
+                      "${productDetails.currencySymbol} ${productDetails.rawPrice}",
                       style: TextStyle(
                         color: AppColors.secondColor,
                         fontSize: 20,

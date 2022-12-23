@@ -30,4 +30,11 @@ class AutoAuthRepository extends AutoAuthInterface {
   Stream<BaseResponse<UserModel>> getUserInfo(String id) {
     return backendAutoAuth.getUserInfo(id);
   }
+
+  @override
+  Future<BaseResponse> updateBalance(UserModel userModel, int value) async {
+    BaseResponse baseResponse =
+        await backendAutoAuth.updateBalance(userModel, value);
+    return baseResponse;
+  }
 }
