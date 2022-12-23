@@ -74,6 +74,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
             return;
           }
         }
+
         if (Platform.isAndroid) {
           if (!kAutoConsume &&
               PurchaseConstants.inAppProducts.keys
