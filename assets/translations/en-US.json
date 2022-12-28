@@ -75,5 +75,6 @@
   },
   "sendForgotPasswordEmail": "Send reset email",
   "advantageous": "Advantageous",
-  "checking": "Checking..."
+  "checking": "Checking...",
+  "active": "Active"
 }

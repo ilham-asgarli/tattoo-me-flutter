@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -10,7 +11,9 @@ import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
+import 'package:tattoo/domain/models/subscriptions/subscription_model.dart';
 import 'package:tattoo/domain/repositories/auth/implementations/auto_auth_repository.dart';
+import 'package:tattoo/domain/repositories/subscriptions/implementations/subscriptions_repository.dart';
 import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 
 import '../../../constants/purchase/purchase_constants.dart';
@@ -19,41 +22,31 @@ part 'purchase_event.dart';
 part 'purchase_state.dart';
 
 class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
-  BuildContext context;
+  final SubscriptionsRepository subscriptionsRepository =
+      SubscriptionsRepository();
+  final AutoAuthRepository authRepository = AutoAuthRepository();
+
+  final BuildContext context;
   final InAppPurchase inAppPurchase = InAppPurchase.instance;
-  late StreamSubscription<List<PurchaseDetails>> _subscription;
+  StreamSubscription<List<PurchaseDetails>>? _subscription;
   final bool kAutoConsume = Platform.isIOS || true;
 
   PurchaseBloc(this.context) : super(PurchaseState()) {
-    on<PurchaseNotAvailableEvent>(_onNotAvailableEvent);
-
-    init();
+    init(context);
   }
 
-  _onNotAvailableEvent(
-    PurchaseNotAvailableEvent event,
-    Emitter<PurchaseState> emit,
-  ) {
-    emit(state.copyWith(
-      isAvailable: event.isAvailable,
-      loading: event.loading,
-      purchasePending: event.purchasePending,
-      notFoundIds: event.notFoundIds,
-      purchases: event.purchases,
-      products: event.products,
-    ));
-  }
-
-  void init() {
+  void init(BuildContext context) async {
+    //_subscription?.cancel();
     _subscription = inAppPurchase.purchaseStream.listen(
         (List<PurchaseDetails> purchaseDetailsList) {
       _listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
-      _subscription.cancel();
+      _subscription?.cancel();
     }, onError: (Object error) {
       // handle error here.
     });
-    initStoreInfo();
+    await initStoreInfo();
+    restorePurchases();
   }
 
   Future<void> _listenToPurchaseUpdated(
@@ -69,6 +62,32 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
           final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             deliverProduct(purchaseDetails);
+
+            if (purchaseDetails.status == PurchaseStatus.purchased) {
+              restorePurchases();
+
+              Map map = json.decode(
+                  purchaseDetails.verificationData.localVerificationData);
+
+              subscriptionsRepository.createSubscription(
+                SubscriptionModel(
+                  userId: context.read<SignBloc>().state.userModel.id,
+                  orderId: map["orderId"],
+                  productId: map["productId"],
+                  source: purchaseDetails.verificationData.source,
+                  purchaseToken: map["purchaseToken"],
+                  purchaseTime:
+                      DateTime.fromMillisecondsSinceEpoch(map["purchaseTime"]),
+                  createdDate: DateTime.now(),
+                ),
+              );
+            } else {
+              // restored
+              print(purchaseDetails.purchaseID);
+              print(purchaseDetails.transactionDate);
+              print(purchaseDetails.productID);
+              print(purchaseDetails.verificationData.localVerificationData);
+            }
           } else {
             _handleInvalidPurchase(purchaseDetails);
             return;
@@ -99,7 +118,6 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   Future<void> deliverProduct(PurchaseDetails purchaseDetails) async {
     if (PurchaseConstants.inAppProducts.keys
         .contains(purchaseDetails.productID)) {
-      AutoAuthRepository authRepository = AutoAuthRepository();
       authRepository.updateBalance(
         UserModel(id: context.read<SignBloc>().state.userModel.id),
         PurchaseConstants.inAppProducts[purchaseDetails.productID] ?? 0,
@@ -109,12 +127,14 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
         purchasePending: false,
       ));
     } else {
-      List<PurchaseDetails> purchases = state.purchases;
-      purchases.add(purchaseDetails);
-      emit(state.copyWith(
-        purchasePending: false,
-        purchases: purchases,
-      ));
+      if (purchaseDetails.status == PurchaseStatus.restored) {
+        List<PurchaseDetails> purchases = state.purchases.toList();
+        purchases.add(purchaseDetails);
+        emit(state.copyWith(
+          purchasePending: false,
+          purchases: purchases,
+        ));
+      }
     }
   }
 
@@ -198,6 +218,14 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     );
   }
 
+  void restorePurchases() {
+    emit(state.copyWith(
+      purchases: [],
+    ));
+
+    inAppPurchase.restorePurchases();
+  }
+
   @override
   Future<void> close() {
     if (Platform.isIOS) {
@@ -206,7 +234,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
               .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       iosPlatformAddition.setDelegate(null);
     }
-    _subscription.cancel();
+    _subscription?.cancel();
     return super.close();
   }
 }

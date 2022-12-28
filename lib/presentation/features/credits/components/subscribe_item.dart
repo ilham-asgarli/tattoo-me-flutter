@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:tattoo/utils/logic/state/bloc/purchase/purchase_bloc.dart';
 
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/purchase/purchase_constants.dart';
@@ -29,42 +31,51 @@ class SubscribeItem extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      PurchaseConstants.subscriptions[productDetails.id]
-                          .toString(),
-                      style: TextStyle(
-                        color: AppColors.secondColor,
-                        fontSize: 15,
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        PurchaseConstants.subscriptions[productDetails.id]
+                            .toString(),
+                        style: TextStyle(
+                          color: AppColors.secondColor,
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.star,
+                      Icon(
+                        Icons.star,
+                        color: AppColors.secondColor,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${productDetails.currencySymbol} ${productDetails.rawPrice}",
+                        style: TextStyle(
+                          color: AppColors.secondColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    isActive(context)
+                        ? LocaleKeys.active.tr()
+                        : LocaleKeys.sub.tr(),
+                    style: TextStyle(
                       color: AppColors.secondColor,
-                      size: 20,
+                      fontSize: 15,
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${productDetails.currencySymbol} ${productDetails.rawPrice}",
-                      style: TextStyle(
-                        color: AppColors.secondColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  LocaleKeys.sub.tr(),
-                  style: TextStyle(
-                    color: AppColors.secondColor,
-                    fontSize: 15,
+                    textAlign: TextAlign.end,
                   ),
                 ),
               ],
@@ -73,5 +84,14 @@ class SubscribeItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool isActive(BuildContext context) {
+    for (var element in context.watch<PurchaseBloc>().state.purchases) {
+      if (element.productID == productDetails.id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -105,7 +105,7 @@ class _CreditsViewState extends State<CreditsView> {
     );
   }
 
-  ListView buildSubWidget() {
+  Widget buildSubWidget() {
     List<ProductDetails> products =
         context.watch<PurchaseBloc>().state.products;
     Iterable<ProductDetails> productsIterable = products.where((element) {

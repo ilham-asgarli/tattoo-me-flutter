@@ -75,5 +75,6 @@
   },
   "sendForgotPasswordEmail": "Yenileme e-postası gönder",
   "advantageous": "Avantajlı",
-  "checking": "Kontrol ediliyor..."
+  "checking": "Kontrol ediliyor...",
+  "active": "Aktif"
 }

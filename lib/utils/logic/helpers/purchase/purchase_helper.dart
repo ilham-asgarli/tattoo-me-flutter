@@ -35,7 +35,7 @@ class PurchaseHelper {
     final PurchaseDetails? previousPurchase = purchases[productDetails.id];
 
     if (previousPurchase != null) {
-      confirmPriceChange(context);
+      confirmPriceChange(context, previousPurchase);
     } else {
       late PurchaseParam purchaseParam;
 
@@ -70,7 +70,10 @@ class PurchaseHelper {
     }
   }
 
-  Future<void> confirmPriceChange(BuildContext context) async {
+  Future<void> confirmPriceChange(
+    BuildContext context,
+    PurchaseDetails purchaseDetails,
+  ) async {
     if (Platform.isAndroid) {
       final InAppPurchaseAndroidPlatformAddition androidAddition = context
           .read<PurchaseBloc>()
@@ -78,22 +81,25 @@ class PurchaseHelper {
           .getPlatformAddition<InAppPurchaseAndroidPlatformAddition>();
       final BillingResultWrapper priceChangeConfirmationResult =
           await androidAddition.launchPriceChangeConfirmationFlow(
-        sku: 'purchaseId',
+        sku: purchaseDetails.productID,
       );
-      if (priceChangeConfirmationResult.responseCode == BillingResponse.ok) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Price change accepted'),
-        ));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            priceChangeConfirmationResult.debugMessage ??
-                'Price change failed with code ${priceChangeConfirmationResult.responseCode}',
+      /*if (priceChangeConfirmationResult.responseCode == BillingResponse.ok) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Price change accepted'),
           ),
-        ));
-      }
-    }
-    if (Platform.isIOS) {
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              priceChangeConfirmationResult.debugMessage ??
+                  'Price change failed with code ${priceChangeConfirmationResult.responseCode}',
+            ),
+          ),
+        );
+      }*/
+    } else if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iapStoreKitPlatformAddition =
           context
               .read<PurchaseBloc>()
