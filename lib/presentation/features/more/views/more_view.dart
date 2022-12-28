@@ -5,14 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:store_redirect/store_redirect.dart';
-import '../view-models/more_view_model.dart';
-import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
-import '../../../../utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
+import '../../../../utils/logic/constants/app/app_constants.dart';
+import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../widgets/fractionally_sized_circular_progress_indicator.dart';
+import '../view-models/more_view_model.dart';
 
 class MoreView extends StatelessWidget {
   final MoreViewModel viewModel = MoreViewModel();
@@ -160,6 +161,6 @@ class MoreView extends StatelessWidget {
   }
 
   Future<void> checkForUpdates() async {
-    await StoreRedirect.redirect();
+    await StoreRedirect.redirect(iOSAppId: AppConstants.iOSAppId);
   }
 }
