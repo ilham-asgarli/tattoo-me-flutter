@@ -8,7 +8,6 @@ import 'package:store_redirect/store_redirect.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
-import '../../../../utils/logic/constants/app/app_constants.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
@@ -161,6 +160,6 @@ class MoreView extends StatelessWidget {
   }
 
   Future<void> checkForUpdates() async {
-    await StoreRedirect.redirect(iOSAppId: AppConstants.iOSAppId);
+    await StoreRedirect.redirect();
   }
 }
