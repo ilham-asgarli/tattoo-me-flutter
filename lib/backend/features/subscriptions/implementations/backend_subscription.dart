@@ -17,10 +17,14 @@ class BackendSubscription extends BackendSubscriptionInterface {
   Future<BaseResponse<SubscriptionModel>> createSubscription(
       SubscriptionModel subscriptionModel) async {
     try {
+      BackendSubscriptionModel backendSubscriptionModel =
+          BackendSubscriptionModel.from(
+        model: subscriptionModel,
+      );
+      backendSubscriptionModel.createdDate = FieldValue.serverTimestamp();
+
       DocumentReference documentReference = await subscriptions.add(
-        BackendSubscriptionModel.from(
-          model: subscriptionModel,
-        ).toJson(),
+        backendSubscriptionModel.toJson(),
       );
 
       subscriptionModel.id = documentReference.id;

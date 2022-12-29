@@ -12,8 +12,8 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
   String? previousRequestId;
   String? retouchId;
   bool? finished;
-  Timestamp? createdDate;
-  Timestamp? startDesignDate;
+  dynamic createdDate;
+  dynamic startDesignDate;
   List<BackendDesignRequestImageModel>? designResponseImageModels;
 
   BackendDesignRequestModel({

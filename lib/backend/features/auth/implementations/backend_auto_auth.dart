@@ -21,11 +21,11 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         email: userModel?.email,
         password: userModel?.password,
         balance: 0,
-        createdDate: DateTime.now(),
-        lastAppEntryDate: DateTime.now(),
       );
       BackendUserModel backendUserModel =
           BackendUserModel.from(userModel: model);
+      backendUserModel.createdDate = FieldValue.serverTimestamp();
+      backendUserModel.lastAppEntryDate = FieldValue.serverTimestamp();
 
       if (backendUserModel.id == null) {
         DocumentReference documentReference =
@@ -44,12 +44,12 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
 
   @override
   Future<BaseResponse> updateLastAppEntryDate(UserModel userModel) async {
-    userModel.lastAppEntryDate = DateTime.now();
+    BackendUserModel backendUserModel =
+        BackendUserModel.from(userModel: userModel);
+    backendUserModel.lastAppEntryDate = FieldValue.serverTimestamp();
 
     try {
-      await users
-          .doc(userModel.id)
-          .update(BackendUserModel.from(userModel: userModel).toJson());
+      await users.doc(userModel.id).update(backendUserModel.toJson());
       return BaseSuccess();
     } catch (e) {
       return BaseError();

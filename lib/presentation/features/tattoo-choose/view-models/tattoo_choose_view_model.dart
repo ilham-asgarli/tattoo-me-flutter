@@ -68,7 +68,6 @@ class TattooChooseViewModel extends BaseViewModel {
         await sendDesignRequestRepository.sendDesignRequest(
       DesignRequestModel(
         userId: userId,
-        createdDate: DateTime.now(),
         finished: false,
         designRequestImageModels1: designRequestImageModels,
       ),

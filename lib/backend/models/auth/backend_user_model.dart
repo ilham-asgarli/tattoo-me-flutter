@@ -10,8 +10,8 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   String? email;
   String? password;
   dynamic balance;
-  Timestamp? createdDate;
-  Timestamp? lastAppEntryDate;
+  dynamic createdDate;
+  dynamic lastAppEntryDate;
 
   BackendUserModel({
     this.id,

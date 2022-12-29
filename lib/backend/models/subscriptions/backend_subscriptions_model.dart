@@ -12,7 +12,7 @@ class BackendSubscriptionModel extends BaseModel<BackendSubscriptionModel> {
   String? source;
   String? purchaseToken;
   Timestamp? purchaseTime;
-  Timestamp? createdDate;
+  dynamic createdDate;
 
   BackendSubscriptionModel({
     this.id,

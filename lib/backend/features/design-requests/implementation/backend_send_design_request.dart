@@ -184,11 +184,15 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
     DesignRequestModel designRequestModel,
     Reference designRequestImageReference,
   ) async {
+    BackendDesignRequestModel backendDesignRequestModel =
+        BackendDesignRequestModel.from(
+      model: designRequestModel,
+    );
+    backendDesignRequestModel.createdDate = FieldValue.serverTimestamp();
+
     transaction.set(
       designRequestsDocumentReference,
-      BackendDesignRequestModel.from(
-        model: designRequestModel,
-      ).toJson(),
+      backendDesignRequestModel.toJson(),
     );
 
     designRequestModel.designRequestImageModels2 = [];
@@ -227,11 +231,15 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
     DesignRequestModel designRequestModel,
     String comment,
   ) async {
+    BackendDesignRequestModel backendDesignRequestModel =
+        BackendDesignRequestModel.from(
+      model: designRequestModel,
+    );
+    backendDesignRequestModel.createdDate = FieldValue.serverTimestamp();
+
     transaction.set(
       designRequestsDocumentReference,
-      BackendDesignRequestModel.from(
-        model: designRequestModel,
-      ).toJson(),
+      backendDesignRequestModel.toJson(),
     );
 
     DocumentReference retouchesDocumentReference = retouches.doc();

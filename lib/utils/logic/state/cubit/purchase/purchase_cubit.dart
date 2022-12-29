@@ -75,7 +75,6 @@ class PurchaseCubit extends Cubit<PurchaseState> {
                   purchaseToken: map["purchaseToken"],
                   purchaseTime:
                       DateTime.fromMillisecondsSinceEpoch(map["purchaseTime"]),
-                  createdDate: DateTime.now(),
                 ),
               );
             } else {
