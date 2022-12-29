@@ -2,6 +2,9 @@
   "appName": "Tattoo",
   "notFoundNavigation": "403",
   "noInternet": "İnternet bağlantınız yok.",
+  "noDesigner": "Şuan müsait tasarımcı yok...",
+  "insufficientBalance": "Yetersiz bakiye...",
+  "retouchedBefore": "Daha önce rötuşlandı...",
   "homeBottomNavBarLabels": {
     "gallery": "Galeri",
     "credits": "Krediler",

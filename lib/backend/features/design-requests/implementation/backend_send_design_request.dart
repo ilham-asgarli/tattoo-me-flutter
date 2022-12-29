@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tattoo/backend/models/retouches/backend_retouches_model.dart';
 import 'package:tattoo/backend/utils/constants/app/app_constants.dart';
@@ -8,6 +9,7 @@ import 'package:tattoo/backend/utils/constants/firebase/design-requests/design_r
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/domain/models/design-request/design_request_model.dart';
+import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../domain/models/design-request/design_request_image_model_2.dart';
@@ -54,7 +56,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
 
           String? designerId = await assignDesigner();
           if (designerId == null) {
-            throw BaseError(message: "No designer");
+            throw BaseError(message: LocaleKeys.noDesigner.tr());
           }
           designRequestModel.designerId = designerId;
 
@@ -64,7 +66,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             "balance": FieldValue.increment(-AppConstants.tattooDesignPrice)
           });
         } else {
-          throw BaseError(message: "Insufficient credits");
+          throw BaseError(message: LocaleKeys.insufficientBalance.tr());
         }
       }, maxAttempts: 1).catchError((e) {
         throw e.toString();
@@ -100,7 +102,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
               backendDesignRequestModel.previousRequestId == null) {
             String? designerId = await assignDesigner();
             if (designerId == null) {
-              throw BaseError(message: "No designer");
+              throw BaseError(message: LocaleKeys.noDesigner.tr());
             }
             designRequestModel.designerId = designerId;
 
@@ -111,7 +113,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
               comment,
             );
           } else {
-            throw BaseError(message: "Retouched");
+            throw BaseError(message: LocaleKeys.retouchedBefore.tr());
           }
         }
       }, maxAttempts: 1).catchError((e) {
