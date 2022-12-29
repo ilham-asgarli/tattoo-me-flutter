@@ -32,8 +32,17 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
       FirebaseFirestore.instance.collection("designers");
   CollectionReference retouches =
       FirebaseFirestore.instance.collection("retouches");
+  CollectionReference settings =
+      FirebaseFirestore.instance.collection("settings");
+
   Reference designRequestImagesReference = FirebaseStorage.instance
       .ref(DesignRequestImageCollectionConstants.designRequestImages);
+
+  late DocumentReference designRequestsSettings;
+
+  BackendSendDesignRequest() {
+    designRequestsSettings = settings.doc("design-request");
+  }
 
   @override
   Future<BaseResponse<DesignRequestModel>> sendDesignRequest(
@@ -45,6 +54,17 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           .child(designRequestsDocumentReference.id);
 
       await firestore.runTransaction((transaction) async {
+        DocumentSnapshot designRequestsSettingsDocument =
+            await transaction.get(designRequestsSettings);
+
+        if (!designRequestsSettingsDocument.exists ||
+            (DateTime.now().hour >=
+                    designRequestsSettingsDocument.get("workHours")[0] &&
+                DateTime.now().hour <
+                    designRequestsSettingsDocument.get("workHours")[1])) {
+          throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
+        }
+
         DocumentReference userDocument = users.doc(designRequestModel.userId);
         DocumentSnapshot userDocumentSnapshot =
             await transaction.get(userDocument);
@@ -54,7 +74,8 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
                 AppConstants.tattooDesignPrice) {
           await sendFiles(designRequestModel, designRequestImageReference);
 
-          String? designerId = await assignDesigner();
+          String? designerId = await assignDesigner(
+              designRequestsSettingsDocument.get("designLimitForOneDesigner"));
           if (designerId == null) {
             throw BaseError(message: LocaleKeys.noDesigner.tr());
           }
@@ -86,6 +107,17 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
       DocumentReference designRequestDocumentReference = designRequests.doc();
 
       await firestore.runTransaction((transaction) async {
+        DocumentSnapshot designRequestsSettingsDocument =
+            await transaction.get(designRequestsSettings);
+
+        if (!designRequestsSettingsDocument.exists ||
+            (DateTime.now().hour >=
+                    designRequestsSettingsDocument.get("workHours")[0] &&
+                DateTime.now().hour <
+                    designRequestsSettingsDocument.get("workHours")[1])) {
+          throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
+        }
+
         DocumentReference designRequestDocument =
             designRequests.doc(designRequestModel.previousRequestId);
         DocumentSnapshot designRequestDocumentSnapshot =
@@ -100,7 +132,9 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
 
           if (backendDesignRequestModel.retouchId == null &&
               backendDesignRequestModel.previousRequestId == null) {
-            String? designerId = await assignDesigner();
+            String? designerId = await assignDesigner(
+                designRequestsSettingsDocument
+                    .get("designLimitForOneDesigner"));
             if (designerId == null) {
               throw BaseError(message: LocaleKeys.noDesigner.tr());
             }
@@ -219,7 +253,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
     );
   }
 
-  Future<String?> assignDesigner() async {
+  Future<String?> assignDesigner(int designLimitForOneDesigner) async {
     QuerySnapshot workingDesignersQuerySnapshot =
         await designers.where("working", isEqualTo: true).get();
 
@@ -231,8 +265,9 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           .where("designerId", isEqualTo: workingDesignerDocumentSnapshot.id)
           .get();
 
-      if (lastMinAssignmentCount < 0 ||
-          lastMinAssignmentCount > designRequestsQuerySnapshot.size) {
+      if ((lastMinAssignmentCount < 0 ||
+              lastMinAssignmentCount > designRequestsQuerySnapshot.size) &&
+          designRequestsQuerySnapshot.size <= designLimitForOneDesigner) {
         lastMinAssignmentCount = designRequestsQuerySnapshot.size;
         designerId = workingDesignerDocumentSnapshot.id;
       }

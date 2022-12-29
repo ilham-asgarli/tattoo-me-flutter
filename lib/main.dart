@@ -9,7 +9,6 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tattoo/domain/repositories/settings/implementations/settings_repository.dart';
 import 'package:tattoo/utils/logic/state/cubit/purchase/purchase_cubit.dart';
 
 import 'core/cache/shared_preferences_manager.dart';
@@ -55,37 +54,30 @@ Widget app() {
     path: LocaleConstants.path,
     startLocale: !kReleaseMode ? LocaleConstants.trTR : null,
     fallbackLocale: LocaleConstants.enUS,
-    child: MultiRepositoryProvider(
+    child: MultiBlocProvider(
       providers: [
-        RepositoryProvider(
-          create: (_) => SettingsRepository(),
+        BlocProvider(
+          create: (_) => ThemeBloc(),
+        ),
+        BlocProvider(
+          create: (_) => NetworkCubit(),
+        ),
+        BlocProvider(
+          create: (_) => SignBloc(),
+        ),
+        BlocProvider(
+          create: (_) => HomeTabCubit(),
+        ),
+        BlocProvider(
+          create: (_) => ReadyCubit(),
+        ),
+        BlocProvider(
+          create: (_) => PurchaseCubit(_),
         ),
       ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => ThemeBloc(),
-          ),
-          BlocProvider(
-            create: (_) => NetworkCubit(),
-          ),
-          BlocProvider(
-            create: (_) => SignBloc(),
-          ),
-          BlocProvider(
-            create: (_) => HomeTabCubit(),
-          ),
-          BlocProvider(
-            create: (_) => ReadyCubit(),
-          ),
-          BlocProvider(
-            create: (_) => PurchaseCubit(_),
-          ),
-        ],
-        child: DevicePreview(
-          enabled: false, //!kReleaseMode
-          builder: (context) => MyAppView(),
-        ),
+      child: DevicePreview(
+        enabled: false, //!kReleaseMode
+        builder: (context) => MyAppView(),
       ),
     ),
   );
