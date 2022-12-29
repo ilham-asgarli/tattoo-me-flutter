@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
-import '../../../../core/base/models/base_success.dart';
-import '../../../../core/base/view-models/base_view_model.dart';
-import '../../../../domain/models/design-request/design_request_image_model_1.dart';
-import '../../../../domain/repositories/design-requests/implementations/send_design_request_repository.dart';
-import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
+import '../../../../core/base/view-models/base_view_model.dart';
 import '../../../../core/router/core/router_service.dart';
+import '../../../../domain/models/design-request/design_request_image_model_1.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
+import '../../../../domain/repositories/design-requests/implementations/send_design_request_repository.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../components/progress_dialog.dart';
 
 class TattooChooseViewModel extends BaseViewModel {

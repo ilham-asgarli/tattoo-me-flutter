@@ -58,9 +58,9 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             await transaction.get(designRequestsSettings);
 
         if (!designRequestsSettingsDocument.exists ||
-            (DateTime.now().hour >=
-                    designRequestsSettingsDocument.get("workHours")[0] &&
-                DateTime.now().hour <
+            (DateTime.now().hour <
+                    designRequestsSettingsDocument.get("workHours")[0] ||
+                DateTime.now().hour >=
                     designRequestsSettingsDocument.get("workHours")[1])) {
           throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
         }
@@ -111,9 +111,9 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             await transaction.get(designRequestsSettings);
 
         if (!designRequestsSettingsDocument.exists ||
-            (DateTime.now().hour >=
-                    designRequestsSettingsDocument.get("workHours")[0] &&
-                DateTime.now().hour <
+            (DateTime.now().hour <
+                    designRequestsSettingsDocument.get("workHours")[0] ||
+                DateTime.now().hour >=
                     designRequestsSettingsDocument.get("workHours")[1])) {
           throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
         }
@@ -263,6 +263,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
         in workingDesignersQuerySnapshot.docs) {
       QuerySnapshot designRequestsQuerySnapshot = await designRequests
           .where("designerId", isEqualTo: workingDesignerDocumentSnapshot.id)
+          .where("finished", isEqualTo: false)
           .get();
 
       if ((lastMinAssignmentCount < 0 ||
