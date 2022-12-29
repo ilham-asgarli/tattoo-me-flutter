@@ -2,36 +2,33 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
-import 'package:tattoo/domain/models/subscriptions/subscription_model.dart';
-import 'package:tattoo/domain/repositories/auth/implementations/auto_auth_repository.dart';
-import 'package:tattoo/domain/repositories/subscriptions/implementations/subscriptions_repository.dart';
-import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 
+import '../../../../../domain/models/auth/user_model.dart';
+import '../../../../../domain/models/subscriptions/subscription_model.dart';
+import '../../../../../domain/repositories/auth/implementations/auto_auth_repository.dart';
+import '../../../../../domain/repositories/subscriptions/implementations/subscriptions_repository.dart';
 import '../../../constants/purchase/purchase_constants.dart';
+import '../../bloc/sign/sign_bloc.dart';
 
-part 'purchase_event.dart';
 part 'purchase_state.dart';
 
-class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
+class PurchaseCubit extends Cubit<PurchaseState> {
   final SubscriptionsRepository subscriptionsRepository =
       SubscriptionsRepository();
   final AutoAuthRepository authRepository = AutoAuthRepository();
 
   final BuildContext context;
   final InAppPurchase inAppPurchase = InAppPurchase.instance;
-  StreamSubscription<List<PurchaseDetails>>? _subscription;
   final bool kAutoConsume = Platform.isIOS || true;
+  StreamSubscription<List<PurchaseDetails>>? _subscription;
 
-  PurchaseBloc(this.context) : super(PurchaseState()) {
+  PurchaseCubit(this.context) : super(PurchaseState()) {
     init(context);
   }
 

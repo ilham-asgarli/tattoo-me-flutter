@@ -9,7 +9,7 @@ import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 
 import '../../constants/purchase/purchase_constants.dart';
-import '../../state/bloc/purchase/purchase_bloc.dart';
+import '../../state/cubit/purchase/purchase_cubit.dart';
 
 class PurchaseHelper {
   static const PurchaseHelper instance = PurchaseHelper._internal();
@@ -19,11 +19,11 @@ class PurchaseHelper {
   void onTap(BuildContext context, ProductDetails productDetails) {
     final Map<String, PurchaseDetails> purchases =
         Map<String, PurchaseDetails>.fromEntries(
-      context.read<PurchaseBloc>().state.purchases.map(
+      context.read<PurchaseCubit>().state.purchases.map(
         (PurchaseDetails purchase) {
           if (purchase.pendingCompletePurchase) {
             context
-                .read<PurchaseBloc>()
+                .read<PurchaseCubit>()
                 .inAppPurchase
                 .completePurchase(purchase);
           }
@@ -58,12 +58,12 @@ class PurchaseHelper {
       }
 
       if (PurchaseConstants.inAppProducts.keys.contains(productDetails.id)) {
-        context.read<PurchaseBloc>().inAppPurchase.buyConsumable(
+        context.read<PurchaseCubit>().inAppPurchase.buyConsumable(
               purchaseParam: purchaseParam,
-              autoConsume: context.read<PurchaseBloc>().kAutoConsume,
+              autoConsume: context.read<PurchaseCubit>().kAutoConsume,
             );
       } else {
-        context.read<PurchaseBloc>().inAppPurchase.buyNonConsumable(
+        context.read<PurchaseCubit>().inAppPurchase.buyNonConsumable(
               purchaseParam: purchaseParam,
             );
       }
@@ -76,7 +76,7 @@ class PurchaseHelper {
   ) async {
     if (Platform.isAndroid) {
       final InAppPurchaseAndroidPlatformAddition androidAddition = context
-          .read<PurchaseBloc>()
+          .read<PurchaseCubit>()
           .inAppPurchase
           .getPlatformAddition<InAppPurchaseAndroidPlatformAddition>();
       final BillingResultWrapper priceChangeConfirmationResult =
@@ -102,7 +102,7 @@ class PurchaseHelper {
     } else if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iapStoreKitPlatformAddition =
           context
-              .read<PurchaseBloc>()
+              .read<PurchaseCubit>()
               .inAppPurchase
               .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       await iapStoreKitPlatformAddition.showPriceConsentIfNeeded();

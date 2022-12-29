@@ -5,7 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:tattoo/utils/logic/constants/purchase/purchase_constants.dart';
 import 'package:tattoo/utils/logic/helpers/purchase/purchase_helper.dart';
-import 'package:tattoo/utils/logic/state/bloc/purchase/purchase_bloc.dart';
+import 'package:tattoo/utils/logic/state/cubit/purchase/purchase_cubit.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
@@ -68,7 +68,7 @@ class _CreditsViewState extends State<CreditsView> {
 
   Wrap buildBuyWidget() {
     List<ProductDetails> products =
-        context.watch<PurchaseBloc>().state.products;
+        context.watch<PurchaseCubit>().state.products;
     Iterable<ProductDetails> productsIterable = products.where((element) {
       return PurchaseConstants.inAppProducts.keys.contains(element.id);
     });
@@ -107,7 +107,7 @@ class _CreditsViewState extends State<CreditsView> {
 
   Widget buildSubWidget() {
     List<ProductDetails> products =
-        context.watch<PurchaseBloc>().state.products;
+        context.watch<PurchaseCubit>().state.products;
     Iterable<ProductDetails> productsIterable = products.where((element) {
       return PurchaseConstants.subscriptions.keys.contains(element.id);
     });

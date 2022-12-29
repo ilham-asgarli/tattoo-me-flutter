@@ -1,4 +1,4 @@
-part of 'purchase_bloc.dart';
+part of 'purchase_cubit.dart';
 
 class PurchaseState {
   List<String> notFoundIds;
