@@ -9,6 +9,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tattoo/utils/logic/helpers/downloader/downloader_helper.dart';
 import 'package:tattoo/utils/logic/state/cubit/purchase/purchase_cubit.dart';
 
 import 'core/cache/shared_preferences_manager.dart';
@@ -31,7 +32,9 @@ void main() async {
   await SharedPreferencesManager.preferencesInit();
   await dotenv.load(fileName: EnvConstants.encrypt.toEnv);
   await FlutterDownloader.initialize(debug: !kReleaseMode);
-  await FlutterDownloader.registerCallback(downloadCallback);
+  await FlutterDownloader.registerCallback(
+    DownloaderHelper.instance.downloadCallback,
+  );
 
   final storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
@@ -45,8 +48,6 @@ void main() async {
     storage: storage,
   );
 }
-
-void downloadCallback(String id, DownloadTaskStatus status, int progress) {}
 
 Widget app() {
   return EasyLocalization(
