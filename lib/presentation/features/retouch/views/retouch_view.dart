@@ -4,20 +4,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tattoo/core/base/models/base_success.dart';
+import 'package:tattoo/domain/repositories/settings/implementations/settings_repository.dart';
+
+import '../../../../core/base/models/base_response.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/int_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
-import '../components/animated_retouching.dart';
-import '../components/retouch_ready.dart';
-import '../view-models/retouch_view_model.dart';
-import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
-
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
+import '../../../../domain/models/settings/settings_model.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
+import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
+import '../components/animated_retouching.dart';
 import '../components/retouch_background.dart';
+import '../components/retouch_ready.dart';
+import '../view-models/retouch_view_model.dart';
 
 class RetouchView extends StatelessWidget {
   late final DesignRequestModel? designRequestModel;
@@ -32,29 +36,36 @@ class RetouchView extends StatelessWidget {
         0;
     imageIndex = imageIndex >= 0 ? imageIndex : 0;
 
-    return BlocBuilder<RetouchCubit, RetouchState>(
-      builder: (context, state) {
-        viewModel.computeEndTime(context, state);
-
-        return WillPopScope(
-          onWillPop: () {
-            return viewModel.onBackPressed(context);
-          },
-          child: Scaffold(
-            extendBodyBehindAppBar: true,
-            appBar: buildAppBar(context),
-            body: Stack(
-              children: [
-                RetouchBackground(
-                  image: designRequestModel
-                      ?.designRequestImageModels2?[imageIndex].link,
-                ),
-                buildBody(context),
-              ],
-            ),
-          ),
-        );
+    return WillPopScope(
+      onWillPop: () {
+        return viewModel.onBackPressed(context);
       },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: buildAppBar(context),
+        body: Stack(
+          children: [
+            RetouchBackground(
+              image: designRequestModel
+                  ?.designRequestImageModels2?[imageIndex].link,
+            ),
+            StreamBuilder<BaseResponse<SettingsModel>>(
+              stream: SettingsRepository().getDesignRequestsSettingsStream(),
+              builder: (context, snapshot) {
+                BaseResponse<SettingsModel>? baseResponse = snapshot.data;
+                if (baseResponse is BaseSuccess<SettingsModel>) {
+                  viewModel.settingsModel = baseResponse.data;
+                  viewModel.computeEndTime(context);
+
+                  return buildBody(context);
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -111,15 +122,18 @@ class RetouchView extends StatelessWidget {
     RetouchState state = context.watch<RetouchCubit>().state;
 
     return Text(
-      state is RetouchIsReady
+      state.runtimeType == RetouchIsReady
           ? LocaleKeys.retouchEnded.tr()
-          : state is RetouchInRetouch
+          : state.runtimeType == RetouchInRetouch
               ? LocaleKeys.retouchingPhoto.tr()
-              : state is RetouchInQueue
-                  ? LocaleKeys.outOfWorkTimeDescription.tr()
+              : state.runtimeType == RetouchInQueue
+                  ? LocaleKeys.outOfWorkTimeDescription.tr(args: [
+                      viewModel.settingsModel?.workHours?[0].toString() ?? "",
+                      viewModel.settingsModel?.workHours?[1].toString() ?? ""
+                    ])
                   : "",
       style: TextStyle(
-        fontSize: state is RetouchInQueue ? 18 : 22,
+        fontSize: state.runtimeType == RetouchInQueue ? 18 : 22,
         fontWeight: FontWeight.w300,
       ),
       textAlign: TextAlign.center,

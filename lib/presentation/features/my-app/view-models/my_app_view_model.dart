@@ -48,6 +48,7 @@ class MyAppViewModel extends BaseViewModel {
     } else {
       BaseResponse<UserModel> baseResponse =
           await autoAuthRepository.createUser();
+
       if (baseResponse is BaseSuccess<UserModel>) {
         signBloc.add(
             RestoreSignInEvent(restoreSignInUserModel: baseResponse.data!));

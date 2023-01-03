@@ -54,8 +54,11 @@ class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {
       previousRequestId: model.previousRequestId,
       retouchId: model.retouchId,
       finished: model.finished,
-      createdDate: model.createdDate?.toDate(),
-      startDesignDate: model.startDesignDate?.toDate(),
+      createdDate:
+          model.createdDate is Timestamp ? model.createdDate?.toDate() : null,
+      startDesignDate: model.createdDate is Timestamp
+          ? model.startDesignDate?.toDate()
+          : null,
       designRequestImageModels2: model.designResponseImageModels
           ?.map((e) => BackendDesignRequestImageModel().to(model: e))
           .toList(),

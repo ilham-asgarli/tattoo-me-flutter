@@ -43,9 +43,11 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       email: userModel.email,
       password: userModel.password,
       balance: userModel.balance,
-      createdDate: userModel.createdDate?.toDate(),
-      lastAppEntryDate: userModel.lastAppEntryDate != null
-          ? lastAppEntryDate?.toDate()
+      createdDate: userModel.createdDate is Timestamp
+          ? userModel.createdDate?.toDate()
+          : null,
+      lastAppEntryDate: userModel.lastAppEntryDate is Timestamp
+          ? userModel.lastAppEntryDate?.toDate()
           : null,
     );
   }

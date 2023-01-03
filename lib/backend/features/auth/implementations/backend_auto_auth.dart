@@ -38,7 +38,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
       return BaseSuccess<UserModel>(
           data: backendUserModel.to(userModel: backendUserModel));
     } catch (e) {
-      return BaseError();
+      return BaseError(message: e.toString());
     }
   }
 

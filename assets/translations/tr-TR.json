@@ -6,6 +6,7 @@
   "insufficientBalance": "Yetersiz bakiye...",
   "retouchedBefore": "Daha önce rötuşlandı...",
   "outOfWorkingHours": "İş saatleri dışındayız...",
+  "notTakingOrder": "Lütfen daha sonra tekrar deneyin...",
   "homeBottomNavBarLabels": {
     "gallery": "Galeri",
     "credits": "Krediler",
@@ -50,7 +51,7 @@
   "details": "Ayrıntılar",
   "retouchingPhoto": "Fotoğrafınız rötuşlanıyor",
   "retouchEnded": "Dövme tasarımınız hazırlandı.\nSonucun keyfini çıkarın",
-  "outOfWorkTimeDescription": "Fotoğrafınız çalışma saatleri içerisinde 12:00-20:00 arasında profesyonel tasarımcılarımız tarafından yapılacaktır",
+  "outOfWorkTimeDescription": "Fotoğrafınız çalışma saatleri içerisinde {}:00-{}:00 arasında profesyonel tasarımcılarımız tarafından yapılacaktır",
   "controlDescription": "Fotoğrafınız inceleniyor",
   "queue": "Sırada",
   "control": "İnceleniyor",

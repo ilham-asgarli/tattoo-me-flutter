@@ -8,6 +8,7 @@ abstract class  LocaleKeys {
   static const insufficientBalance = 'insufficientBalance';
   static const retouchedBefore = 'retouchedBefore';
   static const outOfWorkingHours = 'outOfWorkingHours';
+  static const notTakingOrder = 'notTakingOrder';
   static const homeBottomNavBarLabels_gallery = 'homeBottomNavBarLabels.gallery';
   static const homeBottomNavBarLabels_credits = 'homeBottomNavBarLabels.credits';
   static const homeBottomNavBarLabels_ready = 'homeBottomNavBarLabels.ready';

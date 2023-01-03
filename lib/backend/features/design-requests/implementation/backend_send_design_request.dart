@@ -58,10 +58,14 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             await transaction.get(designRequestsSettings);
 
         if (!designRequestsSettingsDocument.exists ||
-            (DateTime.now().hour <
-                    designRequestsSettingsDocument.get("workHours")[0] ||
-                DateTime.now().hour >=
-                    designRequestsSettingsDocument.get("workHours")[1])) {
+            !designRequestsSettingsDocument.get("takingOrder")) {
+          throw BaseError(message: LocaleKeys.notTakingOrder.tr());
+        }
+
+        if (DateTime.now().hour <
+                designRequestsSettingsDocument.get("workHours")[0] ||
+            DateTime.now().hour >=
+                designRequestsSettingsDocument.get("workHours")[1]) {
           throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
         }
 
@@ -111,10 +115,14 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             await transaction.get(designRequestsSettings);
 
         if (!designRequestsSettingsDocument.exists ||
-            (DateTime.now().hour <
-                    designRequestsSettingsDocument.get("workHours")[0] ||
-                DateTime.now().hour >=
-                    designRequestsSettingsDocument.get("workHours")[1])) {
+            !designRequestsSettingsDocument.get("takingOrder")) {
+          throw BaseError(message: LocaleKeys.notTakingOrder.tr());
+        }
+
+        if (DateTime.now().hour <
+                designRequestsSettingsDocument.get("workHours")[0] ||
+            DateTime.now().hour >=
+                designRequestsSettingsDocument.get("workHours")[1]) {
           throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
         }
 

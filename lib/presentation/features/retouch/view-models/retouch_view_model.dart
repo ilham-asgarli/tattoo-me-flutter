@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tattoo/domain/models/settings/settings_model.dart';
 
 import '../../../../core/base/view-models/base_view_model.dart';
 import '../../../../core/extensions/date_time_extension.dart';
@@ -11,6 +12,7 @@ import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
 
 class RetouchViewModel extends BaseViewModel {
+  SettingsModel? settingsModel;
   int endTime = DateTime.now().millisecondsSinceEpoch;
   final Duration oneDesignDuration = const Duration(minutes: 5);
 
@@ -24,7 +26,8 @@ class RetouchViewModel extends BaseViewModel {
     return true;
   }
 
-  void computeEndTime(BuildContext context, RetouchState state) {
+  void computeEndTime(BuildContext context) {
+    RetouchState state = context.read<RetouchCubit>().state;
     List<DesignRequestModel>? designRequestModels;
 
     if (state is RetouchInRetouch) {
@@ -65,21 +68,24 @@ class RetouchViewModel extends BaseViewModel {
   }
 
   void addNotWorkTime(
-      BuildContext context, List<DesignRequestModel>? designRequestModels) {
+    BuildContext context,
+    List<DesignRequestModel>? designRequestModels,
+  ) {
     DateTime workStartDate = DateTime.now();
-    if (DateTime.now().hour < 12) {
+
+    if (DateTime.now().hour < settingsModel?.workHours?[0]) {
       workStartDate = DateTime.now().copyWith(
-        hour: 12,
+        hour: settingsModel?.workHours?[0],
         minute: 0,
         second: 0,
         millisecond: 0,
         microsecond: 0,
       );
       BlocProvider.of<RetouchCubit>(context).inQueue(designRequestModels);
-    } else if (DateTime.now().hour >= 20) {
+    } else if (DateTime.now().hour >= settingsModel?.workHours?[1]) {
       workStartDate = DateTime.now().copyWith(
         day: DateTime.now().day + 1,
-        hour: 12,
+        hour: settingsModel?.workHours?[0],
         minute: 0,
         second: 0,
         millisecond: 0,

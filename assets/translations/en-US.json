@@ -6,6 +6,7 @@
   "insufficientBalance": "",
   "retouchedBefore": "",
   "outOfWorkingHours": "",
+  "notTakingOrder": "",
   "homeBottomNavBarLabels": {
     "gallery": "Gallery",
     "credits": "Credits",
@@ -50,7 +51,7 @@
   "details": "Details",
   "retouchingPhoto": "Your photo is being retouched",
   "retouchEnded": "Your tattoo design has been prepared.\nEnjoy the result",
-  "outOfWorkTimeDescription": "Your photo will be made by our professional designers between 12:00-20:00 during working hours",
+  "outOfWorkTimeDescription": "Your photo will be made by our professional designers between {}:00-{}:00 during working hours",
   "controlDescription": "Your photo is being reviewed",
   "queue": "In the queue",
   "control": "Control",

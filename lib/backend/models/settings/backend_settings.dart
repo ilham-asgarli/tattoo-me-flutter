@@ -5,7 +5,7 @@ import 'package:tattoo/domain/models/settings/settings_model.dart';
 class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
   String? id;
   int? designLimitForOneDesigner;
-  List<int>? workHours;
+  List<dynamic>? workHours;
 
   BackendSettingsModel({
     this.id,

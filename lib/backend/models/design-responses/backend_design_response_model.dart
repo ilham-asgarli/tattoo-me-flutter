@@ -42,7 +42,8 @@ class BackendDesignResponseModel extends BaseModel<BackendDesignResponseModel> {
       imageLink: model.imageLink,
       rating: model.rating,
       deleted: model.deleted,
-      createdDate: model.createdDate?.toDate(),
+      createdDate:
+          model.createdDate is Timestamp ? model.createdDate?.toDate() : null,
     );
   }
 

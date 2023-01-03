@@ -3,7 +3,7 @@ import '../../../core/base/models/base_model.dart';
 class SettingsModel extends BaseModel<SettingsModel> {
   String? id;
   int? designLimitForOneDesigner;
-  List<int>? workHours;
+  List<dynamic>? workHours;
 
   SettingsModel({
     this.id,

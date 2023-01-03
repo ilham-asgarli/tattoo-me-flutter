@@ -48,8 +48,10 @@ class BackendSubscriptionModel extends BaseModel<BackendSubscriptionModel> {
       productId: model.productId,
       source: model.source,
       purchaseToken: model.purchaseToken,
-      purchaseTime: model.purchaseTime?.toDate(),
-      createdDate: model.createdDate?.toDate(),
+      purchaseTime:
+          model.createdDate is Timestamp ? model.purchaseTime?.toDate() : null,
+      createdDate:
+          model.createdDate is Timestamp ? model.createdDate?.toDate() : null,
     );
   }
 
