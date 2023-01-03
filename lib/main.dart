@@ -33,7 +33,7 @@ void main() async {
   await dotenv.load(fileName: EnvConstants.encrypt.toEnv);
   await FlutterDownloader.initialize(debug: !kReleaseMode);
   await FlutterDownloader.registerCallback(
-    DownloaderHelper.instance.downloadCallback,
+    DownloaderHelper.downloadCallback,
   );
 
   final storage = await HydratedStorage.build(

@@ -5,5 +5,6 @@ class DownloaderHelper {
 
   DownloaderHelper._init();
 
-  void downloadCallback(String id, DownloadTaskStatus status, int progress) {}
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {}
 }

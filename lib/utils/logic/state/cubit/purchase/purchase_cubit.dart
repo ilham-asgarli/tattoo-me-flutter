@@ -62,21 +62,7 @@ class PurchaseCubit extends Cubit<PurchaseState> {
 
             if (purchaseDetails.status == PurchaseStatus.purchased) {
               restorePurchases();
-
-              Map map = json.decode(
-                  purchaseDetails.verificationData.localVerificationData);
-
-              subscriptionsRepository.createSubscription(
-                SubscriptionModel(
-                  userId: context.read<SignBloc>().state.userModel.id,
-                  orderId: map["orderId"],
-                  productId: map["productId"],
-                  source: purchaseDetails.verificationData.source,
-                  purchaseToken: map["purchaseToken"],
-                  purchaseTime:
-                      DateTime.fromMillisecondsSinceEpoch(map["purchaseTime"]),
-                ),
-              );
+              writeSubscriptionToServer(purchaseDetails);
             } else {
               // restored
               print(purchaseDetails.purchaseID);
@@ -104,6 +90,26 @@ class PurchaseCubit extends Cubit<PurchaseState> {
           await inAppPurchase.completePurchase(purchaseDetails);
         }
       }
+    }
+  }
+
+  void writeSubscriptionToServer(PurchaseDetails purchaseDetails) {
+    if (PurchaseConstants.subscriptions.keys
+        .contains(purchaseDetails.productID)) {
+      Map map =
+          json.decode(purchaseDetails.verificationData.localVerificationData);
+
+      subscriptionsRepository.createSubscription(
+        SubscriptionModel(
+          userId: context.read<SignBloc>().state.userModel.id,
+          orderId: map["orderId"],
+          productId: map["productId"],
+          source: purchaseDetails.verificationData.source,
+          purchaseToken: map["purchaseToken"],
+          purchaseTime:
+              DateTime.fromMillisecondsSinceEpoch(map["purchaseTime"]),
+        ),
+      );
     }
   }
 
