@@ -1,19 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/base/models/base_success.dart';
-import '../../../../core/extensions/string_extension.dart';
-import '../view-models/ready_view_model.dart';
-import 'empty_view.dart';
-import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
+import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
 import '../../../widgets/blinking_widget.dart';
+import '../view-models/ready_view_model.dart';
+import 'empty_view.dart';
 
 class ReadyView extends StatefulWidget {
   const ReadyView({Key? key}) : super(key: key);
@@ -38,6 +39,17 @@ class _ReadyViewState extends State<ReadyView> {
                 builder: (context, snapshot) {
                   BaseResponse<List<DesignResponseModel>>? baseResponse =
                       snapshot.data;
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator.adaptive(
+                        backgroundColor: Colors.grey,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          HexColor("#666666"),
+                        ),
+                      ),
+                    );
+                  }
+
                   if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
                     List<DesignResponseModel>? designModels = baseResponse.data;
                     if (designModels != null && designModels.isNotEmpty) {
