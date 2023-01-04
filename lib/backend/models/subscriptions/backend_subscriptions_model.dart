@@ -12,6 +12,7 @@ class BackendSubscriptionModel extends BaseModel<BackendSubscriptionModel> {
   String? source;
   String? purchaseToken;
   Timestamp? purchaseTime;
+  dynamic lastLoadTime;
   dynamic createdDate;
 
   BackendSubscriptionModel({
@@ -22,6 +23,7 @@ class BackendSubscriptionModel extends BaseModel<BackendSubscriptionModel> {
     this.source,
     this.purchaseToken,
     this.purchaseTime,
+    this.lastLoadTime,
     this.createdDate,
   });
 
@@ -34,6 +36,9 @@ class BackendSubscriptionModel extends BaseModel<BackendSubscriptionModel> {
     purchaseToken = model.purchaseToken;
     purchaseTime = model.purchaseTime != null
         ? Timestamp.fromDate(model.purchaseTime!)
+        : null;
+    lastLoadTime = model.lastLoadTime != null
+        ? Timestamp.fromDate(model.lastLoadTime!)
         : null;
     createdDate = model.createdDate != null
         ? Timestamp.fromDate(model.createdDate!)
@@ -49,7 +54,9 @@ class BackendSubscriptionModel extends BaseModel<BackendSubscriptionModel> {
       source: model.source,
       purchaseToken: model.purchaseToken,
       purchaseTime:
-          model.createdDate is Timestamp ? model.purchaseTime?.toDate() : null,
+          model.purchaseTime is Timestamp ? model.purchaseTime?.toDate() : null,
+      lastLoadTime:
+          model.lastLoadTime is Timestamp ? model.lastLoadTime?.toDate() : null,
       createdDate:
           model.createdDate is Timestamp ? model.createdDate?.toDate() : null,
     );
@@ -65,6 +72,7 @@ class BackendSubscriptionModel extends BaseModel<BackendSubscriptionModel> {
       source: json["source"],
       purchaseToken: json["purchaseToken"],
       purchaseTime: json["purchaseTime"],
+      lastLoadTime: json["lastLoadTime"],
       createdDate: json["createdDate"],
     );
   }
@@ -79,6 +87,7 @@ class BackendSubscriptionModel extends BaseModel<BackendSubscriptionModel> {
     map.putIfNotNull("source", source);
     map.putIfNotNull("purchaseToken", purchaseToken);
     map.putIfNotNull("purchaseTime", purchaseTime);
+    map.putIfNotNull("lastLoadTime", lastLoadTime);
     map.putIfNotNull("createdDate", createdDate);
 
     return map;

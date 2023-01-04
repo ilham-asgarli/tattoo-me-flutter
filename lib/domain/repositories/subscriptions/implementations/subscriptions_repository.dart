@@ -22,4 +22,12 @@ class SubscriptionsRepository extends SubscriptionInterface {
         await backendSubscription.updateSubscription(subscriptionModel);
     return baseResponse;
   }
+
+  @override
+  Future<BaseResponse<SubscriptionModel>> loadSubscriptionByToken(
+      SubscriptionModel subscriptionModel) async {
+    BaseResponse<SubscriptionModel> baseResponse =
+        await backendSubscription.loadSubscriptionByToken(subscriptionModel);
+    return baseResponse;
+  }
 }

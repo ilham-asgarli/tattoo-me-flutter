@@ -31,7 +31,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await SharedPreferencesManager.preferencesInit();
   await dotenv.load(fileName: EnvConstants.encrypt.toEnv);
-  await FlutterDownloader.initialize(debug: !kReleaseMode);
+  await FlutterDownloader.initialize(debug: kDebugMode);
   await FlutterDownloader.registerCallback(
     DownloaderHelper.downloadCallback,
   );
@@ -53,7 +53,7 @@ Widget app() {
   return EasyLocalization(
     supportedLocales: LocaleConstants.supportedLocales,
     path: LocaleConstants.path,
-    startLocale: !kReleaseMode ? LocaleConstants.trTR : null,
+    startLocale: kDebugMode ? LocaleConstants.trTR : null,
     fallbackLocale: LocaleConstants.enUS,
     child: MultiBlocProvider(
       providers: [

@@ -61,14 +61,11 @@ class PurchaseCubit extends Cubit<PurchaseState> {
             deliverProduct(purchaseDetails);
 
             if (purchaseDetails.status == PurchaseStatus.purchased) {
+              await writeSubscriptionToServer(purchaseDetails);
               restorePurchases();
-              writeSubscriptionToServer(purchaseDetails);
             } else {
               // restored
-              print(purchaseDetails.purchaseID);
-              print(purchaseDetails.transactionDate);
-              print(purchaseDetails.productID);
-              print(purchaseDetails.verificationData.localVerificationData);
+              loadSubscriptionBalance(purchaseDetails);
             }
           } else {
             _handleInvalidPurchase(purchaseDetails);
@@ -93,13 +90,21 @@ class PurchaseCubit extends Cubit<PurchaseState> {
     }
   }
 
-  void writeSubscriptionToServer(PurchaseDetails purchaseDetails) {
+  void loadSubscriptionBalance(PurchaseDetails purchaseDetails) async {
+    Map map =
+        json.decode(purchaseDetails.verificationData.localVerificationData);
+    await subscriptionsRepository.loadSubscriptionByToken(
+        SubscriptionModel(purchaseToken: map["purchaseToken"]));
+  }
+
+  Future<void> writeSubscriptionToServer(
+      PurchaseDetails purchaseDetails) async {
     if (PurchaseConstants.subscriptions.keys
         .contains(purchaseDetails.productID)) {
       Map map =
           json.decode(purchaseDetails.verificationData.localVerificationData);
 
-      subscriptionsRepository.createSubscription(
+      await subscriptionsRepository.createSubscription(
         SubscriptionModel(
           userId: context.read<SignBloc>().state.userModel.id,
           orderId: map["orderId"],

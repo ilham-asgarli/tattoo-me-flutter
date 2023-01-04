@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tattoo/backend/models/auth/backend_user_model.dart';
 import 'package:tattoo/backend/models/retouches/backend_retouches_model.dart';
 import 'package:tattoo/backend/utils/constants/app/app_constants.dart';
 import 'package:tattoo/backend/utils/constants/firebase/design-requests/design_requests_collection_constants.dart';
@@ -87,9 +88,12 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
 
           await sendRequests(transaction, designRequestsDocumentReference,
               designRequestModel, designRequestImageReference);
-          transaction.update(userDocument, {
-            "balance": FieldValue.increment(-AppConstants.tattooDesignPrice)
-          });
+          transaction.update(
+            userDocument,
+            BackendUserModel(
+              balance: FieldValue.increment(-AppConstants.tattooDesignPrice),
+            ).toJson(),
+          );
         } else {
           throw BaseError(message: LocaleKeys.insufficientBalance.tr());
         }

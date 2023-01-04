@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tattoo/backend/models/auth/backend_user_model.dart';
 import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/domain/models/subscriptions/subscription_model.dart';
+import 'package:tattoo/utils/logic/constants/purchase/purchase_constants.dart';
 
 import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_success.dart';
@@ -10,6 +12,7 @@ import '../interfaces/backend_subscription_interface.dart';
 class BackendSubscription extends BackendSubscriptionInterface {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  CollectionReference users = FirebaseFirestore.instance.collection("users");
   CollectionReference subscriptions =
       FirebaseFirestore.instance.collection("subscriptions");
 
@@ -31,7 +34,7 @@ class BackendSubscription extends BackendSubscriptionInterface {
 
       return BaseSuccess<SubscriptionModel>(data: subscriptionModel);
     } catch (e) {
-      return BaseError();
+      return BaseError(message: e.toString());
     }
   }
 
@@ -45,7 +48,67 @@ class BackendSubscription extends BackendSubscriptionInterface {
 
       return BaseSuccess();
     } catch (e) {
+      return BaseError(message: e.toString());
+    }
+  }
+
+  @override
+  Future<BaseResponse<SubscriptionModel>> loadSubscriptionByToken(
+      SubscriptionModel subscriptionModel) async {
+    try {
+      QuerySnapshot querySnapshot = await subscriptions
+          .where("purchaseToken", isEqualTo: subscriptionModel.purchaseToken)
+          .get();
+      if (querySnapshot.size == 1) {
+        QueryDocumentSnapshot documentReference = querySnapshot.docs[0];
+        Map<String, dynamic>? subscriptionData =
+            documentReference.data() as Map<String, dynamic>?;
+
+        if (subscriptionData != null) {
+          subscriptionModel = BackendSubscriptionModel()
+              .to(model: BackendSubscriptionModel().fromJson(subscriptionData));
+          subscriptionModel.id = documentReference.id;
+
+          int factor = 0;
+
+          if (subscriptionModel.lastLoadTime == null) {
+            factor = 1;
+          } else {
+            factor = subscriptionModel.lastLoadTime!
+                    .difference(subscriptionModel.createdDate!)
+                    .inDays ~/
+                30;
+          }
+
+          int? value =
+              PurchaseConstants.subscriptions[subscriptionModel.productId];
+
+          if (value != null && factor > 0) {
+            await firestore.runTransaction((transaction) async {
+              transaction.update(
+                users.doc(subscriptionModel.userId),
+                BackendUserModel(balance: FieldValue.increment(value * factor))
+                    .toJson(),
+              );
+
+              transaction.update(
+                subscriptions.doc(subscriptionModel.id),
+                BackendSubscriptionModel(
+                  lastLoadTime: FieldValue.serverTimestamp(),
+                ).toJson(),
+              );
+            }, maxAttempts: 1).catchError((e) {
+              throw e.toString();
+            });
+
+            return BaseSuccess<SubscriptionModel>(data: subscriptionModel);
+          }
+        }
+      }
+
       return BaseError();
+    } catch (e) {
+      return BaseError(message: e.toString());
     }
   }
 }

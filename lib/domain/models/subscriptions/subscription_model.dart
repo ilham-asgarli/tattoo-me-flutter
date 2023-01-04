@@ -8,6 +8,7 @@ class SubscriptionModel extends BaseModel<SubscriptionModel> {
   String? source;
   String? purchaseToken;
   DateTime? purchaseTime;
+  DateTime? lastLoadTime;
   DateTime? createdDate;
 
   SubscriptionModel({
@@ -18,6 +19,7 @@ class SubscriptionModel extends BaseModel<SubscriptionModel> {
     this.source,
     this.purchaseToken,
     this.purchaseTime,
+    this.lastLoadTime,
     this.createdDate,
   });
 
@@ -31,6 +33,7 @@ class SubscriptionModel extends BaseModel<SubscriptionModel> {
       source: json["source"],
       purchaseToken: json["purchaseToken"],
       purchaseTime: json["purchaseTime"],
+      lastLoadTime: json["lastLoadTime"],
       createdDate: json["createdDate"],
     );
   }
@@ -45,6 +48,7 @@ class SubscriptionModel extends BaseModel<SubscriptionModel> {
       "source": source,
       "purchaseToken": purchaseToken,
       "purchaseTime": purchaseTime,
+      "lastLoadTime": lastLoadTime,
       "createdDate": createdDate,
     };
   }
