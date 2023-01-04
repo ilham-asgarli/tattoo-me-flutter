@@ -55,9 +55,13 @@ class RetouchView extends StatelessWidget {
                 BaseResponse<SettingsModel>? baseResponse = snapshot.data;
                 if (baseResponse is BaseSuccess<SettingsModel>) {
                   viewModel.settingsModel = baseResponse.data;
-                  viewModel.computeEndTime(context);
 
-                  return buildBody(context);
+                  return FutureBuilder(
+                    future: viewModel.computeEndTime(context),
+                    builder: (context, snapshot) {
+                      return buildBody(context);
+                    },
+                  );
                 } else {
                   return const SizedBox.shrink();
                 }
@@ -78,7 +82,7 @@ class RetouchView extends StatelessWidget {
           children: [
             buildTitle(context),
             context.widget.dynamicVerticalSpace(context, 0.1),
-            context.watch<RetouchCubit>().state is RetouchIsReady
+            context.watch<RetouchCubit>().state.runtimeType == RetouchIsReady
                 ? const RetouchReady()
                 : const AnimatedRetouching(),
             context.widget.verticalSpace(75),
@@ -86,7 +90,7 @@ class RetouchView extends StatelessWidget {
             context.widget.verticalSpace(10),
             buildLoadingDescriptionArea(),
             context.widget.dynamicVerticalSpace(context, 0.05),
-            context.watch<RetouchCubit>().state is RetouchIsReady
+            context.watch<RetouchCubit>().state.runtimeType == RetouchIsReady
                 ? buildShowResult(context)
                 : buildTimeArea(context),
           ],

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:ntp/ntp.dart';
 import 'package:tattoo/backend/models/auth/backend_user_model.dart';
 import 'package:tattoo/backend/models/retouches/backend_retouches_model.dart';
 import 'package:tattoo/backend/utils/constants/app/app_constants.dart';
@@ -63,10 +64,10 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           throw BaseError(message: LocaleKeys.notTakingOrder.tr());
         }
 
-        if (DateTime.now().hour <
-                designRequestsSettingsDocument.get("workHours")[0] ||
-            DateTime.now().hour >=
-                designRequestsSettingsDocument.get("workHours")[1]) {
+        DateTime now = (await NTP.now()).toUtc().add(const Duration(hours: 3));
+
+        if (now.hour < designRequestsSettingsDocument.get("workHours")[0] ||
+            now.hour >= designRequestsSettingsDocument.get("workHours")[1]) {
           throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
         }
 

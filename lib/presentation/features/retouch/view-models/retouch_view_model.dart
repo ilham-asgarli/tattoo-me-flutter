@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ntp/ntp.dart';
 import 'package:tattoo/domain/models/settings/settings_model.dart';
 
 import '../../../../core/base/view-models/base_view_model.dart';
@@ -15,6 +16,7 @@ class RetouchViewModel extends BaseViewModel {
   SettingsModel? settingsModel;
   int endTime = DateTime.now().millisecondsSinceEpoch;
   final Duration oneDesignDuration = const Duration(minutes: 5);
+  DateTime? now;
 
   Future<bool> onBackPressed(BuildContext context) async {
     BlocProvider.of<HomeTabCubit>(context).changeTab(2);
@@ -26,9 +28,10 @@ class RetouchViewModel extends BaseViewModel {
     return true;
   }
 
-  void computeEndTime(BuildContext context) {
-    RetouchState state = context.read<RetouchCubit>().state;
+  Future computeEndTime(BuildContext context) async {
+    RetouchState state = context.watch<RetouchCubit>().state;
     List<DesignRequestModel>? designRequestModels;
+    now = (await NTP.now()).toUtc().add(const Duration(hours: 3));
 
     if (state is RetouchInRetouch) {
       designRequestModels = state.inRetouchDesignRequestModels;
@@ -42,39 +45,41 @@ class RetouchViewModel extends BaseViewModel {
 
     if (designRequestModels[0].startDesignDate != null) {
       Duration difference =
-          DateTime.now().difference(designRequestModels[0].startDesignDate!);
+          now!.difference(designRequestModels[0].startDesignDate!);
 
       if (difference.inMinutes <= oneDesignDuration.inMinutes) {
-        endTime = DateTime.now().millisecondsSinceEpoch +
+        endTime = now!.millisecondsSinceEpoch +
             (designRequestModels.length - 2).toZeroOrPositive() *
                 oneDesignDuration.inMilliseconds +
             (oneDesignDuration.inMilliseconds - difference.inMilliseconds);
       } else {
-        endTime = DateTime.now().millisecondsSinceEpoch +
+        endTime = now!.millisecondsSinceEpoch +
             (designRequestModels.length - 1).toZeroOrPositive() *
                 oneDesignDuration.inMilliseconds;
       }
     } else {
-      endTime = DateTime.now().millisecondsSinceEpoch +
+      endTime = now!.millisecondsSinceEpoch +
           (designRequestModels.length - 1).toZeroOrPositive() *
               oneDesignDuration.inMilliseconds;
     }
 
     addNotWorkTime(context, designRequestModels);
 
-    if (endTime == DateTime.now().millisecondsSinceEpoch) {
+    if (endTime == now!.millisecondsSinceEpoch) {
       endTime += oneDesignDuration.inMilliseconds;
     }
+
+    return;
   }
 
   void addNotWorkTime(
     BuildContext context,
     List<DesignRequestModel>? designRequestModels,
   ) {
-    DateTime workStartDate = DateTime.now();
+    DateTime workStartDate = now!;
 
-    if (DateTime.now().hour < settingsModel?.workHours?[0]) {
-      workStartDate = DateTime.now().copyWith(
+    if (now!.hour < settingsModel?.workHours?[0]) {
+      workStartDate = now!.copyWith(
         hour: settingsModel?.workHours?[0],
         minute: 0,
         second: 0,
@@ -82,9 +87,9 @@ class RetouchViewModel extends BaseViewModel {
         microsecond: 0,
       );
       BlocProvider.of<RetouchCubit>(context).inQueue(designRequestModels);
-    } else if (DateTime.now().hour >= settingsModel?.workHours?[1]) {
-      workStartDate = DateTime.now().copyWith(
-        day: DateTime.now().day + 1,
+    } else if (now!.hour >= settingsModel?.workHours?[1]) {
+      workStartDate = now!.copyWith(
+        day: now!.day + 1,
         hour: settingsModel?.workHours?[0],
         minute: 0,
         second: 0,
@@ -94,6 +99,6 @@ class RetouchViewModel extends BaseViewModel {
       BlocProvider.of<RetouchCubit>(context).inQueue(designRequestModels);
     }
 
-    endTime += workStartDate.difference(DateTime.now()).inMilliseconds;
+    endTime += workStartDate.difference(now!).inMilliseconds;
   }
 }

@@ -1,1 +1,3 @@
-abstract class BaseViewModel {}
+abstract class BaseViewModel {
+  void init() {}
+}

@@ -65,6 +65,7 @@ dependencies:
   permission_handler: ^10.2.0
   flutter_email_sender: ^5.2.0
   store_redirect: ^2.0.1
+  ntp: ^2.0.0
 
 dev_dependencies:
   flutter_test:
