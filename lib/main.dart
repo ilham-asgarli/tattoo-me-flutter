@@ -36,17 +36,13 @@ void main() async {
     DownloaderHelper.downloadCallback,
   );
 
-  final storage = await HydratedStorage.build(
+  HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
-  HydratedBlocOverrides.runZoned(
-    () => runApp(
-      app(),
-    ),
-    storage: storage,
-  );
+
+  runApp(app());
 }
 
 Widget app() {
