@@ -7,19 +7,19 @@ extension WidgetExtension on Widget {
     return SliverToBoxAdapter(child: this);
   }
 
-  Widget verticalSpace(double val) => SizedBox(
-        height: val,
-      );
-
-  Widget horizontalSpace(double val) => SizedBox(
-        width: val,
-      );
-
   Widget dynamicVerticalSpace(BuildContext context, double val) => SizedBox(
         height: context.dynamicHeight(val),
       );
 
   Widget dynamicHorizontalSpace(BuildContext context, double val) => SizedBox(
         width: context.dynamicWidth(val),
+      );
+
+  Widget verticalSpace(double val) => SizedBox(
+        height: val,
+      );
+
+  Widget horizontalSpace(double val) => SizedBox(
+        width: val,
       );
 }

@@ -5,8 +5,10 @@ class LocaleConstants {
 
   static const enUS = Locale("en", "US");
   static const trTR = Locale("tr", "TR");
+  static const azAZ = Locale("az", "AZ");
 
   static List<Locale> get supportedLocales => [
+        LocaleConstants.azAZ,
         LocaleConstants.trTR,
         LocaleConstants.enUS,
       ];
