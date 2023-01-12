@@ -1,13 +1,13 @@
 import 'package:tattoo/domain/models/design-request/design_request_model.dart';
 
-import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
 
 abstract class BackendSendDesignRequestInterface {
-  Future<BaseResponse<DesignRequestModel>> sendDesignRequest(
+  Future<BaseSuccess<DesignRequestModel>> sendDesignRequest(
     DesignRequestModel designRequestModel,
   );
 
-  Future<BaseResponse<DesignRequestModel>> sendRetouchDesignRequest(
+  Future<BaseSuccess<DesignRequestModel>> sendRetouchDesignRequest(
     DesignRequestModel designRequestModel,
     String comment,
   );

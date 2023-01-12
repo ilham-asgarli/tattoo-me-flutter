@@ -17,11 +17,11 @@ import '../components/buy_item.dart';
 import '../components/subscribe_item.dart';
 
 class CreditsView extends StatefulWidget {
-  final CreditViewType creditViewType;
+  final CreditsViewType creditViewType;
 
   const CreditsView({
     Key? key,
-    this.creditViewType = CreditViewType.balance,
+    this.creditViewType = CreditsViewType.balance,
   }) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class _CreditsViewState extends State<CreditsView> {
             children: [
               widget.verticalSpace(10),
               Text(
-                widget.creditViewType == CreditViewType.balance
+                widget.creditViewType == CreditsViewType.balance
                     ? LocaleKeys.balance.tr()
                     : LocaleKeys.insufficientBalance,
                 style: const TextStyle(fontSize: 15),

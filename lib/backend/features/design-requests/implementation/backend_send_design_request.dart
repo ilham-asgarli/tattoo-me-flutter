@@ -11,10 +11,14 @@ import 'package:tattoo/backend/utils/constants/firebase/design-requests/design_r
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/domain/models/design-request/design_request_model.dart';
+import 'package:tattoo/utils/logic/errors/design_request_errors/no_designer_error.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 
-import '../../../../core/base/models/base_response.dart';
 import '../../../../domain/models/design-request/design_request_image_model_2.dart';
+import '../../../../utils/logic/errors/design_request_errors/insufficient_balance_error.dart';
+import '../../../../utils/logic/errors/design_request_errors/not_taking_order_error.dart';
+import '../../../../utils/logic/errors/design_request_errors/out_of_work_hours_error.dart';
+import '../../../../utils/logic/errors/design_request_errors/retouched_before_error.dart';
 import '../../../models/design-requests/backend_design_request_image_model.dart';
 import '../../../models/design-requests/backend_design_request_model.dart';
 import '../../../utils/constants/firebase/design-request-images/design_requests_collection_constants.dart';
@@ -47,7 +51,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
   }
 
   @override
-  Future<BaseResponse<DesignRequestModel>> sendDesignRequest(
+  Future<BaseSuccess<DesignRequestModel>> sendDesignRequest(
     DesignRequestModel designRequestModel,
   ) async {
     try {
@@ -61,29 +65,38 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
 
         if (!designRequestsSettingsDocument.exists ||
             !designRequestsSettingsDocument.get("takingOrder")) {
-          throw BaseError(message: LocaleKeys.notTakingOrder.tr());
+          throw 1;
         }
 
         DateTime now = (await NTP.now()).toUtc().add(const Duration(hours: 3));
 
         if (now.hour < designRequestsSettingsDocument.get("workHours")[0] ||
             now.hour >= designRequestsSettingsDocument.get("workHours")[1]) {
-          throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
+          throw 2;
         }
 
         DocumentReference userDocument = users.doc(designRequestModel.userId);
         DocumentSnapshot userDocumentSnapshot =
             await transaction.get(userDocument);
 
+        Map<String, dynamic>? userData =
+            userDocumentSnapshot.data() as Map<String, dynamic>?;
+
+        if (userData == null) {
+          throw BaseError();
+        }
+
+        BackendUserModel backendUserModel =
+            BackendUserModel().fromJson(userData);
+
         if (userDocumentSnapshot.exists &&
-            userDocumentSnapshot.get("balance") >=
-                AppConstants.tattooDesignPrice) {
+            backendUserModel.balance >= AppConstants.tattooDesignPrice) {
           await sendFiles(designRequestModel, designRequestImageReference);
 
           String? designerId = await assignDesigner(
               designRequestsSettingsDocument.get("designLimitForOneDesigner"));
           if (designerId == null) {
-            throw BaseError(message: LocaleKeys.noDesigner.tr());
+            throw 5;
           }
           designRequestModel.designerId = designerId;
 
@@ -96,21 +109,44 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             ).toJson(),
           );
         } else {
-          throw BaseError(message: LocaleKeys.insufficientBalance.tr());
+          if (backendUserModel.isFirstOrderInsufficientBalance ?? true) {
+            throw 3;
+          } else {
+            transaction.update(
+              userDocument,
+              BackendUserModel(isFirstOrderInsufficientBalance: false).toJson(),
+            );
+            throw 4;
+          }
         }
       }, maxAttempts: 1).catchError((e) {
-        throw e.toString();
+        switch (e) {
+          case 1:
+            throw NotTakingOrderError(message: LocaleKeys.notTakingOrder.tr());
+          case 2:
+            throw OutOfWorkHoursError(
+                message: LocaleKeys.outOfWorkingHours.tr());
+          case 3:
+            throw InsufficientBalanceError(
+                message: LocaleKeys.insufficientBalance.tr());
+          case 4:
+            throw (message: LocaleKeys.noDesigner.tr());
+          case 5:
+            throw NoDesignerError(message: LocaleKeys.noDesigner.tr());
+          default:
+            throw BaseError(message: e.toString());
+        }
       });
 
       designRequestModel.id = designRequestsDocumentReference.id;
       return BaseSuccess<DesignRequestModel>(data: designRequestModel);
     } catch (e) {
-      return BaseError(message: e.toString());
+      throw BaseError(message: e.toString());
     }
   }
 
   @override
-  Future<BaseResponse<DesignRequestModel>> sendRetouchDesignRequest(
+  Future<BaseSuccess<DesignRequestModel>> sendRetouchDesignRequest(
       DesignRequestModel designRequestModel, String comment) async {
     try {
       DocumentReference designRequestDocumentReference = designRequests.doc();
@@ -121,14 +157,14 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
 
         if (!designRequestsSettingsDocument.exists ||
             !designRequestsSettingsDocument.get("takingOrder")) {
-          throw BaseError(message: LocaleKeys.notTakingOrder.tr());
+          throw 1;
         }
 
         if (DateTime.now().hour <
                 designRequestsSettingsDocument.get("workHours")[0] ||
             DateTime.now().hour >=
                 designRequestsSettingsDocument.get("workHours")[1]) {
-          throw BaseError(message: LocaleKeys.outOfWorkingHours.tr());
+          throw 2;
         }
 
         DocumentReference designRequestDocument =
@@ -149,7 +185,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
                 designRequestsSettingsDocument
                     .get("designLimitForOneDesigner"));
             if (designerId == null) {
-              throw BaseError(message: LocaleKeys.noDesigner.tr());
+              throw 4;
             }
             designRequestModel.designerId = designerId;
 
@@ -160,17 +196,30 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
               comment,
             );
           } else {
-            throw BaseError(message: LocaleKeys.retouchedBefore.tr());
+            throw 3;
           }
         }
       }, maxAttempts: 1).catchError((e) {
-        throw e.toString();
+        switch (e) {
+          case 1:
+            throw NotTakingOrderError(message: LocaleKeys.notTakingOrder.tr());
+          case 2:
+            throw OutOfWorkHoursError(
+                message: LocaleKeys.outOfWorkingHours.tr());
+          case 3:
+            throw RetouchedBeforeError(
+                message: LocaleKeys.retouchedBefore.tr());
+          case 4:
+            throw NoDesignerError(message: LocaleKeys.noDesigner.tr());
+          default:
+            throw BaseError(message: e.toString());
+        }
       });
 
       designRequestModel.id = designRequestDocumentReference.id;
       return BaseSuccess<DesignRequestModel>(data: designRequestModel);
     } catch (e) {
-      return BaseError(message: e.toString());
+      throw BaseError(message: e.toString());
     }
   }
 

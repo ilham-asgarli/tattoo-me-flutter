@@ -1,27 +1,28 @@
-import '../../../../backend/features/design-requests/implementation/backend_send_design_request.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/domain/models/design-request/design_request_model.dart';
 import 'package:tattoo/domain/repositories/design-requests/interfaces/send_design_request_interface.dart';
+
+import '../../../../backend/features/design-requests/implementation/backend_send_design_request.dart';
+import '../../../../core/base/models/base_success.dart';
 
 class SendDesignRequestRepository extends SendDesignRequestInterface {
   BackendSendDesignRequest backendSendDesignRequest =
       BackendSendDesignRequest();
 
   @override
-  Future<BaseResponse<DesignRequestModel>> sendDesignRequest(
+  Future<BaseSuccess<DesignRequestModel>> sendDesignRequest(
     DesignRequestModel designRequestModel,
   ) async {
-    BaseResponse<DesignRequestModel> baseResponse =
+    BaseSuccess<DesignRequestModel> baseResponse =
         await backendSendDesignRequest.sendDesignRequest(designRequestModel);
     return baseResponse;
   }
 
   @override
-  Future<BaseResponse<DesignRequestModel>> sendRetouchDesignRequest(
+  Future<BaseSuccess<DesignRequestModel>> sendRetouchDesignRequest(
     DesignRequestModel designRequestModel,
     String comment,
   ) async {
-    BaseResponse<DesignRequestModel> baseResponse =
+    BaseSuccess<DesignRequestModel> baseResponse =
         await backendSendDesignRequest.sendRetouchDesignRequest(
       designRequestModel,
       comment,

@@ -9,6 +9,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   String? id;
   String? email;
   String? password;
+  bool? isFirstOrderInsufficientBalance;
   dynamic balance;
   dynamic createdDate;
   dynamic lastAppEntryDate;
@@ -18,6 +19,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     this.email,
     this.password,
     this.balance,
+    this.isFirstOrderInsufficientBalance,
     this.createdDate,
     this.lastAppEntryDate,
   });
@@ -29,6 +31,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
         ? CoreEncrypt().cryptFile(userModel.password!)
         : null;
     balance = userModel.balance;
+    isFirstOrderInsufficientBalance = userModel.isFirstOrderInsufficientBalance;
     createdDate = userModel.createdDate != null
         ? Timestamp.fromDate(userModel.createdDate!)
         : null;
@@ -43,6 +46,8 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       email: userModel.email,
       password: userModel.password,
       balance: userModel.balance,
+      isFirstOrderInsufficientBalance:
+          userModel.isFirstOrderInsufficientBalance,
       createdDate: userModel.createdDate is Timestamp
           ? userModel.createdDate?.toDate()
           : null,
@@ -59,6 +64,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       email: json["email"],
       password: json["password"],
       balance: json["balance"],
+      isFirstOrderInsufficientBalance: json["isFirstOrderInsufficientBalance"],
       createdDate: json["createdDate"],
       lastAppEntryDate: json["lastAppEntryDate"],
     );
@@ -71,6 +77,8 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     map.putIfNotNull("email", email);
     map.putIfNotNull("password", password);
     map.putIfNotNull("balance", balance);
+    map.putIfNotNull(
+        "isFirstOrderInsufficientBalance", isFirstOrderInsufficientBalance);
     map.putIfNotNull("createdDate", createdDate);
     map.putIfNotNull("lastAppEntryDate", lastAppEntryDate);
 

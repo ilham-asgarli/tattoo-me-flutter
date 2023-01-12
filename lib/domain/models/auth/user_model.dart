@@ -5,6 +5,7 @@ class UserModel extends BaseModel<UserModel> {
   String? email;
   String? password;
   int? balance;
+  bool? isFirstOrderInsufficientBalance;
   DateTime? createdDate;
   DateTime? lastAppEntryDate;
 
@@ -13,6 +14,7 @@ class UserModel extends BaseModel<UserModel> {
     this.email,
     this.password,
     this.balance,
+    this.isFirstOrderInsufficientBalance,
     this.createdDate,
     this.lastAppEntryDate,
   });
@@ -26,6 +28,7 @@ class UserModel extends BaseModel<UserModel> {
       email: json["email"],
       password: json["password"],
       balance: json["balance"],
+      isFirstOrderInsufficientBalance: json["isFirstOrderInsufficientBalance"],
       createdDate: json["createdDate"],
       lastAppEntryDate: json["lastAppEntryDate"],
     );
@@ -38,6 +41,7 @@ class UserModel extends BaseModel<UserModel> {
       "email": email,
       "password": password,
       "balance": balance,
+      "isFirstOrderInsufficientBalance": isFirstOrderInsufficientBalance,
       "createdDate": createdDate,
       "lastAppEntryDate": lastAppEntryDate,
     };

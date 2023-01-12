@@ -6,8 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/utils/logic/constants/cache/shared_preferences_constants.dart';
+import 'package:tattoo/utils/logic/constants/enums/app_enum.dart';
+import 'package:tattoo/utils/logic/errors/design_request_errors/insufficient_balance_error.dart';
 
-import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
 import '../../../../core/base/view-models/base_view_model.dart';
 import '../../../../core/cache/shared_preferences_manager.dart';
@@ -45,19 +46,8 @@ class TattooChooseViewModel extends BaseViewModel {
         DesignRequestImageModel1(image: uint8list, name: "3"),
       ];
 
-      BaseResponse<DesignRequestModel> baseResponse =
-          await sendDesign(signBloc, designRequestImageModels);
-
-      if (baseResponse is BaseSuccess<DesignRequestModel>) {
-        RouterService.instance.pushNamed(
-          path: RouterConstants.retouch,
-          data: baseResponse.data,
-        );
-      } else if (baseResponse is BaseError) {
-        if (mounted) {
-          Navigator.pop(context);
-          handleDesignRequestErrors(context, baseResponse);
-        }
+      if (mounted) {
+        await sendDesign(mounted, context, signBloc, designRequestImageModels);
       }
     } else {
       if (mounted) {
@@ -66,30 +56,43 @@ class TattooChooseViewModel extends BaseViewModel {
     }
   }
 
-  void handleDesignRequestErrors(
-      BuildContext context, BaseResponse<DesignRequestModel> baseError) {
-    if (SharedPreferencesManager.instance.preferences?.getBool(
-            SharedPreferencesConstants.isFirstOrderInsufficientBalance) ??
-        true) {
-      InAppReviewHelper.instance.request();
-      SharedPreferencesManager.instance.preferences?.setBool(
-          SharedPreferencesConstants.isFirstOrderInsufficientBalance, false);
-    } else {}
-  }
-
-  Future<BaseResponse<DesignRequestModel>> sendDesign(SignBloc signBloc,
+  Future<void> sendDesign(bool mounted, BuildContext context, SignBloc signBloc,
       List<DesignRequestImageModel1> designRequestImageModels) async {
-    String? userId = signBloc.state.userModel.id;
+    try {
+      String? userId = signBloc.state.userModel.id;
 
-    BaseResponse<DesignRequestModel> baseResponse =
-        await sendDesignRequestRepository.sendDesignRequest(
-      DesignRequestModel(
-        userId: userId,
-        finished: false,
-        designRequestImageModels1: designRequestImageModels,
-      ),
-    );
-    return baseResponse;
+      BaseSuccess<DesignRequestModel> baseResponse =
+          await sendDesignRequestRepository.sendDesignRequest(
+        DesignRequestModel(
+          userId: userId,
+          finished: false,
+          designRequestImageModels1: designRequestImageModels,
+        ),
+      );
+
+      RouterService.instance.pushNamed(
+        path: RouterConstants.retouch,
+        data: baseResponse.data,
+      );
+    } on InsufficientBalanceError catch (e) {
+      print("a");
+      if (SharedPreferencesManager.instance.preferences?.getBool(
+              SharedPreferencesConstants.isFirstOrderInsufficientBalance) ??
+          true) {
+        InAppReviewHelper.instance.request();
+        SharedPreferencesManager.instance.preferences?.setBool(
+            SharedPreferencesConstants.isFirstOrderInsufficientBalance, false);
+      } else {
+        RouterService.instance.pushNamed(
+          path: RouterConstants.credits,
+          data: CreditsViewType.insufficient,
+        );
+      }
+    } on BaseError catch (e) {
+      print("b");
+      Navigator.pop(context);
+      showInfoDialog(context, e.toString());
+    }
   }
 
   void showProgressDialog(context) {

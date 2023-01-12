@@ -66,7 +66,7 @@ class ConfigRouter {
         );
       case RouterConstants.credits:
         return normalNavigate(
-          CreditsView(creditViewType: settings.arguments as CreditViewType),
+          CreditsView(creditViewType: settings.arguments as CreditsViewType),
           RouterConstants.credits,
         );
       default:
