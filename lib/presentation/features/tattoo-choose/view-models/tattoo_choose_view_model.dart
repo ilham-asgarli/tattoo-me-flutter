@@ -5,21 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
-import 'package:tattoo/utils/logic/constants/cache/shared_preferences_constants.dart';
 import 'package:tattoo/utils/logic/constants/enums/app_enum.dart';
 import 'package:tattoo/utils/logic/errors/design_request_errors/insufficient_balance_error.dart';
 
 import '../../../../core/base/models/base_success.dart';
 import '../../../../core/base/view-models/base_view_model.dart';
-import '../../../../core/cache/shared_preferences_manager.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-request/design_request_image_model_1.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/repositories/design-requests/implementations/send_design_request_repository.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
-import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';
+import '../../../../utils/logic/errors/design_request_errors/first_order_insufficient_balance_error.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
-import '../components/info_dialog.dart';
+import '../components/error_dialog.dart';
 import '../components/progress_dialog.dart';
 
 class TattooChooseViewModel extends BaseViewModel {
@@ -47,7 +45,12 @@ class TattooChooseViewModel extends BaseViewModel {
       ];
 
       if (mounted) {
-        await sendDesign(mounted, context, signBloc, designRequestImageModels);
+        await sendDesign(
+          mounted,
+          context,
+          signBloc,
+          designRequestImageModels,
+        );
       }
     } else {
       if (mounted) {
@@ -75,23 +78,18 @@ class TattooChooseViewModel extends BaseViewModel {
         data: baseResponse.data,
       );
     } on InsufficientBalanceError catch (e) {
-      print("a");
-      if (SharedPreferencesManager.instance.preferences?.getBool(
-              SharedPreferencesConstants.isFirstOrderInsufficientBalance) ??
-          true) {
-        InAppReviewHelper.instance.request();
-        SharedPreferencesManager.instance.preferences?.setBool(
-            SharedPreferencesConstants.isFirstOrderInsufficientBalance, false);
-      } else {
-        RouterService.instance.pushNamed(
-          path: RouterConstants.credits,
-          data: CreditsViewType.insufficient,
-        );
-      }
-    } on BaseError catch (e) {
-      print("b");
       Navigator.pop(context);
-      showInfoDialog(context, e.toString());
+      RouterService.instance.pushNamed(
+        path: RouterConstants.credits,
+        data: CreditsViewType.insufficient,
+      );
+    } on FirstOrderInsufficientBalanceError catch (e) {
+      Navigator.pop(context);
+      await showDesignRequestErrorDialog(context, e.toString(),
+          insufficientBalance: true);
+    } on BaseError catch (e) {
+      Navigator.pop(context);
+      showDesignRequestErrorDialog(context, e.toString());
     }
   }
 
@@ -104,12 +102,18 @@ class TattooChooseViewModel extends BaseViewModel {
     );
   }
 
-  void showInfoDialog(BuildContext context, String message) {
-    showDialog(
+  Future<void> showDesignRequestErrorDialog(
+    BuildContext context,
+    String message, {
+    bool insufficientBalance = false,
+  }) async {
+    await showDialog(
       context: context,
-      builder: (context) {
-        return InfoDialog(
+      builder: (_) {
+        return ErrorDialog(
           message: message,
+          insufficientBalance: insufficientBalance,
+          buildContext: context,
         );
       },
     );

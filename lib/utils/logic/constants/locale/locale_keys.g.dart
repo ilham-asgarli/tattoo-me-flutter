@@ -83,5 +83,7 @@ abstract class  LocaleKeys {
   static const advantageous = 'advantageous';
   static const checking = 'checking';
   static const active = 'active';
+  static const buyCredit = 'buyCredit';
+  static const evaluate = 'evaluate';
 
 }

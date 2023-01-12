@@ -33,6 +33,12 @@ class _CreditsViewState extends State<CreditsView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: widget.creditViewType == CreditsViewType.balance
+            ? null
+            : AppBar(
+                title: Text(LocaleKeys.appName.tr()),
+                centerTitle: true,
+              ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -40,7 +46,10 @@ class _CreditsViewState extends State<CreditsView> {
               Text(
                 widget.creditViewType == CreditsViewType.balance
                     ? LocaleKeys.balance.tr()
-                    : LocaleKeys.insufficientBalance,
+                    : (context.read<SignBloc>().state.userModel.balance ?? 0) >
+                            0
+                        ? LocaleKeys.balance.tr()
+                        : LocaleKeys.insufficientBalance.tr(),
                 style: const TextStyle(fontSize: 15),
               ),
               widget.verticalSpace(10),

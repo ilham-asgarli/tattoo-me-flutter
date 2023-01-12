@@ -11,10 +11,11 @@ import 'package:tattoo/backend/utils/constants/firebase/design-requests/design_r
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/domain/models/design-request/design_request_model.dart';
-import 'package:tattoo/utils/logic/errors/design_request_errors/no_designer_error.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
+import 'package:tattoo/utils/logic/errors/design_request_errors/no_designer_error.dart';
 
 import '../../../../domain/models/design-request/design_request_image_model_2.dart';
+import '../../../../utils/logic/errors/design_request_errors/first_order_insufficient_balance_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/insufficient_balance_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/not_taking_order_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/out_of_work_hours_error.dart';
@@ -112,36 +113,32 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           if (backendUserModel.isFirstOrderInsufficientBalance ?? true) {
             throw 3;
           } else {
-            transaction.update(
-              userDocument,
-              BackendUserModel(isFirstOrderInsufficientBalance: false).toJson(),
-            );
             throw 4;
           }
         }
       }, maxAttempts: 1).catchError((e) {
-        switch (e) {
-          case 1:
-            throw NotTakingOrderError(message: LocaleKeys.notTakingOrder.tr());
-          case 2:
-            throw OutOfWorkHoursError(
-                message: LocaleKeys.outOfWorkingHours.tr());
-          case 3:
-            throw InsufficientBalanceError(
-                message: LocaleKeys.insufficientBalance.tr());
-          case 4:
-            throw (message: LocaleKeys.noDesigner.tr());
-          case 5:
-            throw NoDesignerError(message: LocaleKeys.noDesigner.tr());
-          default:
-            throw BaseError(message: e.toString());
-        }
+        throw e;
       });
 
       designRequestModel.id = designRequestsDocumentReference.id;
       return BaseSuccess<DesignRequestModel>(data: designRequestModel);
     } catch (e) {
-      throw BaseError(message: e.toString());
+      switch (e) {
+        case 1:
+          throw NotTakingOrderError(message: LocaleKeys.notTakingOrder.tr());
+        case 2:
+          throw OutOfWorkHoursError(message: LocaleKeys.outOfWorkingHours.tr());
+        case 3:
+          throw FirstOrderInsufficientBalanceError(
+              message: LocaleKeys.insufficientBalanceReview.tr());
+        case 4:
+          throw InsufficientBalanceError(
+              message: LocaleKeys.insufficientBalance.tr());
+        case 5:
+          throw NoDesignerError(message: LocaleKeys.noDesigner.tr());
+        default:
+          throw BaseError(message: e.toString());
+      }
     }
   }
 
