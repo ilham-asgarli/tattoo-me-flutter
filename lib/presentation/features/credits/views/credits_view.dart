@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:tattoo/utils/logic/constants/enums/app_enum.dart';
 import 'package:tattoo/utils/logic/constants/purchase/purchase_constants.dart';
 import 'package:tattoo/utils/logic/helpers/purchase/purchase_helper.dart';
 import 'package:tattoo/utils/logic/state/cubit/purchase/purchase_cubit.dart';
@@ -16,7 +17,12 @@ import '../components/buy_item.dart';
 import '../components/subscribe_item.dart';
 
 class CreditsView extends StatefulWidget {
-  const CreditsView({Key? key}) : super(key: key);
+  final CreditViewType creditViewType;
+
+  const CreditsView({
+    Key? key,
+    this.creditViewType = CreditViewType.balance,
+  }) : super(key: key);
 
   @override
   State<CreditsView> createState() => _CreditsViewState();
@@ -32,8 +38,10 @@ class _CreditsViewState extends State<CreditsView> {
             children: [
               widget.verticalSpace(10),
               Text(
-                LocaleKeys.balance.tr(),
-                style: const TextStyle(fontSize: 18),
+                widget.creditViewType == CreditViewType.balance
+                    ? LocaleKeys.balance.tr()
+                    : LocaleKeys.insufficientBalance,
+                style: const TextStyle(fontSize: 15),
               ),
               widget.verticalSpace(10),
               Row(
@@ -41,11 +49,18 @@ class _CreditsViewState extends State<CreditsView> {
                 children: [
                   Text(
                     "${context.watch<SignBloc>().state.userModel.balance ?? 0}",
-                    style: const TextStyle(fontSize: 25),
+                    style: GoogleFonts.questrial(
+                      textStyle: const TextStyle(fontSize: 35),
+                    ),
                   ),
-                  Icon(
+                  /*Icon(
                     Icons.star,
                     color: HexColor("#77BD52"),
+                  ),*/
+                  widget.horizontalSpace(5),
+                  const Icon(
+                    Icons.stars_rounded,
+                    color: Colors.green,
                   ),
                 ],
               ),

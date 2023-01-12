@@ -20,7 +20,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         id: userModel?.id,
         email: userModel?.email,
         password: userModel?.password,
-        balance: 0,
+        balance: 30,
       );
       BackendUserModel backendUserModel =
           BackendUserModel.from(userModel: model);

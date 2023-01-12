@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../credits/views/credits_view.dart';
 import '../../gallery/views/gallery_view.dart';
@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
   final List<Widget> _items = [
     const GalleryView(),
     const CreditsView(),
-    ReadyView(),
+    const ReadyView(),
   ];
 
   @override
@@ -89,7 +89,7 @@ class HomeView extends StatelessWidget {
             icon: const Padding(
               padding: EdgeInsets.only(top: 5, bottom: 5),
               child: FaIcon(
-                FontAwesomeIcons.checkToSlot,
+                FontAwesomeIcons.circleCheck,
                 size: 20,
               ),
             ),

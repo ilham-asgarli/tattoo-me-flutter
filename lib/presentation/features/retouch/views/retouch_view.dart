@@ -32,7 +32,7 @@ class RetouchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int imageIndex = designRequestModel?.designRequestImageModels2
-            ?.indexWhere((element) => element.name == "1") ??
+            ?.indexWhere((element) => element.name == "2") ??
         0;
     imageIndex = imageIndex >= 0 ? imageIndex : 0;
 
@@ -48,6 +48,7 @@ class RetouchView extends StatelessWidget {
             RetouchBackground(
               image: designRequestModel
                   ?.designRequestImageModels2?[imageIndex].link,
+              backgroundColor: Colors.black.withOpacity(0.3),
             ),
             StreamBuilder<BaseResponse<SettingsModel>>(
               stream: SettingsRepository().getDesignRequestsSettingsStream(),

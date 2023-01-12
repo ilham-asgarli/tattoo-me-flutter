@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
-import '../view-models/tattoo_choose_view_model.dart';
-import '../../../../utils/logic/helpers/gallery/editor_helper.dart';
-import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
-import '../../../../utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/helpers/gallery/editor_helper.dart';
 import '../../../../utils/logic/helpers/gallery/gallery_helper.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../widgets/resizeable_widget.dart';
+import '../view-models/tattoo_choose_view_model.dart';
 
 class TattooChooseView extends StatefulWidget {
   final XFile imageFile;

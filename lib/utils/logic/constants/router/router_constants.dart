@@ -6,11 +6,12 @@ the three routes /a, /a/b, and /a/b/c loaded, in that order.
  */
 
 class RouterConstants {
-  static const notFound = "/404";
-  static const home = "/";
-  static const tattooChoose = "/tattooChoose";
-  static const signUpIn = "/signUpIn";
-  static const photo = "/photo";
-  static const retouch = "/retouch";
-  static const more = "/more";
+  static const notFound = "404";
+  static const home = "home";
+  static const tattooChoose = "tattooChoose";
+  static const signUpIn = "signUpIn";
+  static const photo = "photo";
+  static const retouch = "retouch";
+  static const more = "more";
+  static const credits = "credits";
 }
