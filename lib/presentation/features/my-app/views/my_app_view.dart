@@ -69,8 +69,6 @@ class MyAppView extends StatelessWidget {
   }
 
   Widget buildNetworkCubit(BuildContext context, Widget? child) {
-    final networkCubitState = context.watch<NetworkCubit>().state;
-
     return BlocBuilder<NetworkCubit, NetworkState>(
       buildWhen: (NetworkState previous, NetworkState current) {
         return previous != current;
@@ -80,15 +78,15 @@ class MyAppView extends StatelessWidget {
           return const SizedBox();
         }
 
-        if (networkCubitState is! NetworkInitial) {
+        if (state is! NetworkInitial) {
           viewModel.initAndRemoveSplashScreen(context);
         }
 
-        if (networkCubitState is ConnectionSuccess) {
+        if (state is ConnectionSuccess) {
           return child;
         }
 
-        if (networkCubitState is ConnectionFailure) {
+        if (state is ConnectionFailure) {
           //return buildNoInternetWidget();
           return child;
         }
