@@ -93,19 +93,18 @@ class ErrorDialog extends StatelessWidget {
                   ),
                 ],
               )
-            : DialogActionButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
+            : Row(
+                children: [
+                  DialogActionButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
                       LocaleKeys.close.tr(),
                       style: const TextStyle(color: Colors.black),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
       ],
     );
