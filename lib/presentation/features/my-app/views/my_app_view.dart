@@ -89,7 +89,8 @@ class MyAppView extends StatelessWidget {
         }
 
         if (networkCubitState is ConnectionFailure) {
-          return buildNoInternetWidget();
+          //return buildNoInternetWidget();
+          return child;
         }
 
         return const SizedBox();
