@@ -242,7 +242,7 @@ class _SignUpInState extends State<SignUpIn> {
           viewModel.changeSign(context);
         },
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(20),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
