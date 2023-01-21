@@ -215,7 +215,7 @@ class _PhotoViewState extends State<PhotoView> {
         DesignResponseRepository();
     BaseResponse<DesignResponseModel> baseResponse =
         await designResponseRepository
-            .getDesignResponse(widget.designModel.id ?? "");
+            .getDesignResponse(widget.designModel.requestId ?? "");
 
     if (baseResponse is BaseSuccess<DesignResponseModel> &&
         baseResponse.data != null &&
@@ -237,7 +237,7 @@ class _PhotoViewState extends State<PhotoView> {
         DesignResponseRepository();
     BaseResponse<DesignResponseModel> baseResponse =
         await designResponseRepository
-            .getDesignResponse(widget.designModel.id ?? "");
+            .getDesignResponse(widget.designModel.requestId ?? "");
 
     if (baseResponse is BaseSuccess<DesignResponseModel> &&
         baseResponse.data != null &&

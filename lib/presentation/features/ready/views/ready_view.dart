@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tattoo/domain/repositories/design-responses/implementations/design_responses_repository.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
@@ -100,9 +101,15 @@ class _ReadyViewState extends State<ReadyView> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              buildImage(designRequestModel
-                      ?.designRequestImageModels2?[imageIndex].link ??
-                  ""),
+              !(designRequestModel?.finished ?? false)
+                  ? buildImage(designRequestModel
+                          ?.designRequestImageModels2?[imageIndex].link ??
+                      "")
+                  : buildResponseImage(
+                      designRequestModel
+                              ?.designRequestImageModels2?[imageIndex].link ??
+                          "",
+                      designRequestModel?.id ?? ""),
               buildRetouching(designRequestModel?.finished ?? false),
             ],
           ),
@@ -138,6 +145,26 @@ class _ReadyViewState extends State<ReadyView> {
     return CachedNetworkImage(
       imageUrl: link,
       fit: BoxFit.cover,
+    );
+  }
+
+  Widget buildResponseImage(String link, String requestId) {
+    DesignResponseRepository designResponseRepository =
+        DesignResponseRepository();
+
+    return FutureBuilder<BaseResponse<DesignResponseModel>>(
+      future: designResponseRepository.getDesignResponse(requestId),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          BaseResponse<DesignResponseModel>? baseResponse = snapshot.data;
+
+          if (baseResponse is BaseSuccess<DesignResponseModel>) {
+            return buildImage(baseResponse.data?.imageLink ?? "");
+          }
+        }
+
+        return buildImage(link);
+      },
     );
   }
 }

@@ -49,42 +49,38 @@ class BackendDesignResponse extends BackendDesignResponseInterface {
 
   @override
   Future<BaseResponse<DesignResponseModel>> getDesignResponse(
-      String designId) async {
+      String requestId) async {
     try {
-      Map<String, dynamic>? data = (await designResponses.doc(designId).get())
-          .data() as Map<String, dynamic>?;
+      Stream<QuerySnapshot> designRequestsStream =
+          designResponses.where("requestId", isEqualTo: requestId).snapshots();
 
-      if (data != null) {
-        BackendDesignResponseModel backendDesignResponseModel =
-            BackendDesignResponseModel().fromJson(data);
-        backendDesignResponseModel.id = designId;
-
-        Map<String, dynamic>? designRequestData = (await designRequests
-                .doc(backendDesignResponseModel.requestId)
-                .get())
-            .data() as Map<String, dynamic>?;
-
-        if (designRequestData != null) {
-          BackendDesignRequestModel backendDesignRequestModel =
-              BackendDesignRequestModel().fromJson(designRequestData);
-          DesignResponseModel designResponseModel =
-              BackendDesignResponseModel().to(
-            model: backendDesignResponseModel,
-          );
-          designResponseModel.designRequestModel =
-              BackendDesignRequestModel().to(model: backendDesignRequestModel);
-
-          return BaseSuccess(
-            data: designResponseModel,
-          );
+      await for (QuerySnapshot designResponseDocumentSnapshot
+          in designRequestsStream) {
+        if (designResponseDocumentSnapshot.size == 0) {
+          return BaseError(message: "Empty");
         } else {
-          return BaseError();
+          Map<String, dynamic>? designResponseData =
+              designResponseDocumentSnapshot.docs.first.data()
+                  as Map<String, dynamic>?;
+
+          if (designResponseData != null) {
+            BackendDesignResponseModel backendDesignResponseModel =
+                BackendDesignResponseModel().fromJson(designResponseData);
+            backendDesignResponseModel.id =
+                designResponseDocumentSnapshot.docs.first.id;
+
+            return BaseSuccess<DesignResponseModel>(
+              data: BackendDesignResponseModel().to(
+                model: backendDesignResponseModel,
+              ),
+            );
+          }
         }
-      } else {
-        return BaseError();
       }
-    } catch (e) {
+
       return BaseError();
+    } catch (e) {
+      return BaseError(message: e.toString());
     }
   }
 

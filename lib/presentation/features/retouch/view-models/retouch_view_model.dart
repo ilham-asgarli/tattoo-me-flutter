@@ -62,7 +62,7 @@ class RetouchViewModel extends BaseViewModel {
               oneDesignDuration.inMilliseconds;
     }
 
-    addNotWorkTime(context, designRequestModels, now);
+    // addNotWorkTime(context, designRequestModels, now);
 
     if (endTime == now.millisecondsSinceEpoch) {
       endTime += oneDesignDuration.inMilliseconds;

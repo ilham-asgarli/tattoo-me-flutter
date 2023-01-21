@@ -69,12 +69,12 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           throw 1;
         }
 
-        DateTime now = (await NTP.now()).toUtc().add(const Duration(hours: 3));
+        /*DateTime now = (await NTP.now()).toUtc().add(const Duration(hours: 3));
 
         if (now.hour < designRequestsSettingsDocument.get("workHours")[0] ||
             now.hour >= designRequestsSettingsDocument.get("workHours")[1]) {
           throw 2;
-        }
+        }*/
 
         DocumentReference userDocument = users.doc(designRequestModel.userId);
         DocumentSnapshot userDocumentSnapshot =
@@ -157,12 +157,12 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           throw 1;
         }
 
-        if (DateTime.now().hour <
-                designRequestsSettingsDocument.get("workHours")[0] ||
-            DateTime.now().hour >=
-                designRequestsSettingsDocument.get("workHours")[1]) {
+        /*DateTime now = (await NTP.now()).toUtc().add(const Duration(hours: 3));
+
+        if (now.hour < designRequestsSettingsDocument.get("workHours")[0] ||
+            now.hour >= designRequestsSettingsDocument.get("workHours")[1]) {
           throw 2;
-        }
+        }*/
 
         DocumentReference designRequestDocument =
             designRequests.doc(designRequestModel.previousRequestId);
@@ -176,8 +176,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           BackendDesignRequestModel backendDesignRequestModel =
               BackendDesignRequestModel().fromJson(designRequestData);
 
-          if (backendDesignRequestModel.retouchId == null &&
-              backendDesignRequestModel.previousRequestId == null) {
+          if (backendDesignRequestModel.previousRequestId == null) {
             String? designerId = await assignDesigner(
                 designRequestsSettingsDocument
                     .get("designLimitForOneDesigner"));

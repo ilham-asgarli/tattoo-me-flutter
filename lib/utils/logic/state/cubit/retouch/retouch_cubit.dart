@@ -31,7 +31,7 @@ class RetouchCubit extends Cubit<RetouchState> {
 
     _retouchSubscription = getDesignRequestRepository
         .getNotFinishedDesignRequestForDesignerStream(designRequestModel)
-        .listen((baseResponseList) {
+        .listen((baseResponseList) async {
       if (baseResponseList is BaseSuccess<List<DesignRequestModel>>) {
         if (baseResponseList.data == null) {
           return;
@@ -43,12 +43,16 @@ class RetouchCubit extends Cubit<RetouchState> {
           emit(RetouchInQueue(
             inQueueDesignRequestModels: baseResponseList.data,
           ));
+        } else if(baseResponseList.data!.last.startDesignDate != null){
+          emit(RetouchInRetouch(
+            inRetouchDesignRequestModels: baseResponseList.data,
+          ));
         } else if (baseResponseList.data!.length < retouchLimit &&
             baseResponseList.data!.isNotEmpty) {
           emit(RetouchInRetouch(
             inRetouchDesignRequestModels: baseResponseList.data,
           ));
-        } else {
+        }else {
           _retouchSubscription?.cancel();
         }
       }

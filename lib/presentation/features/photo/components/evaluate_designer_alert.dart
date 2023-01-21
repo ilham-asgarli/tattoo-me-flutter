@@ -14,7 +14,7 @@ class EvaluateDesignerAlert extends StatelessWidget {
       : super(key: key);
 
   final alertKey = UniqueKey();
-  int rating = 0;
+  int rating = 1;
 
   @override
   Widget build(BuildContext context) {

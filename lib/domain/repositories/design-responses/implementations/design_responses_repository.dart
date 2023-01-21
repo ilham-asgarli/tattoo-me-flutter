@@ -1,4 +1,4 @@
-import '../../../../backend/features/design-responses/implementations/backend_design_request.dart';
+import '../../../../backend/features/design-responses/implementations/backend_design_response.dart';
 import '../../../../core/base/models/base_response.dart';
 
 import '../../../models/design-response/design_response_model.dart';
@@ -23,9 +23,9 @@ class DesignResponseRepository extends DesignResponsesInterface {
 
   @override
   Future<BaseResponse<DesignResponseModel>> getDesignResponse(
-      String designId) async {
+      String requestId) async {
     BaseResponse<DesignResponseModel> baseResponse =
-        await backendDesignResponse.getDesignResponse(designId);
+        await backendDesignResponse.getDesignResponse(requestId);
     return baseResponse;
   }
 

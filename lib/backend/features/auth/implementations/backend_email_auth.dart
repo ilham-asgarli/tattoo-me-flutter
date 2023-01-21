@@ -28,6 +28,8 @@ class BackendEmailAuth extends BackendEmailAuthInterface {
 
       await credential.user?.sendEmailVerification();
 
+      await FirebaseAuth.instance.signOut();
+
       final BaseResponse<UserModel> baseResponse =
           await backendAutoAuth.createUser(userModel: userModel);
 

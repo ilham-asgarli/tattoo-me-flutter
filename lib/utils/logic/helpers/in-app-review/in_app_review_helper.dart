@@ -6,10 +6,10 @@ class InAppReviewHelper {
   InAppReviewHelper._init();
 
   Future<void> request() async {
-    if (await AppReview.isRequestReviewAvailable) {
+    /*if (await AppReview.isRequestReviewAvailable) {
       await AppReview.requestReview;
-    } else {
+    } else {*/
       await AppReview.storeListing;
-    }
+    //}
   }
 }
