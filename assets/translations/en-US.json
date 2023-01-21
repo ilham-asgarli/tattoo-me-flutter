@@ -84,5 +84,6 @@
   "checking": "Checking...",
   "active": "Active",
   "buyCredit": "Buy credit",
-  "evaluate": "Evaluate"
+  "evaluate": "Evaluate",
+  "verifyEmailSent": "Verification email sent."
 }

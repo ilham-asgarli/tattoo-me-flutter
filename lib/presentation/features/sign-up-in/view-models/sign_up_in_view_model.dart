@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tattoo/core/constants/app/global_key_constants.dart';
 import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
@@ -62,6 +63,14 @@ class SignUpInViewModel extends BaseViewModel {
       BlocProvider.of<SignBloc>(context)
           .add(SignedEvent(signedUserModel: baseResponse.data!));
       RouterService.instance.pop();
+
+      if (baseResponse.message?.isNotEmpty ?? false) {
+        GlobalKeyConstants.scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(
+            content: Text(baseResponse.message ?? ""),
+          ),
+        );
+      }
     }
   }
 

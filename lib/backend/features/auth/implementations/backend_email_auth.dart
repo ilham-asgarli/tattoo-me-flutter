@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tattoo/backend/features/auth/implementations/backend_auto_auth.dart';
 import 'package:tattoo/backend/features/auth/interfaces/backend_email_auth_interface.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
+import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../core/exceptions/auth/auth_exception.dart';
@@ -34,7 +36,7 @@ class BackendEmailAuth extends BackendEmailAuthInterface {
           await backendAutoAuth.createUser(userModel: userModel);
 
       if (baseResponse is BaseSuccess<UserModel>) {
-        return BaseSuccess<UserModel>(data: baseResponse.data);
+        return BaseSuccess<UserModel>(data: baseResponse.data, message: LocaleKeys.verifyEmailSent.tr());
       } else {
         return BaseError();
       }

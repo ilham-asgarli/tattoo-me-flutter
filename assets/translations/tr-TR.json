@@ -84,5 +84,6 @@
   "checking": "Kontrol ediliyor...",
   "active": "Aktif",
   "buyCredit": "Kredi al",
-  "evaluate": "Değerlendir"
+  "evaluate": "Değerlendir",
+  "verifyEmailSent": "Doğrulama e-postası gönderildi."
 }

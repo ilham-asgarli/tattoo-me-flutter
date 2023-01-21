@@ -85,5 +85,6 @@ abstract class  LocaleKeys {
   static const active = 'active';
   static const buyCredit = 'buyCredit';
   static const evaluate = 'evaluate';
+  static const verifyEmailSent = 'verifyEmailSent';
 
 }
