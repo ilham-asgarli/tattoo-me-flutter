@@ -8,8 +8,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tattoo/utils/logic/helpers/downloader/downloader_helper.dart';
+import 'package:tattoo/utils/logic/helpers/package_info/package_info_helper.dart';
 import 'package:tattoo/utils/logic/state/cubit/purchase/purchase_cubit.dart';
 
 import 'core/cache/shared_preferences_manager.dart';
@@ -31,6 +33,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await SharedPreferencesManager.preferencesInit();
   await dotenv.load(fileName: EnvConstants.encrypt.toEnv);
+  await PackageInfoHelper.initPackageInfo();
   await FlutterDownloader.initialize(debug: kDebugMode);
   await FlutterDownloader.registerCallback(
     DownloaderHelper.downloadCallback,
