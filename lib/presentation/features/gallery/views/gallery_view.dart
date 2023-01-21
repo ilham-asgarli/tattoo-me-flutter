@@ -12,6 +12,7 @@ import '../../../../core/router/core/router_service.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/helpers/gallery/gallery_helper.dart';
+import '../../../components/progress_dialog.dart';
 
 class GalleryView extends StatelessWidget {
   const GalleryView({Key? key}) : super(key: key);
@@ -100,12 +101,16 @@ class GalleryView extends StatelessWidget {
         Radius.circular(10),
       ),
       onTap: () async {
+        showProgressDialog(context);
+
         XFile? imageFile;
         if (galleryChoose == GalleryChoose.camera) {
           imageFile = await GalleryHelper.instance.getFromCamera();
         } else if (galleryChoose == GalleryChoose.gallery) {
           imageFile = await GalleryHelper.instance.getFromGallery();
         }
+
+        RouterService.instance.pop();
 
         if (imageFile != null) {
           RouterService.instance.pushNamed(
@@ -140,6 +145,15 @@ class GalleryView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void showProgressDialog(context) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return const ProgressDialog();
+      },
     );
   }
 }

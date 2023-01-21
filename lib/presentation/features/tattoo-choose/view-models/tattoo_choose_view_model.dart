@@ -18,7 +18,7 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/errors/design_request_errors/first_order_insufficient_balance_error.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../components/error_dialog.dart';
-import '../components/progress_dialog.dart';
+import '../../../components/progress_dialog.dart';
 
 class TattooChooseViewModel extends BaseViewModel {
   final XFile imageFile;
