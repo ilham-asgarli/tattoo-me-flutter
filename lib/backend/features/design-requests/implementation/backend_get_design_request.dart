@@ -166,8 +166,8 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
             }
 
             designResponseModels.sort((a, b) {
-              return a.designRequestModel?.createdDate?.compareTo(
-                      b.designRequestModel?.createdDate ?? DateTime.now()) ??
+              return b.designRequestModel?.createdDate?.compareTo(
+                      a.designRequestModel?.createdDate ?? DateTime.now()) ??
                   0;
             });
 

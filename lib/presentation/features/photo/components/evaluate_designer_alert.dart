@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../../../backend/utils/constants/app/app_constants.dart';
 import '../../../../domain/repositories/design-responses/implementations/design_responses_repository.dart';
 import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
 
@@ -63,12 +64,14 @@ class EvaluateDesignerAlert extends StatelessWidget {
                 padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
               ),
               onPressed: () async {
-                Navigator.pop(context);
-                if (designModel.id != null) {
-                  DesignResponseRepository designResponseRepository =
-                      DesignResponseRepository();
-                  await designResponseRepository.evaluateDesigner(
-                      designModel.id!, rating);
+                if(rating >= AppConstants.minRating && rating <=AppConstants.maxRating) {
+                  Navigator.pop(context);
+                  if (designModel.id != null) {
+                    DesignResponseRepository designResponseRepository =
+                    DesignResponseRepository();
+                    await designResponseRepository.evaluateDesigner(
+                        designModel.id!, rating);
+                  }
                 }
               },
               child: Text(LocaleKeys.send.tr()),
@@ -85,7 +88,7 @@ class EvaluateDesignerAlert extends StatelessWidget {
       children: [
         RatingBar.builder(
           initialRating: designModel.rating?.toDouble() ?? 1,
-          minRating: 1,
+          minRating: AppConstants.minRating,
           direction: Axis.horizontal,
           allowHalfRating: false,
           itemCount: 5,
