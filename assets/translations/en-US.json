@@ -53,6 +53,7 @@
   "retouchingPhoto": "Your photo is being retouched",
   "retouchEnded": "Your tattoo design has been prepared.\nEnjoy the result",
   "outOfWorkTimeDescription": "Your photo will be made by our professional designers between {}:00-{}:00 during working hours",
+  "queueDescription": "Your photo will be made by our professional designers",
   "controlDescription": "Your photo is being reviewed",
   "queue": "In the queue",
   "control": "Control",

@@ -132,10 +132,7 @@ class RetouchView extends StatelessWidget {
           : state.runtimeType == RetouchInRetouch
               ? LocaleKeys.retouchingPhoto.tr()
               : state.runtimeType == RetouchInQueue
-                  ? LocaleKeys.outOfWorkTimeDescription.tr(args: [
-                      viewModel.settingsModel?.workHours?[0].toString() ?? "",
-                      viewModel.settingsModel?.workHours?[1].toString() ?? ""
-                    ])
+                  ? LocaleKeys.queueDescription.tr()
                   : "",
       style: TextStyle(
         fontSize: state.runtimeType == RetouchInQueue ? 18 : 22,

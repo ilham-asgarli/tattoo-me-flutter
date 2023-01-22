@@ -54,6 +54,7 @@ abstract class  LocaleKeys {
   static const retouchingPhoto = 'retouchingPhoto';
   static const retouchEnded = 'retouchEnded';
   static const outOfWorkTimeDescription = 'outOfWorkTimeDescription';
+  static const queueDescription = 'queueDescription';
   static const controlDescription = 'controlDescription';
   static const queue = 'queue';
   static const control = 'control';
