@@ -14,8 +14,9 @@ part 'retouch_state.dart';
 
 class RetouchCubit extends Cubit<RetouchState> {
   StreamSubscription? _readySubscription, _retouchSubscription;
+  final DesignRequestModel? designRequestModel;
 
-  RetouchCubit(DesignRequestModel? designRequestModel)
+  RetouchCubit(this.designRequestModel)
       : super(RetouchInitial()) {
     listenToDesignStatus(designRequestModel);
   }
@@ -63,7 +64,11 @@ class RetouchCubit extends Cubit<RetouchState> {
         .listen((baseResponse) {
       if (baseResponse is BaseSuccess<DesignResponseModel>) {
         _retouchSubscription?.cancel();
-        emit(RetouchIsReady(designResponseModel: baseResponse.data));
+
+        DesignResponseModel? designResponseModel = baseResponse.data;
+        designResponseModel?.designRequestModel = designRequestModel;
+
+        emit(RetouchIsReady(designResponseModel: designResponseModel));
       }
     });
   }
