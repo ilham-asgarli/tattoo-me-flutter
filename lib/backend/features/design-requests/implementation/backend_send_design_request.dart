@@ -95,7 +95,8 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           await sendFiles(designRequestModel, designRequestImageReference);
 
           String? designerId = await assignDesigner(
-              designRequestsSettingsDocument.get("designLimitForOneDesigner"));
+              designLimitForOneDesigner: designRequestsSettingsDocument
+                  .get("designLimitForOneDesigner"));
           if (designerId == null) {
             throw 5;
           }
@@ -176,10 +177,13 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           BackendDesignRequestModel backendDesignRequestModel =
               BackendDesignRequestModel().fromJson(designRequestData);
 
-          if (backendDesignRequestModel.previousRequestId == null && backendDesignRequestModel.retouchId == null) {
+          if (backendDesignRequestModel.previousRequestId == null &&
+              backendDesignRequestModel.retouchId == null) {
             String? designerId = await assignDesigner(
-                designRequestsSettingsDocument
-                    .get("designLimitForOneDesigner"));
+              designLimitForOneDesigner: designRequestsSettingsDocument
+                  .get("designLimitForOneDesigner"),
+              previousDesignerId: designRequestModel.designerId,
+            );
             if (designerId == null) {
               throw 4;
             }
@@ -319,24 +323,42 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
     );
   }
 
-  Future<String?> assignDesigner(int designLimitForOneDesigner) async {
-    QuerySnapshot workingDesignersQuerySnapshot =
-        await designers.where("working", isEqualTo: true).get();
-
+  Future<String?> assignDesigner(
+      {required int designLimitForOneDesigner,
+      String? previousDesignerId}) async {
     String? designerId;
-    int lastMinAssignmentCount = -1;
-    for (DocumentSnapshot workingDesignerDocumentSnapshot
-        in workingDesignersQuerySnapshot.docs) {
-      QuerySnapshot designRequestsQuerySnapshot = await designRequests
-          .where("designerId", isEqualTo: workingDesignerDocumentSnapshot.id)
-          .where("finished", isEqualTo: false)
-          .get();
 
-      if ((lastMinAssignmentCount < 0 ||
-              lastMinAssignmentCount > designRequestsQuerySnapshot.size) &&
-          designRequestsQuerySnapshot.size <= designLimitForOneDesigner) {
-        lastMinAssignmentCount = designRequestsQuerySnapshot.size;
-        designerId = workingDesignerDocumentSnapshot.id;
+    print(previousDesignerId);
+    if (previousDesignerId != null) {
+      print("xxxxx");
+      DocumentSnapshot previousDesignerDocumentSnapshot =
+          await designers.doc(previousDesignerId).get();
+      Map<String, dynamic>? previousDesignerData =
+          previousDesignerDocumentSnapshot.data() as Map<String, dynamic>?;
+
+      if(previousDesignerData != null && previousDesignerData["working"]) {
+        designerId = previousDesignerDocumentSnapshot.id;
+      }
+    }
+
+    if (designerId == null) {
+      QuerySnapshot workingDesignersQuerySnapshot =
+          await designers.where("working", isEqualTo: true).get();
+
+      int lastMinAssignmentCount = -1;
+      for (DocumentSnapshot workingDesignerDocumentSnapshot
+          in workingDesignersQuerySnapshot.docs) {
+        QuerySnapshot designRequestsQuerySnapshot = await designRequests
+            .where("designerId", isEqualTo: workingDesignerDocumentSnapshot.id)
+            .where("finished", isEqualTo: false)
+            .get();
+
+        if ((lastMinAssignmentCount < 0 ||
+                lastMinAssignmentCount > designRequestsQuerySnapshot.size) &&
+            designRequestsQuerySnapshot.size <= designLimitForOneDesigner) {
+          lastMinAssignmentCount = designRequestsQuerySnapshot.size;
+          designerId = workingDesignerDocumentSnapshot.id;
+        }
       }
     }
 

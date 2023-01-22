@@ -211,6 +211,7 @@ class _RetouchAlertState extends State<RetouchAlert> {
         userId: userId,
         finished: false,
         previousRequestId: widget.designModel.requestId,
+        designerId: widget.designModel.designerId,
       ),
       comment,
     );

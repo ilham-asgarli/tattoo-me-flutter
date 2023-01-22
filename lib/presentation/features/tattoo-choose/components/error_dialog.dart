@@ -13,6 +13,7 @@ import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
 import 'package:tattoo/utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
+import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';
 import 'dialog_action_button.dart';
 
@@ -55,9 +56,10 @@ class ErrorDialog extends StatelessWidget {
                   DialogActionButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      BlocProvider.of<HomeTabCubit>(context).changeTab(1);
-                      RouterService.instance
-                          .popUntil(removeUntilPageName: RouterConstants.home);
+                      RouterService.instance.pushNamed(
+                        path: RouterConstants.credits,
+                        data: CreditsViewType.insufficient,
+                      );
                     },
                     child: Text(
                       LocaleKeys.buyCredit.tr(),
