@@ -47,14 +47,17 @@ class RetouchViewModel extends BaseViewModel {
           now.difference(designRequestModels.last.startDesignDate!);
 
       if (difference.inMinutes <= oneDesignDuration.inMinutes) {
-        endTime = now.millisecondsSinceEpoch +
+        /*endTime = now.millisecondsSinceEpoch +
             (designRequestModels.length - 2).toZeroOrPositive() *
                 oneDesignDuration.inMilliseconds +
+            (oneDesignDuration.inMilliseconds - difference.inMilliseconds);*/
+        endTime = now.millisecondsSinceEpoch +
             (oneDesignDuration.inMilliseconds - difference.inMilliseconds);
       } else {
-        endTime = now.millisecondsSinceEpoch +
+        /*endTime = now.millisecondsSinceEpoch +
             (designRequestModels.length - 1).toZeroOrPositive() *
-                oneDesignDuration.inMilliseconds;
+                oneDesignDuration.inMilliseconds;*/
+        endTime = now.millisecondsSinceEpoch + oneDesignDuration.inMilliseconds;
       }
     } else {
       endTime = now.millisecondsSinceEpoch +

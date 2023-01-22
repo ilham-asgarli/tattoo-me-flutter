@@ -24,10 +24,10 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
 
   @override
   Future<BaseResponse<DesignRequestModel>> getDesignRequest(
-      String userId) async {
+      String requestId) async {
     try {
       DocumentSnapshot designRequestsDocumentSnapshot =
-          await designRequests.doc(userId).get();
+          await designRequests.doc(requestId).get();
       Map<String, dynamic>? designRequestsData =
           designRequestsDocumentSnapshot.data() as Map<String, dynamic>?;
 

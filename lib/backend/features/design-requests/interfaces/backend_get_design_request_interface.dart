@@ -5,7 +5,7 @@ import '../../../../domain/models/design-request/design_request_model.dart';
 
 abstract class BackendGetDesignRequestInterface {
   Future<BaseResponse<DesignRequestModel>> getDesignRequest(
-    String userId,
+    String requestId,
   );
 
   Stream<BaseResponse<List<DesignResponseModel>>> getDesignRequestStream(

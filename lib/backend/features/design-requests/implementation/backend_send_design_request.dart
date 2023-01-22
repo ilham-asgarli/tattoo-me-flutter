@@ -176,7 +176,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           BackendDesignRequestModel backendDesignRequestModel =
               BackendDesignRequestModel().fromJson(designRequestData);
 
-          if (backendDesignRequestModel.previousRequestId == null) {
+          if (backendDesignRequestModel.previousRequestId == null && backendDesignRequestModel.retouchId == null) {
             String? designerId = await assignDesigner(
                 designRequestsSettingsDocument
                     .get("designLimitForOneDesigner"));

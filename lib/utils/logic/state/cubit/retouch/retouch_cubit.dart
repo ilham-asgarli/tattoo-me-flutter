@@ -39,20 +39,20 @@ class RetouchCubit extends Cubit<RetouchState> {
 
         int retouchLimit = 2;
 
-        if (baseResponseList.data!.length >= retouchLimit) {
-          emit(RetouchInQueue(
-            inQueueDesignRequestModels: baseResponseList.data,
-          ));
-        } else if(baseResponseList.data!.last.startDesignDate != null){
+        if (baseResponseList.data!.last.startDesignDate != null) {
           emit(RetouchInRetouch(
             inRetouchDesignRequestModels: baseResponseList.data,
+          ));
+        } else if (baseResponseList.data!.length >= retouchLimit) {
+          emit(RetouchInQueue(
+            inQueueDesignRequestModels: baseResponseList.data,
           ));
         } else if (baseResponseList.data!.length < retouchLimit &&
             baseResponseList.data!.isNotEmpty) {
           emit(RetouchInRetouch(
             inRetouchDesignRequestModels: baseResponseList.data,
           ));
-        }else {
+        } else {
           _retouchSubscription?.cancel();
         }
       }

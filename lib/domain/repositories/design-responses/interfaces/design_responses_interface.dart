@@ -6,7 +6,7 @@ abstract class DesignResponsesInterface {
 
   Future<BaseResponse> evaluateDesigner(String designId, int rating);
 
-  Future<BaseResponse<DesignResponseModel>> getDesignResponse(String designId);
+  Future<BaseResponse<DesignResponseModel>> getDesignResponse(String requestId);
 
   Stream<BaseResponse<DesignResponseModel>> getDesignRequestStream(
     String requestId,
