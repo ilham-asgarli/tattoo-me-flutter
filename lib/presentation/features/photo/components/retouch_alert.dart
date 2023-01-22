@@ -69,11 +69,16 @@ class _RetouchAlertState extends State<RetouchAlert> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Text(
-                LocaleKeys.retouchAlertTitle.tr(),
-                style: const TextStyle(color: Colors.black),
+            Visibility(
+              visible:
+                  context.watch<RetouchAlertBloc>().state.retouchSendingState !=
+                      RetouchSendingState.sent,
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Text(
+                  LocaleKeys.retouchAlertTitle.tr(),
+                  style: const TextStyle(color: Colors.black),
+                ),
               ),
             ),
             Card(
@@ -87,10 +92,12 @@ class _RetouchAlertState extends State<RetouchAlert> {
                             .state
                             .retouchSendingState ==
                         RetouchSendingState.sent
-                    ? Text(
-                        LocaleKeys.sentForRetouch.tr(),
-                        style: const TextStyle(color: Colors.black),
-                        textAlign: TextAlign.center,
+                    ? FittedBox(
+                        child: Text(
+                          LocaleKeys.sentForRetouch.tr(),
+                          style: const TextStyle(color: Colors.black),
+                          textAlign: TextAlign.center,
+                        ),
                       )
                     : TextFormField(
                         minLines: 5,
