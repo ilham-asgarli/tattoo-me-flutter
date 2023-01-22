@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tattoo/core/constants/app/global_key_constants.dart';
+import 'package:tattoo/utils/logic/constants/router/router_constants.dart';
 import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
@@ -14,6 +15,11 @@ import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 class SignUpInViewModel extends BaseViewModel {
   UserModel userModel = UserModel();
   bool isPasswordVisible = false;
+
+  bool isSignIn(BuildContext context) {
+    SignState signState = context.read<SignBloc>().state;
+    return !(signState is SignUp || signState is SigningUp);
+  }
 
   void onSavedEmail(String? value) {
     if (value != null) {
@@ -38,19 +44,19 @@ class SignUpInViewModel extends BaseViewModel {
         BaseResponse<UserModel> baseResponse =
             await emailAuthRepository.signUpWithEmailAndPassword(userModel);
         if (mounted) {
-          closePageAfterSign(context, mounted, baseResponse);
+          afterSign(true, context, mounted, baseResponse);
         }
       } else {
         BaseResponse<UserModel> baseResponse =
             await emailAuthRepository.signInWithEmailAndPassword(userModel);
         if (mounted) {
-          closePageAfterSign(context, mounted, baseResponse);
+          afterSign(false, context, mounted, baseResponse);
         }
       }
     }
   }
 
-  void closePageAfterSign(BuildContext context, bool mounted,
+  void afterSign(bool isSignUp, BuildContext context, bool mounted,
       BaseResponse<UserModel> baseResponse) {
     if (baseResponse is BaseError) {
       BlocProvider.of<SignBloc>(context).add(const SignErrorEvent());
@@ -62,7 +68,10 @@ class SignUpInViewModel extends BaseViewModel {
         baseResponse.data != null) {
       BlocProvider.of<SignBloc>(context)
           .add(SignedEvent(signedUserModel: baseResponse.data!));
-      RouterService.instance.pop();
+
+      if(!isSignUp) {
+        RouterService.instance.popUntil(removeUntilPageName: RouterConstants.home);
+      }
 
       if (baseResponse.message?.isNotEmpty ?? false) {
         GlobalKeyConstants.scaffoldMessengerKey.currentState?.showSnackBar(

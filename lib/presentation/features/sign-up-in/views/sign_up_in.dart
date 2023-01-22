@@ -75,7 +75,7 @@ class _SignUpInState extends State<SignUpIn> {
 
   Widget buildSignDescription(SignState state) {
     return Text(
-      (state is SignUpState)
+      !viewModel.isSignIn(context)
           ? LocaleKeys.signUp.tr()
           : LocaleKeys.signInDescription.tr(),
       textAlign: TextAlign.center,
@@ -182,7 +182,7 @@ class _SignUpInState extends State<SignUpIn> {
             GestureDetector(
               onTap: forgotPassword,
               child: Visibility(
-                visible: (state is! SignUpState),
+                visible: viewModel.isSignIn(context),
                 maintainState: true,
                 maintainAnimation: true,
                 maintainSize: true,
@@ -223,7 +223,7 @@ class _SignUpInState extends State<SignUpIn> {
               color: Colors.black,
             )
           : Text(
-              state is SignUpState
+              !viewModel.isSignIn(context)
                   ? LocaleKeys.signUp.tr()
                   : LocaleKeys.signIn.tr(),
               style: const TextStyle(color: Colors.black),
@@ -233,7 +233,7 @@ class _SignUpInState extends State<SignUpIn> {
 
   Widget buildChangeSign(SignState state) {
     return Visibility(
-      visible: (state is! SignUpState),
+      visible: viewModel.isSignIn(context),
       maintainState: true,
       maintainAnimation: true,
       maintainSize: true,
@@ -248,7 +248,7 @@ class _SignUpInState extends State<SignUpIn> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                (state is SignUpState)
+                !viewModel.isSignIn(context)
                     ? LocaleKeys.haveAccount.tr()
                     : LocaleKeys.haveNoAccount.tr(),
               ),
@@ -259,7 +259,7 @@ class _SignUpInState extends State<SignUpIn> {
               ),
               widget.horizontalSpace(5),
               Text(
-                (state is SignUpState)
+                !viewModel.isSignIn(context)
                     ? LocaleKeys.signIn.tr()
                     : LocaleKeys.signUp.tr(),
                 style: const TextStyle(fontWeight: FontWeight.bold),
