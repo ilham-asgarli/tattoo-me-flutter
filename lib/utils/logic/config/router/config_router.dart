@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tattoo/presentation/features/credits/views/credits_view.dart';
+import 'package:tattoo/presentation/features/privacy-policy/views/privacy_policy_view.dart';
 import 'package:tattoo/utils/logic/constants/enums/app_enum.dart';
 
 import '../../../../domain/models/design-request/design_request_model.dart';
@@ -68,6 +69,11 @@ class ConfigRouter {
         return normalNavigate(
           CreditsView(creditViewType: settings.arguments as CreditsViewType),
           RouterConstants.credits,
+        );
+      case RouterConstants.privacyPolicy:
+        return normalNavigate(
+          PrivacyPolicyView(),
+          RouterConstants.privacyPolicy,
         );
       default:
         //throw NavigateException<SettingsDynamicModel>(args.arguments);

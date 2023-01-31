@@ -8,7 +8,9 @@ import 'package:store_redirect/store_redirect.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
+import '../../../../core/router/core/router_service.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../widgets/fractionally_sized_circular_progress_indicator.dart';
@@ -99,7 +101,11 @@ class MoreView extends StatelessWidget {
             context,
             FontAwesomeIcons.handshake,
             LocaleKeys.privacyPolicy.tr(),
-            () {},
+            () {
+              RouterService.instance.pushNamed(
+                path: RouterConstants.privacyPolicy,
+              );
+            },
           ),
           buildFeature(
             context,

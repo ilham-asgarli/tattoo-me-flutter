@@ -33,6 +33,7 @@ class AutoAuthRepository extends AutoAuthInterface {
 
   @override
   Future<BaseResponse> updateBalance(UserModel userModel, int value) async {
+    print(value);
     BaseResponse baseResponse =
         await backendAutoAuth.updateBalance(userModel, value);
     return baseResponse;

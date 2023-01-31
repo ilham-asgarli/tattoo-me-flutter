@@ -58,6 +58,7 @@ class PurchaseCubit extends Cubit<PurchaseState> {
             purchaseDetails.status == PurchaseStatus.restored) {
           final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
+            print(purchaseDetails.status);
             deliverProduct(purchaseDetails);
 
             if (purchaseDetails.status == PurchaseStatus.purchased) {
@@ -123,7 +124,14 @@ class PurchaseCubit extends Cubit<PurchaseState> {
   }
 
   Future<void> deliverProduct(PurchaseDetails purchaseDetails) async {
-    if (PurchaseConstants.inAppProducts.keys
+    if (purchaseDetails.status == PurchaseStatus.restored) {
+      List<PurchaseDetails> purchases = state.purchases.toList();
+      purchases.add(purchaseDetails);
+      emit(state.copyWith(
+        purchasePending: false,
+        purchases: purchases,
+      ));
+    }else if (PurchaseConstants.inAppProducts.keys
         .contains(purchaseDetails.productID)) {
       authRepository.updateBalance(
         UserModel(id: context.read<SignBloc>().state.userModel.id),
@@ -133,15 +141,6 @@ class PurchaseCubit extends Cubit<PurchaseState> {
       emit(state.copyWith(
         purchasePending: false,
       ));
-    } else {
-      if (purchaseDetails.status == PurchaseStatus.restored) {
-        List<PurchaseDetails> purchases = state.purchases.toList();
-        purchases.add(purchaseDetails);
-        emit(state.copyWith(
-          purchasePending: false,
-          purchases: purchases,
-        ));
-      }
     }
   }
 

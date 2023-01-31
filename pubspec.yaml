@@ -67,6 +67,7 @@ dependencies:
   ntp: ^2.0.0
   app_review: ^2.1.2+1
   google_fonts: ^3.0.1
+  webview_flutter: ^4.0.2
   upgrader:
   package_info_plus:
 

@@ -14,4 +14,5 @@ class RouterConstants {
   static const retouch = "retouch";
   static const more = "more";
   static const credits = "credits";
+  static const privacyPolicy = "privacyPolicy";
 }
