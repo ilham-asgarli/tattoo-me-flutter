@@ -2,7 +2,7 @@ name: tattoo
 description: A new Flutter project.
 
 publish_to: 'none'
-version: 1.0.8+9
+version: 1.0.9+10
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
