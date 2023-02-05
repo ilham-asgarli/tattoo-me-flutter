@@ -48,9 +48,9 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>Upload image</string>
+		<string>Allow photo access to add your image for 3D tattoo design.</string>
 		<key>NSCameraUsageDescription</key>
-		<string>Upload image from camera</string>
+		<string>Allow camera access to add your image for 3D tattoo design.</string>
 		<key>NSAppTransportSecurity</key>
 		<dict>
 			<key>NSAllowsArbitraryLoads</key>
