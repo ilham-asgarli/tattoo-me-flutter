@@ -15,4 +15,5 @@ class RouterConstants {
   static const more = "more";
   static const credits = "credits";
   static const privacyPolicy = "privacyPolicy";
+  static const termOfUse = "termOfUse";
 }

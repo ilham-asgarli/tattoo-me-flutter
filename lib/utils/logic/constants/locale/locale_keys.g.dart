@@ -46,6 +46,7 @@ abstract class  LocaleKeys {
   static const haveAccount = 'haveAccount';
   static const haveNoAccount = 'haveNoAccount';
   static const privacyPolicy = 'privacyPolicy';
+  static const termOfUse = 'termOfUse';
   static const checkUpdates = 'checkUpdates';
   static const reportMistake = 'reportMistake';
   static const imageEditorTitle = 'imageEditorTitle';

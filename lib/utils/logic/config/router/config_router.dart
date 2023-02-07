@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tattoo/presentation/features/credits/views/credits_view.dart';
 import 'package:tattoo/presentation/features/privacy-policy/views/privacy_policy_view.dart';
+import 'package:tattoo/presentation/features/term-of-use/views/term_of_use_view.dart';
 import 'package:tattoo/utils/logic/constants/enums/app_enum.dart';
 
 import '../../../../domain/models/design-request/design_request_model.dart';
@@ -74,6 +75,11 @@ class ConfigRouter {
         return normalNavigate(
           PrivacyPolicyView(),
           RouterConstants.privacyPolicy,
+        );
+      case RouterConstants.termOfUse:
+        return normalNavigate(
+          TermOfUseView(),
+          RouterConstants.termOfUse,
         );
       default:
         //throw NavigateException<SettingsDynamicModel>(args.arguments);

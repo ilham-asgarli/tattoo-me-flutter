@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +12,9 @@ import 'package:tattoo/utils/logic/state/cubit/purchase/purchase_cubit.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
+import '../../../../core/router/core/router_service.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../components/buy_item.dart';
@@ -83,6 +87,11 @@ class _CreditsViewState extends State<CreditsView> {
               widget.verticalSpace(40),
               buildBuyWidget(),
               widget.verticalSpace(20),
+              Visibility(
+                visible: Platform.isIOS,
+                child: buildIosStoreArea(),
+              ),
+              widget.verticalSpace(20),
             ],
           ),
         ),
@@ -90,7 +99,37 @@ class _CreditsViewState extends State<CreditsView> {
     );
   }
 
-  Wrap buildBuyWidget() {
+  Row buildIosStoreArea() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        TextButton(
+          onPressed: () {
+            RouterService.instance.pushNamed(
+              path: RouterConstants.privacyPolicy,
+            );
+          },
+          child: Text(
+            LocaleKeys.privacyPolicy.tr(),
+            style: TextStyle(color: AppColors.secondColor),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            RouterService.instance.pushNamed(
+              path: RouterConstants.termOfUse,
+            );
+          },
+          child: Text(
+            LocaleKeys.termOfUse.tr(),
+            style: TextStyle(color: AppColors.secondColor),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildBuyWidget() {
     List<ProductDetails> products =
         context.watch<PurchaseCubit>().state.products;
     Iterable<ProductDetails> productsIterable = products.where((element) {
