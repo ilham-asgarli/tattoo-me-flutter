@@ -89,9 +89,13 @@ class _CreditsViewState extends State<CreditsView> {
               widget.verticalSpace(20),
               Visibility(
                 visible: Platform.isIOS,
-                child: buildIosStoreArea(),
+                child: Row(
+                  children: [
+                    buildIosStoreArea(),
+                    widget.verticalSpace(20),
+                  ],
+                ),
               ),
-              widget.verticalSpace(20),
             ],
           ),
         ),
