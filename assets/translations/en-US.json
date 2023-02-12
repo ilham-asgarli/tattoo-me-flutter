@@ -87,5 +87,9 @@
   "active": "Active",
   "buyCredit": "Buy credit",
   "evaluate": "Evaluate",
-  "verifyEmailSent": "Verification email sent."
+  "verifyEmailSent": "Verification email sent.",
+  "getPhotoTypes": {
+    "gallery": "Gallery",
+    "camera": "Camera"
+  }
 }

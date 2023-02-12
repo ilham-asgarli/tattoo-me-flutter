@@ -87,5 +87,9 @@
   "active": "Aktif",
   "buyCredit": "Kredi al",
   "evaluate": "Değerlendir",
-  "verifyEmailSent": "Doğrulama e-postası gönderildi."
+  "verifyEmailSent": "Doğrulama e-postası gönderildi.",
+  "getPhotoTypes": {
+    "gallery": "Galeri",
+    "camera": "Kamera"
+  }
 }

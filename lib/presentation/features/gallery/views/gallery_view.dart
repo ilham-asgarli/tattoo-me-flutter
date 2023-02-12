@@ -139,7 +139,9 @@ class GalleryView extends StatelessWidget {
               ),
               context.widget.verticalSpace(5),
               Text(
-                galleryChoose == GalleryChoose.camera ? "Kamera" : "Galeri",
+                galleryChoose == GalleryChoose.camera
+                    ? LocaleKeys.getPhotoTypes_camera.tr()
+                    : LocaleKeys.getPhotoTypes_gallery.tr(),
               ),
             ],
           ),

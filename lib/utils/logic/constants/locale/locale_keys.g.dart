@@ -88,5 +88,8 @@ abstract class  LocaleKeys {
   static const buyCredit = 'buyCredit';
   static const evaluate = 'evaluate';
   static const verifyEmailSent = 'verifyEmailSent';
+  static const getPhotoTypes_gallery = 'getPhotoTypes.gallery';
+  static const getPhotoTypes_camera = 'getPhotoTypes.camera';
+  static const getPhotoTypes = 'getPhotoTypes';
 
 }
