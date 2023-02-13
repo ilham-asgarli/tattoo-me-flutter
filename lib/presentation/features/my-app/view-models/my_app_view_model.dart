@@ -10,6 +10,7 @@ import '../../../../domain/repositories/auth/implementations/auth_repository.dar
 import '../../../../domain/repositories/auth/implementations/auto_auth_repository.dart';
 import '../../../../domain/repositories/auth/implementations/email_auth_repository.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
+import '../../../../utils/logic/errors/auth/user_not_found_error.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 class MyAppViewModel extends BaseViewModel {
@@ -37,23 +38,33 @@ class MyAppViewModel extends BaseViewModel {
           .updateLastAppEntryDate(UserModel(id: userModel.id));
 
       if (baseResponse is BaseSuccess) {
-        BaseResponse<UserModel> userBaseResponse =
-            await autoAuthRepository.getUserWithId(userModel.id!);
-        if (userBaseResponse is BaseSuccess<UserModel>) {
-          signBloc.add(RestoreSignInEvent(
-              restoreSignInUserModel: userBaseResponse.data!));
-          FlutterNativeSplash.remove();
-        }
+        await onUpdatedLastAppEntryDate(userModel, signBloc);
+      } else if (baseResponse is UserNotFoundError){
+        await createUser(signBloc);
       }
     } else {
-      BaseResponse<UserModel> baseResponse =
-          await autoAuthRepository.createUser();
+      await createUser(signBloc);
+    }
+  }
 
-      if (baseResponse is BaseSuccess<UserModel>) {
-        signBloc.add(
-            RestoreSignInEvent(restoreSignInUserModel: baseResponse.data!));
-        FlutterNativeSplash.remove();
-      }
+  Future<void> onUpdatedLastAppEntryDate(UserModel userModel, SignBloc signBloc) async {
+    BaseResponse<UserModel> userBaseResponse =
+        await autoAuthRepository.getUserWithId(userModel.id!);
+    if (userBaseResponse is BaseSuccess<UserModel>) {
+      signBloc.add(RestoreSignInEvent(
+          restoreSignInUserModel: userBaseResponse.data!));
+      FlutterNativeSplash.remove();
+    }
+  }
+
+  Future<void> createUser(SignBloc signBloc) async {
+    BaseResponse<UserModel> baseResponse =
+        await autoAuthRepository.createUser();
+
+    if (baseResponse is BaseSuccess<UserModel>) {
+      signBloc.add(
+          RestoreSignInEvent(restoreSignInUserModel: baseResponse.data!));
+      FlutterNativeSplash.remove();
     }
   }
 

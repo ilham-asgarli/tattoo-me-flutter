@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tattoo/backend/core/exceptions/firestore/firestore_exception.dart';
 import 'package:tattoo/backend/models/auth/backend_user_model.dart';
 import 'package:tattoo/backend/utils/constants/firebase/users/users_collection_constants.dart';
 import 'package:tattoo/core/base/models/base_error.dart';
@@ -9,6 +10,7 @@ import 'package:tattoo/domain/models/auth/user_model.dart';
 import '../interfaces/backend_auto_auth_interface.dart';
 
 class BackendAutoAuth extends BackendAutoAuthInterface {
+  FirestoreException firestoreException =  FirestoreException();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference users =
       FirebaseFirestore.instance.collection(UsersCollectionConstants.users);
@@ -52,7 +54,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
       await users.doc(userModel.id).update(backendUserModel.toJson());
       return BaseSuccess();
     } catch (e) {
-      return BaseError();
+      return firestoreException.firestore(e);
     }
   }
 
