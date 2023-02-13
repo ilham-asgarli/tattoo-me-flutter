@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tattoo/core/extensions/context_extension.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicyView extends StatelessWidget {
@@ -28,11 +27,8 @@ class PrivacyPolicyView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: context.paddingNormal,
-          child: WebViewWidget(
-            controller: controller,
-          ),
+        body: WebViewWidget(
+          controller: controller,
         ),
       ),
     );
