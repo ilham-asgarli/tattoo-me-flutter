@@ -37,7 +37,7 @@ class PurchaseHelper {
     if (previousPurchase != null) {
       confirmPriceChange(context, previousPurchase);
     } else {
-      late PurchaseParam purchaseParam;
+      PurchaseParam purchaseParam;
 
       if (Platform.isAndroid) {
         final GooglePlayPurchaseDetails? oldSubscription =
