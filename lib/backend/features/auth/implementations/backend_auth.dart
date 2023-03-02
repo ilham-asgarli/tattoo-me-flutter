@@ -57,11 +57,14 @@ class BackendAuth extends BackendAuthInterface {
             password: CoreEncrypt().decryptFile(userBaseResponse.data!.password!),
           ),
         );
+
+        await FirebaseAuth.instance.currentUser?.delete();
+      } else {
+        return BaseError();
       }
-      await FirebaseAuth.instance.currentUser?.delete();
+
       return BaseSuccess();
     } catch (e) {
-      print(e.toString());
       return BaseError(message: e.toString());
     }
   }
