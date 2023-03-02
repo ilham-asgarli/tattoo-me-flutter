@@ -119,6 +119,17 @@ class MoreView extends StatelessWidget {
             LocaleKeys.reportMistake.tr(),
             sendErrorMail,
           ),
+          Visibility(
+            visible: context.watch<SignBloc>().state is SignedIn,
+            child: buildFeature(
+              context,
+              FontAwesomeIcons.circleUser,
+              LocaleKeys.account.tr(),
+              () {
+                account(context);
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -167,5 +178,9 @@ class MoreView extends StatelessWidget {
 
   Future<void> checkForUpdates() async {
     await StoreRedirect.redirect();
+  }
+
+  Future<void> account(BuildContext context) async {
+    viewModel.deleteAccount(context);
   }
 }

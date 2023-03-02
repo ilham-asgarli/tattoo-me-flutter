@@ -18,4 +18,10 @@ class AuthRepository extends AuthInterface {
     BaseResponse<UserModel> baseResponse = auth.getCurrentUser();
     return baseResponse;
   }
+
+  @override
+  Future<BaseResponse> deleteAccount() async {
+    BaseResponse baseResponse = await auth.deleteAccount();
+    return baseResponse;
+  }
 }

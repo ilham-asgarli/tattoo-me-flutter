@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../../../../utils/logic/constants/api/api_url_constants.dart';
 import '../../base/models/base_error.dart';
 import '../../base/models/base_http.dart';
 import '../../base/models/base_model.dart';
@@ -25,14 +24,14 @@ class CoreHttp {
     String url, {
     required HttpTypes type,
     required T parseModel,
-    data,
+    body,
     accessToken,
   }) async {
     try {
       http.Response? response = await _sendRequest(
         url,
         type: type,
-        data: data,
+        body: body,
         accessToken: accessToken,
       );
 

@@ -31,4 +31,20 @@ class AuthUseCase extends AuthInterface {
     BaseResponse<UserModel> baseResponse = authRepository.getCurrentUser();
     return baseResponse is BaseSuccess<UserModel>;
   }
+
+  @override
+  Future<BaseResponse<UserModel>> deleteAccount() async {
+    BaseResponse<UserModel> baseResponse =
+    await autoAuthRepository.createUser();
+    if (baseResponse is BaseSuccess) {
+      BaseResponse signOutResponse = await authRepository.deleteAccount();
+
+      if (signOutResponse is BaseSuccess) {
+        return baseResponse;
+      } else {
+        BaseError();
+      }
+    }
+    return BaseError();
+  }
 }

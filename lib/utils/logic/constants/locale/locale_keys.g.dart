@@ -91,5 +91,6 @@ abstract class  LocaleKeys {
   static const getPhotoTypes_gallery = 'getPhotoTypes.gallery';
   static const getPhotoTypes_camera = 'getPhotoTypes.camera';
   static const getPhotoTypes = 'getPhotoTypes';
+  static const account = 'account';
 
 }

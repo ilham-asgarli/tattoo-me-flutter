@@ -41,4 +41,15 @@ class BackendAuth extends BackendAuthInterface {
       return BaseError();
     }
   }
+
+  @override
+  Future<BaseResponse> deleteAccount() async{
+    try {
+      await FirebaseAuth.instance.currentUser?.delete();
+      return BaseSuccess();
+    } catch (e) {
+      print(e.toString());
+      return BaseError(message: e.toString());
+    }
+  }
 }

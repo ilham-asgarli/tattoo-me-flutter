@@ -91,5 +91,6 @@
   "getPhotoTypes": {
     "gallery": "Gallery",
     "camera": "Camera"
-  }
+  },
+  "account": "Account"
 }

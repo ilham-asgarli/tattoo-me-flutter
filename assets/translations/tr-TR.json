@@ -91,5 +91,6 @@
   "getPhotoTypes": {
     "gallery": "Galeri",
     "camera": "Kamera"
-  }
+  },
+  "account": "Hesap"
 }

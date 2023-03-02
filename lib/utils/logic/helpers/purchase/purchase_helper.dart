@@ -1,13 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
+import 'package:tattoo/core/constants/enums/http_request_enum.dart';
+import 'package:tattoo/core/network/core/core_http.dart';
 
+import '../../../../core/base/models/base_response.dart';
+import '../../../../domain/models/in_app_purchase/in_app_purchase_apple.dart';
 import '../../constants/purchase/purchase_constants.dart';
 import '../../state/cubit/purchase/purchase_cubit.dart';
 
@@ -125,5 +131,23 @@ class PurchaseHelper {
     }
 
     return oldSubscription;
+  }
+
+  Future verifyReceiptIos(String receiptData) async {
+    const String url = kDebugMode
+        ? 'https://sandbox.itunes.apple.com/verifyReceipt'
+        : 'https://buy.itunes.apple.com/verifyReceipt';
+
+    BaseResponse<InAppPurchaseApple> baseResponse =
+        await CoreHttp.instance.send<InAppPurchaseApple, InAppPurchaseApple>(
+      url,
+      type: HttpTypes.post,
+      parseModel: InAppPurchaseApple(),
+      body: {
+        'receipt-data': receiptData,
+        'exclude-old-transactions': true,
+        'password': dotenv.env["appleAppSpecificSharedSecret"],
+      },
+    );
   }
 }

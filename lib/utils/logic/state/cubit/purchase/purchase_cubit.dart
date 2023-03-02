@@ -105,11 +105,13 @@ class PurchaseCubit extends Cubit<PurchaseState> {
       Map map =
           json.decode(purchaseDetails.verificationData.localVerificationData);
 
+      print(purchaseDetails.verificationData.serverVerificationData);
+
       await subscriptionsRepository.createSubscription(
         SubscriptionModel(
           userId: context.read<SignBloc>().state.userModel.id,
           orderId: map["orderId"],
-          productId: map["productId"],
+          productId: purchaseDetails.productID,
           source: purchaseDetails.verificationData.source,
           purchaseToken: map["purchaseToken"],
           purchaseTime:

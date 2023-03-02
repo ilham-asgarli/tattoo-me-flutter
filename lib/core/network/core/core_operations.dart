@@ -4,12 +4,10 @@ extension _CoreHttpOperations on CoreHttp {
   _sendRequest(
     String url, {
     required HttpTypes type,
-    required data,
+    required body,
     String? accessToken,
   }) async {
     http.Response? response;
-
-    url = ApiUrlConstants.base + url;
 
     try {
       switch (type) {
@@ -28,7 +26,7 @@ extension _CoreHttpOperations on CoreHttp {
               HttpHeaders.authorizationHeader: accessToken ?? "",
               HttpHeaders.contentTypeHeader: "application/json; charset=utf-8"
             },
-            body: jsonEncode(data),
+            body: jsonEncode(body),
             encoding: Encoding.getByName("utf-8"),
           );
           break;

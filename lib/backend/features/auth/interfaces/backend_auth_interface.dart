@@ -10,4 +10,6 @@ abstract class BackendAuthInterface {
 
   Future<BaseResponse<UserModel>> linkWithCredential(
       AuthCredential authCredential);
+
+  Future<BaseResponse> deleteAccount();
 }
