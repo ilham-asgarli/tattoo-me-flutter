@@ -181,6 +181,6 @@ class MoreView extends StatelessWidget {
   }
 
   Future<void> account(BuildContext context) async {
-    viewModel.deleteAccount(context);
+    viewModel.showDeleteAccountDialog(context);
   }
 }

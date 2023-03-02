@@ -15,7 +15,7 @@ import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';
-import 'dialog_action_button.dart';
+import '../../../components/dialog_action_button.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String message;

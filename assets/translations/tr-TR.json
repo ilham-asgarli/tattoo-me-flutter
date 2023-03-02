@@ -92,5 +92,9 @@
     "gallery": "Galeri",
     "camera": "Kamera"
   },
-  "account": "Hesap"
+  "account": "Hesap",
+  "yes": "Evet",
+  "no": "Hayır",
+  "deleteAccountDescription": "Hesabınızı kalıcı olarak silmek istediğinizden emin misiniz?",
+  "deleteAccount": "Hesabımı sil"
 }

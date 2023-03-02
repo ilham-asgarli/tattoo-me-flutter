@@ -92,5 +92,9 @@
     "gallery": "Gallery",
     "camera": "Camera"
   },
-  "account": "Account"
+  "account": "Account",
+  "yes": "Yes",
+  "no": "No",
+  "deleteAccountDescription": "Are you sure you want to permanently delete your account?",
+  "deleteAccount": "Delete my account"
 }

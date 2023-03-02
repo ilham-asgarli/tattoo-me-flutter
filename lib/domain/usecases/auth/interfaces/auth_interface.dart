@@ -4,5 +4,5 @@ import '../../../models/auth/user_model.dart';
 abstract class AuthInterface {
   Future<BaseResponse> signOut();
   bool isSignedIn();
-  Future<BaseResponse<UserModel>> deleteAccount();
+  Future<BaseResponse<UserModel>> deleteAccount(String userId);
 }

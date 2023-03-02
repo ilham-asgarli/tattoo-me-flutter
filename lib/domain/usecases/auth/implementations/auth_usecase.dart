@@ -33,11 +33,11 @@ class AuthUseCase extends AuthInterface {
   }
 
   @override
-  Future<BaseResponse<UserModel>> deleteAccount() async {
+  Future<BaseResponse<UserModel>> deleteAccount(String userId) async {
     BaseResponse<UserModel> baseResponse =
     await autoAuthRepository.createUser();
     if (baseResponse is BaseSuccess) {
-      BaseResponse signOutResponse = await authRepository.deleteAccount();
+      BaseResponse signOutResponse = await authRepository.deleteAccount(userId);
 
       if (signOutResponse is BaseSuccess) {
         return baseResponse;

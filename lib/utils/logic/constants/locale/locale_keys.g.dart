@@ -92,5 +92,9 @@ abstract class  LocaleKeys {
   static const getPhotoTypes_camera = 'getPhotoTypes.camera';
   static const getPhotoTypes = 'getPhotoTypes';
   static const account = 'account';
+  static const yes = 'yes';
+  static const no = 'no';
+  static const deleteAccountDescription = 'deleteAccountDescription';
+  static const deleteAccount = 'deleteAccount';
 
 }

@@ -20,8 +20,8 @@ class AuthRepository extends AuthInterface {
   }
 
   @override
-  Future<BaseResponse> deleteAccount() async {
-    BaseResponse baseResponse = await auth.deleteAccount();
+  Future<BaseResponse> deleteAccount(String userId) async {
+    BaseResponse baseResponse = await auth.deleteAccount(userId);
     return baseResponse;
   }
 }
