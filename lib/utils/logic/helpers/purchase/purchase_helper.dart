@@ -90,20 +90,7 @@ class PurchaseHelper {
         sku: purchaseDetails.productID,
       );
       /*if (priceChangeConfirmationResult.responseCode == BillingResponse.ok) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Price change accepted'),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              priceChangeConfirmationResult.debugMessage ??
-                  'Price change failed with code ${priceChangeConfirmationResult.responseCode}',
-            ),
-          ),
-        );
+        // Price change accepted
       }*/
     } else if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iapStoreKitPlatformAddition =
