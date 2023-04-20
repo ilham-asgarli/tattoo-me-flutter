@@ -10,7 +10,7 @@ import 'package:tattoo/domain/models/auth/user_model.dart';
 import '../interfaces/backend_auto_auth_interface.dart';
 
 class BackendAutoAuth extends BackendAutoAuthInterface {
-  FirestoreException firestoreException =  FirestoreException();
+  FirestoreException firestoreException = FirestoreException();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference users =
       FirebaseFirestore.instance.collection(UsersCollectionConstants.users);
@@ -22,7 +22,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         id: userModel?.id,
         email: userModel?.email,
         password: userModel?.password,
-        balance: 30,
+        balance: 0,
       );
       BackendUserModel backendUserModel =
           BackendUserModel.from(userModel: model);
