@@ -34,39 +34,42 @@ class _ReadyViewState extends State<ReadyView> {
         builder: (context, signState) {
           return BlocBuilder<ReadyCubit, ReadyState>(
             builder: (context, readyState) {
-              return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
-                stream: viewModel.getDesignRequestRepository
-                    .getDesignRequestStream(signState.userModel.id ?? ""),
-                builder: (context, snapshot) {
-                  BaseResponse<List<DesignResponseModel>>? baseResponse =
-                      snapshot.data;
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator.adaptive(
-                        backgroundColor: Colors.grey,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          HexColor("#666666"),
-                        ),
-                      ),
-                    );
-                  }
-
-                  if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
-                    List<DesignResponseModel>? designModels = baseResponse.data;
-                    if (designModels != null && designModels.isNotEmpty) {
-                      return buildImageGrid(designModels);
-                    } else {
-                      return const EmptyView();
-                    }
-                  } else {
-                    return const EmptyView();
-                  }
-                },
-              );
+              return buildStream(signState);
             },
           );
         },
       ),
+    );
+  }
+
+  Widget buildStream(SignState signState) {
+    return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
+      stream: viewModel.getDesignRequestRepository
+          .getDesignRequestStream(signState.userModel.id ?? ""),
+      builder: (context, snapshot) {
+        BaseResponse<List<DesignResponseModel>>? baseResponse = snapshot.data;
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator.adaptive(
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                HexColor("#666666"),
+              ),
+            ),
+          );
+        }
+
+        if (baseResponse is BaseSuccess<List<DesignResponseModel>>) {
+          List<DesignResponseModel>? designModels = baseResponse.data;
+          if (designModels != null && designModels.isNotEmpty) {
+            return buildImageGrid(designModels);
+          } else {
+            return const EmptyView();
+          }
+        } else {
+          return const EmptyView();
+        }
+      },
     );
   }
 
@@ -77,44 +80,51 @@ class _ReadyViewState extends State<ReadyView> {
       ),
       itemCount: designModels.length,
       itemBuilder: (context, index) {
-        DesignRequestModel? designRequestModel =
-            designModels[index].designRequestModel;
-        int imageIndex = designRequestModel?.designRequestImageModels2
-                ?.indexWhere((element) => element.name == "1") ??
-            0;
-        imageIndex = imageIndex >= 0 ? imageIndex : 0;
-
-        return InkWell(
-          onTap: () {
-            if (designRequestModel?.finished ?? false) {
-              RouterService.instance.pushNamed(
-                path: RouterConstants.photo,
-                data: designModels[index],
-              );
-            } else {
-              RouterService.instance.pushNamed(
-                path: RouterConstants.retouch,
-                data: designModels[index].designRequestModel,
-              );
-            }
-          },
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              !(designRequestModel?.finished ?? false)
-                  ? buildImage(designRequestModel
-                          ?.designRequestImageModels2?[imageIndex].link ??
-                      "")
-                  : buildResponseImage(
-                      designRequestModel
-                              ?.designRequestImageModels2?[imageIndex].link ??
-                          "",
-                      designRequestModel?.id ?? ""),
-              buildRetouching(designRequestModel?.finished ?? false),
-            ],
-          ),
+        return buildImageGridItem(
+          designModels,
+          index,
         );
       },
+    );
+  }
+
+  Widget buildImageGridItem(List<DesignResponseModel> designModels, int index) {
+    DesignRequestModel? designRequestModel =
+        designModels[index].designRequestModel;
+    int imageIndex = designRequestModel?.designRequestImageModels2
+            ?.indexWhere((element) => element.name == "1") ??
+        0;
+    imageIndex = imageIndex >= 0 ? imageIndex : 0;
+
+    return InkWell(
+      onTap: () {
+        if (designRequestModel?.finished ?? false) {
+          RouterService.instance.pushNamed(
+            path: RouterConstants.photo,
+            data: designModels[index],
+          );
+        } else {
+          RouterService.instance.pushNamed(
+            path: RouterConstants.retouch,
+            data: designModels[index].designRequestModel,
+          );
+        }
+      },
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          !(designRequestModel?.finished ?? false)
+              ? buildImage(designRequestModel
+                      ?.designRequestImageModels2?[imageIndex].link ??
+                  "")
+              : buildResponseImage(
+                  designRequestModel
+                          ?.designRequestImageModels2?[imageIndex].link ??
+                      "",
+                  designRequestModel?.id ?? ""),
+          buildRetouching(designRequestModel?.finished ?? false),
+        ],
+      ),
     );
   }
 
