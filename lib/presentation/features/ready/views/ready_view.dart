@@ -123,7 +123,20 @@ class _ReadyViewState extends State<ReadyView> {
                       "",
                   designRequestModel?.id ?? ""),
           buildRetouching(designRequestModel?.finished ?? false),
+          buildNotBought(),
         ],
+      ),
+    );
+  }
+
+  Widget buildNotBought() {
+    return Visibility(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.6),
+        ),
       ),
     );
   }
