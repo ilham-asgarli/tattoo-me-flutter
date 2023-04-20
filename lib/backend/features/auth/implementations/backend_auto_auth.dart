@@ -24,6 +24,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         password: userModel?.password,
         balance: 0,
         isBoughtFirstDesign: false,
+        isLookedFirstDesign: false,
       );
       BackendUserModel backendUserModel =
           BackendUserModel.from(userModel: model);

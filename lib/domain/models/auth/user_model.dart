@@ -7,6 +7,7 @@ class UserModel extends BaseModel<UserModel> {
   int? balance;
   bool? isFirstOrderInsufficientBalance;
   bool? isBoughtFirstDesign;
+  bool? isLookedFirstDesign;
   DateTime? createdDate;
   DateTime? lastAppEntryDate;
 
@@ -16,6 +17,7 @@ class UserModel extends BaseModel<UserModel> {
     this.password,
     this.balance,
     this.isFirstOrderInsufficientBalance,
+    this.isLookedFirstDesign,
     this.isBoughtFirstDesign,
     this.createdDate,
     this.lastAppEntryDate,
@@ -32,6 +34,7 @@ class UserModel extends BaseModel<UserModel> {
       balance: json["balance"],
       isFirstOrderInsufficientBalance: json["isFirstOrderInsufficientBalance"],
       isBoughtFirstDesign: json["isBoughtFirstDesign"],
+      isLookedFirstDesign: json["isLookedFirstDesign"],
       createdDate: json["createdDate"],
       lastAppEntryDate: json["lastAppEntryDate"],
     );
@@ -46,6 +49,7 @@ class UserModel extends BaseModel<UserModel> {
       "balance": balance,
       "isFirstOrderInsufficientBalance": isFirstOrderInsufficientBalance,
       "isBoughtFirstDesign": isBoughtFirstDesign,
+      "isLookedFirstDesign": isLookedFirstDesign,
       "createdDate": createdDate,
       "lastAppEntryDate": lastAppEntryDate,
     };
