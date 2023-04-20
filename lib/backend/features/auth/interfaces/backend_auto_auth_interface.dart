@@ -8,4 +8,5 @@ abstract class BackendAutoAuthInterface {
   Future<BaseResponse<UserModel>> getUserWithId(String userId);
   Stream<BaseResponse<UserModel>> getUserInfo(String userId);
   Future<BaseResponse> updateBalance(UserModel userModel, int value);
+  Future<BaseResponse> buyFirstDesign(UserModel userModel);
 }

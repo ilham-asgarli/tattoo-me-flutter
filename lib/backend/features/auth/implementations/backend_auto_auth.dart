@@ -77,6 +77,20 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
   }
 
   @override
+  Future<BaseResponse> buyFirstDesign(UserModel userModel) async {
+    BackendUserModel backendUserModel =
+        BackendUserModel.from(userModel: userModel);
+    backendUserModel.isBoughtFirstDesign = true;
+
+    try {
+      await users.doc(userModel.id).update(backendUserModel.toJson());
+      return BaseSuccess();
+    } catch (e) {
+      return BaseError();
+    }
+  }
+
+  @override
   Future<BaseResponse<UserModel>> getUserWithId(String userId) async {
     try {
       DocumentSnapshot documentSnapshot = await users.doc(userId).get();

@@ -38,4 +38,10 @@ class AutoAuthRepository extends AutoAuthInterface {
         await backendAutoAuth.updateBalance(userModel, value);
     return baseResponse;
   }
+
+  @override
+  Future<BaseResponse> buyFirstDesign(UserModel userModel) async {
+    BaseResponse baseResponse = await backendAutoAuth.buyFirstDesign(userModel);
+    return baseResponse;
+  }
 }
