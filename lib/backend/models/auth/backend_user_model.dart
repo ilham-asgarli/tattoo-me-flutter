@@ -10,6 +10,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   String? email;
   String? password;
   bool? isFirstOrderInsufficientBalance;
+  bool? isBoughtFirstDesign;
   dynamic balance;
   dynamic createdDate;
   dynamic lastAppEntryDate;
@@ -20,6 +21,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     this.password,
     this.balance,
     this.isFirstOrderInsufficientBalance,
+    this.isBoughtFirstDesign,
     this.createdDate,
     this.lastAppEntryDate,
   });
@@ -32,6 +34,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
         : null;
     balance = userModel.balance;
     isFirstOrderInsufficientBalance = userModel.isFirstOrderInsufficientBalance;
+    isBoughtFirstDesign = userModel.isBoughtFirstDesign;
     createdDate = userModel.createdDate != null
         ? Timestamp.fromDate(userModel.createdDate!)
         : null;
@@ -48,6 +51,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       balance: userModel.balance,
       isFirstOrderInsufficientBalance:
           userModel.isFirstOrderInsufficientBalance,
+      isBoughtFirstDesign: userModel.isBoughtFirstDesign,
       createdDate: userModel.createdDate is Timestamp
           ? userModel.createdDate?.toDate()
           : null,
@@ -65,6 +69,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       password: json["password"],
       balance: json["balance"],
       isFirstOrderInsufficientBalance: json["isFirstOrderInsufficientBalance"],
+      isBoughtFirstDesign: json["isBoughtFirstDesign"],
       createdDate: json["createdDate"],
       lastAppEntryDate: json["lastAppEntryDate"],
     );
@@ -79,6 +84,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     map.putIfNotNull("balance", balance);
     map.putIfNotNull(
         "isFirstOrderInsufficientBalance", isFirstOrderInsufficientBalance);
+    map.putIfNotNull("isBoughtFirstDesign", isBoughtFirstDesign);
     map.putIfNotNull("createdDate", createdDate);
     map.putIfNotNull("lastAppEntryDate", lastAppEntryDate);
 
