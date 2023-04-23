@@ -3,4 +3,6 @@ class SharedPreferencesConstants {
 
   static String isFirstOrderInsufficientBalance =
       "isFirstOrderInsufficientBalance";
+
+  static String isLookedFirstDesign = "isLookedFirstDesign";
 }

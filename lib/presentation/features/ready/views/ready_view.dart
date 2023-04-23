@@ -2,14 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tattoo/domain/repositories/design-responses/implementations/design_responses_repository.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
+import '../../../../core/cache/shared_preferences_manager.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
+import '../../../../domain/repositories/design-responses/implementations/design_responses_repository.dart';
+import '../../../../utils/logic/constants/cache/shared_preferences_constants.dart';
+import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
@@ -97,8 +100,22 @@ class _ReadyViewState extends State<ReadyView> {
     imageIndex = imageIndex >= 0 ? imageIndex : 0;
 
     return InkWell(
-      onTap: () {
-        if (designRequestModel?.finished ?? false) {
+      onTap: () async {
+        bool isBoughtFirstDesign =
+            (context.read<SignBloc>().state.userModel.isBoughtFirstDesign ??
+                false);
+        bool isLookedFirstDesign =
+            SharedPreferencesManager.instance.preferences?.getBool(
+                  SharedPreferencesConstants.isLookedFirstDesign,
+                ) ??
+                false;
+
+        if (!isBoughtFirstDesign && isLookedFirstDesign) {
+          RouterService.instance.pushNamed(
+            path: RouterConstants.credits,
+            data: CreditsViewType.insufficient,
+          );
+        } else if (designRequestModel?.finished ?? false) {
           RouterService.instance.pushNamed(
             path: RouterConstants.photo,
             data: designModels[index],
@@ -131,6 +148,8 @@ class _ReadyViewState extends State<ReadyView> {
 
   Widget buildNotBought() {
     return Visibility(
+      visible: !(context.read<SignBloc>().state.userModel.isBoughtFirstDesign ??
+          false),
       child: Container(
         width: double.infinity,
         height: double.infinity,

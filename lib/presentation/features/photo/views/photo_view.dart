@@ -7,21 +7,26 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
+import '../../../../core/cache/shared_preferences_manager.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../domain/repositories/design-responses/implementations/design_responses_repository.dart';
-import '../components/evaluate_designer_alert.dart';
-import '../components/retouch_alert.dart';
+import '../../../../utils/logic/constants/cache/shared_preferences_constants.dart';
+import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/retouch-alert/retouch_alert_bloc.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/logic/state/cubit/photo/photo_cubit.dart';
 import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
-
-import '../../../../core/base/models/base_response.dart';
+import '../components/evaluate_designer_alert.dart';
+import '../components/retouch_alert.dart';
 
 class PhotoView extends StatefulWidget {
   final DesignResponseModel designModel;
@@ -33,6 +38,30 @@ class PhotoView extends StatefulWidget {
 }
 
 class _PhotoViewState extends State<PhotoView> {
+  @override
+  void initState() {
+    bool close =
+        !(context.read<SignBloc>().state.userModel.isBoughtFirstDesign ??
+            false);
+
+    Future.delayed(const Duration(seconds: 3)).then((value) async {
+      if (close) {
+        await SharedPreferencesManager.instance.preferences?.setBool(
+          SharedPreferencesConstants.isLookedFirstDesign,
+          true,
+        );
+
+        if (mounted) {
+          RouterService.instance.pushReplacementNamed(
+            path: RouterConstants.credits,
+            data: CreditsViewType.insufficient,
+          );
+        }
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

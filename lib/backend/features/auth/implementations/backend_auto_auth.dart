@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tattoo/backend/core/exceptions/firestore/firestore_exception.dart';
-import 'package:tattoo/backend/models/auth/backend_user_model.dart';
-import 'package:tattoo/backend/utils/constants/firebase/users/users_collection_constants.dart';
-import 'package:tattoo/core/base/models/base_error.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
 
+import '../../../../core/base/models/base_error.dart';
+import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
+import '../../../../domain/models/auth/user_model.dart';
+import '../../../core/exceptions/firestore/firestore_exception.dart';
+import '../../../models/auth/backend_user_model.dart';
+import '../../../utils/constants/firebase/users/users_collection_constants.dart';
 import '../interfaces/backend_auto_auth_interface.dart';
 
 class BackendAutoAuth extends BackendAutoAuthInterface {
@@ -22,9 +22,8 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         id: userModel?.id,
         email: userModel?.email,
         password: userModel?.password,
-        balance: 0,
+        balance: 30,
         isBoughtFirstDesign: false,
-        isLookedFirstDesign: false,
       );
       BackendUserModel backendUserModel =
           BackendUserModel.from(userModel: model);
