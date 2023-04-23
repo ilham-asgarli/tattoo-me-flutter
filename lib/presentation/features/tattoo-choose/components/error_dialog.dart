@@ -2,19 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tattoo/core/extensions/context_extension.dart';
-import 'package:tattoo/core/extensions/widget_extension.dart';
-import 'package:tattoo/core/router/core/router_service.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
-import 'package:tattoo/domain/repositories/review/implemantations/review_repository.dart';
-import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
-import 'package:tattoo/utils/logic/constants/router/router_constants.dart';
-import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
-import 'package:tattoo/utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
-import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
+import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/widget_extension.dart';
+import '../../../../core/router/core/router_service.dart';
+import '../../../../domain/models/auth/user_model.dart';
+import '../../../../domain/repositories/review/implemantations/review_repository.dart';
 import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../components/dialog_action_button.dart';
 
 class ErrorDialog extends StatelessWidget {

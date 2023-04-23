@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tattoo/core/extensions/context_extension.dart';
-import 'package:tattoo/core/extensions/string_extension.dart';
-import 'package:tattoo/core/extensions/widget_extension.dart';
-import 'package:tattoo/utils/logic/constants/enums/app_enum.dart';
 
+import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/string_extension.dart';
+import '../../../../core/extensions/widget_extension.dart';
 import '../../../../core/router/core/router_service.dart';
+import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/helpers/gallery/gallery_helper.dart';
