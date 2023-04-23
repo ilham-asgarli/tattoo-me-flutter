@@ -21,10 +21,10 @@ dependencies:
   responsive_framework: ^0.2.0
 
   # firebase
-  firebase_core: ^2.8.0
-  firebase_auth: ^4.3.0
-  cloud_firestore: ^4.4.5
-  firebase_storage: ^11.0.16
+  firebase_core: ^2.10.0
+  firebase_auth: ^4.4.2
+  cloud_firestore: ^4.5.2
+  firebase_storage: ^11.1.1
 
   easy_localization: ^3.0.1
   http: ^0.13.4
