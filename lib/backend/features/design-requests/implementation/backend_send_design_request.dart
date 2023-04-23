@@ -3,26 +3,25 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:ntp/ntp.dart';
-import 'package:tattoo/backend/models/auth/backend_user_model.dart';
-import 'package:tattoo/backend/models/retouches/backend_retouches_model.dart';
-import 'package:tattoo/backend/utils/constants/app/app_constants.dart';
-import 'package:tattoo/backend/utils/constants/firebase/design-requests/design_requests_collection_constants.dart';
-import 'package:tattoo/core/base/models/base_error.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/domain/models/design-request/design_request_model.dart';
-import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
-import 'package:tattoo/utils/logic/errors/design_request_errors/no_designer_error.dart';
 
+import '../../../../core/base/models/base_error.dart';
+import '../../../../core/base/models/base_success.dart';
 import '../../../../domain/models/design-request/design_request_image_model_2.dart';
+import '../../../../domain/models/design-request/design_request_model.dart';
+import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/errors/design_request_errors/first_order_insufficient_balance_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/insufficient_balance_error.dart';
+import '../../../../utils/logic/errors/design_request_errors/no_designer_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/not_taking_order_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/out_of_work_hours_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/retouched_before_error.dart';
+import '../../../models/auth/backend_user_model.dart';
 import '../../../models/design-requests/backend_design_request_image_model.dart';
 import '../../../models/design-requests/backend_design_request_model.dart';
+import '../../../models/retouches/backend_retouches_model.dart';
+import '../../../utils/constants/app/app_constants.dart';
 import '../../../utils/constants/firebase/design-request-images/design_requests_collection_constants.dart';
+import '../../../utils/constants/firebase/design-requests/design_requests_collection_constants.dart';
 import '../../../utils/constants/firebase/users/users_collection_constants.dart';
 import '../interfaces/backend_send_design_request_interface.dart';
 
@@ -336,7 +335,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
       Map<String, dynamic>? previousDesignerData =
           previousDesignerDocumentSnapshot.data() as Map<String, dynamic>?;
 
-      if(previousDesignerData != null && previousDesignerData["working"]) {
+      if (previousDesignerData != null && previousDesignerData["working"]) {
         designerId = previousDesignerDocumentSnapshot.id;
       }
     }

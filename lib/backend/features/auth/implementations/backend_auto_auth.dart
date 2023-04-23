@@ -78,15 +78,30 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
 
   @override
   Future<BaseResponse> buyFirstDesign(UserModel userModel) async {
-    BackendUserModel backendUserModel =
-        BackendUserModel.from(userModel: userModel);
-    backendUserModel.isBoughtFirstDesign = true;
-
     try {
-      await users.doc(userModel.id).update(backendUserModel.toJson());
+      await firestore.runTransaction((transaction) async {
+        DocumentReference userDocument = users.doc(userModel.id);
+
+        BackendUserModel backendUserModel = BackendUserModel().fromJson(
+            (await transaction.get(userDocument)).data()
+                as Map<String, dynamic>);
+
+        if (!(backendUserModel.isBoughtFirstDesign ?? false) &&
+            backendUserModel.balance >= 30) {
+          transaction.update(
+              userDocument,
+              BackendUserModel(
+                balance: FieldValue.increment(-30),
+                isBoughtFirstDesign: true,
+              ).toJson());
+        }
+      }, maxAttempts: 1).catchError((e) {
+        throw e;
+      });
+
       return BaseSuccess();
     } catch (e) {
-      return BaseError();
+      return BaseError(message: e.toString());
     }
   }
 

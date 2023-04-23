@@ -70,11 +70,8 @@ class ErrorDialog extends StatelessWidget {
                       Navigator.pop(context);
                       await InAppReviewHelper.instance.request();
                       await ReviewRepository().makeReview(UserModel(
-                          id: buildContext
-                              .read<SignBloc>()
-                              .state
-                              .userModel
-                              .id));
+                        id: buildContext.read<SignBloc>().state.userModel.id,
+                      ));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

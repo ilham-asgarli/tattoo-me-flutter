@@ -85,8 +85,11 @@ class TattooChooseViewModel extends BaseViewModel {
       );
     } on FirstOrderInsufficientBalanceError catch (e) {
       Navigator.pop(context);
-      await showDesignRequestErrorDialog(context, e.toString(),
-          insufficientBalance: true);
+      await showDesignRequestErrorDialog(
+        context,
+        e.toString(),
+        insufficientBalance: true,
+      );
     } on BaseError catch (e) {
       Navigator.pop(context);
       showDesignRequestErrorDialog(context, e.toString());

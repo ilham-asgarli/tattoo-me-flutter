@@ -8,9 +8,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
 
-import '../../../../../core/base/models/base_response.dart';
 import '../../../../../domain/models/auth/user_model.dart';
 import '../../../../../domain/models/subscriptions/subscription_model.dart';
 import '../../../../../domain/repositories/auth/implementations/auto_auth_repository.dart';
@@ -65,7 +63,6 @@ class PurchaseCubit extends Cubit<PurchaseState> {
 
             if (purchaseDetails.status == PurchaseStatus.purchased) {
               await writeSubscriptionToServer(purchaseDetails);
-              await handleFirstPurchase();
               restorePurchases();
             } else {
               // restored
@@ -235,23 +232,6 @@ class PurchaseCubit extends Cubit<PurchaseState> {
     ));
 
     inAppPurchase.restorePurchases();
-  }
-
-  Future<void> handleFirstPurchase() async {
-    if (context.read<SignBloc>().state.userModel.isBoughtFirstDesign ?? false) {
-      return;
-    }
-
-    Future<BaseResponse> baseResponse = authRepository.updateBalance(
-      UserModel(id: context.read<SignBloc>().state.userModel.id),
-      -30,
-    );
-
-    if (baseResponse is BaseSuccess) {
-      authRepository.buyFirstDesign(
-        UserModel(id: context.read<SignBloc>().state.userModel.id),
-      );
-    }
   }
 
   @override

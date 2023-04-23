@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+
+import '../../../../../core/base/models/base_response.dart';
 import '../../../../../core/base/models/base_success.dart';
 import '../../../../../domain/models/auth/user_model.dart';
 import '../../../../../domain/repositories/auth/implementations/auto_auth_repository.dart';
@@ -11,6 +13,7 @@ part 'sign_state.dart';
 
 class SignBloc extends HydratedBloc<SignEvent, SignState> {
   StreamSubscription? userSubscription;
+  AutoAuthRepository authRepository = AutoAuthRepository();
 
   SignBloc() : super(SignIn(userModel: UserModel())) {
     on<RestoreSignInEvent>(_onRestoreSignInEvent);
@@ -95,15 +98,25 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
   }
 
   void listenUser() {
-    AutoAuthRepository authRepository = AutoAuthRepository();
-
     userSubscription?.cancel();
-    userSubscription =
-        authRepository.getUserInfo(state.userModel.id ?? "").listen((event) {
+    userSubscription = authRepository
+        .getUserInfo(state.userModel.id ?? "")
+        .listen((event) async {
       if (event is BaseSuccess<UserModel> && event.data != null) {
+        await handleFirstDesignPurchase();
         add(ListenChangesEvent(listenChangesUserModel: event.data!));
       }
     });
+  }
+
+  Future<void> handleFirstDesignPurchase() async {
+    if (state.userModel.isBoughtFirstDesign ?? false) {
+      return;
+    }
+
+    BaseResponse baseResponse = await authRepository.buyFirstDesign(
+      UserModel(id: state.userModel.id),
+    );
   }
 
   @override

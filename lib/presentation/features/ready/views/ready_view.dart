@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -122,11 +124,15 @@ class _ReadyViewState extends State<ReadyView> {
     return Visibility(
       visible: !(context.read<SignBloc>().state.userModel.isBoughtFirstDesign ??
           false),
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.6),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 10,
+            sigmaY: 10,
+          ),
+          child: const SizedBox(),
         ),
       ),
     );
