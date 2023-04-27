@@ -6,6 +6,7 @@ import '../../../../core/base/models/base_success.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../core/exceptions/firestore/firestore_exception.dart';
 import '../../../models/auth/backend_user_model.dart';
+import '../../../utils/constants/app/app_constants.dart';
 import '../../../utils/constants/firebase/users/users_collection_constants.dart';
 import '../interfaces/backend_auto_auth_interface.dart';
 
@@ -22,8 +23,10 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         id: userModel?.id,
         email: userModel?.email,
         password: userModel?.password,
-        balance: 30,
+        balance: AppConstants.startBalance,
+        isFirstOrderInsufficientBalance: true,
         isBoughtFirstDesign: false,
+        isSpentCredit: false,
       );
       BackendUserModel backendUserModel =
           BackendUserModel.from(userModel: model);
@@ -67,6 +70,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
     BackendUserModel backendUserModel =
         BackendUserModel.from(userModel: userModel);
     backendUserModel.balance = FieldValue.increment(value);
+    backendUserModel.isSpentCredit = true;
 
     try {
       await users.doc(userModel.id).update(backendUserModel.toJson());
@@ -87,11 +91,11 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
                 as Map<String, dynamic>);
 
         if (!(backendUserModel.isBoughtFirstDesign ?? false) &&
-            backendUserModel.balance >= 30) {
+            backendUserModel.balance >= AppConstants.tattooDesignPrice) {
           transaction.update(
               userDocument,
               BackendUserModel(
-                balance: FieldValue.increment(-30),
+                balance: FieldValue.increment(-AppConstants.tattooDesignPrice),
                 isBoughtFirstDesign: true,
               ).toJson());
         }

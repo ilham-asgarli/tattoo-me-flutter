@@ -103,19 +103,23 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
         .getUserInfo(state.userModel.id ?? "")
         .listen((event) async {
       if (event is BaseSuccess<UserModel> && event.data != null) {
-        await handleFirstDesignPurchase();
         add(ListenChangesEvent(listenChangesUserModel: event.data!));
+        await handleFirstDesignPurchase(event.data!);
       }
     });
   }
 
-  Future<void> handleFirstDesignPurchase() async {
-    if (state.userModel.isBoughtFirstDesign ?? false) {
+  Future<void> handleFirstDesignPurchase(UserModel userModel) async {
+    if (userModel.isBoughtFirstDesign ?? false) {
+      return;
+    }
+
+    if (!(userModel.isSpentCredit ?? false)) {
       return;
     }
 
     BaseResponse baseResponse = await authRepository.buyFirstDesign(
-      UserModel(id: state.userModel.id),
+      UserModel(id: userModel.id),
     );
   }
 

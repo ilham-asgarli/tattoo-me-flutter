@@ -4,17 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/domain/repositories/settings/implementations/settings_repository.dart';
 
-import '../../../../core/base/models/base_response.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/int_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
-import '../../../../domain/models/settings/settings_model.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
@@ -50,22 +46,10 @@ class RetouchView extends StatelessWidget {
                   ?.designRequestImageModels2?[imageIndex].link,
               backgroundColor: Colors.black.withOpacity(0.3),
             ),
-            StreamBuilder<BaseResponse<SettingsModel>>(
-              stream: SettingsRepository().getDesignRequestsSettingsStream(),
+            FutureBuilder(
+              future: viewModel.computeEndTime(context),
               builder: (context, snapshot) {
-                BaseResponse<SettingsModel>? baseResponse = snapshot.data;
-                if (baseResponse is BaseSuccess<SettingsModel>) {
-                  viewModel.settingsModel = baseResponse.data;
-
-                  return FutureBuilder(
-                    future: viewModel.computeEndTime(context),
-                    builder: (context, snapshot) {
-                      return buildBody(context);
-                    },
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
+                return buildBody(context);
               },
             ),
           ],

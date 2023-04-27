@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tattoo/backend/models/design-requests/backend_design_request_model.dart';
-import 'package:tattoo/backend/models/design-responses/backend_design_response_model.dart';
-import 'package:tattoo/core/base/models/base_error.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
-import 'package:tattoo/domain/models/design-request/design_request_model.dart';
 
+import '../../../../core/base/models/base_error.dart';
+import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
+import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../models/design-requests/backend_design_request_image_model.dart';
+import '../../../models/design-requests/backend_design_request_model.dart';
+import '../../../models/design-responses/backend_design_response_model.dart';
 import '../../../utils/constants/firebase/design-request-images/design_requests_collection_constants.dart';
 import '../../../utils/constants/firebase/design-requests/design_requests_collection_constants.dart';
 import '../interfaces/backend_get_design_request_interface.dart';

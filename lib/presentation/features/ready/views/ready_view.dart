@@ -113,8 +113,8 @@ class _ReadyViewState extends State<ReadyView> {
                           ?.designRequestImageModels2?[imageIndex].link ??
                       "",
                   designRequestModel?.id ?? ""),
-          buildRetouching(designRequestModel?.finished ?? false),
           buildNotBought(),
+          buildRetouching(designRequestModel?.finished ?? false),
         ],
       ),
     );
@@ -124,9 +124,7 @@ class _ReadyViewState extends State<ReadyView> {
     return Visibility(
       visible: !(context.read<SignBloc>().state.userModel.isBoughtFirstDesign ??
           false),
-      child: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
+      child: ClipRRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(
             sigmaX: 10,

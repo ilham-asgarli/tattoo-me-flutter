@@ -5,6 +5,7 @@ import 'package:tattoo/core/base/models/base_response.dart';
 import 'package:tattoo/core/base/models/base_success.dart';
 import 'package:tattoo/domain/models/auth/user_model.dart';
 
+import '../../../utils/constants/app/app_constants.dart';
 import '../../../utils/constants/firebase/users/users_collection_constants.dart';
 import '../interfaces/backend_review_interface.dart';
 
@@ -22,7 +23,7 @@ class BackendReview extends BackendReviewInterface {
         transaction.update(
             userDocument,
             BackendUserModel(
-              balance: FieldValue.increment(30),
+              balance: FieldValue.increment(AppConstants.reviewAward),
               isFirstOrderInsufficientBalance: false,
             ).toJson());
       }, maxAttempts: 1).catchError((e) {

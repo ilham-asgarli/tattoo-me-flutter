@@ -11,6 +11,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   String? password;
   bool? isFirstOrderInsufficientBalance;
   bool? isBoughtFirstDesign;
+  bool? isSpentCredit;
   dynamic balance;
   dynamic createdDate;
   dynamic lastAppEntryDate;
@@ -22,6 +23,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     this.balance,
     this.isFirstOrderInsufficientBalance,
     this.isBoughtFirstDesign,
+    this.isSpentCredit,
     this.createdDate,
     this.lastAppEntryDate,
   });
@@ -35,6 +37,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     balance = userModel.balance;
     isFirstOrderInsufficientBalance = userModel.isFirstOrderInsufficientBalance;
     isBoughtFirstDesign = userModel.isBoughtFirstDesign;
+    isSpentCredit = userModel.isSpentCredit;
     createdDate = userModel.createdDate != null
         ? Timestamp.fromDate(userModel.createdDate!)
         : null;
@@ -52,6 +55,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       isFirstOrderInsufficientBalance:
           userModel.isFirstOrderInsufficientBalance,
       isBoughtFirstDesign: userModel.isBoughtFirstDesign,
+      isSpentCredit: userModel.isSpentCredit,
       createdDate: userModel.createdDate is Timestamp
           ? userModel.createdDate?.toDate()
           : null,
@@ -70,6 +74,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       balance: json["balance"],
       isFirstOrderInsufficientBalance: json["isFirstOrderInsufficientBalance"],
       isBoughtFirstDesign: json["isBoughtFirstDesign"],
+      isSpentCredit: json["isSpentCredit"],
       createdDate: json["createdDate"],
       lastAppEntryDate: json["lastAppEntryDate"],
     );
@@ -85,6 +90,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     map.putIfNotNull(
         "isFirstOrderInsufficientBalance", isFirstOrderInsufficientBalance);
     map.putIfNotNull("isBoughtFirstDesign", isBoughtFirstDesign);
+    map.putIfNotNull("isSpentCredit", isSpentCredit);
     map.putIfNotNull("createdDate", createdDate);
     map.putIfNotNull("lastAppEntryDate", lastAppEntryDate);
 

@@ -30,14 +30,16 @@ class RetouchBackground extends StatelessWidget {
           filterQuality: FilterQuality.low,
         ),
       ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: sigmaX ?? 40.0,
-          sigmaY: sigmaY ?? 40.0,
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: backgroundColor ?? Colors.white.withOpacity(0.3),
+      child: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: sigmaX ?? 40.0,
+            sigmaY: sigmaY ?? 40.0,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: backgroundColor ?? Colors.white.withOpacity(0.3),
+            ),
           ),
         ),
       ),

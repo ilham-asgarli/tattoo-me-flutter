@@ -107,6 +107,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             userDocument,
             BackendUserModel(
               balance: FieldValue.increment(-AppConstants.tattooDesignPrice),
+              isSpentCredit: true,
             ).toJson(),
           );
         } else {
@@ -327,9 +328,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
       String? previousDesignerId}) async {
     String? designerId;
 
-    print(previousDesignerId);
     if (previousDesignerId != null) {
-      print("xxxxx");
       DocumentSnapshot previousDesignerDocumentSnapshot =
           await designers.doc(previousDesignerId).get();
       Map<String, dynamic>? previousDesignerData =

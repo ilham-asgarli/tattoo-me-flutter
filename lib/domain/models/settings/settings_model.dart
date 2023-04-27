@@ -4,11 +4,13 @@ class SettingsModel extends BaseModel<SettingsModel> {
   String? id;
   int? designLimitForOneDesigner;
   List<dynamic>? workHours;
+  bool? awardedReview;
 
   SettingsModel({
     this.id,
     this.designLimitForOneDesigner,
     this.workHours,
+    this.awardedReview,
   });
 
   @override
@@ -17,6 +19,7 @@ class SettingsModel extends BaseModel<SettingsModel> {
       id: json["id"],
       designLimitForOneDesigner: json["designLimitForOneDesigner"],
       workHours: json["workHours"],
+      awardedReview: json["awardedReview"],
     );
   }
 
@@ -26,6 +29,7 @@ class SettingsModel extends BaseModel<SettingsModel> {
       "id": id,
       "designLimitForOneDesigner": designLimitForOneDesigner,
       "workHours": workHours,
+      "awardedReview": awardedReview,
     };
   }
 }

@@ -11,9 +11,9 @@ import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 
 class RetouchViewModel extends BaseViewModel {
-  SettingsModel? settingsModel;
   int endTime = DateTime.now().millisecondsSinceEpoch;
   final Duration oneDesignDuration = const Duration(minutes: 10);
 
@@ -79,6 +79,8 @@ class RetouchViewModel extends BaseViewModel {
     List<DesignRequestModel>? designRequestModels,
     DateTime now,
   ) async {
+    SettingsModel? settingsModel =
+        context.watch<SettingsCubit>().state.settingsModel;
     DateTime workStartDate = now;
 
     if (now.hour < settingsModel?.workHours?[0]) {

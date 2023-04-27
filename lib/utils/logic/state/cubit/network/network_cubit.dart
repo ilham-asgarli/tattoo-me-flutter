@@ -38,6 +38,7 @@ class NetworkCubit extends Cubit<NetworkState> {
       case ConnectivityResult.ethernet:
       case ConnectivityResult.mobile:
       case ConnectivityResult.vpn:
+      case ConnectivityResult.other:
         emit(
           ConnectionSuccess(
             connectivityResult: result,
@@ -48,6 +49,7 @@ class NetworkCubit extends Cubit<NetworkState> {
         emit(
           ConnectionFailure(),
         );
+        break;
     }
   }
 
