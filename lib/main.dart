@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +10,6 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tattoo/utils/logic/helpers/downloader/downloader_helper.dart';
-import 'package:tattoo/utils/logic/helpers/package_info/package_info_helper.dart';
-import 'package:tattoo/utils/logic/state/cubit/purchase/purchase_cubit.dart';
 
 import 'core/cache/shared_preferences_manager.dart';
 import 'core/constants/app/locale_constants.dart';
@@ -19,10 +17,14 @@ import 'core/extensions/string_extension.dart';
 import 'firebase_options.dart';
 import 'presentation/features/my-app/views/my_app_view.dart';
 import 'utils/logic/constants/env/env_constants.dart';
+import 'utils/logic/helpers/downloader/downloader_helper.dart';
+import 'utils/logic/helpers/package_info/package_info_helper.dart';
+import 'utils/logic/services/fcm/fcm_service.dart';
 import 'utils/logic/state/bloc/sign/sign_bloc.dart';
 import 'utils/logic/state/bloc/theme/theme_bloc.dart';
 import 'utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import 'utils/logic/state/cubit/network/network_cubit.dart';
+import 'utils/logic/state/cubit/purchase/purchase_cubit.dart';
 import 'utils/logic/state/cubit/ready/ready_cubit.dart';
 import 'utils/logic/state/cubit/settings/settings_cubit.dart';
 
@@ -44,6 +46,16 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  messaging.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await FCMService.instance.registerNotification();
 
   runApp(app());
 }

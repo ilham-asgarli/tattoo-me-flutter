@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../../../../../core/base/models/base_response.dart';
@@ -105,6 +106,7 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
       if (event is BaseSuccess<UserModel> && event.data != null) {
         add(ListenChangesEvent(listenChangesUserModel: event.data!));
         await handleFirstDesignPurchase(event.data!);
+        await handleFCM(event.data!);
       }
     });
   }
@@ -121,6 +123,12 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
     BaseResponse baseResponse = await authRepository.buyFirstDesign(
       UserModel(id: userModel.id),
     );
+  }
+
+  Future<void> handleFCM(UserModel userModel) async {
+    if (userModel.id != null) {
+      await FirebaseMessaging.instance.subscribeToTopic(userModel.id!);
+    }
   }
 
   @override
