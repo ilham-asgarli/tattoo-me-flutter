@@ -17,6 +17,7 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/errors/design_request_errors/first_order_insufficient_balance_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/insufficient_balance_error.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 import '../../../components/progress_dialog.dart';
 import '../components/error_dialog.dart';
 
@@ -85,11 +86,20 @@ class TattooChooseViewModel extends BaseViewModel {
       );
     } on FirstOrderInsufficientBalanceError catch (e) {
       Navigator.pop(context);
-      await showDesignRequestErrorDialog(
-        context,
-        e.toString(),
-        insufficientBalance: true,
-      );
+
+      if (context.read<SettingsCubit>().state.settingsModel?.awardedReview ??
+          false) {
+        await showDesignRequestErrorDialog(
+          context,
+          e.toString(),
+          insufficientBalance: true,
+        );
+      } else {
+        RouterService.instance.pushNamed(
+          path: RouterConstants.credits,
+          data: CreditsViewType.insufficient,
+        );
+      }
     } on BaseError catch (e) {
       Navigator.pop(context);
       showDesignRequestErrorDialog(context, e.toString());

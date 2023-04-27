@@ -30,11 +30,19 @@ class BackendSettings extends SettingsInterface {
             designRequestsSettingsSnapshot.data() as Map<String, dynamic>?;
 
         if (designRequestsSettingsData != null) {
+          BackendSettingsModel backendSettingsModel =
+              BackendSettingsModel().fromJson(
+            designRequestsSettingsData,
+          );
+
+          backendSettingsModel.id = designRequestsSettingsSnapshot.id;
+
+          SettingsModel? settingsModel = BackendSettingsModel().to(
+            model: backendSettingsModel,
+          );
+
           yield BaseSuccess(
-            data: BackendSettingsModel().to(
-                model: BackendSettingsModel().fromJson(
-              designRequestsSettingsData,
-            )),
+            data: settingsModel,
           );
         }
       }

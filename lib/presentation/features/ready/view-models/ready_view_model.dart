@@ -14,6 +14,7 @@ import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 import '../../tattoo-choose/components/error_dialog.dart';
 
 class ReadyViewModel extends BaseViewModel {
@@ -36,7 +37,9 @@ class ReadyViewModel extends BaseViewModel {
             false;
 
     if (!isBoughtFirstDesign && isLookedFirstDesign) {
-      if (userModel.isFirstOrderInsufficientBalance ?? true) {
+      if ((userModel.isFirstOrderInsufficientBalance ?? true) &&
+          (context.read<SettingsCubit>().state.settingsModel?.awardedReview ??
+              false)) {
         await showDialog(
           context: context,
           builder: (_) {

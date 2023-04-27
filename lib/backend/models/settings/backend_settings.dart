@@ -6,17 +6,20 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
   String? id;
   int? designLimitForOneDesigner;
   List<dynamic>? workHours;
+  bool? awardedReview;
 
   BackendSettingsModel({
     this.id,
     this.designLimitForOneDesigner,
     this.workHours,
+    this.awardedReview,
   });
 
   BackendSettingsModel.from({required SettingsModel model}) {
     id = model.id;
     designLimitForOneDesigner = model.designLimitForOneDesigner;
     workHours = model.workHours;
+    awardedReview = model.awardedReview;
   }
 
   SettingsModel to({required BackendSettingsModel model}) {
@@ -24,6 +27,7 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
       id: model.id,
       designLimitForOneDesigner: model.designLimitForOneDesigner,
       workHours: model.workHours,
+      awardedReview: model.awardedReview,
     );
   }
 
@@ -33,6 +37,7 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
       id: json["id"],
       designLimitForOneDesigner: json["designLimitForOneDesigner"],
       workHours: json["workHours"],
+      awardedReview: json["awardedReview"],
     );
   }
 
@@ -42,6 +47,7 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
 
     map.putIfNotNull("designLimitForOneDesigner", designLimitForOneDesigner);
     map.putIfNotNull("workHours", workHours);
+    map.putIfNotNull("awardedReview", awardedReview);
 
     return map;
   }
