@@ -9,4 +9,5 @@ abstract class BackendAutoAuthInterface {
   Stream<BaseResponse<UserModel>> getUserInfo(String userId);
   Future<BaseResponse> updateBalance(UserModel userModel, int value);
   Future<BaseResponse> buyFirstDesign(UserModel userModel);
+  Future<BaseResponse> updateDeviceToken(UserModel userModel);
 }

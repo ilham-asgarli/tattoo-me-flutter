@@ -43,4 +43,11 @@ class AutoAuthRepository extends AutoAuthInterface {
     BaseResponse baseResponse = await backendAutoAuth.buyFirstDesign(userModel);
     return baseResponse;
   }
+
+  @override
+  Future<BaseResponse> updateDeviceToken(UserModel userModel) async {
+    BaseResponse baseResponse =
+        await backendAutoAuth.updateDeviceToken(userModel);
+    return baseResponse;
+  }
 }

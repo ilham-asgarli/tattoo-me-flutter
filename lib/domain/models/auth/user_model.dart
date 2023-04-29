@@ -4,6 +4,7 @@ class UserModel extends BaseModel<UserModel> {
   String? id;
   String? email;
   String? password;
+  String? deviceToken;
   int? balance;
   bool? isFirstOrderInsufficientBalance;
   bool? isBoughtFirstDesign;
@@ -15,6 +16,7 @@ class UserModel extends BaseModel<UserModel> {
     this.id,
     this.email,
     this.password,
+    this.deviceToken,
     this.balance,
     this.isFirstOrderInsufficientBalance,
     this.isBoughtFirstDesign,
@@ -31,6 +33,7 @@ class UserModel extends BaseModel<UserModel> {
       id: json["id"],
       email: json["email"],
       password: json["password"],
+      deviceToken: json["deviceToken"],
       balance: json["balance"],
       isFirstOrderInsufficientBalance: json["isFirstOrderInsufficientBalance"],
       isBoughtFirstDesign: json["isBoughtFirstDesign"],
@@ -46,6 +49,7 @@ class UserModel extends BaseModel<UserModel> {
       "id": id,
       "email": email,
       "password": password,
+      "deviceToken": deviceToken,
       "balance": balance,
       "isFirstOrderInsufficientBalance": isFirstOrderInsufficientBalance,
       "isBoughtFirstDesign": isBoughtFirstDesign,

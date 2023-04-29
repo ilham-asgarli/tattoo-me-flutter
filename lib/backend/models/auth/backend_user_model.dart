@@ -9,6 +9,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   String? id;
   String? email;
   String? password;
+  String? deviceToken;
   bool? isFirstOrderInsufficientBalance;
   bool? isBoughtFirstDesign;
   bool? isSpentCredit;
@@ -20,6 +21,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     this.id,
     this.email,
     this.password,
+    this.deviceToken,
     this.balance,
     this.isFirstOrderInsufficientBalance,
     this.isBoughtFirstDesign,
@@ -34,6 +36,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
     password = userModel.password != null
         ? CoreEncrypt().cryptFile(userModel.password!)
         : null;
+    deviceToken = userModel.deviceToken;
     balance = userModel.balance;
     isFirstOrderInsufficientBalance = userModel.isFirstOrderInsufficientBalance;
     isBoughtFirstDesign = userModel.isBoughtFirstDesign;
@@ -51,6 +54,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       id: userModel.id,
       email: userModel.email,
       password: userModel.password,
+      deviceToken: userModel.deviceToken,
       balance: userModel.balance,
       isFirstOrderInsufficientBalance:
           userModel.isFirstOrderInsufficientBalance,
@@ -71,6 +75,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
       id: json["id"],
       email: json["email"],
       password: json["password"],
+      deviceToken: json["deviceToken"],
       balance: json["balance"],
       isFirstOrderInsufficientBalance: json["isFirstOrderInsufficientBalance"],
       isBoughtFirstDesign: json["isBoughtFirstDesign"],
@@ -86,6 +91,7 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
 
     map.putIfNotNull("email", email);
     map.putIfNotNull("password", password);
+    map.putIfNotNull("deviceToken", deviceToken);
     map.putIfNotNull("balance", balance);
     map.putIfNotNull(
         "isFirstOrderInsufficientBalance", isFirstOrderInsufficientBalance);

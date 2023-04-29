@@ -157,4 +157,17 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
       BaseError(message: e.toString());
     }
   }
+
+  @override
+  Future<BaseResponse> updateDeviceToken(UserModel userModel) async {
+    BackendUserModel backendUserModel =
+        BackendUserModel.from(userModel: userModel);
+
+    try {
+      await users.doc(userModel.id).update(backendUserModel.toJson());
+      return BaseSuccess();
+    } catch (e) {
+      return BaseError();
+    }
+  }
 }

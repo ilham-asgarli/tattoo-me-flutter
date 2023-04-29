@@ -8,4 +8,5 @@ abstract class AutoAuthInterface {
   Stream<BaseResponse<UserModel>> getUserInfo(String id);
   Future<BaseResponse> updateBalance(UserModel userModel, int value);
   Future<BaseResponse> buyFirstDesign(UserModel userModel);
+  Future<BaseResponse> updateDeviceToken(UserModel userModel);
 }

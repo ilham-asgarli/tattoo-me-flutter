@@ -71,6 +71,7 @@ dependencies:
   webview_flutter: ^4.0.2
   upgrader:
   package_info_plus:
+  flutter_local_notifications: ^14.0.0+1
 
 dev_dependencies:
   flutter_test:

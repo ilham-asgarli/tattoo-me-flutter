@@ -14,6 +14,7 @@ part 'sign_state.dart';
 
 class SignBloc extends HydratedBloc<SignEvent, SignState> {
   StreamSubscription? userSubscription;
+  StreamSubscription? fcmSubscription;
   AutoAuthRepository authRepository = AutoAuthRepository();
 
   SignBloc() : super(SignIn(userModel: UserModel())) {
@@ -104,10 +105,35 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
         .getUserInfo(state.userModel.id ?? "")
         .listen((event) async {
       if (event is BaseSuccess<UserModel> && event.data != null) {
+        await handleFCMDeviceToken(event.data!);
+        await handleFCMTokenRefresh(event.data!);
         add(ListenChangesEvent(listenChangesUserModel: event.data!));
         await handleFirstDesignPurchase(event.data!);
         await handleFCM(event.data!);
       }
+    });
+  }
+
+  Future<void> handleFCMDeviceToken(UserModel userModel) async {
+    if (state.userModel.id != userModel.id) {
+      authRepository.updateDeviceToken(UserModel(
+        id: state.userModel.id,
+        deviceToken: "",
+      ));
+    }
+
+    authRepository.updateDeviceToken(UserModel(
+      id: userModel.id,
+      deviceToken: await FirebaseMessaging.instance.getToken(),
+    ));
+  }
+
+  Future<void> handleFCMTokenRefresh(UserModel userModel) async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    fcmSubscription?.cancel();
+    fcmSubscription = messaging.onTokenRefresh.listen((fcmToken) {
+      handleFCMDeviceToken(userModel);
     });
   }
 
@@ -144,6 +170,7 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
   @override
   Future<void> close() {
     userSubscription?.cancel();
+    fcmSubscription?.cancel();
     return super.close();
   }
 }

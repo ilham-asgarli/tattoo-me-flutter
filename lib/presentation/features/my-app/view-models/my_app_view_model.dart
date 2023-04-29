@@ -11,6 +11,7 @@ import '../../../../domain/repositories/auth/implementations/auto_auth_repositor
 import '../../../../domain/repositories/auth/implementations/email_auth_repository.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/errors/auth/user_not_found_error.dart';
+import '../../../../utils/logic/services/fcm/fcm_service.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 class MyAppViewModel extends BaseViewModel {
@@ -27,6 +28,9 @@ class MyAppViewModel extends BaseViewModel {
         await onNotSignedInWithEmail(context);
       }
     }
+
+    // Start FCM Service
+    await FCMService.instance.registerNotification();
   }
 
   Future<void> onNotSignedInWithEmail(BuildContext context) async {
@@ -39,7 +43,7 @@ class MyAppViewModel extends BaseViewModel {
 
       if (baseResponse is BaseSuccess) {
         await onUpdatedLastAppEntryDate(userModel, signBloc);
-      } else if (baseResponse is UserNotFoundError){
+      } else if (baseResponse is UserNotFoundError) {
         await createUser(signBloc);
       }
     } else {
@@ -47,12 +51,13 @@ class MyAppViewModel extends BaseViewModel {
     }
   }
 
-  Future<void> onUpdatedLastAppEntryDate(UserModel userModel, SignBloc signBloc) async {
+  Future<void> onUpdatedLastAppEntryDate(
+      UserModel userModel, SignBloc signBloc) async {
     BaseResponse<UserModel> userBaseResponse =
         await autoAuthRepository.getUserWithId(userModel.id!);
     if (userBaseResponse is BaseSuccess<UserModel>) {
-      signBloc.add(RestoreSignInEvent(
-          restoreSignInUserModel: userBaseResponse.data!));
+      signBloc.add(
+          RestoreSignInEvent(restoreSignInUserModel: userBaseResponse.data!));
       FlutterNativeSplash.remove();
     }
   }
@@ -62,8 +67,8 @@ class MyAppViewModel extends BaseViewModel {
         await autoAuthRepository.createUser();
 
     if (baseResponse is BaseSuccess<UserModel>) {
-      signBloc.add(
-          RestoreSignInEvent(restoreSignInUserModel: baseResponse.data!));
+      signBloc
+          .add(RestoreSignInEvent(restoreSignInUserModel: baseResponse.data!));
       FlutterNativeSplash.remove();
     }
   }
