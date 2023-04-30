@@ -106,10 +106,9 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
         .listen((event) async {
       if (event is BaseSuccess<UserModel> && event.data != null) {
         await handleFCMDeviceToken(event.data!);
-        await handleFCMTokenRefresh(event.data!);
         add(ListenChangesEvent(listenChangesUserModel: event.data!));
+        await handleFCMTokenRefresh(event.data!);
         await handleFirstDesignPurchase(event.data!);
-        await handleFCM(event.data!);
       }
     });
   }
@@ -149,12 +148,6 @@ class SignBloc extends HydratedBloc<SignEvent, SignState> {
     BaseResponse baseResponse = await authRepository.buyFirstDesign(
       UserModel(id: userModel.id),
     );
-  }
-
-  Future<void> handleFCM(UserModel userModel) async {
-    if (userModel.id != null) {
-      await FirebaseMessaging.instance.subscribeToTopic(userModel.id!);
-    }
   }
 
   @override
