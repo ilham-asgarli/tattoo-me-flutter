@@ -1,9 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:ui' as ui;
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../../../firebase_options.dart';
-import '../../constants/locale/locale_keys.g.dart';
 import '../../helpers/locale_notifications/locale_notifications_helper.dart';
 import '../../helpers/locale_notifications/notification_model.dart';
 
@@ -36,7 +36,9 @@ class FCMService {
       if (initialMessage != null) {}
     }
 
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(
+      firebaseMessagingBackgroundHandler,
+    );
   }
 
   NotificationModel getNotification(RemoteMessage message) {
@@ -45,9 +47,21 @@ class FCMService {
     );
 
     if (message.data["type"] == "design_finished") {
-      notificationModel.title =
-          LocaleKeys.designFinishedNotification_title.tr();
-      notificationModel.body = LocaleKeys.designFinishedNotification_body.tr();
+      String locale = ui.window.locale.languageCode;
+      switch (locale) {
+        case 'en':
+          notificationModel.title = "Your design is complete!";
+          notificationModel.body = "Do you want to see it?";
+          break;
+        case 'tr':
+          notificationModel.title = "Tasarımınız hazırlandı!";
+          notificationModel.body = "Görmek ister misiniz?";
+          break;
+        default:
+          notificationModel.title = "Your design is complete!";
+          notificationModel.body = "Do you want to see it?";
+          break;
+      }
     }
 
     return notificationModel;

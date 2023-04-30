@@ -63,9 +63,8 @@ class _PhotoViewState extends State<PhotoView> {
                   false;
 
           if (!isBoughtFirstDesign && isLookedFirstDesign) {
-            RouterService.instance.pop();
-
             context.read<HomeTabCubit>().changeTab(2);
+            RouterService.instance.pop();
 
             await showDialog(
               context: context,
