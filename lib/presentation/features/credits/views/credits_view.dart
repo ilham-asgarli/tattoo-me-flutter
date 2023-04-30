@@ -2,13 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tattoo/presentation/features/credits/components/ios_store_area.dart';
-import 'package:tattoo/utils/logic/constants/enums/app_enum.dart';
 
 import '../../../../core/extensions/widget_extension.dart';
+import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../components/buy.dart';
+import '../components/ios_store_area.dart';
 import '../components/subscribe.dart';
 
 class CreditsView extends StatefulWidget {
@@ -42,9 +42,12 @@ class _CreditsViewState extends State<CreditsView> {
               widget.verticalSpace(10),
               buildBalance(context),
               widget.verticalSpace(10),
-              Text(
-                LocaleKeys.creditsDescription.tr(),
-                textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  LocaleKeys.creditsDescription.tr(),
+                  textAlign: TextAlign.center,
+                ),
               ),
               widget.verticalSpace(30),
               const Subscribe(),

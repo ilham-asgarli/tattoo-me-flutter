@@ -50,15 +50,15 @@ class FCMService {
       String locale = ui.window.locale.languageCode;
       switch (locale) {
         case 'en':
-          notificationModel.title = "Your design is complete!";
+          notificationModel.title = "Your tattoo design is complete!";
           notificationModel.body = "Do you want to see it?";
           break;
         case 'tr':
-          notificationModel.title = "Tasarımınız hazırlandı!";
+          notificationModel.title = "Dövme tasarımınız hazırlandı!";
           notificationModel.body = "Görmek ister misiniz?";
           break;
         default:
-          notificationModel.title = "Your design is complete!";
+          notificationModel.title = "Your tattoo design is complete!";
           notificationModel.body = "Do you want to see it?";
           break;
       }
