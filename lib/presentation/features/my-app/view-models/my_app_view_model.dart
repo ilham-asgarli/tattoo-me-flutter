@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -13,24 +15,35 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/errors/auth/user_not_found_error.dart';
 import '../../../../utils/logic/services/fcm/fcm_service.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 
 class MyAppViewModel extends BaseViewModel {
   AutoAuthRepository autoAuthRepository = AutoAuthRepository();
   AuthRepository authRepository = AuthRepository();
   EmailAuthRepository emailAuthRepository = EmailAuthRepository();
+  StreamSubscription? settingsStream;
 
   void initAndRemoveSplashScreen(BuildContext context) async {
-    SignBloc signBloc = BlocProvider.of<SignBloc>(context);
-    if (signBloc.state is SignIn) {
-      if (emailAuthRepository.emailVerified()) {
-        await onSignedInWithEmail(context);
-      } else {
-        await onNotSignedInWithEmail(context);
-      }
-    }
-
     // Start FCM Service
     await FCMService.instance.registerNotification();
+
+    if (context.mounted) {
+      // Wait for settings initialize
+      settingsStream =
+          context.read<SettingsCubit>().stream.listen((event) async {
+        settingsStream?.cancel();
+        if (event.settingsModel?.id != null) {
+          SignBloc signBloc = BlocProvider.of<SignBloc>(context);
+          if (signBloc.state is SignIn) {
+            if (emailAuthRepository.emailVerified()) {
+              await onSignedInWithEmail(context);
+            } else {
+              await onNotSignedInWithEmail(context);
+            }
+          }
+        }
+      });
+    }
   }
 
   Future<void> onNotSignedInWithEmail(BuildContext context) async {
