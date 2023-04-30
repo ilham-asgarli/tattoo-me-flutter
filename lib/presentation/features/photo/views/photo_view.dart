@@ -14,17 +14,18 @@ import '../../../../core/cache/shared_preferences_manager.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../core/router/core/router_service.dart';
+import '../../../../domain/models/auth/user_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../domain/repositories/design-responses/implementations/design_responses_repository.dart';
 import '../../../../utils/logic/constants/cache/shared_preferences_constants.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/retouch-alert/retouch_alert_bloc.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import '../../../../utils/logic/state/cubit/photo/photo_cubit.dart';
 import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
+import '../../tattoo-choose/components/error_dialog.dart';
 import '../components/evaluate_designer_alert.dart';
 import '../components/retouch_alert.dart';
 
@@ -52,10 +53,30 @@ class _PhotoViewState extends State<PhotoView> {
         );
 
         if (mounted) {
-          RouterService.instance.pushReplacementNamed(
-            path: RouterConstants.credits,
-            data: CreditsViewType.insufficient,
-          );
+          UserModel userModel = context.read<SignBloc>().state.userModel;
+
+          bool isBoughtFirstDesign = (userModel.isBoughtFirstDesign ?? false);
+          bool isLookedFirstDesign =
+              SharedPreferencesManager.instance.preferences?.getBool(
+                    SharedPreferencesConstants.isLookedFirstDesign,
+                  ) ??
+                  false;
+
+          if (!isBoughtFirstDesign && isLookedFirstDesign) {
+            RouterService.instance.pop();
+
+            context.read<HomeTabCubit>().changeTab(2);
+
+            await showDialog(
+              context: context,
+              builder: (_) {
+                return ErrorDialog(
+                  insufficientBalance: true,
+                  buildContext: context,
+                );
+              },
+            );
+          }
         }
       }
     });

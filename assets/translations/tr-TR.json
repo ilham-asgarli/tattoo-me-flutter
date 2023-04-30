@@ -7,7 +7,8 @@
   "retouchedBefore": "Daha önce rötuşlandı.",
   "outOfWorkingHours": "Yoğunluktan dolayı şu anda hizmet veremiyoruz. Lütfen daha sonra tekrar deneyin. Anlayışınız için teşekkürler.",
   "notTakingOrder": "Şu anda hizmet veremiyoruz. Lütfen daha sonra tekrar deneyin.",
-  "insufficientBalanceReview": "Yeterli krediniz yok. Bize puan vererek 30 kredi kazanabilirsiniz.",
+  "insufficientBalanceDescription": "Yeterli krediniz yok.",
+  "insufficientBalanceReview": "Yeterli krediniz yok. Kredi paketlerini inceleyin yada puan vererek 30 kredi kazanın.",
   "homeBottomNavBarLabels": {
     "gallery": "Galeri",
     "credits": "Krediler",

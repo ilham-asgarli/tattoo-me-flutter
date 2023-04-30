@@ -9,6 +9,7 @@ abstract class  LocaleKeys {
   static const retouchedBefore = 'retouchedBefore';
   static const outOfWorkingHours = 'outOfWorkingHours';
   static const notTakingOrder = 'notTakingOrder';
+  static const insufficientBalanceDescription = 'insufficientBalanceDescription';
   static const insufficientBalanceReview = 'insufficientBalanceReview';
   static const homeBottomNavBarLabels_gallery = 'homeBottomNavBarLabels.gallery';
   static const homeBottomNavBarLabels_credits = 'homeBottomNavBarLabels.credits';

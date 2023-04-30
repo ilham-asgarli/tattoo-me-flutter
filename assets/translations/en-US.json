@@ -7,7 +7,8 @@
   "retouchedBefore": "It has been retouched before.",
   "outOfWorkingHours": "We are currently unavailable due to the busy traffic. Please try again later. Thank you for your understanding.",
   "notTakingOrder": "We are currently unable to serve. Please try again later.",
-  "insufficientBalanceReview": "",
+  "insufficientBalanceDescription": "You don't have enough credits.",
+  "insufficientBalanceReview": "You don't have enough credit. Check out the credit packages or score points to get 30 credits.",
   "homeBottomNavBarLabels": {
     "gallery": "Gallery",
     "credits": "Credits",

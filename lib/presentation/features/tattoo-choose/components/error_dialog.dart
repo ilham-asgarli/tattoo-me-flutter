@@ -13,6 +13,7 @@ import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../components/dialog_action_button.dart';
 
@@ -20,16 +21,31 @@ class ErrorDialog extends StatelessWidget {
   final String message;
   final bool insufficientBalance;
   final BuildContext buildContext;
+  final bool? isAwardedReview;
 
   const ErrorDialog({
     Key? key,
     this.message = "",
     this.insufficientBalance = false,
     required this.buildContext,
+    this.isAwardedReview,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    UserModel userModel = context.read<SignBloc>().state.userModel;
+
+    bool isAwardedReviewVisible = isAwardedReview ??
+        (userModel.isFirstOrderInsufficientBalance ?? true) &&
+            (context.read<SettingsCubit>().state.settingsModel?.awardedReview ??
+                false);
+
+    String text = insufficientBalance
+        ? isAwardedReviewVisible
+            ? LocaleKeys.insufficientBalanceReview.tr()
+            : LocaleKeys.insufficientBalanceDescription.tr()
+        : message;
+
     return AlertDialog(
       backgroundColor: AppColors.secondColor,
       actionsPadding: EdgeInsets.zero,
@@ -38,7 +54,7 @@ class ErrorDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            message,
+            text,
             style: const TextStyle(
               color: Colors.black,
               fontSize: 15,
@@ -65,28 +81,31 @@ class ErrorDialog extends StatelessWidget {
                       style: const TextStyle(color: Colors.black),
                     ),
                   ),
-                  DialogActionButton(
-                    onPressed: () async {
-                      Navigator.pop(context);
-                      await InAppReviewHelper.instance.request();
-                      await ReviewRepository().makeReview(UserModel(
-                        id: buildContext.read<SignBloc>().state.userModel.id,
-                      ));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          LocaleKeys.evaluate.tr(),
-                          style: const TextStyle(color: Colors.black),
-                        ),
-                        context.widget.horizontalSpace(10),
-                        FaIcon(
-                          FontAwesomeIcons.star,
-                          size: 20,
-                          color: Colors.amber.withOpacity(0.6),
-                        ),
-                      ],
+                  Visibility(
+                    visible: isAwardedReviewVisible,
+                    child: DialogActionButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        await InAppReviewHelper.instance.request();
+                        await ReviewRepository().makeReview(UserModel(
+                          id: buildContext.read<SignBloc>().state.userModel.id,
+                        ));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            LocaleKeys.evaluate.tr(),
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                          context.widget.horizontalSpace(10),
+                          FaIcon(
+                            FontAwesomeIcons.star,
+                            size: 20,
+                            color: Colors.amber.withOpacity(0.6),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

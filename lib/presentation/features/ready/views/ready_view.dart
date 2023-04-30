@@ -127,8 +127,8 @@ class _ReadyViewState extends State<ReadyView> {
       child: ClipRRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(
-            sigmaX: 10,
-            sigmaY: 10,
+            sigmaX: 3,
+            sigmaY: 3,
           ),
           child: const SizedBox(),
         ),
