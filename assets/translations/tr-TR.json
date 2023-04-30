@@ -96,5 +96,9 @@
   "yes": "Evet",
   "no": "Hayır",
   "deleteAccountDescription": "Hesabınızı kalıcı olarak silmek istediğinizden emin misiniz?",
-  "deleteAccount": "Hesabımı sil"
+  "deleteAccount": "Hesabımı sil",
+  "designFinishedNotification": {
+    "title": "Tasarımınız tamamlandı!",
+    "body": "3D dövme fotoğrafınız hazır."
+  }
 }

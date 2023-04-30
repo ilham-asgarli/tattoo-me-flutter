@@ -96,5 +96,9 @@
   "yes": "Yes",
   "no": "No",
   "deleteAccountDescription": "Are you sure you want to permanently delete your account?",
-  "deleteAccount": "Delete my account"
+  "deleteAccount": "Delete my account",
+  "designFinishedNotification": {
+    "title": "Your design is complete!",
+    "body": "Your 3D tattoo photo is ready."
+  }
 }

@@ -55,6 +55,14 @@
                android:resource="@xml/provider_paths"/>
        </provider>
 
+       <meta-data
+           android:name="com.google.firebase.messaging.default_notification_channel_id"
+           android:value="tattoo_me" />
+
+       <meta-data
+           android:name="com.google.firebase.messaging.default_notification_icon"
+           android:resource="@mipmap/ic_launcher" />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

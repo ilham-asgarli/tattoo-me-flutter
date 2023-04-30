@@ -96,5 +96,8 @@ abstract class  LocaleKeys {
   static const no = 'no';
   static const deleteAccountDescription = 'deleteAccountDescription';
   static const deleteAccount = 'deleteAccount';
+  static const designFinishedNotification_title = 'designFinishedNotification.title';
+  static const designFinishedNotification_body = 'designFinishedNotification.body';
+  static const designFinishedNotification = 'designFinishedNotification';
 
 }
