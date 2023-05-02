@@ -20,6 +20,7 @@ class LocaleNotificationsHelper {
   Future<void> init({
     Function(NotificationResponse)? onDidReceiveNotificationResponse,
     Function(NotificationResponse)? onDidReceiveBackgroundNotificationResponse,
+    Function(NotificationResponse)? onNotificationAppLaunchDetails,
   }) async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings("@mipmap/ic_launcher");
@@ -37,6 +38,17 @@ class LocaleNotificationsHelper {
       onDidReceiveBackgroundNotificationResponse:
           onDidReceiveBackgroundNotificationResponse,
     );
+
+    final NotificationAppLaunchDetails? notificationAppLaunchDetails =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    final didNotificationLaunchApp =
+        notificationAppLaunchDetails?.didNotificationLaunchApp ?? false;
+
+    if (didNotificationLaunchApp && onNotificationAppLaunchDetails != null) {
+      onNotificationAppLaunchDetails(
+        notificationAppLaunchDetails!.notificationResponse!,
+      );
+    }
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<

@@ -35,6 +35,7 @@ class FCMService {
       await LocaleNotificationsHelper.instance.init(
         onDidReceiveNotificationResponse: onTap,
         onDidReceiveBackgroundNotificationResponse: onTap,
+        onNotificationAppLaunchDetails: onTap,
       );
 
       FirebaseMessaging.onMessage.listen((message) {
