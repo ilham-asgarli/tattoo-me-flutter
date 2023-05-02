@@ -44,8 +44,8 @@ class _ReadyViewState extends State<ReadyView> {
 
   Widget buildStream(SignState signState) {
     return StreamBuilder<BaseResponse<List<DesignResponseModel>>>(
-      stream: viewModel.getDesignRequestRepository
-          .getDesignRequestStream(signState.userModel.id ?? ""),
+      stream: viewModel.getDesignResponseRepository
+          .getDesignResponseStream(signState.userModel.id ?? ""),
       builder: (context, snapshot) {
         BaseResponse<List<DesignResponseModel>>? baseResponse = snapshot.data;
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -99,7 +99,11 @@ class _ReadyViewState extends State<ReadyView> {
     return InkWell(
       onTap: () async {
         await viewModel.onTapImage(
-            context, designRequestModel, designModels, index);
+          context,
+          designRequestModel,
+          designModels,
+          index,
+        );
       },
       child: Stack(
         fit: StackFit.expand,

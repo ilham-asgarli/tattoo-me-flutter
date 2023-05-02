@@ -1,9 +1,17 @@
+import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
+import '../../../../core/router/core/router_service.dart';
+import '../../../../domain/models/design-response/design_response_model.dart';
+import '../../../../domain/repositories/design-responses/implementations/get_design_response_repository.dart';
 import '../../../../firebase_options.dart';
+import '../../constants/router/router_constants.dart';
 import '../../helpers/locale_notifications/locale_notifications_helper.dart';
 import '../../helpers/locale_notifications/notification_model.dart';
 
@@ -24,16 +32,22 @@ class FCMService {
     NotificationSettings settings = await _messaging.requestPermission();
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      await LocaleNotificationsHelper.instance.init(
+        onDidReceiveNotificationResponse: onTap,
+        onDidReceiveBackgroundNotificationResponse: onTap,
+      );
+
       FirebaseMessaging.onMessage.listen((message) {
         LocaleNotificationsHelper.instance.showNotification(
           getNotification(message),
+          payload: json.encode(message.data),
         );
       });
 
-      FirebaseMessaging.onMessageOpenedApp.listen((message) {});
+      //FirebaseMessaging.onMessageOpenedApp.listen((message) async {});
 
-      RemoteMessage? initialMessage = await _messaging.getInitialMessage();
-      if (initialMessage != null) {}
+      /*RemoteMessage? initialMessage = await _messaging.getInitialMessage();
+      if (initialMessage != null) {}*/
     }
 
     FirebaseMessaging.onBackgroundMessage(
@@ -69,11 +83,28 @@ class FCMService {
 }
 
 @pragma('vm:entry-point')
+Future<void> onTap(NotificationResponse notificationResponse) async {
+  GetDesignResponseRepository getDesignResponseRepository =
+      GetDesignResponseRepository();
+  BaseResponse<DesignResponseModel> baseResponse =
+      await getDesignResponseRepository.getDesignResponse(
+          json.decode(notificationResponse.payload ?? "")["designResponseId"]);
+
+  if (baseResponse is BaseSuccess<DesignResponseModel>) {
+    RouterService.instance.pushNamedAndRemoveUntil(
+      path: RouterConstants.photo,
+      data: baseResponse.data,
+      removeUntilPageName: RouterConstants.home,
+    );
+  }
+}
+
+@pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  await LocaleNotificationsHelper.instance.init();
   LocaleNotificationsHelper.instance.showNotification(
     FCMService.instance.getNotification(message),
+    payload: json.encode(message.data),
   );
 }

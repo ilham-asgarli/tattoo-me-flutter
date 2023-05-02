@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tattoo/core/base/models/base_model.dart';
-import 'package:tattoo/core/extensions/map_extension.dart';
-import 'package:tattoo/domain/models/design-response/design_response_model.dart';
+
+import '../../../core/base/models/base_model.dart';
+import '../../../core/extensions/map_extension.dart';
+import '../../../domain/models/design-response/design_response_model.dart';
 
 class BackendDesignResponseModel extends BaseModel<BackendDesignResponseModel> {
   String? id;

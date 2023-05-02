@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tattoo/core/base/models/base_model.dart';
-import 'package:tattoo/core/extensions/map_extension.dart';
-import 'package:tattoo/domain/models/design-request/design_request_model.dart';
 
+import '../../../core/base/models/base_model.dart';
+import '../../../core/extensions/map_extension.dart';
+import '../../../domain/models/design-request/design_request_model.dart';
 import 'backend_design_request_image_model.dart';
 
 class BackendDesignRequestModel extends BaseModel<BackendDesignRequestModel> {

@@ -7,15 +7,15 @@ import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
-import '../../../../domain/repositories/design-requests/implementations/get_design_request_repository.dart';
+import '../../../../domain/repositories/design-responses/implementations/get_design_response_repository.dart';
 import '../../../../utils/logic/constants/cache/shared_preferences_constants.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../tattoo-choose/components/error_dialog.dart';
 
 class ReadyViewModel extends BaseViewModel {
-  GetDesignRequestRepository getDesignRequestRepository =
-      GetDesignRequestRepository();
+  GetDesignResponseRepository getDesignResponseRepository =
+      GetDesignResponseRepository();
 
   Future<void> onTapImage(
     BuildContext context,

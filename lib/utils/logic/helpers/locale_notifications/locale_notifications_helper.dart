@@ -17,7 +17,10 @@ class LocaleNotificationsHelper {
     importance: Importance.max,
   );
 
-  Future<void> init() async {
+  Future<void> init({
+    Function(NotificationResponse)? onDidReceiveNotificationResponse,
+    Function(NotificationResponse)? onDidReceiveBackgroundNotificationResponse,
+  }) async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings("@mipmap/ic_launcher");
     const DarwinInitializationSettings initializationSettingsDarwin =
@@ -28,7 +31,12 @@ class LocaleNotificationsHelper {
       iOS: initializationSettingsDarwin,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+      onDidReceiveBackgroundNotificationResponse:
+          onDidReceiveBackgroundNotificationResponse,
+    );
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
@@ -36,7 +44,10 @@ class LocaleNotificationsHelper {
         ?.createNotificationChannel(androidNotificationChannel);
   }
 
-  void showNotification(NotificationModel? notification) async {
+  void showNotification(
+    NotificationModel? notification, {
+    String? payload,
+  }) async {
     if (notification != null) {
       flutterLocalNotificationsPlugin.show(
         notification.id,
@@ -49,6 +60,7 @@ class LocaleNotificationsHelper {
             icon: notification.android?.smallIcon ?? "@mipmap/ic_launcher",
           ),
         ),
+        payload: payload,
       );
     }
   }
