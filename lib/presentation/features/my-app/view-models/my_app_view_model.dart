@@ -24,26 +24,23 @@ class MyAppViewModel extends BaseViewModel {
   StreamSubscription? settingsStream;
 
   void initAndRemoveSplashScreen(BuildContext context) async {
-    // Start FCM Service
-    await FCMService.instance.registerNotification();
-
-    if (context.mounted) {
-      // Wait for settings initialize
-      settingsStream =
-          context.read<SettingsCubit>().stream.listen((event) async {
-        settingsStream?.cancel();
-        if (event.settingsModel?.id != null) {
-          SignBloc signBloc = BlocProvider.of<SignBloc>(context);
-          if (signBloc.state is SignIn) {
-            if (emailAuthRepository.emailVerified()) {
-              await onSignedInWithEmail(context);
-            } else {
-              await onNotSignedInWithEmail(context);
-            }
+    // Wait for settings initialize
+    settingsStream = context.read<SettingsCubit>().stream.listen((event) async {
+      settingsStream?.cancel();
+      if (event.settingsModel?.id != null) {
+        SignBloc signBloc = BlocProvider.of<SignBloc>(context);
+        if (signBloc.state is SignIn) {
+          if (emailAuthRepository.emailVerified()) {
+            await onSignedInWithEmail(context);
+          } else {
+            await onNotSignedInWithEmail(context);
           }
         }
-      });
-    }
+      }
+    });
+
+    // Start FCM Service
+    await FCMService.instance.registerNotification();
   }
 
   Future<void> onNotSignedInWithEmail(BuildContext context) async {
