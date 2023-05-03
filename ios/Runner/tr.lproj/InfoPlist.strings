@@ -1,0 +1,3 @@
+NSCameraUsageDescription = "3D dövme tasarımı için resminizi eklemek üzere kamera erişimine izin verin.";
+NSPhotoLibraryUsageDescription = "3D dövme tasarımı için resminizi eklemek üzere fotoğraf erişimine izin verin.";
+NSPhotoLibraryAddUsageDescription = "3D dövme tasarımınızı galeriye kaydetmek için erişime izin verin.";

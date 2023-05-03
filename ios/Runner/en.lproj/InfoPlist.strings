@@ -1,0 +1,3 @@
+NSCameraUsageDescription = "Allow camera access to add your image for 3D tattoo design.";
+NSPhotoLibraryUsageDescription = "Allow photo access to add your image for 3D tattoo design.";
+NSPhotoLibraryAddUsageDescription = "Allow access to save your 3D tattoo design to gallery.";
