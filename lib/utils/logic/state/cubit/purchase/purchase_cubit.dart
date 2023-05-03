@@ -2,8 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
@@ -66,7 +69,7 @@ class PurchaseCubit extends Cubit<PurchaseState> {
               restorePurchases();
             } else {
               // restored
-              loadSubscriptionBalance(purchaseDetails);
+              await loadSubscriptionBalance(purchaseDetails);
             }
           } else {
             _handleInvalidPurchase(purchaseDetails);
@@ -91,34 +94,94 @@ class PurchaseCubit extends Cubit<PurchaseState> {
     }
   }
 
-  void loadSubscriptionBalance(PurchaseDetails purchaseDetails) async {
-    Map map =
-        json.decode(purchaseDetails.verificationData.localVerificationData);
-    await subscriptionsRepository.loadSubscriptionByToken(
-        SubscriptionModel(purchaseToken: map["purchaseToken"]));
+  Future<void> loadSubscriptionBalance(PurchaseDetails purchaseDetails) async {
+    if (Platform.isAndroid) {
+      Map map =
+          json.decode(purchaseDetails.verificationData.localVerificationData);
+      await subscriptionsRepository.loadSubscriptionByToken(
+          SubscriptionModel(purchaseToken: map["purchaseToken"]));
+    } else if (Platform.isIOS) {
+      var receiptBody = {
+        'receipt-data': purchaseDetails.verificationData.localVerificationData,
+        'exclude-old-transactions': true,
+        'password': dotenv.env["appleAppSpecificSharedSecret"],
+      };
+
+      //print(purchaseDetails.verificationData.localVerificationData);
+
+      Response res = await validateReceiptIos(receiptBody);
+      Map map = json.decode(res.body);
+      var latestReceiptInfo = map["latest_receipt_info"];
+      print(latestReceiptInfo[0]["transaction_id"]);
+      await subscriptionsRepository.loadSubscriptionByToken(SubscriptionModel(
+          purchaseToken: latestReceiptInfo[0]["transaction_id"]));
+    }
+  }
+
+  Future<Response> validateReceiptIos(receiptBody) async {
+    const String url = kDebugMode
+        ? 'https://sandbox.itunes.apple.com/verifyReceipt'
+        : 'https://buy.itunes.apple.com/verifyReceipt';
+    return await Client().post(
+      Uri.parse(url),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(receiptBody),
+    );
   }
 
   Future<void> writeSubscriptionToServer(
       PurchaseDetails purchaseDetails) async {
+    print("3");
     if (PurchaseConstants.subscriptions.keys
         .contains(purchaseDetails.productID)) {
-      Map map =
-          json.decode(purchaseDetails.verificationData.localVerificationData);
+      SubscriptionModel? subscriptionModel;
 
-      print(purchaseDetails.verificationData.serverVerificationData);
+      if (Platform.isAndroid) {
+        Map map =
+            json.decode(purchaseDetails.verificationData.localVerificationData);
 
-      await subscriptionsRepository.createSubscription(
-        SubscriptionModel(
+        subscriptionModel = SubscriptionModel(
           userId: context.read<SignBloc>().state.userModel.id,
           orderId: map["orderId"],
-          productId: purchaseDetails.productID,
+          productId: map["productId"],
           source: purchaseDetails.verificationData.source,
           purchaseToken: map["purchaseToken"],
           purchaseTime:
               DateTime.fromMillisecondsSinceEpoch(map["purchaseTime"]),
-        ),
-      );
+        );
+      } else if (Platform.isIOS) {
+        var receiptBody = {
+          'receipt-data':
+              purchaseDetails.verificationData.localVerificationData,
+          'exclude-old-transactions': true,
+          'password': dotenv.env["appleAppSpecificSharedSecret"],
+        };
+
+        Response res = await validateReceiptIos(receiptBody);
+
+        Map map = json.decode(res.body);
+        var latestReceiptInfo = map["latest_receipt_info"];
+        var latestReceipt = map["latest_receipt"];
+
+        subscriptionModel = SubscriptionModel(
+          userId: context.read<SignBloc>().state.userModel.id,
+          orderId: latestReceiptInfo[0]["original_transaction_id"],
+          productId: latestReceiptInfo[0]["product_id"],
+          source: purchaseDetails.verificationData.source,
+          purchaseToken: latestReceiptInfo[0]["transaction_id"],
+          purchaseTime: DateTime.fromMillisecondsSinceEpoch(
+              int.parse(latestReceiptInfo[0]["purchase_date_ms"])),
+        );
+      }
+
+      if (subscriptionModel != null) {
+        await subscriptionsRepository.createSubscription(subscriptionModel);
+      }
     }
+    print("4");
   }
 
   void showPendingUI() {
@@ -256,6 +319,6 @@ class ExamplePaymentQueueDelegate implements SKPaymentQueueDelegateWrapper {
 
   @override
   bool shouldShowPriceConsent() {
-    return false;
+    return true;
   }
 }

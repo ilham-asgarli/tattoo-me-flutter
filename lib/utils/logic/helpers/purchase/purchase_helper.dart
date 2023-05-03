@@ -9,10 +9,10 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
-import 'package:tattoo/core/constants/enums/http_request_enum.dart';
-import 'package:tattoo/core/network/core/core_http.dart';
 
 import '../../../../core/base/models/base_response.dart';
+import '../../../../core/constants/enums/http_request_enum.dart';
+import '../../../../core/network/core/core_http.dart';
 import '../../../../domain/models/in_app_purchase/in_app_purchase_apple.dart';
 import '../../constants/purchase/purchase_constants.dart';
 import '../../state/cubit/purchase/purchase_cubit.dart';
@@ -120,7 +120,7 @@ class PurchaseHelper {
     return oldSubscription;
   }
 
-  Future verifyReceiptIos(String receiptData) async {
+  Future<void> verifyReceiptIos(String receiptData) async {
     const String url = kDebugMode
         ? 'https://sandbox.itunes.apple.com/verifyReceipt'
         : 'https://buy.itunes.apple.com/verifyReceipt';
