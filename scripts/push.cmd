@@ -1,3 +1,4 @@
 git add .
-git commit -m "Initial commit"
+set /p "message=Message: "
+git commit -m "%message%"
 git push -u origin main
