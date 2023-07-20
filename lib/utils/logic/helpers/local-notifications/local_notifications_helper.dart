@@ -2,10 +2,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'notification_model.dart';
 
-class LocaleNotificationsHelper {
-  static LocaleNotificationsHelper instance = LocaleNotificationsHelper._init();
+class LocalNotificationsHelper {
+  static LocalNotificationsHelper instance = LocalNotificationsHelper._init();
 
-  LocaleNotificationsHelper._init();
+  LocalNotificationsHelper._init();
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();

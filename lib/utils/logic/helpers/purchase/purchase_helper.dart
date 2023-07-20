@@ -80,19 +80,7 @@ class PurchaseHelper {
     BuildContext context,
     PurchaseDetails purchaseDetails,
   ) async {
-    if (Platform.isAndroid) {
-      final InAppPurchaseAndroidPlatformAddition androidAddition = context
-          .read<PurchaseCubit>()
-          .inAppPurchase
-          .getPlatformAddition<InAppPurchaseAndroidPlatformAddition>();
-      final BillingResultWrapper priceChangeConfirmationResult =
-          await androidAddition.launchPriceChangeConfirmationFlow(
-        sku: purchaseDetails.productID,
-      );
-      /*if (priceChangeConfirmationResult.responseCode == BillingResponse.ok) {
-        // Price change accepted
-      }*/
-    } else if (Platform.isIOS) {
+    if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iapStoreKitPlatformAddition =
           context
               .read<PurchaseCubit>()

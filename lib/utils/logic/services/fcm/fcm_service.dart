@@ -13,8 +13,8 @@ import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../domain/repositories/design-responses/implementations/get_design_response_repository.dart';
 import '../../../../firebase_options.dart';
 import '../../constants/router/router_constants.dart';
-import '../../helpers/locale_notifications/locale_notifications_helper.dart';
-import '../../helpers/locale_notifications/notification_model.dart';
+import '../../helpers/local-notifications/local_notifications_helper.dart';
+import '../../helpers/local-notifications/notification_model.dart';
 
 class FCMService {
   static final FCMService instance = FCMService._init();
@@ -34,14 +34,14 @@ class FCMService {
     Permission.notification.request();
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      await LocaleNotificationsHelper.instance.init(
+      await LocalNotificationsHelper.instance.init(
         onDidReceiveNotificationResponse: onTap,
         onDidReceiveBackgroundNotificationResponse: onTap,
         onNotificationAppLaunchDetails: onTap,
       );
 
       FirebaseMessaging.onMessage.listen((message) {
-        LocaleNotificationsHelper.instance.showNotification(
+        LocalNotificationsHelper.instance.showNotification(
           getNotification(message),
           payload: json.encode(message.data),
         );
@@ -106,7 +106,7 @@ Future<void> onTap(NotificationResponse notificationResponse) async {
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  LocaleNotificationsHelper.instance.showNotification(
+  LocalNotificationsHelper.instance.showNotification(
     FCMService.instance.getNotification(message),
     payload: json.encode(message.data),
   );

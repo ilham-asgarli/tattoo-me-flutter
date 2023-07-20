@@ -17,7 +17,7 @@ import 'firebase_options.dart';
 import 'presentation/features/my-app/views/my_app_view.dart';
 import 'utils/logic/constants/env/env_constants.dart';
 import 'utils/logic/helpers/downloader/downloader_helper.dart';
-import 'utils/logic/helpers/package_info/package_info_helper.dart';
+import 'utils/logic/helpers/package-info/package_info_helper.dart';
 import 'utils/logic/state/bloc/sign/sign_bloc.dart';
 import 'utils/logic/state/bloc/theme/theme_bloc.dart';
 import 'utils/logic/state/cubit/home-tab/home_tab_cubit.dart';

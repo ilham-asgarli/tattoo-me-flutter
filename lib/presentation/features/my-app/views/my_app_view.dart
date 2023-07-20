@@ -10,7 +10,7 @@ import '../../../../core/base/views/base_app_lifecycle_view.dart';
 import '../../../../core/constants/app/global_key_constants.dart';
 import '../../../../utils/logic/config/router/config_router.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/logic/helpers/package_info/package_info_helper.dart';
+import '../../../../utils/logic/helpers/package-info/package_info_helper.dart';
 import '../../../../utils/logic/helpers/theme/theme_helper.dart';
 import '../../../../utils/logic/state/bloc/theme/theme_bloc.dart';
 import '../../../../utils/logic/state/cubit/network/network_cubit.dart';
