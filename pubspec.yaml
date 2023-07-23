@@ -25,14 +25,14 @@ dependencies:
   responsive_framework: ^0.2.0
 
   # firebase
-  firebase_core: ^2.10.0
-  firebase_auth: ^4.4.2
-  cloud_firestore: ^4.5.2
-  firebase_storage: ^11.1.1
-  firebase_messaging: ^14.4.1
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.1
+  cloud_firestore: ^4.8.3
+  firebase_storage: ^11.2.5
+  firebase_messaging: ^14.6.5
 
-  easy_localization: ^3.0.1
-  http: ^0.13.4
+  easy_localization: ^3.0.2
+  http: ^1.1.0
   equatable: ^2.0.5
   bloc: ^8.1.0
   flutter_bloc: ^8.1.1
@@ -47,35 +47,38 @@ dependencies:
   auto_size_text: ^3.0.0
   json_annotation: ^4.6.0
   font_awesome_flutter: ^10.1.0
-  shimmer: ^2.0.0
-  flutter_native_splash: ^2.2.7
+  shimmer: ^3.0.0
+  flutter_native_splash: ^2.3.1
   flutter_keyboard_visibility: ^5.3.0
   flare_flutter: ^3.0.2
-  centered_singlechildscrollview: ^0.1.8
-  connectivity_plus: ^3.0.2
+  centered_singlechildscrollview: ^0.2.0
+  connectivity_plus: ^4.0.1
   meta: ^1.8.0
   image_picker: ^0.8.6
   extended_image: ^6.3.2
   hexcolor: ^3.0.1
-  image_cropper: ^3.0.1
+  image_cropper: ^5.0.0
   in_app_purchase: ^3.1.7
   flutter_countdown_timer: ^4.1.0
   flutter_rating_bar: ^4.0.1
   flutter_dotenv: ^5.0.2
   encrypt: ^5.0.1
-  screenshot: ^1.2.3
-  share_plus: ^6.3.0
-  flutter_downloader: ^1.9.1
+  screenshot: ^2.1.0
+  share_plus: ^7.0.2
+  flutter_downloader: ^1.10.5
   permission_handler: ^10.2.0
   flutter_email_sender: ^5.2.0
   store_redirect: ^2.0.1
   ntp: ^2.0.0
-  app_review: ^2.1.2+1
-  google_fonts: ^3.0.1
-  webview_flutter: ^4.0.2
+  app_review:
+    git:
+      url: https://github.com/ersin-kose/app_review.git
+      ref: master
+  google_fonts: ^5.1.0
+  webview_flutter: ^4.2.2
   upgrader:
-  package_info_plus:
-  flutter_local_notifications: ^14.0.0+1
+  package_info_plus: ^4.0.2
+  flutter_local_notifications: ^15.1.0+1
   photo_manager: ^2.6.0
 
 dev_dependencies:
@@ -84,8 +87,8 @@ dev_dependencies:
 
   json_serializable: ^6.3.1
   flutter_lints: ^2.0.0
-  build_runner: ^2.2.0
-  flutter_launcher_icons: ^0.11.0
+  build_runner: ^2.4.6
+  flutter_launcher_icons: ^0.13.1
   hive_generator: ^2.0.0
 
 flutter:

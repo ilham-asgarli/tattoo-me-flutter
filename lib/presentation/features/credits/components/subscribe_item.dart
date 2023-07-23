@@ -31,25 +31,23 @@ class SubscribeItem extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        PurchaseConstants.subscriptions[productDetails.id]
-                            .toString(),
-                        style: TextStyle(
-                          color: AppColors.secondColor,
-                          fontSize: 15,
-                        ),
-                      ),
-                      Icon(
-                        Icons.star,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      PurchaseConstants.subscriptions[productDetails.id]
+                          .toString(),
+                      style: TextStyle(
                         color: AppColors.secondColor,
-                        size: 20,
+                        fontSize: 15,
                       ),
-                    ],
-                  ),
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: AppColors.secondColor,
+                      size: 20,
+                    ),
+                  ],
                 ),
                 Expanded(
                   child: Row(
@@ -66,17 +64,15 @@ class SubscribeItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    isActive(context)
-                        ? LocaleKeys.active.tr()
-                        : LocaleKeys.sub.tr(),
-                    style: TextStyle(
-                      color: AppColors.secondColor,
-                      fontSize: 15,
-                    ),
-                    textAlign: TextAlign.end,
+                Text(
+                  isActive(context)
+                      ? LocaleKeys.active.tr()
+                      : LocaleKeys.sub.tr(),
+                  style: TextStyle(
+                    color: AppColors.secondColor,
+                    fontSize: 15,
                   ),
+                  textAlign: TextAlign.end,
                 ),
               ],
             ),

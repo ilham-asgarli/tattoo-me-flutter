@@ -12,7 +12,7 @@ import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/helpers/gallery/gallery_helper.dart';
-import '../../../components/progress_dialog.dart';
+import '../../../components/progress_dialogts/gallery_grid.dart';
 
 class GalleryView extends StatelessWidget {
   const GalleryView({Key? key}) : super(key: key);
