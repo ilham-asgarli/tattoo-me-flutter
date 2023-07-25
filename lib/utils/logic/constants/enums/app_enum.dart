@@ -5,3 +5,5 @@ enum GalleryChoose { camera, gallery }
 enum CreditsViewType { insufficient, balance }
 
 enum PurchaseType { buy, subscribe }
+
+enum EarnCredit { comment, subscribe, follow }

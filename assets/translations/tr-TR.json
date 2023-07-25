@@ -19,13 +19,14 @@
   "sendToDesigner": "Tasarımcıya gönder",
   "addTattoo": "Dövme ekle",
   "balance": "Bakiyeniz",
+  "oneTimePurchase": "Tek Seferlik Satın Alımlar",
   "designPrice": "Tasarım ücreti",
   "packets": "Avantajlı paketler",
   "monthlySub": "Aylık abonelik",
   "sub": "Abone ol",
   "buy": "Satın al",
   "noExtraCredits": "Ekstra kredi yok",
-  "creditsDescription": "1 dövme tasarımı 30 kredidir. Size özel dövme tasarımı 3D formatında profesyonel tasarımcılar tarafından photoshop'ta yapılacaktır",
+  "creditsDescription": "1 dövme tasarımı 30 kredidir. Size özel dövme tasarımı 3D formatında profesyonel tasarımcılar tarafından Photoshop'ta yapılacaktır.",
   "galleryDescription": "Fotoğrafınızı, ardından istediğiniz dövme görselini ekleyin. Dövme tasarımı 3D formatında profesyonel tasarımcılar tarafından photoshop'ta yapılacaktır",
   "readyDescription": "Tasarımcılarımıza henüz hiç fotoğraf göndermediniz. Şimdi yapın ve inanılmaz sonuçlar alın!",
   "moreDescription": "Kayıt işlemi, mobil cihazınızı kaybetmeniz ve değiştirmeniz durumunda, kredilerinizi ve fotoğraflarınızı kurtarmanıza yardımcı olur",
@@ -101,5 +102,17 @@
   "designFinishedNotification": {
     "title": "Dövme tasarımınız hazırlandı!",
     "body": "Görmek ister misiniz?"
+  },
+  "creditsTab": {
+    "buy": "Kredi Satın Alın",
+    "earn": "Kredi Kazanın"
+  },
+  "free": "Ücretsiz",
+  "freeCreditsDescription": "Aşağıdakı görevleri tamamlayın ve ÜCRETSİZ kredi kazanın.",
+  "credit": "Kredi",
+  "earnCredit": {
+    "comment": "Yorum yap\n1 Dövme Tasarımı Kazan",
+    "subscribe": "Youtube Kanalımıza Abone Ol",
+    "follow": "Instagram'da Takip Et"
   }
 }

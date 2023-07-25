@@ -20,6 +20,7 @@ abstract class  LocaleKeys {
   static const sendToDesigner = 'sendToDesigner';
   static const addTattoo = 'addTattoo';
   static const balance = 'balance';
+  static const oneTimePurchase = 'oneTimePurchase';
   static const designPrice = 'designPrice';
   static const packets = 'packets';
   static const monthlySub = 'monthlySub';
@@ -100,5 +101,15 @@ abstract class  LocaleKeys {
   static const designFinishedNotification_title = 'designFinishedNotification.title';
   static const designFinishedNotification_body = 'designFinishedNotification.body';
   static const designFinishedNotification = 'designFinishedNotification';
+  static const creditsTab_buy = 'creditsTab.buy';
+  static const creditsTab_earn = 'creditsTab.earn';
+  static const creditsTab = 'creditsTab';
+  static const free = 'free';
+  static const freeCreditsDescription = 'freeCreditsDescription';
+  static const credit = 'credit';
+  static const earnCredit_comment = 'earnCredit.comment';
+  static const earnCredit_subscribe = 'earnCredit.subscribe';
+  static const earnCredit_follow = 'earnCredit.follow';
+  static const earnCredit = 'earnCredit';
 
 }
