@@ -27,7 +27,7 @@
   "buy": "Buy",
   "noExtraCredits": "No extra credits",
   "creditsDescription": "1 tattoo design is 30 credits. Custom tattoo design for you will be made in 3D format by professional designers in Photoshop.",
-  "galleryDescription": "Add your photo followed by the tattoo image you want. Tattoo design will be done in photoshop by professional designers in 3D format",
+  "galleryDescription": "Add your photo followed by the tattoo image you want. Tattoo design will be done in photoshop by professional designers in 3D format.",
   "readyDescription": "You haven't sent photos to our designers. Do it now and get amazing results!",
   "moreDescription": "Sign up helps to keep in safe your credits and ready photos. Nothing is published on your behalf.",
   "tattooChooseDescription": "Determine the location and size of your tattoo photo.",
@@ -114,5 +114,10 @@
     "comment": "Leave a comment\nWin 1 Tattoo Design",
     "subscribe": "Subscribe to our Youtube Channel",
     "follow": "Follow on Instagram"
-  }
+  },
+  "tattooDesigner": "Tattoo Designer",
+  "online":"Online",
+  "offline":"Offline",
+  "offlineDescription": "Your design is prepared within 24 hours",
+  "approximateWaitingTime": "Approximate Waiting Time: {}min"
 }

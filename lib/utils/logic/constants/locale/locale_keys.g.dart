@@ -111,5 +111,10 @@ abstract class  LocaleKeys {
   static const earnCredit_subscribe = 'earnCredit.subscribe';
   static const earnCredit_follow = 'earnCredit.follow';
   static const earnCredit = 'earnCredit';
+  static const tattooDesigner = 'tattooDesigner';
+  static const online = 'online';
+  static const offline = 'offline';
+  static const offlineDescription = 'offlineDescription';
+  static const approximateWaitingTime = 'approximateWaitingTime';
 
 }
