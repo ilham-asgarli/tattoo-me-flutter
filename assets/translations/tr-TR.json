@@ -119,5 +119,9 @@
   "online":"Çevrimiçi",
   "offline":"Çevrimdışı",
   "offlineDescription": "24 saat içerisinde tasarımınız hazırlanır",
-  "approximateWaitingTime": "Yaklaşık Bekleme Süresi: {}dk"
+  "approximateWaitingTime": "Yaklaşık Bekleme Süresi: {}dk",
+  "earnCreditDescription": {
+    "comment": "Deneyiminiz hakkında yorum yaptıktan sonra bu sayfaya geri dönün. Hesabınıza otomatik {} kredi tanımlanacaktır!"
+  },
+  "goStore": "Mağazaya Git"
 }

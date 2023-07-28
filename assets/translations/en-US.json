@@ -119,5 +119,9 @@
   "online":"Online",
   "offline":"Offline",
   "offlineDescription": "Your design is prepared within 24 hours",
-  "approximateWaitingTime": "Approximate Waiting Time: {}min"
+  "approximateWaitingTime": "Approximate Waiting Time: {}min",
+  "earnCreditDescription": {
+    "comment": "Return to this page after commenting on your experience. Your account will be automatically credited with {} credits!"
+  },
+  "goStore": "Go to Store"
 }
