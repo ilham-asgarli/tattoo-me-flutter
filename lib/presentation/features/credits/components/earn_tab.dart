@@ -30,7 +30,7 @@ class EarnTab extends StatelessWidget {
               return SizedBox(
                 width: context.width / 2 - 15,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: item == EarnCredit.comment ? () {} : null,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(5),
                   ),
