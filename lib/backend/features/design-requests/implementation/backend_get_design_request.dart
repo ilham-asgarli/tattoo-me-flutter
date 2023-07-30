@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_response.dart';
@@ -19,6 +20,8 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
       .collection(DesignRequestImageCollectionConstants.designRequestImages);
   CollectionReference designResponses =
       FirebaseFirestore.instance.collection("design-responses");
+  CollectionReference designers =
+      FirebaseFirestore.instance.collection("designers");
 
   @override
   Future<BaseResponse<DesignRequestModel>> getDesignRequest(
@@ -103,6 +106,47 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
             data: designRequestModels,
           );
         }
+      }
+    } catch (e) {
+      yield BaseError(message: e.toString());
+    }
+  }
+
+  @override
+  Stream<BaseResponse<int>> getMinDesignerRequestCount() async* {
+    try {
+      Stream<QuerySnapshot> designRequestsStream = designRequests
+          .where("finished", isEqualTo: false)
+          .orderBy("createdDate")
+          .snapshots();
+
+      Stream<QuerySnapshot> designersStream =
+          designers.where("working", isEqualTo: true).snapshots();
+
+      Stream<int> stream =
+          Rx.combineLatest2(designRequestsStream, designersStream, (a, b) {
+        int min = -1;
+
+        for (var designerDoc in b.docs) {
+          Map<String, dynamic>? designersData =
+              designerDoc.data() as Map<String, dynamic>?;
+
+          if (designersData != null) {
+            List<QueryDocumentSnapshot> docs = a.docs
+                .where((element) => element.id == designerDoc.id)
+                .toList();
+
+            if (docs.length < min || min == -1) {
+              min = docs.length;
+            }
+          }
+        }
+
+        return min;
+      });
+
+      await for (int max in stream) {
+        yield BaseSuccess(data: max);
       }
     } catch (e) {
       yield BaseError(message: e.toString());

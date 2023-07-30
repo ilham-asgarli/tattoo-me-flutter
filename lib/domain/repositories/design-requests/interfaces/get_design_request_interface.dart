@@ -10,4 +10,6 @@ abstract class GetDesignRequestInterface {
       getNotFinishedDesignRequestForDesignerStream(
     DesignRequestModel? designRequestModel,
   );
+
+  Stream<BaseResponse<int>> getMinDesignerRequestCount();
 }

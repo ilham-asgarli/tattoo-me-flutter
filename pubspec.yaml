@@ -80,6 +80,7 @@ dependencies:
   package_info_plus: ^4.0.2
   flutter_local_notifications: ^15.1.0+1
   photo_manager: ^2.6.0
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:

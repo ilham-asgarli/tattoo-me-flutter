@@ -2,16 +2,24 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../../backend/utils/constants/app/app_constants.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import 'designer_card.dart';
 
 class DesignerInfo extends StatelessWidget {
-  const DesignerInfo({super.key});
+  final int min;
+
+  const DesignerInfo({
+    super.key,
+    required this.min,
+  });
 
   @override
   Widget build(BuildContext context) {
+    var active = min > -1;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -39,20 +47,21 @@ class DesignerInfo extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      LocaleKeys.online.tr(),
+                      active ? LocaleKeys.online.tr() : LocaleKeys.offline.tr(),
                       style: const TextStyle(
                         fontSize: 12,
                       ),
                     ),
-                    Row(
-                      children: [
-                        5.horizontalSpace,
-                        CircleAvatar(
-                          radius: 3,
-                          backgroundColor: HexColor("#2df661"),
-                        ),
-                      ],
-                    ),
+                    if (active)
+                      Row(
+                        children: [
+                          5.horizontalSpace,
+                          CircleAvatar(
+                            radius: 3,
+                            backgroundColor: HexColor("#2df661"),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -62,8 +71,14 @@ class DesignerInfo extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        /*LocaleKeys.offlineDescription.tr()*/
-                        LocaleKeys.approximateWaitingTime.tr(args: ["10"]),
+                        active
+                            ? LocaleKeys.approximateWaitingTime.tr(args: [
+                                ((min + 1) *
+                                        AppConstants
+                                            .oneDesignDuration.inMinutes)
+                                    .toString()
+                              ])
+                            : LocaleKeys.offlineDescription.tr(),
                         style: const TextStyle(
                           fontSize: 12,
                         ),
