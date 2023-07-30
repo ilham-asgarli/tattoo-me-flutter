@@ -5,6 +5,7 @@ import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import 'earn_dialog.dart';
 import 'free_credits_item.dart';
 
 class EarnTab extends StatelessWidget {
@@ -30,7 +31,16 @@ class EarnTab extends StatelessWidget {
               return SizedBox(
                 width: context.width / 2 - 15,
                 child: InkWell(
-                  onTap: item == EarnCredit.comment ? () {} : null,
+                  onTap: item == EarnCredit.comment
+                      ? () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const EarnDialog();
+                            },
+                          );
+                        }
+                      : null,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(5),
                   ),

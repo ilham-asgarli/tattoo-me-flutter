@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+
+import '../../core/extensions/string_extension.dart';
 
 class CreditIcon extends StatelessWidget {
   const CreditIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Image.asset(
+      "ic_credit".toPNG,
+      width: 20,
+      height: 20,
+    ) /*Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: HexColor("#87BB60"),
@@ -16,6 +21,7 @@ class CreditIcon extends StatelessWidget {
         color: Colors.white,
         size: 20,
       ),
-    );
+    )*/
+        ;
   }
 }
