@@ -30,17 +30,17 @@ class GalleryView extends StatelessWidget {
                   .backendGetDesignRequest
                   .getMinDesignerRequestCount(),
               builder: (context, snapshot) {
-                int min = 0;
+                int count = 0;
 
                 if (snapshot.hasData) {
                   BaseResponse<int>? baseResponse = snapshot.data;
                   if (baseResponse is BaseSuccess<int>) {
-                    min = baseResponse.data!;
+                    count = baseResponse.data!;
                   }
                 }
 
                 return DesignerInfo(
-                  min: min,
+                  count: count,
                 );
               },
             ),

@@ -9,16 +9,16 @@ import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import 'designer_card.dart';
 
 class DesignerInfo extends StatelessWidget {
-  final int min;
+  final int count;
 
   const DesignerInfo({
     super.key,
-    required this.min,
+    required this.count,
   });
 
   @override
   Widget build(BuildContext context) {
-    var active = min > -1;
+    var active = count > -1;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -73,7 +73,7 @@ class DesignerInfo extends StatelessWidget {
                       child: Text(
                         active
                             ? LocaleKeys.approximateWaitingTime.tr(args: [
-                                ((min + 1) *
+                                ((count + 1) *
                                         AppConstants
                                             .oneDesignDuration.inMinutes)
                                     .toString()
