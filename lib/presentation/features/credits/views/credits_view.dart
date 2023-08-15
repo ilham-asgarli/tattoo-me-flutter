@@ -14,6 +14,7 @@ import '../components/earn_tab.dart';
 
 class CreditsView extends StatelessWidget {
   final CreditsViewType creditViewType;
+
   const CreditsView({
     super.key,
     this.creditViewType = CreditsViewType.balance,
@@ -35,7 +36,12 @@ class CreditsView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               10.verticalSpace,
-              buildBalance(context),
+              creditViewType == CreditsViewType.balance
+                  ? buildBalance(context)
+                  : Text(
+                      LocaleKeys.insufficientBalance.tr(),
+                      style: const TextStyle(fontSize: 15),
+                    ),
               10.verticalSpace,
               const CreditTabBar(),
               20.verticalSpace,
