@@ -1,10 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
+import '../../../../domain/models/auth/user_model.dart';
+import '../../../../domain/repositories/review/implemantations/review_repository.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../components/credit_icon.dart';
 
 class EarnDialog extends StatelessWidget {
@@ -45,7 +50,16 @@ class EarnDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    Navigator.pop(context);
+
+                    await InAppReviewHelper.instance.request();
+                    if (context.mounted) {
+                      await ReviewRepository().makeReview(UserModel(
+                        id: context.read<SignBloc>().state.userModel.id,
+                      ));
+                    }
+                  },
                   child: Text(
                     LocaleKeys.goStore.tr(),
                   ),

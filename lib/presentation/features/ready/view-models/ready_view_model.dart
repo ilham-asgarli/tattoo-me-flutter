@@ -9,9 +9,9 @@ import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../domain/repositories/design-responses/implementations/get_design_response_repository.dart';
 import '../../../../utils/logic/constants/cache/shared_preferences_constants.dart';
+import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
-import '../../tattoo-choose/components/error_dialog.dart';
 
 class ReadyViewModel extends BaseViewModel {
   GetDesignResponseRepository getDesignResponseRepository =
@@ -33,14 +33,9 @@ class ReadyViewModel extends BaseViewModel {
             false;
 
     if (!isBoughtFirstDesign && isLookedFirstDesign) {
-      await showDialog(
-        context: context,
-        builder: (_) {
-          return ErrorDialog(
-            insufficientBalance: true,
-            buildContext: context,
-          );
-        },
+      RouterService.instance.pushNamed(
+        path: RouterConstants.credits,
+        data: CreditsViewType.insufficient,
       );
     } else if (designRequestModel?.finished ?? false) {
       RouterService.instance.pushNamed(

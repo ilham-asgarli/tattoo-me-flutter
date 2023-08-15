@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../utils/logic/constants/enums/app_enum.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 import 'earn_dialog.dart';
 import 'free_credits_item.dart';
 
@@ -33,12 +36,29 @@ class EarnTab extends StatelessWidget {
                 child: InkWell(
                   onTap: item == EarnCredit.comment
                       ? () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const EarnDialog();
-                            },
-                          );
+                          bool awardedReview = context
+                                  .read<SettingsCubit>()
+                                  .state
+                                  .settingsModel
+                                  ?.awardedReview ??
+                              false;
+
+                          bool isFirstOrderInsufficientBalance = context
+                                  .read<SignBloc>()
+                                  .state
+                                  .userModel
+                                  .isFirstOrderInsufficientBalance ??
+                              false;
+
+                          if (awardedReview &&
+                              isFirstOrderInsufficientBalance) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const EarnDialog();
+                              },
+                            );
+                          }
                         }
                       : null,
                   borderRadius: const BorderRadius.all(
