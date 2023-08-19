@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
 
+import '../../../../backend/utils/constants/app/app_constants.dart';
 import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_success.dart';
 import '../../../../core/base/view-models/base_view_model.dart';
@@ -32,9 +33,18 @@ class TattooChooseViewModel extends BaseViewModel {
   XFile? frontImageFile;
 
   void onTapSend(BuildContext context, bool mounted) async {
+    SignBloc signBloc = context.read<SignBloc>();
+
+    if (signBloc.state.userModel.balance! < AppConstants.tattooDesignPrice) {
+      RouterService.instance.pushNamed(
+        path: RouterConstants.credits,
+        data: CreditsViewType.insufficient,
+      );
+      return;
+    }
+
     showProgressDialog(context);
 
-    SignBloc signBloc = context.read<SignBloc>();
     Uint8List? uint8list = await screenshotController.capture();
 
     if (frontImageFile != null && uint8list != null) {
@@ -85,7 +95,6 @@ class TattooChooseViewModel extends BaseViewModel {
       );
     } on FirstOrderInsufficientBalanceError catch (e) {
       Navigator.pop(context);
-
       RouterService.instance.pushNamed(
         path: RouterConstants.credits,
         data: CreditsViewType.insufficient,
