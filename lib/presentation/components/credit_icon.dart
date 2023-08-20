@@ -8,9 +8,9 @@ class CreditIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      "ic_credit".toPNG,
-      width: 20,
-      height: 20,
+      "ic_star".toPNG,
+      width: 15,
+      height: 15,
     ) /*Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),

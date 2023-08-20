@@ -33,7 +33,7 @@ class FreeCreditsItem extends StatelessWidget {
                 child: Ink(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: HexColor("#76BC51"),
+                    color: HexColor("#C9F2CA"),
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(10),
                     ),
@@ -47,9 +47,8 @@ class FreeCreditsItem extends StatelessWidget {
                           Text(
                             "${earnCredit.credit} ${LocaleKeys.credit.tr()}",
                             style: const TextStyle(
-                              fontSize: 15,
+                              fontSize: 16,
                               color: Colors.black,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           10.horizontalSpace,
@@ -64,15 +63,15 @@ class FreeCreditsItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  "ic_google_play".toPNG,
-                                  width: 15,
-                                  height: 15,
-                                ),
-                                8.horizontalSpace,
-                                Image.asset(
                                   "ic_app_store".toPNG,
-                                  width: 15,
-                                  height: 15,
+                                  width: 18,
+                                  height: 18,
+                                ),
+                                10.horizontalSpace,
+                                Image.asset(
+                                  "ic_google_play".toPNG,
+                                  width: 18,
+                                  height: 18,
                                 ),
                               ],
                             ),
@@ -96,7 +95,6 @@ class FreeCreditsItem extends StatelessWidget {
                       earnCredit.description,
                       style: const TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
                         fontSize: 12,
                       ),
                       textAlign: TextAlign.center,

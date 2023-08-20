@@ -34,6 +34,8 @@ class _BaseAppLifeCycleViewState extends State<BaseAppLifeCycleView>
         break;
       case AppLifecycleState.detached:
         break;
+      case AppLifecycleState.hidden:
+        break;
     }
   }
 

@@ -22,7 +22,7 @@ class EarnTab extends StatelessWidget {
           Text(
             LocaleKeys.freeCreditsDescription.tr(),
             style: const TextStyle(
-              fontSize: 12,
+              fontSize: 11,
             ),
           ),
           20.verticalSpace,
