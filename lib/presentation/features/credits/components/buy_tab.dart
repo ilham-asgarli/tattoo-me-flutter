@@ -33,8 +33,7 @@ class BuyTab extends StatelessWidget {
                 ]),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
+                  fontSize: 10,
                 ),
               ),
             ),
