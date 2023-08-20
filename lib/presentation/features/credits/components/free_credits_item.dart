@@ -5,9 +5,9 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/logic/extensions/earn_credit.dart';
+import '../../../../utils/logic/extensions/earn_credit_extensions.dart';
 import '../../../components/credit_icon.dart';
 
 class FreeCreditsItem extends StatelessWidget {

@@ -16,7 +16,9 @@ import '../../../../../domain/models/auth/user_model.dart';
 import '../../../../../domain/models/subscriptions/subscription_model.dart';
 import '../../../../../domain/repositories/auth/implementations/auto_auth_repository.dart';
 import '../../../../../domain/repositories/subscriptions/implementations/subscriptions_repository.dart';
+import '../../../constants/enums/purchase_enums.dart';
 import '../../../constants/purchase/purchase_constants.dart';
+import '../../../helpers/purchase/purchase_helper.dart';
 import '../../bloc/sign/sign_bloc.dart';
 
 part 'purchase_state.dart';
@@ -79,8 +81,8 @@ class PurchaseCubit extends Cubit<PurchaseState> {
 
         if (Platform.isAndroid) {
           if (!kAutoConsume &&
-              PurchaseConstants.inAppProducts.keys
-                  .contains(purchaseDetails.productID)) {
+              PurchaseHelper.instance.containsElementWithId(
+                  Purchase.inAppProduct, purchaseDetails.productID)) {
             final InAppPurchaseAndroidPlatformAddition androidAddition =
                 inAppPurchase.getPlatformAddition<
                     InAppPurchaseAndroidPlatformAddition>();
@@ -112,7 +114,6 @@ class PurchaseCubit extends Cubit<PurchaseState> {
       Response res = await validateReceiptIos(receiptBody);
       Map map = json.decode(res.body);
       var latestReceiptInfo = map["latest_receipt_info"];
-      print(latestReceiptInfo[0]["transaction_id"]);
       await subscriptionsRepository.loadSubscriptionByToken(SubscriptionModel(
           purchaseToken: latestReceiptInfo[0]["transaction_id"]));
     }
@@ -134,9 +135,8 @@ class PurchaseCubit extends Cubit<PurchaseState> {
 
   Future<void> writeSubscriptionToServer(
       PurchaseDetails purchaseDetails) async {
-    print("3");
-    if (PurchaseConstants.subscriptions.keys
-        .contains(purchaseDetails.productID)) {
+    if (PurchaseHelper.instance.containsElementWithId(
+        Purchase.subscription, purchaseDetails.productID)) {
       SubscriptionModel? subscriptionModel;
 
       if (Platform.isAndroid) {
@@ -181,7 +181,6 @@ class PurchaseCubit extends Cubit<PurchaseState> {
         await subscriptionsRepository.createSubscription(subscriptionModel);
       }
     }
-    print("4");
   }
 
   void showPendingUI() {
@@ -196,11 +195,13 @@ class PurchaseCubit extends Cubit<PurchaseState> {
         purchasePending: false,
         purchases: purchases,
       ));
-    } else if (PurchaseConstants.inAppProducts.keys
-        .contains(purchaseDetails.productID)) {
+    } else if (PurchaseHelper.instance.containsElementWithId(
+        Purchase.inAppProduct, purchaseDetails.productID)) {
       authRepository.updateBalance(
         UserModel(id: context.read<SignBloc>().state.userModel.id),
-        PurchaseConstants.inAppProducts[purchaseDetails.productID] ?? 0,
+        PurchaseHelper.instance.getCreditsForId(
+                Purchase.inAppProduct, purchaseDetails.productID) ??
+            0,
       );
 
       emit(state.copyWith(

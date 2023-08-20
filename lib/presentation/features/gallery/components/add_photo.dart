@@ -7,7 +7,7 @@ import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/router/core/router_service.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/helpers/gallery/gallery_helper.dart';
@@ -52,12 +52,16 @@ class AddPhoto extends StatelessWidget {
           children: [
             ImageIcon(
               AssetImage("ic_aperture".toPNG),
-              color: HexColor("#919191"),
+              color: HexColor("#c8c7c7"),
               size: 55,
             ),
             10.verticalSpace,
             Text(
               LocaleKeys.addPhoto.tr().toTitleCase,
+              style: TextStyle(
+                fontSize: 15,
+                color: HexColor("#c8c7c7"),
+              ),
             ),
           ],
         ),

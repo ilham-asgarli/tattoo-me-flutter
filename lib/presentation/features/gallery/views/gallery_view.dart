@@ -7,7 +7,7 @@ import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/repositories/design-requests/implementations/get_design_request_repository.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../components/add_photo.dart';
@@ -44,10 +44,11 @@ class GalleryView extends StatelessWidget {
                 );
               },
             ),
-            50.verticalSpace,
+            65.verticalSpace,
             Text(
               LocaleKeys.galleryDescription.tr(),
               textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 12),
             ),
             const Spacer(flex: 2),
             const AddPhoto(galleryChoose: GalleryChoose.gallery),

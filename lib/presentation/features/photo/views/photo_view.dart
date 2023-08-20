@@ -25,7 +25,6 @@ import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import '../../../../utils/logic/state/cubit/photo/photo_cubit.dart';
 import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
-import '../../tattoo-choose/components/error_dialog.dart';
 import '../components/evaluate_designer_alert.dart';
 import '../components/retouch_alert.dart';
 
@@ -66,15 +65,10 @@ class _PhotoViewState extends State<PhotoView> {
             context.read<HomeTabCubit>().changeTab(2);
             RouterService.instance.pop();
 
-            await showDialog(
-              context: context,
-              builder: (_) {
-                return ErrorDialog(
-                  insufficientBalance: true,
-                  buildContext: context,
-                );
-              },
-            );
+            /*RouterService.instance.pushNamed(
+              path: RouterConstants.credits,
+              data: CreditsViewType.insufficient,
+            );*/
           }
         }
       }

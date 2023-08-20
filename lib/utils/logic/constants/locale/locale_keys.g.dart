@@ -116,8 +116,11 @@ abstract class  LocaleKeys {
   static const offline = 'offline';
   static const offlineDescription = 'offlineDescription';
   static const approximateWaitingTime = 'approximateWaitingTime';
+  static const minute = 'minute';
   static const earnCreditDescription_comment = 'earnCreditDescription.comment';
   static const earnCreditDescription = 'earnCreditDescription';
   static const goStore = 'goStore';
+  static const everyMonth = 'everyMonth';
+  static const extra = 'extra';
 
 }

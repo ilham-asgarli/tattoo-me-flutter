@@ -8,7 +8,7 @@ import '../../../../core/extensions/widget_extension.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../../domain/repositories/review/implemantations/review_repository.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';

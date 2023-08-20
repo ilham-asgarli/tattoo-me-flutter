@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/extensions/num_extension.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../components/credit_icon.dart';
@@ -44,7 +44,7 @@ class CreditsView extends StatelessWidget {
                     ),
               10.verticalSpace,
               const CreditTabBar(),
-              20.verticalSpace,
+              30.verticalSpace,
               const Expanded(
                 child: TabBarView(
                   children: [

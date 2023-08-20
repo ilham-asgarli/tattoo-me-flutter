@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/ui/constants/colors/app_colors.dart';
 
 class CreditTabBar extends StatelessWidget {
   const CreditTabBar({super.key});
@@ -21,7 +21,7 @@ class CreditTabBar extends StatelessWidget {
           Ink(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color: AppColors.tertiary,
+              color: HexColor("#2E2E2E"),
             ),
             height: 35,
             width: context.width / 3,
@@ -37,7 +37,7 @@ class CreditTabBar extends StatelessWidget {
                 Ink(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: AppColors.tertiary,
+                    color: HexColor("#2E2E2E"),
                   ),
                   height: 35,
                   width: context.width / 3,

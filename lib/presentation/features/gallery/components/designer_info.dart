@@ -33,15 +33,13 @@ class DesignerInfo extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DesignerCard(
-                child: Text(
-                  LocaleKeys.tattooDesigner.tr(),
-                  style: const TextStyle(
-                    fontSize: 15,
-                  ),
+              Text(
+                LocaleKeys.tattooDesigner.tr(),
+                style: const TextStyle(
+                  fontSize: 20,
                 ),
               ),
-              3.verticalSpace,
+              20.verticalSpace,
               DesignerCard(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -55,7 +53,7 @@ class DesignerInfo extends StatelessWidget {
                     if (active)
                       Row(
                         children: [
-                          5.horizontalSpace,
+                          10.horizontalSpace,
                           CircleAvatar(
                             radius: 3,
                             backgroundColor: HexColor("#2df661"),
@@ -65,28 +63,39 @@ class DesignerInfo extends StatelessWidget {
                   ],
                 ),
               ),
-              3.verticalSpace,
+              15.verticalSpace,
               DesignerCard(
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: Text(
-                        active
-                            ? LocaleKeys.approximateWaitingTime.tr(args: [
-                                ((count + 1) *
-                                        AppConstants
-                                            .oneDesignDuration.inMinutes)
-                                    .toString()
-                              ])
-                            : LocaleKeys.offlineDescription.tr(),
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
+                    IntrinsicWidth(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            active
+                                ? LocaleKeys.approximateWaitingTime.tr()
+                                : LocaleKeys.offlineDescription.tr(),
+                            style: const TextStyle(
+                              fontSize: 9,
+                            ),
+                          ),
+                          if (active) ...[
+                            10.horizontalSpace,
+                            Text(
+                              "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}",
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                            10.horizontalSpace,
+                          ]
+                        ],
                       ),
                     ),
                     const Icon(
                       Icons.access_time,
-                      size: 20,
+                      size: 15,
                     ),
                   ],
                 ),

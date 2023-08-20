@@ -4,9 +4,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/num_extension.dart';
+import '../../../../utils/logic/constants/enums/purchase_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/logic/constants/purchase/purchase_constants.dart';
+import '../../../../utils/logic/helpers/purchase/purchase_helper.dart';
+import '../../../../utils/ui/constants/colors/app_colors.dart';
 import 'advantageous.dart';
+import 'extra_credit.dart';
 
 class BuyItem extends StatelessWidget {
   final ProductDetails productDetails;
@@ -17,7 +21,7 @@ class BuyItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Ink(
       decoration: BoxDecoration(
-        color: HexColor("#77BD52"),
+        color: HexColor("#C9F2CA"),
         borderRadius: const BorderRadius.all(
           Radius.circular(5),
         ),
@@ -25,36 +29,52 @@ class BuyItem extends StatelessWidget {
       child: Stack(
         children: [
           Advantageous(
+            purchase: Purchase.inAppProduct,
             isAdvantageous: productDetails.id ==
-                PurchaseConstants.inAppProducts.keys.toList()[3],
+                PurchaseHelper.instance.getAllIds(Purchase.inAppProduct)[3],
           ),
           Column(
             children: [
               Container(
-                padding: context.paddingLow,
+                padding: const EdgeInsets.all(15),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(PurchaseConstants.inAppProducts[productDetails.id]
-                            .toString()),
-                        const Icon(
-                          Icons.star,
-                          size: 20,
+                        Text(
+                          PurchaseHelper.instance
+                              .getCreditsForId(
+                                  Purchase.inAppProduct, productDetails.id)
+                              .toString(),
+                          style: TextStyle(
+                            color: AppColors.mainColor,
+                            fontSize: 13,
+                          ),
+                        ),
+                        Icon(
+                          Icons.star_border_rounded,
+                          size: 16,
+                          color: AppColors.mainColor,
                         ),
                       ],
                     ),
+                    10.verticalSpace,
                     Text(
                       "${productDetails.currencySymbol} ${productDetails.rawPrice}",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: AppColors.mainColor,
                       ),
                     ),
-                    Text(
-                      LocaleKeys.noExtraCredits.tr(),
-                      style: const TextStyle(fontSize: 11),
+                    10.verticalSpace,
+                    ExtraCredit(
+                      extra: PurchaseHelper.instance.getExtraForId(
+                        Purchase.inAppProduct,
+                        productDetails.id,
+                      ),
                     ),
                   ],
                 ),
@@ -62,14 +82,18 @@ class BuyItem extends StatelessWidget {
               Ink(
                 padding: context.paddingLow,
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.green,
+                decoration: BoxDecoration(
+                  color: HexColor("#69B680"),
                   borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(5)),
+                      const BorderRadius.vertical(bottom: Radius.circular(5)),
                 ),
                 child: Text(
                   LocaleKeys.buy.tr(),
                   textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 11,
+                  ),
                 ),
               ),
             ],

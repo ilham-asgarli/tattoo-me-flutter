@@ -7,7 +7,7 @@ import '../../../../core/base/models/base_response.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../domain/repositories/design-requests/implementations/send_design_request_repository.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/state/bloc/retouch-alert/retouch_alert_bloc.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';

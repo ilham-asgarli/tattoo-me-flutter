@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../constants/enums/app_enum.dart';
+import '../../../constants/enums/app_enums.dart';
 
 part 'retouch_alert_event.dart';
 part 'retouch_alert_state.dart';

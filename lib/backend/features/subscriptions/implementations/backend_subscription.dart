@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tattoo/backend/models/auth/backend_user_model.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
-import 'package:tattoo/domain/models/subscriptions/subscription_model.dart';
-import 'package:tattoo/utils/logic/constants/purchase/purchase_constants.dart';
 
 import '../../../../core/base/models/base_error.dart';
+import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
+import '../../../../domain/models/subscriptions/subscription_model.dart';
+import '../../../../utils/logic/constants/enums/purchase_enums.dart';
+import '../../../../utils/logic/helpers/purchase/purchase_helper.dart';
+import '../../../models/auth/backend_user_model.dart';
 import '../../../models/subscriptions/backend_subscriptions_model.dart';
 import '../interfaces/backend_subscription_interface.dart';
 
@@ -80,8 +81,9 @@ class BackendSubscription extends BackendSubscriptionInterface {
                 30;
           }
 
-          int? value =
-              PurchaseConstants.subscriptions[subscriptionModel.productId];
+          int? value = PurchaseHelper.instance.getCreditsForId(
+              Purchase.subscription, subscriptionModel.productId ?? "");
+          ;
 
           if (value != null && factor > 0) {
             await firestore.runTransaction((transaction) async {

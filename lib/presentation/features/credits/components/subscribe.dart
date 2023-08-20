@@ -1,14 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:tattoo/presentation/features/credits/components/subscribe_item.dart';
 
+import '../../../../utils/logic/constants/enums/purchase_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/logic/constants/purchase/purchase_constants.dart';
 import '../../../../utils/logic/helpers/purchase/purchase_helper.dart';
 import '../../../../utils/logic/state/cubit/purchase/purchase_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
+import 'subscribe_item.dart';
 
 class Subscribe extends StatelessWidget {
   const Subscribe({Key? key}) : super(key: key);
@@ -18,14 +19,17 @@ class Subscribe extends StatelessWidget {
     List<ProductDetails> products =
         context.watch<PurchaseCubit>().state.products;
     Iterable<ProductDetails> productsIterable = products.where((element) {
-      return PurchaseConstants.subscriptions.keys.contains(element.id);
+      return PurchaseHelper.instance
+          .containsElementWithId(Purchase.subscription, element.id);
     });
 
     products = productsIterable.toList();
     products.sort(
       (a, b) {
-        return PurchaseConstants.subscriptions[a.id]!
-            .compareTo(PurchaseConstants.subscriptions[b.id]!);
+        return PurchaseHelper.instance
+            .getCreditsForId(Purchase.subscription, a.id)!
+            .compareTo(PurchaseHelper.instance
+                .getCreditsForId(Purchase.subscription, b.id)!);
       },
     );
 
@@ -37,7 +41,7 @@ class Subscribe extends StatelessWidget {
       itemBuilder: (context, index) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.lightGreen.withAlpha(150),
+            color: HexColor("#2C7E4E"),
             borderRadius: index == 0
                 ? const BorderRadius.vertical(
                     top: Radius.circular(10),
@@ -66,29 +70,39 @@ class Subscribe extends StatelessWidget {
         );
       },
       separatorBuilder: (context, index) {
-        return const Divider(
-          color: Colors.green,
+        return Divider(
+          color: HexColor("#CBF1CA"),
           height: 0,
+          thickness: 0.3,
         );
       },
     );
   }
 
-  ListTile buildSubHeader() {
-    return ListTile(
-      leading: Text(
-        LocaleKeys.packets.tr(),
-        style: TextStyle(
-          color: AppColors.secondColor,
-          fontSize: 18,
-        ),
+  Widget buildSubHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 15,
+        horizontal: 15,
       ),
-      trailing: Text(
-        LocaleKeys.monthlySub.tr(),
-        style: TextStyle(
-          color: AppColors.secondColor,
-          fontSize: 12,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            LocaleKeys.packets.tr(),
+            style: TextStyle(
+              color: AppColors.secondColor,
+              fontSize: 17,
+            ),
+          ),
+          Text(
+            LocaleKeys.monthlySub.tr(),
+            style: TextStyle(
+              color: AppColors.secondColor,
+              fontSize: 13,
+            ),
+          ),
+        ],
       ),
     );
   }

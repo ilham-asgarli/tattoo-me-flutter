@@ -13,7 +13,7 @@ import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-request/design_request_image_model_1.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/repositories/design-requests/implementations/send_design_request_repository.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/errors/design_request_errors/first_order_insufficient_balance_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/insufficient_balance_error.dart';

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-import '../constants/enums/app_enum.dart';
+import '../constants/enums/app_enums.dart';
 import '../constants/locale/locale_keys.g.dart';
 
 extension MyEarnCredit on EarnCredit {

@@ -14,13 +14,83 @@ import '../../../../core/base/models/base_response.dart';
 import '../../../../core/constants/enums/http_request_enum.dart';
 import '../../../../core/network/core/core_http.dart';
 import '../../../../domain/models/in_app_purchase/in_app_purchase_apple.dart';
-import '../../constants/purchase/purchase_constants.dart';
+import '../../constants/enums/purchase_enums.dart';
+import '../../extensions/purchase_extensions.dart';
 import '../../state/cubit/purchase/purchase_cubit.dart';
 
 class PurchaseHelper {
   static const PurchaseHelper instance = PurchaseHelper._internal();
 
   const PurchaseHelper._internal();
+
+  bool containsElementWithId(Purchase purchase, String targetId) {
+    for (var enumValue in purchase.values) {
+      var id = enumValue is InAppProducts
+          ? enumValue.id
+          : enumValue is Subscriptions
+              ? enumValue.id
+              : null;
+      if (id == targetId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  int? getCreditsForId(Purchase purchase, String targetId) {
+    for (var enumValue in purchase.values) {
+      var id = enumValue is InAppProducts
+          ? enumValue.id
+          : enumValue is Subscriptions
+              ? enumValue.id
+              : null;
+      if (id == targetId) {
+        var credit = enumValue is InAppProducts
+            ? enumValue.credit
+            : enumValue is Subscriptions
+                ? enumValue.credit
+                : null;
+        return credit;
+      }
+    }
+
+    return null;
+  }
+
+  int? getExtraForId(Purchase purchase, String targetId) {
+    for (var enumValue in purchase.values) {
+      var id = enumValue is InAppProducts
+          ? enumValue.id
+          : enumValue is Subscriptions
+              ? enumValue.id
+              : null;
+      if (id == targetId) {
+        var extra = enumValue is InAppProducts
+            ? enumValue.extra
+            : enumValue is Subscriptions
+                ? enumValue.extra
+                : null;
+        return extra;
+      }
+    }
+
+    return null;
+  }
+
+  List<String> getAllIds(Purchase purchase) {
+    final idList = <String>[];
+
+    for (var enumValue in purchase.values) {
+      var id = enumValue is InAppProducts
+          ? enumValue.id
+          : enumValue is Subscriptions
+              ? enumValue.id
+              : null;
+      idList.add(id!);
+    }
+
+    return idList;
+  }
 
   void onTap(BuildContext context, ProductDetails productDetails) {
     final Map<String, PurchaseDetails> purchases =
@@ -63,7 +133,7 @@ class PurchaseHelper {
         );
       }
 
-      if (PurchaseConstants.inAppProducts.keys.contains(productDetails.id)) {
+      if (containsElementWithId(Purchase.inAppProduct, productDetails.id)) {
         context.read<PurchaseCubit>().inAppPurchase.buyConsumable(
               purchaseParam: purchaseParam,
               autoConsume: context.read<PurchaseCubit>().kAutoConsume,
@@ -95,8 +165,8 @@ class PurchaseHelper {
     Map<String, PurchaseDetails> purchases,
   ) {
     GooglePlayPurchaseDetails? oldSubscription;
-    if (PurchaseConstants.subscriptions.keys.contains(productDetails.id)) {
-      for (String subscription in PurchaseConstants.subscriptions.keys) {
+    if (containsElementWithId(Purchase.subscription, productDetails.id)) {
+      for (String subscription in getAllIds(Purchase.subscription)) {
         if (purchases[subscription] != null) {
           oldSubscription =
               purchases[subscription]! as GooglePlayPurchaseDetails;

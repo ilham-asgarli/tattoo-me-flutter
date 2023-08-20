@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
-import '../../../../utils/logic/constants/enums/app_enum.dart';
+import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
@@ -55,7 +55,13 @@ class EarnTab extends StatelessWidget {
                             showDialog(
                               context: context,
                               builder: (context) {
-                                return const EarnDialog();
+                                return EarnDialog(
+                                  userId: context
+                                      .read<SignBloc>()
+                                      .state
+                                      .userModel
+                                      .id,
+                                );
                               },
                             );
                           }

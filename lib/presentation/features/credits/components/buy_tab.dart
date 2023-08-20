@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
+import '../../../../backend/utils/constants/app/app_constants.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/ui/constants/colors/app_colors.dart';
 import 'buy.dart';
 import 'ios_store_area.dart';
 import 'subscribe.dart';
@@ -18,23 +19,27 @@ class BuyTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.tertiary,
-              borderRadius: BorderRadius.circular(7),
-            ),
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.symmetric(horizontal: 25),
-            child: Text(
-              LocaleKeys.creditsDescription.tr(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: HexColor("161616"),
+                borderRadius: BorderRadius.circular(7),
+              ),
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.symmetric(horizontal: 25),
+              child: Text(
+                LocaleKeys.creditsDescription.tr(args: [
+                  AppConstants.tattooDesignPrice.toString(),
+                ]),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                ),
               ),
             ),
           ),
-          10.verticalSpace,
+          37.verticalSpace,
           const Subscribe(),
           Padding(
             padding: const EdgeInsets.only(

@@ -15,7 +15,8 @@ class ThemeHelper {
   ThemeHelper._init();
 
   ThemeMode getSystemThemeMode() {
-    Brightness brightness = SchedulerBinding.instance.window.platformBrightness;
+    Brightness brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
     return brightness == Brightness.light ? ThemeMode.light : ThemeMode.dark;
   }
 
@@ -40,11 +41,17 @@ class ThemeHelper {
   ThemeData getThemeDataWithThemeMode(ThemeMode themeMode) {
     switch (themeMode) {
       case ThemeMode.system:
-        return ThemeData();
+        return ThemeData(fontFamily: "Arial");
       case ThemeMode.light:
-        return ThemeData.light();
+        return ThemeData(
+          brightness: Brightness.light,
+          fontFamily: "Arial",
+        );
       case ThemeMode.dark:
-        return ThemeData.dark();
+        return ThemeData(
+          brightness: Brightness.dark,
+          fontFamily: "Arial",
+        );
     }
   }
 

@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tattoo/presentation/features/credits/views/credits_view.dart';
 import 'package:tattoo/presentation/features/privacy-policy/views/privacy_policy_view.dart';
 import 'package:tattoo/presentation/features/term-of-use/views/term_of_use_view.dart';
-import 'package:tattoo/utils/logic/constants/enums/app_enum.dart';
+import 'package:tattoo/utils/logic/constants/enums/app_enums.dart';
 
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
