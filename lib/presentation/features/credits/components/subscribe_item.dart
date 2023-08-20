@@ -32,7 +32,10 @@ class SubscribeItem extends StatelessWidget {
                 PurchaseHelper.instance.getAllIds(Purchase.subscription)[1],
           ),*/
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 10,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

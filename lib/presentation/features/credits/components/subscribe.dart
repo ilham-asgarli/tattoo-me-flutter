@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+import '../../../../core/extensions/num_extension.dart';
 import '../../../../utils/logic/constants/enums/purchase_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/helpers/purchase/purchase_helper.dart';
@@ -33,57 +34,58 @@ class Subscribe extends StatelessWidget {
       },
     );
 
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(10),
-      itemCount: products.length + 1,
-      itemBuilder: (context, index) {
-        return Container(
-          decoration: BoxDecoration(
-            color: HexColor("#2C7E4E"),
-            borderRadius: index == 0
-                ? const BorderRadius.vertical(
-                    top: Radius.circular(10),
-                  )
-                : index == products.length
+    return Container(
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: HexColor("#2C7E4E"),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          buildSubHeader(),
+          Divider(
+            color: HexColor("#CBF1CA"),
+            height: 0,
+            thickness: 0.3,
+          ),
+          ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  PurchaseHelper.instance.onTap(context, products[index]);
+                },
+                borderRadius: index == products.length
                     ? const BorderRadius.vertical(
                         bottom: Radius.circular(10),
                       )
                     : null,
-          ),
-          child: index == 0
-              ? buildSubHeader()
-              : InkWell(
-                  onTap: () {
-                    PurchaseHelper.instance.onTap(context, products[index - 1]);
-                  },
-                  borderRadius: index == products.length
-                      ? const BorderRadius.vertical(
-                          bottom: Radius.circular(10),
-                        )
-                      : null,
-                  child: SubscribeItem(
-                    productDetails: products[index - 1],
-                  ),
+                child: SubscribeItem(
+                  productDetails: products[index],
                 ),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Divider(
-          color: HexColor("#CBF1CA"),
-          height: 0,
-          thickness: 0.3,
-        );
-      },
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider(
+                color: HexColor("#CBF1CA"),
+                height: 0,
+                thickness: 0.3,
+              );
+            },
+          ),
+          10.verticalSpace,
+        ],
+      ),
     );
   }
 
   Widget buildSubHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: 15,
-        horizontal: 15,
+        vertical: 10,
+        horizontal: 10,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
