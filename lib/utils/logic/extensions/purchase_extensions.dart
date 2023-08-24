@@ -51,7 +51,7 @@ extension SubscriptionsExtension on Subscriptions {
 
   int get credit {
     return switch (this) {
-      Subscriptions.subCredits150 => 130,
+      Subscriptions.subCredits150 => 150,
       Subscriptions.subCredits300 => 330,
       Subscriptions.subCredits600 => 740,
       Subscriptions.subCredits900 => 1320,
@@ -61,7 +61,7 @@ extension SubscriptionsExtension on Subscriptions {
 
   int get extra {
     return switch (this) {
-      Subscriptions.subCredits150 => 30,
+      Subscriptions.subCredits150 => 50,
       Subscriptions.subCredits300 => 65,
       Subscriptions.subCredits600 => 85,
       Subscriptions.subCredits900 => 120,
