@@ -4,11 +4,11 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
+import '../../../../core/extensions/string_extension.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../../domain/repositories/review/implemantations/review_repository.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';
-import '../../../components/credit_icon.dart';
 
 class EarnDialog extends StatelessWidget {
   final String? userId;
@@ -45,7 +45,11 @@ class EarnDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const CreditIcon(),
+                Image.asset(
+                  "ic_credit".toPNG,
+                  width: 18,
+                  height: 18,
+                ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: HexColor("#636363"),
@@ -68,7 +72,11 @@ class EarnDialog extends StatelessWidget {
                     LocaleKeys.goStore.tr(),
                   ),
                 ),
-                const CreditIcon(),
+                Image.asset(
+                  "ic_credit".toPNG,
+                  width: 18,
+                  height: 18,
+                ),
               ],
             ),
           ],

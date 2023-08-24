@@ -58,7 +58,7 @@ class FreeCreditsItem extends StatelessWidget {
                       if (earnCredit == EarnCredit.comment)
                         Column(
                           children: [
-                            3.verticalSpace,
+                            5.verticalSpace,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

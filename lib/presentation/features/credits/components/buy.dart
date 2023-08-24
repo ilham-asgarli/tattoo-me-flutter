@@ -31,6 +31,7 @@ class Buy extends StatelessWidget {
     );
 
     return Wrap(
+      alignment: WrapAlignment.center,
       spacing: 10,
       runSpacing: 10,
       direction: Axis.horizontal,

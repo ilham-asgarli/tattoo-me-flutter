@@ -24,24 +24,28 @@ class CreditsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: creditViewType == CreditsViewType.balance
-            ? null
-            : AppBar(
-                title: Text(LocaleKeys.appName.tr()),
+        appBar: creditViewType == CreditsViewType.insufficient
+            ? AppBar(
                 centerTitle: true,
-              ),
+              )
+            : null,
         body: DefaultTabController(
           length: 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              40.verticalSpace,
-              creditViewType == CreditsViewType.balance
-                  ? buildBalance(context)
-                  : Text(
-                      LocaleKeys.insufficientBalance.tr(),
-                      style: const TextStyle(fontSize: 15),
-                    ),
+              if (creditViewType == CreditsViewType.insufficient) ...[
+                Text(
+                  LocaleKeys.insufficientBalance.tr(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+              if (creditViewType == CreditsViewType.balance) ...[
+                40.verticalSpace,
+                buildBalance(context),
+              ],
               10.verticalSpace,
               const CreditTabBar(),
               30.verticalSpace,
