@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
 
+import '../../../../backend/utils/constants/app/app_constants.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
@@ -234,8 +235,8 @@ class _TattooChooseViewState extends State<TattooChooseView> {
                   textAlign: TextAlign.center,
                 ),
                 widget.horizontalSpace(10),
-                const Text(
-                  "${30}",
+                Text(
+                  AppConstants.tattooDesignPrice.toString(),
                   textAlign: TextAlign.center,
                 ),
                 widget.horizontalSpace(5),

@@ -82,13 +82,27 @@ class SubscribeItem extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "${productDetails.currencySymbol} ${productDetails.rawPrice}",
-                            style: TextStyle(
-                              color: AppColors.secondColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                productDetails.currencySymbol,
+                                style: TextStyle(
+                                  color: AppColors.secondColor,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              3.horizontalSpace,
+                              Text(
+                                "${productDetails.rawPrice}",
+                                style: TextStyle(
+                                  fontFamily: "Neue-Haas-Display",
+                                  color: AppColors.secondColor,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
                           Text(
                             LocaleKeys.everyMonth.tr(),

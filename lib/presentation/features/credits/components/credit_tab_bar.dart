@@ -23,14 +23,14 @@ class CreditTabBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: HexColor("#2E2E2E"),
             ),
-            height: 35,
+            height: 30,
             width: context.width / 3,
             child: Tab(
               text: LocaleKeys.creditsTab_buy.tr(),
             ),
           ),
           Ink(
-            height: 50,
+            height: 45,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -39,7 +39,7 @@ class CreditTabBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     color: HexColor("#2E2E2E"),
                   ),
-                  height: 35,
+                  height: 30,
                   width: context.width / 3,
                   child: Tab(
                     text: LocaleKeys.creditsTab_earn.tr(),
@@ -76,8 +76,8 @@ class CreditTabBar extends StatelessWidget {
         unselectedLabelColor: Colors.white,
         labelColor: Colors.black,
         labelStyle: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
         ),
         indicator: BoxDecoration(
           borderRadius: BorderRadius.circular(5),

@@ -116,6 +116,9 @@ flutter:
     - family: Arial
       fonts:
         - asset: assets/fonts/Arial-Regular.ttf
+    - family: Neue-Haas-Display
+      fonts:
+        - asset: assets/fonts/Neue-Haas-Display-Medium.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

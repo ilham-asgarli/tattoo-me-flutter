@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/extensions/num_extension.dart';
+import '../../../../core/extensions/string_extension.dart';
 import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
-import '../../../components/credit_icon.dart';
 import '../components/buy_tab.dart';
 import '../components/credit_tab_bar.dart';
 import '../components/earn_tab.dart';
@@ -35,7 +35,7 @@ class CreditsView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              10.verticalSpace,
+              40.verticalSpace,
               creditViewType == CreditsViewType.balance
                   ? buildBalance(context)
                   : Text(
@@ -78,7 +78,11 @@ class CreditsView extends StatelessWidget {
           ),
         ),
         5.horizontalSpace,
-        const CreditIcon(),
+        Image.asset(
+          "ic_credit".toPNG,
+          width: 20,
+          height: 20,
+        ),
       ],
     );
   }

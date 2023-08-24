@@ -61,13 +61,28 @@ class BuyItem extends StatelessWidget {
                       ],
                     ),
                     10.verticalSpace,
-                    Text(
-                      "${productDetails.currencySymbol} ${productDetails.rawPrice}",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.mainColor,
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          productDetails.currencySymbol,
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.mainColor,
+                          ),
+                        ),
+                        3.horizontalSpace,
+                        Text(
+                          "${productDetails.rawPrice}",
+                          style: TextStyle(
+                            fontFamily: "Neue-Haas-Display",
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.mainColor,
+                          ),
+                        ),
+                      ],
                     ),
                     10.verticalSpace,
                     ExtraCredit(

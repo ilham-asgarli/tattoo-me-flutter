@@ -11,17 +11,6 @@ class CreditIcon extends StatelessWidget {
       "ic_star".toPNG,
       width: 15,
       height: 15,
-    ) /*Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: HexColor("#87BB60"),
-      ),
-      child: const Icon(
-        Icons.star_border_sharp,
-        color: Colors.white,
-        size: 20,
-      ),
-    )*/
-        ;
+    );
   }
 }

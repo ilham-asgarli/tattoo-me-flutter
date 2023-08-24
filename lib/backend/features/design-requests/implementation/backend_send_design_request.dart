@@ -68,13 +68,6 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           throw 1;
         }
 
-        /*DateTime now = (await NTP.now()).toUtc().add(const Duration(hours: 3));
-
-        if (now.hour < designRequestsSettingsDocument.get("workHours")[0] ||
-            now.hour >= designRequestsSettingsDocument.get("workHours")[1]) {
-          throw 2;
-        }*/
-
         DocumentReference userDocument = users.doc(designRequestModel.userId);
         DocumentSnapshot userDocumentSnapshot =
             await transaction.get(userDocument);
@@ -323,9 +316,10 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
     );
   }
 
-  Future<String?> assignDesigner(
-      {required int designLimitForOneDesigner,
-      String? previousDesignerId}) async {
+  Future<String?> assignDesigner({
+    required int designLimitForOneDesigner,
+    String? previousDesignerId,
+  }) async {
     String? designerId;
 
     if (previousDesignerId != null) {
@@ -340,12 +334,16 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
     }
 
     if (designerId == null) {
-      QuerySnapshot workingDesignersQuerySnapshot =
+      QuerySnapshot designersQuerySnapshot =
           await designers.where("working", isEqualTo: true).get();
+
+      if (designersQuerySnapshot.size == 0) {
+        designersQuerySnapshot = await designers.get();
+      }
 
       int lastMinAssignmentCount = -1;
       for (DocumentSnapshot workingDesignerDocumentSnapshot
-          in workingDesignersQuerySnapshot.docs) {
+          in designersQuerySnapshot.docs) {
         QuerySnapshot designRequestsQuerySnapshot = await designRequests
             .where("designerId", isEqualTo: workingDesignerDocumentSnapshot.id)
             .where("finished", isEqualTo: false)

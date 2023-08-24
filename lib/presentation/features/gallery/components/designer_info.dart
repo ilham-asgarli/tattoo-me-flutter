@@ -50,16 +50,17 @@ class DesignerInfo extends StatelessWidget {
                         fontSize: 12,
                       ),
                     ),
-                    if (active)
-                      Row(
-                        children: [
-                          10.horizontalSpace,
-                          CircleAvatar(
-                            radius: 3,
-                            backgroundColor: HexColor("#2df661"),
-                          ),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        10.horizontalSpace,
+                        CircleAvatar(
+                          radius: 4.5,
+                          backgroundColor: active
+                              ? HexColor("#2df661")
+                              : HexColor("#707070"),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -73,23 +74,21 @@ class DesignerInfo extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            active
-                                ? LocaleKeys.approximateWaitingTime.tr()
-                                : LocaleKeys.offlineDescription.tr(),
+                            LocaleKeys.approximateWaitingTime.tr(),
                             style: const TextStyle(
                               fontSize: 9,
                             ),
                           ),
-                          if (active) ...[
-                            10.horizontalSpace,
-                            Text(
-                              "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}",
-                              style: const TextStyle(
-                                fontSize: 12,
-                              ),
+                          5.horizontalSpace,
+                          Text(
+                            active
+                                ? "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}"
+                                : "${24} saat",
+                            style: const TextStyle(
+                              fontSize: 12,
                             ),
-                            10.horizontalSpace,
-                          ]
+                          ),
+                          4.horizontalSpace,
                         ],
                       ),
                     ),

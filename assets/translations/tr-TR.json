@@ -115,10 +115,9 @@
     "subscribe": "Youtube Kanalımıza Abone Ol",
     "follow": "Instagram'da Takip Et"
   },
-  "tattooDesigner": "Dövme Tasarımcısı",
-  "online":"Çevrimiçi",
-  "offline":"Çevrimdışı",
-  "offlineDescription": "24 saat içerisinde tasarımınız hazırlanır",
+  "tattooDesigner": "Tattoo Designer",
+  "online":"Online",
+  "offline":"Offline",
   "approximateWaitingTime": "Yaklaşık bekleme düresi",
   "minute": "dk",
   "earnCreditDescription": {
