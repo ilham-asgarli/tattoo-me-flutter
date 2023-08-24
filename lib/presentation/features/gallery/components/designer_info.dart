@@ -83,7 +83,7 @@ class DesignerInfo extends StatelessWidget {
                           Text(
                             active
                                 ? "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}"
-                                : "${24} saat",
+                                : "${24} ${LocaleKeys.hour.tr()}",
                             style: const TextStyle(
                               fontSize: 12,
                             ),

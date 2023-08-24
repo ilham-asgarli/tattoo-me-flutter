@@ -120,6 +120,7 @@
   "offline":"Offline",
   "approximateWaitingTime": "Yaklaşık bekleme düresi",
   "minute": "dk",
+  "hour": "saat",
   "earnCreditDescription": {
     "comment": "Deneyiminiz hakkında yorum yaptıktan sonra bu sayfaya geri dönün. Hesabınıza otomatik {} kredi tanımlanacaktır!"
   },

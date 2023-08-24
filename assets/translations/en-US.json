@@ -120,6 +120,7 @@
   "offline":"Offline",
   "approximateWaitingTime": "Approximate waiting time",
   "minute": "min",
+  "hour": "hour",
   "earnCreditDescription": {
     "comment": "Return to this page after commenting on your experience. Your account will be automatically credited with {} credits!"
   },
