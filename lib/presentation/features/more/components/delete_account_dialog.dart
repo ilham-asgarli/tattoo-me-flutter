@@ -1,16 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tattoo/core/extensions/context_extension.dart';
-import 'package:tattoo/core/router/core/router_service.dart';
-import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
-import 'package:tattoo/utils/logic/constants/router/router_constants.dart';
-import 'package:tattoo/utils/logic/state/bloc/sign/sign_bloc.dart';
-import 'package:tattoo/utils/ui/constants/colors/app_colors.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
+import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/usecases/auth/implementations/auth_usecase.dart';
+import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/router/router_constants.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../components/dialog_action_button.dart';
 
 class DeleteAccountDialog extends StatelessWidget {
@@ -85,7 +85,8 @@ class DeleteAccountDialog extends StatelessWidget {
       BlocProvider.of<SignBloc>(context).add(const SigningOutEvent());
 
       AuthUseCase authUseCase = AuthUseCase();
-      BaseResponse baseResponse = await authUseCase.deleteAccount(signState.userModel.id!);
+      BaseResponse baseResponse =
+          await authUseCase.deleteAccount(signState.userModel.id!);
 
       if (baseResponse is BaseSuccess) {
         BlocProvider.of<SignBloc>(context)

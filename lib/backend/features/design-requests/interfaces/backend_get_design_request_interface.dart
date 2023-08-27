@@ -11,5 +11,5 @@ abstract class BackendGetDesignRequestInterface {
     DesignRequestModel? designRequestModel,
   );
 
-  Stream<BaseResponse<int>> getMinDesignerRequestCount();
+  Stream<BaseResponse<int>> getMinRequestDesignerRequestCount();
 }

@@ -113,7 +113,7 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
   }
 
   @override
-  Stream<BaseResponse<int>> getMinDesignerRequestCount() async* {
+  Stream<BaseResponse<int>> getMinRequestDesignerRequestCount() async* {
     try {
       Stream<QuerySnapshot> designRequestsStream = designRequests
           .where("finished", isEqualTo: false)

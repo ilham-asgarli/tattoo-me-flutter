@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tattoo/domain/repositories/auth/implementations/auth_repository.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';

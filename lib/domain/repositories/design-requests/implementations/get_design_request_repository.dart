@@ -27,7 +27,7 @@ class GetDesignRequestRepository extends GetDesignRequestInterface {
   @override
   Stream<BaseResponse<int>> getMinDesignerRequestCount() {
     Stream<BaseResponse<int>> stream =
-        backendGetDesignRequest.getMinDesignerRequestCount();
+        backendGetDesignRequest.getMinRequestDesignerRequestCount();
     return stream;
   }
 }

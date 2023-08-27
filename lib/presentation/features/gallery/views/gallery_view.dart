@@ -1,12 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/base/models/base_response.dart';
-import '../../../../core/base/models/base_success.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/router/core/router_service.dart';
-import '../../../../domain/repositories/design-requests/implementations/get_design_request_repository.dart';
 import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
@@ -25,25 +22,7 @@ class GalleryView extends StatelessWidget {
         child: Column(
           children: [
             10.verticalSpace,
-            StreamBuilder(
-              stream: GetDesignRequestRepository()
-                  .backendGetDesignRequest
-                  .getMinDesignerRequestCount(),
-              builder: (context, snapshot) {
-                int count = 0;
-
-                if (snapshot.hasData) {
-                  BaseResponse<int>? baseResponse = snapshot.data;
-                  if (baseResponse is BaseSuccess<int>) {
-                    count = baseResponse.data!;
-                  }
-                }
-
-                return DesignerInfo(
-                  count: count,
-                );
-              },
-            ),
+            const DesignerInfo(),
             65.verticalSpace,
             Text(
               LocaleKeys.galleryDescription.tr(),
