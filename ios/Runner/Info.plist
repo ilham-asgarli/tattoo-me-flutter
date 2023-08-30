@@ -77,9 +77,9 @@
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<false/>
 		<key>LSApplicationQueriesSchemes</key>
-        <array>
-            <string>itms-beta</string>
-            <string>itms</string>
-        </array>
+		<array>
+			<string>itms-beta</string>
+			<string>itms</string>
+		</array>
 	</dict>
 </plist>

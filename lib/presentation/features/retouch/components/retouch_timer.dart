@@ -25,9 +25,11 @@ class _RetouchTimerState extends State<RetouchTimer> {
         if (snapshot.hasData && snapshot.data != null) {
           return CountdownTimer(
             onEnd: () {
-              setState(() {
-                viewModel.computeEndTime(context);
-              });
+              if (context.mounted) {
+                setState(() {
+                  viewModel.computeEndTime(context);
+                });
+              }
             },
             endTime: viewModel.endTime,
             widgetBuilder: (context, time) {

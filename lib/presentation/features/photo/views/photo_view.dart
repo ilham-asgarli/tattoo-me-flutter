@@ -2,10 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/base/models/base_response.dart';
@@ -306,13 +305,8 @@ class _PhotoViewState extends State<PhotoView> {
   }
 
   Future<void> save() async {
-    final taskId = await FlutterDownloader.enqueue(
-      url: widget.designModel.imageLink ?? "",
-      savedDir: (await getExternalStorageDirectory())?.path ?? "",
-      showNotification: true,
-      openFileFromNotification: true,
-      saveInPublicStorage: true,
-    );
+    String path = widget.designModel.imageLink ?? "";
+    bool? success = await GallerySaver.saveImage("$path.png");
   }
 
   Future<void> delete() async {
