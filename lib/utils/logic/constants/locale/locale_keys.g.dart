@@ -59,6 +59,7 @@ abstract class  LocaleKeys {
   static const outOfWorkTimeDescription = 'outOfWorkTimeDescription';
   static const queueDescription = 'queueDescription';
   static const controlDescription = 'controlDescription';
+  static const noDesignerDescription = 'noDesignerDescription';
   static const queue = 'queue';
   static const control = 'control';
   static const retouching = 'retouching';
@@ -73,6 +74,7 @@ abstract class  LocaleKeys {
   static const retouch = 'retouch';
   static const evaluateDesignerAlertTitle = 'evaluateDesignerAlertTitle';
   static const showResult = 'showResult';
+  static const notifyOnReady = 'notifyOnReady';
   static const send = 'send';
   static const close = 'close';
   static const writeNoteHere = 'writeNoteHere';
@@ -122,5 +124,6 @@ abstract class  LocaleKeys {
   static const goStore = 'goStore';
   static const everyMonth = 'everyMonth';
   static const extra = 'extra';
+  static const day = 'day';
 
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
+import '../../../../utils/logic/state/bloc/designer-status/designer_status_bloc.dart';
 import '../../../widgets/auto_index.dart';
 
 class AnimatedRetouching extends StatelessWidget {
@@ -10,6 +13,7 @@ class AnimatedRetouching extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoIndex(
+      working: context.watch<DesignerStatusBloc>().state is HasDesigner,
       itemCount: 6,
       child: (index) {
         return Stack(

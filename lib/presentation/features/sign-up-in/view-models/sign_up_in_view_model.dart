@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tattoo/core/constants/app/global_key_constants.dart';
-import 'package:tattoo/utils/logic/constants/router/router_constants.dart';
+
 import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/models/base_success.dart';
 import '../../../../core/base/view-models/base_view_model.dart';
+import '../../../../core/constants/app/global_key_constants.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../../domain/repositories/auth/implementations/email_auth_repository.dart';
-
+import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 
 class SignUpInViewModel extends BaseViewModel {
@@ -69,8 +69,9 @@ class SignUpInViewModel extends BaseViewModel {
       BlocProvider.of<SignBloc>(context)
           .add(SignedEvent(signedUserModel: baseResponse.data!));
 
-      if(!isSignUp) {
-        RouterService.instance.popUntil(removeUntilPageName: RouterConstants.home);
+      if (!isSignUp) {
+        RouterService.instance
+            .popUntil(removeUntilPageName: RouterConstants.home);
       }
 
       if (baseResponse.message?.isNotEmpty ?? false) {

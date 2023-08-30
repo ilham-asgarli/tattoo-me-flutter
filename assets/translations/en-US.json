@@ -58,6 +58,7 @@
   "outOfWorkTimeDescription": "Your photo will be made by our professional designers between {}:00-{}:00 during working hours",
   "queueDescription": "Your photo will be made by our professional designers",
   "controlDescription": "Your photo is being reviewed",
+  "noDesignerDescription": "Available in 12 hours when the designer is active!",
   "queue": "In the queue",
   "control": "Control",
   "retouching": "Retouching",
@@ -72,6 +73,7 @@
   "retouch": "Retouch",
   "evaluateDesignerAlertTitle": "How did you find our designer's work?",
   "showResult": "Show result",
+  "notifyOnReady": "Let me know when ready",
   "send": "Send",
   "close": "Close",
   "writeNoteHere": "Please write your note here",
@@ -126,5 +128,6 @@
   },
   "goStore": "Go to Store",
   "everyMonth": "every month",
-  "extra": "extra"
+  "extra": "extra",
+  "day": "day"
 }

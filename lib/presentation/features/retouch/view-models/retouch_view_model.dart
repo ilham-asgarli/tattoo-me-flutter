@@ -8,8 +8,10 @@ import '../../../../core/extensions/int_extension.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
+import '../../../../utils/logic/state/bloc/designer-status/designer_status_bloc.dart';
 import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 
 class RetouchViewModel extends BaseViewModel {
   int endTime = DateTime.now().millisecondsSinceEpoch;
@@ -26,6 +28,10 @@ class RetouchViewModel extends BaseViewModel {
 
   Future computeEndTime(BuildContext context) async {
     RetouchState state = context.watch<RetouchCubit>().state;
+    DesignerStatusState designerStatusState =
+        context.watch<DesignerStatusBloc>().state;
+    SettingsState settingsState = context.watch<SettingsCubit>().state;
+
     List<DesignRequestModel>? designRequestModels;
     DateTime now = await NTP.now();
 
@@ -37,6 +43,11 @@ class RetouchViewModel extends BaseViewModel {
 
     if (designRequestModels == null) {
       return;
+    }
+
+    if (designerStatusState is NoActiveDesigner) {
+      endTime = settingsState.settingsModel!.activeDesignerTime!;
+      return settingsState.settingsModel?.activeDesignerTime;
     }
 
     if (designRequestModels.last.startDesignDate != null) {
@@ -61,6 +72,6 @@ class RetouchViewModel extends BaseViewModel {
       endTime += AppConstants.oneDesignDuration.inMilliseconds;
     }
 
-    return;
+    return endTime;
   }
 }

@@ -84,19 +84,25 @@ class DesignerInfo extends StatelessWidget {
                               Text(
                                 LocaleKeys.approximateWaitingTime.tr(),
                                 style: const TextStyle(
-                                  fontSize: 9,
+                                  fontSize: 10,
                                 ),
                               ),
                               5.horizontalSpace,
-                              Text(
-                                active
-                                    ? "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}"
-                                    : "${24} ${LocaleKeys.hour.tr()}",
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                              4.horizontalSpace,
+                              active
+                                  ? Text(
+                                      "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    )
+                                  : Text(
+                                      "${12} ${LocaleKeys.hour.tr()}",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                              /*const WaitingTime()*/
+                              5.horizontalSpace,
                             ],
                           ),
                         ),

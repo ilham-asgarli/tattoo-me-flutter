@@ -58,6 +58,7 @@
   "outOfWorkTimeDescription": "Fotoğrafınız çalışma saatleri içerisinde {}:00-{}:00 arasında profesyonel tasarımcılarımız tarafından yapılacaktır",
   "queueDescription": "Fotoğrafınız profesyonel tasarımcılarımız tarafından yapılacaktır",
   "controlDescription": "Fotoğrafınız inceleniyor",
+  "noDesignerDescription": "12 saat içerisinde tasarımcı aktif olduğunda hazırlanacak!",
   "queue": "Sırada",
   "control": "İnceleniyor",
   "retouching": "Rötuşlanıyor",
@@ -72,6 +73,7 @@
   "retouch": "Düzeltme",
   "evaluateDesignerAlertTitle": "Tasarımcımızın çalışmasını nasıl buldunuz?",
   "showResult" : "Sonucu göster",
+  "notifyOnReady": "Hazır olduğunda haber ver",
   "send": "Gönder",
   "close": "Kapat",
   "writeNoteHere": "Lütfen notunuzu buraya yazın",
@@ -118,7 +120,7 @@
   "tattooDesigner": "Tattoo Designer",
   "online":"Online",
   "offline":"Offline",
-  "approximateWaitingTime": "Yaklaşık bekleme düresi",
+  "approximateWaitingTime": "Yaklaşık bekleme süresi",
   "minute": "dk",
   "hour": "saat",
   "earnCreditDescription": {
@@ -126,5 +128,6 @@
   },
   "goStore": "Mağazaya Git",
   "everyMonth": "her ay",
-  "extra": "ekstra"
+  "extra": "ekstra",
+  "day": "gün"
 }

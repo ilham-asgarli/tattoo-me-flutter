@@ -5,6 +5,7 @@ import '../../../../core/extensions/context_extension.dart';
 
 class DesignerCard extends StatelessWidget {
   final Widget? child;
+
   const DesignerCard({
     super.key,
     this.child,
@@ -21,7 +22,7 @@ class DesignerCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(
           vertical: context.lowValue * 0.8,
-          horizontal: context.normalValue,
+          horizontal: context.lowValue,
         ),
         child: child,
       ),

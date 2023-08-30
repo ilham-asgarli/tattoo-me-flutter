@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../../backend/utils/constants/app/app_constants.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
@@ -34,7 +35,9 @@ class EarnDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              LocaleKeys.earnCreditDescription_comment.tr(args: ["30"]),
+              LocaleKeys.earnCreditDescription_comment.tr(args: [
+                AppConstants.tattooDesignPrice.toString(),
+              ]),
               style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,

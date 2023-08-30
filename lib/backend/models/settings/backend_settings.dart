@@ -1,24 +1,27 @@
-import 'package:tattoo/core/base/models/base_model.dart';
-import 'package:tattoo/core/extensions/map_extension.dart';
-import 'package:tattoo/domain/models/settings/settings_model.dart';
+import '../../../core/base/models/base_model.dart';
+import '../../../core/extensions/map_extension.dart';
+import '../../../domain/models/settings/settings_model.dart';
 
 class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
   String? id;
   int? designLimitForOneDesigner;
-  List<dynamic>? workHours;
+  Map<String, dynamic>? openTime;
+  Map<String, dynamic>? holiday;
   bool? awardedReview;
 
   BackendSettingsModel({
     this.id,
     this.designLimitForOneDesigner,
-    this.workHours,
+    this.openTime,
+    this.holiday,
     this.awardedReview,
   });
 
   BackendSettingsModel.from({required SettingsModel model}) {
     id = model.id;
     designLimitForOneDesigner = model.designLimitForOneDesigner;
-    workHours = model.workHours;
+    openTime = model.openTime;
+    holiday = model.holiday;
     awardedReview = model.awardedReview;
   }
 
@@ -26,7 +29,8 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
     return SettingsModel(
       id: model.id,
       designLimitForOneDesigner: model.designLimitForOneDesigner,
-      workHours: model.workHours,
+      openTime: model.openTime,
+      holiday: model.holiday,
       awardedReview: model.awardedReview,
     );
   }
@@ -36,7 +40,8 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
     return BackendSettingsModel(
       id: json["id"],
       designLimitForOneDesigner: json["designLimitForOneDesigner"],
-      workHours: json["workHours"],
+      openTime: json["openTime"],
+      holiday: json["holiday"],
       awardedReview: json["awardedReview"],
     );
   }
@@ -46,7 +51,8 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
     Map<String, dynamic> map = {};
 
     map.putIfNotNull("designLimitForOneDesigner", designLimitForOneDesigner);
-    map.putIfNotNull("workHours", workHours);
+    map.putIfNotNull("openTime", openTime);
+    map.putIfNotNull("holiday", holiday);
     map.putIfNotNull("awardedReview", awardedReview);
 
     return map;

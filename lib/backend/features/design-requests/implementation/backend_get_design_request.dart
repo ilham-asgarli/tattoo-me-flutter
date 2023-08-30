@@ -133,7 +133,7 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
 
           if (designersData != null) {
             List<QueryDocumentSnapshot> docs = a.docs
-                .where((element) => element.id == designerDoc.id)
+                .where((element) => element["designerId"] == designerDoc.id)
                 .toList();
 
             if (docs.length < min || min == -1) {
@@ -145,8 +145,8 @@ class BackendGetDesignRequest extends BackendGetDesignRequestInterface {
         return min;
       });
 
-      await for (int max in stream) {
-        yield BaseSuccess(data: max);
+      await for (int min in stream) {
+        yield BaseSuccess(data: min);
       }
     } catch (e) {
       yield BaseError(message: e.toString());

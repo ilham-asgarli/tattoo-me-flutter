@@ -3,13 +3,17 @@ import '../../../core/base/models/base_model.dart';
 class SettingsModel extends BaseModel<SettingsModel> {
   String? id;
   int? designLimitForOneDesigner;
-  List<dynamic>? workHours;
+  Map<String, dynamic>? openTime;
+  Map<String, dynamic>? holiday;
   bool? awardedReview;
+  int? activeDesignerTime;
 
   SettingsModel({
     this.id,
     this.designLimitForOneDesigner,
-    this.workHours,
+    this.openTime,
+    this.activeDesignerTime,
+    this.holiday,
     this.awardedReview,
   });
 
@@ -18,8 +22,10 @@ class SettingsModel extends BaseModel<SettingsModel> {
     return SettingsModel(
       id: json["id"],
       designLimitForOneDesigner: json["designLimitForOneDesigner"],
-      workHours: json["workHours"],
+      openTime: json["openTime"],
+      holiday: json["holiday"],
       awardedReview: json["awardedReview"],
+      activeDesignerTime: json["activeDesignerTime"],
     );
   }
 
@@ -28,8 +34,10 @@ class SettingsModel extends BaseModel<SettingsModel> {
     return {
       "id": id,
       "designLimitForOneDesigner": designLimitForOneDesigner,
-      "workHours": workHours,
+      "openTime": openTime,
+      "holiday": holiday,
       "awardedReview": awardedReview,
+      "activeDesignerTime": activeDesignerTime,
     };
   }
 }

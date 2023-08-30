@@ -2,21 +2,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../core/extensions/context_extension.dart';
-import '../../../../core/extensions/int_extension.dart';
-import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
+import '../../../../utils/logic/state/bloc/designer-status/designer_status_bloc.dart';
 import '../../../../utils/logic/state/cubit/retouch/retouch_cubit.dart';
 import '../components/animated_retouching.dart';
 import '../components/retouch_background.dart';
 import '../components/retouch_ready.dart';
+import '../components/retouch_timer.dart';
 import '../view-models/retouch_view_model.dart';
 
 class RetouchView extends StatelessWidget {
@@ -46,12 +45,7 @@ class RetouchView extends StatelessWidget {
                   ?.designRequestImageModels2?[imageIndex].link,
               backgroundColor: Colors.black.withOpacity(0.3),
             ),
-            FutureBuilder(
-              future: viewModel.computeEndTime(context),
-              builder: (context, snapshot) {
-                return buildBody(context);
-              },
-            ),
+            buildBody(context),
           ],
         ),
       ),
@@ -77,7 +71,27 @@ class RetouchView extends StatelessWidget {
             context.widget.dynamicVerticalSpace(context, 0.05),
             context.watch<RetouchCubit>().state.runtimeType == RetouchIsReady
                 ? buildShowResult(context)
-                : buildTimeArea(context),
+                : context.watch<DesignerStatusBloc>().state is HasDesigner
+                    ? const RetouchTimer()
+                    : ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.green),
+                          elevation: MaterialStateProperty.all(0),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                        onPressed: () async {
+                          await viewModel.onBackPressed(context);
+                        },
+                        child: Text(
+                          LocaleKeys.notifyOnReady.tr(),
+                        ),
+                      ),
           ],
         ),
       ),
@@ -109,20 +123,27 @@ class RetouchView extends StatelessWidget {
 
   Widget buildTitle(BuildContext context) {
     RetouchState state = context.watch<RetouchCubit>().state;
+    DesignerStatusState designerStatusState =
+        context.watch<DesignerStatusBloc>().state;
 
-    return Text(
-      state.runtimeType == RetouchIsReady
-          ? LocaleKeys.retouchEnded.tr()
-          : state.runtimeType == RetouchInRetouch
-              ? LocaleKeys.retouchingPhoto.tr()
-              : state.runtimeType == RetouchInQueue
-                  ? LocaleKeys.queueDescription.tr()
-                  : "",
-      style: TextStyle(
-        fontSize: state.runtimeType == RetouchInQueue ? 18 : 22,
-        fontWeight: FontWeight.w300,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        designerStatusState is NoActiveDesigner
+            ? LocaleKeys.noDesignerDescription.tr()
+            : state.runtimeType == RetouchIsReady
+                ? LocaleKeys.retouchEnded.tr()
+                : state.runtimeType == RetouchInRetouch
+                    ? LocaleKeys.retouchingPhoto.tr()
+                    : state.runtimeType == RetouchInQueue
+                        ? LocaleKeys.queueDescription.tr()
+                        : "",
+        style: TextStyle(
+          fontSize: state.runtimeType == RetouchInQueue ? 18 : 22,
+          fontWeight: FontWeight.w300,
+        ),
+        textAlign: TextAlign.center,
       ),
-      textAlign: TextAlign.center,
     );
   }
 
@@ -148,17 +169,31 @@ class RetouchView extends StatelessWidget {
 
   Widget buildLoadingArea(BuildContext context) {
     RetouchState state = context.watch<RetouchCubit>().state;
+    DesignerStatusState designerStatusState =
+        context.watch<DesignerStatusBloc>().state;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Expanded(
-          child: buildLoading(left: true, isDone: state is RetouchInQueue),
+          child: buildLoading(
+            left: true,
+            isDone:
+                state is RetouchInQueue && designerStatusState is HasDesigner,
+          ),
         ),
         Expanded(
-          child: buildLoading(isDone: state is RetouchInRetouch),
+          child: buildLoading(
+            isDone:
+                state is RetouchInRetouch && designerStatusState is HasDesigner,
+          ),
         ),
         Expanded(
-          child: buildLoading(right: true, isDone: state is RetouchIsReady),
+          child: buildLoading(
+            right: true,
+            isDone:
+                state is RetouchIsReady && designerStatusState is HasDesigner,
+          ),
         ),
       ],
     );
@@ -205,34 +240,6 @@ class RetouchView extends StatelessWidget {
       child: Text(
         LocaleKeys.showResult.tr(),
       ),
-    );
-  }
-
-  Widget buildTimeArea(BuildContext context) {
-    return CountdownTimer(
-      onEnd: () {
-        BlocProvider.of<RetouchCubit>(context)
-            .listenToDesignStatus(designRequestModel);
-      },
-      endTime: viewModel.endTime,
-      widgetBuilder: (context, time) {
-        return RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: LocaleKeys.approximateTimeLeft.tr(),
-              ),
-              TextSpan(
-                text:
-                    "    ${time?.hours.toFixed(2).concatIfNotEmpty(":") ?? ""}${time?.min.toFixed(2, visibility: true).concatIfNotEmpty(":") ?? "00:"}${time?.sec.toFixed(2) ?? "00"}",
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

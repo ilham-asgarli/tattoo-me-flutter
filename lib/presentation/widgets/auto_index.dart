@@ -7,11 +7,13 @@ class AutoIndex extends StatefulWidget {
   final Widget Function(int index) child;
   final int periodDuration;
   final int itemCount;
+  final bool working;
 
   const AutoIndex({
     required this.child,
     required this.itemCount,
     this.periodDuration = 1,
+    this.working = true,
     Key? key,
   }) : super(key: key);
 
@@ -42,6 +44,6 @@ class _AutoIndexState extends State<AutoIndex> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child(index);
+    return widget.child(widget.working ? index : -1);
   }
 }

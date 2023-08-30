@@ -16,8 +16,7 @@ class RetouchCubit extends Cubit<RetouchState> {
   StreamSubscription? _readySubscription, _retouchSubscription;
   final DesignRequestModel? designRequestModel;
 
-  RetouchCubit(this.designRequestModel)
-      : super(RetouchInitial()) {
+  RetouchCubit(this.designRequestModel) : super(RetouchInitial()) {
     listenToDesignStatus(designRequestModel);
   }
 
