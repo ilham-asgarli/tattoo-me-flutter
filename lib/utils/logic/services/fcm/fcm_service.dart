@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:ui' as ui;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -64,7 +64,10 @@ class FCMService {
     );
 
     if (message.data["type"] == "design_finished") {
-      String locale = ui.window.locale.languageCode;
+      //String locale = ui.window.locale.languageCode;
+      String locale =
+          WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+
       switch (locale) {
         case 'en':
           notificationModel.title = "Your tattoo design is complete!";

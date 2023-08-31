@@ -23,7 +23,8 @@ class LocalNotificationsHelper {
     Function(NotificationResponse)? onNotificationAppLaunchDetails,
   }) async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings("@mipmap/ic_launcher");
+        AndroidInitializationSettings(
+            "@mipmap/ic_launcher"); // @mipmap/ic_launcher
     const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings();
     const InitializationSettings initializationSettings =
