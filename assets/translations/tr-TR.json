@@ -129,5 +129,9 @@
   "goStore": "Mağazaya Git",
   "everyMonth": "her ay",
   "extra": "ekstra",
-  "day": "gün"
+  "day": "gün",
+  "finished": "Bitti",
+  "deleteDescription": "Kalıcı olarak silmek istediğinden emin misin?",
+  "downloading": "Yükleniyor",
+  "downloaded": "Yüklendi"
 }

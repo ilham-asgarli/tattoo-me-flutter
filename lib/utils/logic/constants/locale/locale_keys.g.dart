@@ -125,5 +125,9 @@ abstract class  LocaleKeys {
   static const everyMonth = 'everyMonth';
   static const extra = 'extra';
   static const day = 'day';
+  static const finished = 'finished';
+  static const deleteDescription = 'deleteDescription';
+  static const downloading = 'downloading';
+  static const downloaded = 'downloaded';
 
 }

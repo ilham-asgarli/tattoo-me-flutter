@@ -42,8 +42,8 @@ class BackendSettings extends SettingsInterface {
             model: backendSettingsModel,
           );
 
-          settingsModel.activeDesignerTime =
-              await calculateActiveDesignerTime(settingsModel);
+          /*settingsModel.activeDesignerTime =
+              await calculateActiveDesignerTime(settingsModel);*/
 
           yield BaseSuccess(
             data: settingsModel,

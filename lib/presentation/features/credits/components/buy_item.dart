@@ -19,7 +19,7 @@ class BuyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Ink(
+    return Container(
       decoration: BoxDecoration(
         color: HexColor("#C9F2CA"),
         borderRadius: const BorderRadius.all(
@@ -94,7 +94,7 @@ class BuyItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Ink(
+              Container(
                 padding: context.paddingLow,
                 width: double.infinity,
                 decoration: BoxDecoration(

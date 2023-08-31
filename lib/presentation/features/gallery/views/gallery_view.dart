@@ -22,7 +22,9 @@ class GalleryView extends StatelessWidget {
         child: Column(
           children: [
             10.verticalSpace,
-            const DesignerInfo(),
+            const Center(
+              child: DesignerInfo(),
+            ),
             65.verticalSpace,
             Text(
               LocaleKeys.galleryDescription.tr(),

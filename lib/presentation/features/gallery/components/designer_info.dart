@@ -27,94 +27,94 @@ class DesignerInfo extends StatelessWidget {
         }
 
         return Row(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Expanded(
-              flex: 2,
-              child: Image.asset("ic_designer".toPNG),
+            Image.asset(
+              "ic_designer".toPNG,
+              width: 125,
             ),
             20.horizontalSpace,
-            Expanded(
-              flex: 4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    LocaleKeys.tattooDesigner.tr(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  LocaleKeys.tattooDesigner.tr(),
+                  style: const TextStyle(
+                    fontSize: 20,
                   ),
-                  20.verticalSpace,
-                  DesignerCard(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          active
-                              ? LocaleKeys.online.tr()
-                              : LocaleKeys.offline.tr(),
-                          style: const TextStyle(
-                            fontSize: 12,
-                          ),
+                ),
+                20.verticalSpace,
+                DesignerCard(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        active
+                            ? LocaleKeys.online.tr()
+                            : LocaleKeys.offline.tr(),
+                        style: const TextStyle(
+                          fontSize: 12,
                         ),
-                        Row(
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          10.horizontalSpace,
+                          CircleAvatar(
+                            radius: 4.5,
+                            backgroundColor: active
+                                ? HexColor("#2df661")
+                                : HexColor("#707070"),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                15.verticalSpace,
+                DesignerCard(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IntrinsicWidth(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            10.horizontalSpace,
-                            CircleAvatar(
-                              radius: 4.5,
-                              backgroundColor: active
-                                  ? HexColor("#2df661")
-                                  : HexColor("#707070"),
+                            Text(
+                              LocaleKeys.approximateWaitingTime.tr(),
+                              style: const TextStyle(
+                                fontSize: 10,
+                              ),
                             ),
+                            5.horizontalSpace,
+                            active
+                                ? Text(
+                                    "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  )
+                                : Text(
+                                    "${12} ${LocaleKeys.hour.tr()}",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                            /*const WaitingTime()*/
+                            5.horizontalSpace,
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      const Icon(
+                        Icons.access_time,
+                        size: 15,
+                      ),
+                    ],
                   ),
-                  15.verticalSpace,
-                  DesignerCard(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IntrinsicWidth(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                LocaleKeys.approximateWaitingTime.tr(),
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                ),
-                              ),
-                              5.horizontalSpace,
-                              active
-                                  ? Text(
-                                      "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    )
-                                  : Text(
-                                      "${12} ${LocaleKeys.hour.tr()}",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                              /*const WaitingTime()*/
-                              5.horizontalSpace,
-                            ],
-                          ),
-                        ),
-                        const Icon(
-                          Icons.access_time,
-                          size: 15,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         );

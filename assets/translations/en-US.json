@@ -129,5 +129,9 @@
   "goStore": "Go to Store",
   "everyMonth": "every month",
   "extra": "extra",
-  "day": "day"
+  "day": "day",
+  "finished": "Done",
+  "deleteDescription": "Are you sure you want to permanently delete it?",
+  "downloading": "Downloading",
+  "downloaded": "Downloaded"
 }

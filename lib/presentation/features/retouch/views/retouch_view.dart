@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../../core/cache/shared_preferences_manager.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../core/router/core/router_service.dart';
@@ -22,15 +23,24 @@ class RetouchView extends StatelessWidget {
   late final DesignRequestModel? designRequestModel;
   final RetouchViewModel viewModel = RetouchViewModel();
 
-  RetouchView({required this.designRequestModel, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    int imageIndex = designRequestModel?.designRequestImageModels2
+  RetouchView({required this.designRequestModel, Key? key}) : super(key: key) {
+    imageIndex = designRequestModel?.designRequestImageModels2
             ?.indexWhere((element) => element.name == "2") ??
         0;
     imageIndex = imageIndex >= 0 ? imageIndex : 0;
 
+    firstLook = SharedPreferencesManager.instance.preferences
+            ?.getBool(designRequestModel?.id ?? "") ??
+        true;
+    SharedPreferencesManager.instance.preferences
+        ?.setBool(designRequestModel?.id ?? "", false);
+  }
+
+  late final bool firstLook;
+  late int imageIndex;
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
         return viewModel.onBackPressed(context);
@@ -73,25 +83,30 @@ class RetouchView extends StatelessWidget {
                 ? buildShowResult(context)
                 : context.watch<DesignerStatusBloc>().state is HasDesigner
                     ? const RetouchTimer()
-                    : ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.green),
-                          elevation: MaterialStateProperty.all(0),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                    : firstLook
+                        ? ElevatedButton(
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(horizontal: 25),
+                              ),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.green),
+                              elevation: MaterialStateProperty.all(0),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        onPressed: () async {
-                          await viewModel.onBackPressed(context);
-                        },
-                        child: Text(
-                          LocaleKeys.notifyOnReady.tr(),
-                        ),
-                      ),
+                            onPressed: () async {
+                              await viewModel.onBackPressed(context);
+                            },
+                            child: Text(
+                              LocaleKeys.finished.tr(),
+                            ),
+                          )
+                        : const SizedBox(),
           ],
         ),
       ),

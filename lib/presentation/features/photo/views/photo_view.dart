@@ -306,19 +306,35 @@ class _PhotoViewState extends State<PhotoView> {
 
   Future<void> save() async {
     String path = widget.designModel.imageLink ?? "";
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(LocaleKeys.downloading.tr())));
     bool? success = await GallerySaver.saveImage("$path.png");
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(LocaleKeys.downloaded.tr())));
+    }
   }
 
   Future<void> delete() async {
-    if (widget.designModel.id != null) {
-      DesignResponseRepository designResponseRepository =
-          DesignResponseRepository();
-      await designResponseRepository.deleteDesign(widget.designModel.id!);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(LocaleKeys.deleteDescription.tr()),
+      action: SnackBarAction(
+        label: LocaleKeys.yes.tr(),
+        onPressed: () async {
+          if (widget.designModel.id != null) {
+            DesignResponseRepository designResponseRepository =
+                DesignResponseRepository();
+            await designResponseRepository.deleteDesign(widget.designModel.id!);
 
-      if (mounted) {
-        BlocProvider.of<ReadyCubit>(context).rebuild();
-      }
-      RouterService.instance.pop();
-    }
+            if (mounted) {
+              BlocProvider.of<ReadyCubit>(context).rebuild();
+            }
+            RouterService.instance.pop();
+          }
+        },
+      ),
+    ));
   }
 }

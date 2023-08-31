@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../core/extensions/context_extension.dart';
@@ -8,6 +9,8 @@ import '../../../../core/extensions/string_extension.dart';
 import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/extensions/earn_credit_extensions.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 import '../../../components/credit_icon.dart';
 
 class FreeCreditsItem extends StatelessWidget {
@@ -104,8 +107,20 @@ class FreeCreditsItem extends StatelessWidget {
               ),
             ],
           ),
-          if (earnCredit != EarnCredit.comment)
-            Ink(
+          if (earnCredit != EarnCredit.comment ||
+              (!(context
+                          .watch<SettingsCubit>()
+                          .state
+                          .settingsModel
+                          ?.awardedReview ??
+                      false) ||
+                  !(context
+                          .watch<SignBloc>()
+                          .state
+                          .userModel
+                          .isFirstOrderInsufficientBalance ??
+                      false)))
+            Container(
               width: double.infinity,
               height: double.infinity,
               decoration: BoxDecoration(
