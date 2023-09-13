@@ -94,32 +94,38 @@ class FreeCreditsItem extends StatelessWidget {
                     ),
                   ),
                   child: Center(
-                    child: Text(
-                      earnCredit.description,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                    child: earnCredit == EarnCredit.comment &&
+                            (!(context
+                                        .watch<SettingsCubit>()
+                                        .state
+                                        .settingsModel
+                                        ?.awardedReview ??
+                                    false) ||
+                                !(context
+                                        .watch<SignBloc>()
+                                        .state
+                                        .userModel
+                                        .isFirstOrderInsufficientBalance ??
+                                    false))
+                        ? const Icon(
+                            Icons.check,
+                            size: 30,
+                            color: Colors.black,
+                          )
+                        : Text(
+                            earnCredit.description,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                   ),
                 ),
               ),
             ],
           ),
-          if (earnCredit != EarnCredit.comment ||
-              (!(context
-                          .watch<SettingsCubit>()
-                          .state
-                          .settingsModel
-                          ?.awardedReview ??
-                      false) ||
-                  !(context
-                          .watch<SignBloc>()
-                          .state
-                          .userModel
-                          .isFirstOrderInsufficientBalance ??
-                      false)))
+          if (earnCredit != EarnCredit.comment)
             Container(
               width: double.infinity,
               height: double.infinity,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +45,8 @@ class _PhotoViewState extends State<PhotoView> {
         !(context.read<SignBloc>().state.userModel.isBoughtFirstDesign ??
             false);
 
-    Future.delayed(const Duration(seconds: 3)).then((value) async {
+    Future.delayed(Duration(seconds: Platform.isAndroid ? 10 : 3))
+        .then((value) async {
       if (close) {
         await SharedPreferencesManager.instance.preferences?.setBool(
           SharedPreferencesConstants.isLookedFirstDesign,

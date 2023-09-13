@@ -9,7 +9,7 @@ import '../../../../core/extensions/string_extension.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../../domain/repositories/review/implemantations/review_repository.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
-import '../../../../utils/logic/helpers/in-app-review/in_app_review_helper.dart';
+import '../../../../utils/logic/helpers/app-review/in_app_review_helper.dart';
 
 class EarnDialog extends StatelessWidget {
   final String? userId;
@@ -63,7 +63,7 @@ class EarnDialog extends StatelessWidget {
                   onPressed: () async {
                     Navigator.pop(context);
 
-                    InAppReviewHelper.instance.request();
+                    AppReviewHelper.instance.openStore();
                     await Future.delayed(const Duration(seconds: 20))
                         .then((value) async {
                       await ReviewRepository().makeReview(UserModel(
