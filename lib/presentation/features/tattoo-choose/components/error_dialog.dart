@@ -11,7 +11,7 @@ import '../../../../domain/repositories/review/implemantations/review_repository
 import '../../../../utils/logic/constants/enums/app_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
-import '../../../../utils/logic/helpers/app-review/in_app_review_helper.dart';
+import '../../../../utils/logic/helpers/app-review/app_review_helper.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
