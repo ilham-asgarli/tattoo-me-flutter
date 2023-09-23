@@ -7,8 +7,6 @@ version: 1.1.1+19
 environment:
   sdk: '>=3.0.5 <4.0.0'
 
-scripts: derry.yaml
-
 # flutter pub outdated
 # flutter pub upgrade
 dependencies:

@@ -39,10 +39,12 @@ class DesignerInfo extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  LocaleKeys.tattooDesigner.tr(),
-                  style: const TextStyle(
-                    fontSize: 20,
+                FittedBox(
+                  child: Text(
+                    LocaleKeys.tattooDesigner.tr(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
                 20.verticalSpace,
@@ -78,34 +80,33 @@ class DesignerInfo extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IntrinsicWidth(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              LocaleKeys.approximateWaitingTime.tr(),
-                              style: const TextStyle(
-                                fontSize: 10,
-                              ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            LocaleKeys.approximateWaitingTime.tr(),
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontSize: 9,
                             ),
-                            5.horizontalSpace,
-                            active
-                                ? Text(
-                                    "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}",
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  )
-                                : Text(
-                                    "${12} ${LocaleKeys.hour.tr()}",
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                    ),
+                          ),
+                          5.horizontalSpace,
+                          active
+                              ? Text(
+                                  "${(count + 1) * AppConstants.oneDesignDuration.inMinutes} ${LocaleKeys.minute.tr()}",
+                                  style: const TextStyle(
+                                    fontSize: 11,
                                   ),
-                            /*const WaitingTime()*/
-                            5.horizontalSpace,
-                          ],
-                        ),
+                                )
+                              : Text(
+                                  "${12} ${LocaleKeys.hour.tr()}",
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                  ),
+                                ),
+                          /*const WaitingTime()*/
+                          5.horizontalSpace,
+                        ],
                       ),
                       const Icon(
                         Icons.access_time,

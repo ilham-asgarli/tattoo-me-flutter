@@ -5,11 +5,15 @@ class LocaleConstants {
 
   static const enUS = Locale("en", "US");
   static const trTR = Locale("tr", "TR");
-  static const azAZ = Locale("az", "AZ");
+  static const deDE = Locale("de", "DE");
+  static const esES = Locale("es", "ES");
+  static const itIT = Locale("it", "IT");
 
   static List<Locale> get supportedLocales => [
-        LocaleConstants.azAZ,
         LocaleConstants.trTR,
         LocaleConstants.enUS,
+        LocaleConstants.deDE,
+        LocaleConstants.esES,
+        LocaleConstants.itIT,
       ];
 }

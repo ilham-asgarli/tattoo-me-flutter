@@ -52,11 +52,16 @@ class ExtraCredit extends StatelessWidget {
               ),
             ),
           ] else ...[
-            Text(
-              LocaleKeys.noExtraCredits.tr(),
-              style: TextStyle(
-                color: AppColors.mainColor,
-                fontSize: 12,
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  LocaleKeys.noExtraCredits.tr(),
+                  style: TextStyle(
+                    color: AppColors.mainColor,
+                    fontSize: 12,
+                  ),
+                ),
               ),
             ),
           ]

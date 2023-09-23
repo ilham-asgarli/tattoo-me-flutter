@@ -19,10 +19,14 @@ class EarnTab extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text(
-            LocaleKeys.freeCreditsDescription.tr(),
-            style: const TextStyle(
-              fontSize: 11,
+          Padding(
+            padding: context.paddingLowHorizontal,
+            child: Text(
+              LocaleKeys.freeCreditsDescription.tr(),
+              style: const TextStyle(
+                fontSize: 11,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
           20.verticalSpace,
