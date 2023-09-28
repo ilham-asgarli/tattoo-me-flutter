@@ -8,6 +8,7 @@ import 'package:upgrader/upgrader.dart';
 
 import '../../../../core/base/views/base_app_lifecycle_view.dart';
 import '../../../../core/constants/app/global_key_constants.dart';
+import '../../../../core/extensions/context_extension.dart';
 import '../../../../utils/logic/config/router/config_router.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/helpers/package-info/package_info_helper.dart';
@@ -66,14 +67,19 @@ class MyAppView extends StatelessWidget {
         onGenerateRoute: ConfigRouter.instance.generateRoute,
         initialRoute: viewModel.getInitialRoute(),
         builder: (context, Widget? child) {
-          return UpgradeAlert(
-            upgrader: Upgrader(
-              dialogStyle: Platform.isIOS
-                  ? UpgradeDialogStyle.cupertino
-                  : UpgradeDialogStyle.material,
-              minAppVersion: PackageInfoHelper.instance.packageInfo?.version,
+          return MediaQuery(
+            data: context.mediaQuery.copyWith(
+              textScaleFactor: context.textScaleFactor(baseWidth: 414),
             ),
-            child: buildNetworkCubit(context, child),
+            child: UpgradeAlert(
+              upgrader: Upgrader(
+                dialogStyle: Platform.isIOS
+                    ? UpgradeDialogStyle.cupertino
+                    : UpgradeDialogStyle.material,
+                minAppVersion: PackageInfoHelper.instance.packageInfo?.version,
+              ),
+              child: buildNetworkCubit(context, child),
+            ),
           );
         },
       ),

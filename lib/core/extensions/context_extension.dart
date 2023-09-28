@@ -78,3 +78,9 @@ extension DurationExtension on BuildContext {
 
   Duration get normalDuration => const Duration(seconds: 1);
 }
+
+extension TextExtension on BuildContext {
+  double textScaleFactor({double baseWidth = 450}) {
+    return width / baseWidth;
+  }
+}
