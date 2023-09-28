@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app/locale_constants.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/router/core/router_service.dart';
@@ -29,7 +30,9 @@ class GalleryView extends StatelessWidget {
             Text(
               LocaleKeys.galleryDescription.tr(),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12),
+              style: TextStyle(
+                fontSize: context.locale == LocaleConstants.deDE ? 8 : 12,
+              ),
             ),
             const Spacer(flex: 2),
             const AddPhoto(galleryChoose: GalleryChoose.gallery),

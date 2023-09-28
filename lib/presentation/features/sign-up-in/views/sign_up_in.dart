@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import '../components/forgot_password_alert.dart';
-import '../view-models/sign_up_in_view_model.dart';
-import '../../../widgets/fractionally_sized_circular_progress_indicator.dart';
-import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
-import '../../../../utils/ui/validators/email_validator.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/widget_extension.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
+import '../../../../utils/ui/validators/email_validator.dart';
 import '../../../../utils/ui/validators/password_validator.dart';
+import '../../../widgets/fractionally_sized_circular_progress_indicator.dart';
+import '../components/forgot_password_alert.dart';
+import '../view-models/sign_up_in_view_model.dart';
 
 class SignUpIn extends StatefulWidget {
   const SignUpIn({Key? key}) : super(key: key);
@@ -262,7 +262,9 @@ class _SignUpInState extends State<SignUpIn> {
                 !viewModel.isSignIn(context)
                     ? LocaleKeys.signIn.tr()
                     : LocaleKeys.signUp.tr(),
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
