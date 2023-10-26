@@ -15,28 +15,36 @@ gen:
     (scripts):
     - $build_runner --delete-conflicting-outputs
 splash:
-  (description): Create splash screen
-  (scripts):
-    - dart run flutter_native_splash:create --path=flutter_native_splash.yaml
+  create:
+    (description): Create splash screen
+    (scripts):
+      - dart run flutter_native_splash:create --path=flutter_native_splash.yaml
+  remove:
+    (description): Remove splash screen
+    (scripts):
+      - dart run flutter_native_splash:remove
 icon:
   (description): Create icon
   (scripts):
     - dart run flutter_launcher_icons:main -f flutter_launcher_icons.yaml
+l10n:
+  (description): Generate locales
+  (scripts):
+    - flutter gen-l10n
 locale:
   (description): Generate locales
   (scripts):
     - dart run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart -O lib/utils/logic/constants/locale
 pub:
-  upgrade:
-    major:
-      (description): Upgrade packages to latest versions
-      (scripts):
-        - flutter pub upgrade --major-versions
+  major:
+    (description): Upgrade packages to latest versions
+    (scripts):
+      - flutter pub upgrade --major-versions
 git:
   init:
-    (description): Initialize git and push to github
+    (description): Initialize git and push to Github
     (scripts):
-      - dart scripts/git_push.dart
+      - dart scripts/git_init.dart
   push:
     (description): Push to Github
     (scripts):
@@ -45,3 +53,7 @@ git:
     (description): Set origin
     (scripts):
       - dart scripts/git_origin.dart
+  reset:
+    (description): Reset to commit reference
+    (scripts):
+      - dart scripts/git_reset.dart

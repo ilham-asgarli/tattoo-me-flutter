@@ -66,9 +66,8 @@ class DesignerInfo extends StatelessWidget {
                           10.horizontalSpace,
                           CircleAvatar(
                             radius: 4.5,
-                            backgroundColor: active
-                                ? HexColor("#2df661")
-                                : HexColor("#707070"),
+                            backgroundColor:
+                                active ? HexColor("#2df661") : Colors.blue,
                           ),
                         ],
                       ),
@@ -99,7 +98,7 @@ class DesignerInfo extends StatelessWidget {
                                   ),
                                 )
                               : Text(
-                                  "${12} ${LocaleKeys.hour.tr()}",
+                                  "${6} ${LocaleKeys.hour.tr()}",
                                   style: const TextStyle(
                                     fontSize: 11,
                                   ),
