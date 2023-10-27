@@ -9,13 +9,15 @@ class AppReviewHelper {
     String? details = await AppReview.storeListing;
   }
 
-  Future<void> requestReview() async {
+  Future<bool> requestReview() async {
     bool isRequestReviewAvailable = await AppReview.isRequestReviewAvailable;
+    print("Status: $isRequestReviewAvailable");
 
     if (isRequestReviewAvailable) {
       String? details = await AppReview.requestReview;
-    } else {
-      String? details = await AppReview.storeListing;
+      print("Available: $details");
     }
+
+    return isRequestReviewAvailable;
   }
 }

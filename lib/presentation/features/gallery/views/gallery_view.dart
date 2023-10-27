@@ -12,7 +12,7 @@ import '../components/add_photo.dart';
 import '../components/designer_info.dart';
 
 class GalleryView extends StatelessWidget {
-  const GalleryView({Key? key}) : super(key: key);
+  const GalleryView({super.key});
 
   @override
   Widget build(BuildContext context) {
