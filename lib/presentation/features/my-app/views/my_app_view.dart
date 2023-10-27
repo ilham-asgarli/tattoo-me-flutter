@@ -1,33 +1,76 @@
 import 'dart:io';
 
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
 import 'package:upgrader/upgrader.dart';
 
 import '../../../../core/base/views/base_app_lifecycle_view.dart';
 import '../../../../core/constants/app/global_key_constants.dart';
+import '../../../../core/constants/app/locale_constants.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../utils/logic/config/router/config_router.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/helpers/package-info/package_info_helper.dart';
 import '../../../../utils/logic/helpers/theme/theme_helper.dart';
+import '../../../../utils/logic/state/bloc/designer-status/designer_status_bloc.dart';
+import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../../utils/logic/state/bloc/theme/theme_bloc.dart';
+import '../../../../utils/logic/state/cubit/home-tab/home_tab_cubit.dart';
 import '../../../../utils/logic/state/cubit/network/network_cubit.dart';
+import '../../../../utils/logic/state/cubit/purchase/purchase_cubit.dart';
+import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
+import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
 import '../../../../utils/ui/config/theme/common/common_theme.dart';
 import '../../../widgets/have_no.dart';
 import '../view-models/my_app_view_model.dart';
 
 class MyAppView extends StatelessWidget {
-  MyAppView({Key? key}) : super(key: key);
+  MyAppView({super.key});
 
   final MyAppViewModel viewModel = MyAppViewModel();
 
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-      builder: (context, orientation, deviceType) => buildThemeBloc(),
+    return EasyLocalization(
+      supportedLocales: LocaleConstants.supportedLocales,
+      path: LocaleConstants.path,
+      startLocale: kDebugMode ? LocaleConstants.trTR : null,
+      fallbackLocale: LocaleConstants.enUS,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => ThemeBloc(),
+          ),
+          BlocProvider(
+            create: (_) => NetworkCubit(),
+          ),
+          BlocProvider(
+            create: (_) => SignBloc(),
+          ),
+          BlocProvider(
+            create: (_) => HomeTabCubit(),
+          ),
+          BlocProvider(
+            create: (_) => ReadyCubit(),
+          ),
+          BlocProvider(
+            create: (_) => PurchaseCubit(_),
+          ),
+          BlocProvider(
+            create: (_) => SettingsCubit(),
+          ),
+          BlocProvider(
+            create: (_) => DesignerStatusBloc(),
+          ),
+        ],
+        child: DevicePreview(
+          enabled: false, // kDebugMode
+          builder: (context) => buildThemeBloc(),
+        ),
+      ),
     );
   }
 
