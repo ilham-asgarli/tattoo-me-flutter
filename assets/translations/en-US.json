@@ -133,5 +133,6 @@
   "finished": "Done",
   "deleteDescription": "Are you sure you want to permanently delete it?",
   "downloading": "Downloading",
-  "downloaded": "Downloaded"
+  "downloaded": "Downloaded",
+  "inAppReviewDescription": "Your account will be automatically credited with {} credits after commenting on your experience!"
 }

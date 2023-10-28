@@ -133,5 +133,6 @@
   "finished": "Bitti",
   "deleteDescription": "Kalıcı olarak silmek istediğinden emin misin?",
   "downloading": "Yükleniyor",
-  "downloaded": "Yüklendi"
+  "downloaded": "Yüklendi",
+  "inAppReviewDescription": "Deneyiminiz hakkında yorum yaptıktan sonra hesabınıza otomatik {} kredi tanımlanacaktır!"
 }

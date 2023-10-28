@@ -118,8 +118,8 @@
     "follow": "Seguici su Instagram"
   },
   "tattooDesigner": "Designer di Tatuaggi",
-  "online":"Online",
-  "offline":"Offline",
+  "online": "Online",
+  "offline": "Offline",
   "approximateWaitingTime": "Tempo di attesa approssimativo",
   "minute": "minuto",
   "hour": "ora",
@@ -133,5 +133,6 @@
   "finished": "Completato",
   "deleteDescription": "Sei sicuro di voler eliminarlo definitivamente?",
   "downloading": "Scaricamento",
-  "downloaded": "Scaricato"
+  "downloaded": "Scaricato",
+  "inAppReviewDescription": "Il tuo account sarà automaticamente accreditato con {} crediti dopo aver commentato la tua esperienza!"
 }

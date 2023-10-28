@@ -133,5 +133,6 @@
   "finished": "Fertig",
   "deleteDescription": "Möchten Sie es wirklich dauerhaft löschen?",
   "downloading": "Herunterladen",
-  "downloaded": "Heruntergeladen"
+  "downloaded": "Heruntergeladen",
+  "inAppReviewDescription": "Ihr Konto wird automatisch mit {} Credits gutgeschrieben, nachdem Sie Ihre Erfahrung kommentiert haben!"
 }

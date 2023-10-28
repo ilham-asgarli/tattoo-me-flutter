@@ -33,7 +33,6 @@ class EarnTab extends StatelessWidget {
           Wrap(
             spacing: 10,
             runSpacing: 10,
-            direction: Axis.horizontal,
             children: EarnCredit.values.map((item) {
               return SizedBox(
                 width: context.width / 2 - 15,

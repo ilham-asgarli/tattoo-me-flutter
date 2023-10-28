@@ -43,6 +43,7 @@ class EarnDialog extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 height: 1.5,
               ),
+              textAlign: TextAlign.center,
             ),
             (context.normalValue * 1.3).verticalSpace,
             Row(

@@ -129,5 +129,6 @@ abstract class  LocaleKeys {
   static const deleteDescription = 'deleteDescription';
   static const downloading = 'downloading';
   static const downloaded = 'downloaded';
+  static const inAppReviewDescription = 'inAppReviewDescription';
 
 }

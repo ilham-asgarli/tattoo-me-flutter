@@ -18,7 +18,7 @@ import '../view-models/ready_view_model.dart';
 import 'empty_view.dart';
 
 class ReadyView extends StatefulWidget {
-  const ReadyView({Key? key}) : super(key: key);
+  const ReadyView({super.key});
 
   @override
   State<ReadyView> createState() => _ReadyViewState();
