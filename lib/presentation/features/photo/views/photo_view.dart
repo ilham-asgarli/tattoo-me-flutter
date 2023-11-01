@@ -51,8 +51,8 @@ class _PhotoViewState extends State<PhotoView> {
         !(context.read<SignBloc>().state.userModel.isBoughtFirstDesign ??
             false);
 
-    Future.delayed(const Duration(seconds: 3)).then((value) async {
-      if (true /*close*/) {
+    Future.delayed(const Duration(seconds: 5)).then((value) async {
+      if (close) {
         await SharedPreferencesManager.instance.preferences?.setBool(
           SharedPreferencesConstants.isLookedFirstDesign,
           true,
@@ -68,7 +68,7 @@ class _PhotoViewState extends State<PhotoView> {
                   ) ??
                   false;
 
-          if (true /*!isBoughtFirstDesign && isLookedFirstDesign*/) {
+          if (!isBoughtFirstDesign && isLookedFirstDesign) {
             context.read<HomeTabCubit>().changeTab(2);
             RouterService.instance.pop();
 

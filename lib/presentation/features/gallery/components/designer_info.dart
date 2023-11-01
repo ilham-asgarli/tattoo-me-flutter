@@ -66,9 +66,8 @@ class DesignerInfo extends StatelessWidget {
                           10.horizontalSpace,
                           CircleAvatar(
                             radius: 4.5,
-                            backgroundColor: active
-                                ? HexColor("#2df661")
-                                : const Color(0xFF66ccff),
+                            backgroundColor:
+                                active ? HexColor("#2df661") : Colors.grey,
                           ),
                         ],
                       ),

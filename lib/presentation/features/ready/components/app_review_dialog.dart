@@ -29,92 +29,65 @@ class AppReviewDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: context.lowValue,
-                right: context.lowValue,
-                bottom: context.lowValue,
-                left: context.normalValue,
-              ),
-              child: const Align(
-                alignment: Alignment.topRight,
-                child: Icon(
-                  Icons.close,
-                  color: Colors.black,
-                  size: 20,
-                ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: context.normalValue * 1.3,
+          horizontal: context.normalValue,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              LocaleKeys.inAppReviewTitle.tr(),
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                height: 1.5,
+                fontSize: 15,
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: context.normalValue * 1.3,
-              left: context.normalValue,
-              right: context.normalValue,
+            20.verticalSpace,
+            Text(
+              LocaleKeys.inAppReviewDescription.tr(),
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                height: 1.5,
+                fontSize: 14.5,
+              ),
+              textAlign: TextAlign.center,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  LocaleKeys.inAppReviewTitle.tr(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    height: 1.5,
-                    fontSize: 15,
-                  ),
+            (context.normalValue * 1.3).verticalSpace,
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
                 ),
-                20.verticalSpace,
-                Text(
-                  LocaleKeys.inAppReviewDescription.tr(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    height: 1.5,
-                    fontSize: 14.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                (context.normalValue * 1.3).verticalSpace,
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  onPressed: () async {
-                    Navigator.pop(context);
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
 
-                    if (Platform.isIOS) {
-                      Uri url = Uri.parse(
-                          "https://apps.apple.com/us/app/twitter/id${AppConstants.iOSId}?action=write-review");
-                      launchUrl(url);
-                    } else {
-                      AppReviewHelper.instance.requestReview();
-                    }
-                    await Future.delayed(const Duration(seconds: 5))
-                        .then((value) async {
-                      await ReviewRepository().makeReview(UserModel(
-                        id: userId,
-                      ));
-                    });
-                  },
-                  child: Text(
-                    LocaleKeys.evaluate.tr(),
-                  ),
-                ),
-              ],
+                if (Platform.isIOS) {
+                  Uri url = Uri.parse(
+                      "https://apps.apple.com/us/app/twitter/id${AppConstants.iOSId}?action=write-review");
+                  launchUrl(url);
+                } else {
+                  AppReviewHelper.instance.requestReview();
+                }
+                await Future.delayed(const Duration(seconds: 5))
+                    .then((value) async {
+                  await ReviewRepository().makeReview(UserModel(
+                    id: userId,
+                  ));
+                });
+              },
+              child: Text(
+                LocaleKeys.evaluate.tr(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
