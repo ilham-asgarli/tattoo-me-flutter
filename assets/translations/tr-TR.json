@@ -2,6 +2,7 @@
   "appName": "Tattoo Me",
   "notFoundNavigation": "403",
   "noInternet": "İnternet bağlantınız yok.",
+  "checkInternet": "İnternet bağlantınızı kontrol edin.",
   "noDesigner": "Şu anda hizmet veremiyoruz. Lütfen daha sonra tekrar deneyin.",
   "insufficientBalance": "Yeterli krediniz yok :(",
   "retouchedBefore": "Daha önce rötuşlandı.",
@@ -134,5 +135,6 @@
   "deleteDescription": "Kalıcı olarak silmek istediğinden emin misin?",
   "downloading": "Yükleniyor",
   "downloaded": "Yüklendi",
-  "inAppReviewDescription": "Deneyiminiz hakkında yorum yaptıktan sonra hesabınıza otomatik {} kredi tanımlanacaktır!"
+  "inAppReviewTitle": "Sonuçtan memnun kaldınmı ?",
+  "inAppReviewDescription": "Tasarımcıyı değerlendir, bu dövme tasarımı nı ücretsiz kazan!"
 }

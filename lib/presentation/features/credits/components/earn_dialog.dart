@@ -36,7 +36,7 @@ class EarnDialog extends StatelessWidget {
           children: [
             Text(
               LocaleKeys.earnCreditDescription_comment.tr(args: [
-                AppConstants.tattooDesignPrice.toString(),
+                AppBackConstants.tattooDesignPrice.toString(),
               ]),
               style: const TextStyle(
                 color: Colors.black,

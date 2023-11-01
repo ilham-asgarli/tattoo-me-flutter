@@ -1,4 +1,4 @@
-class AppConstants {
+class AppBackConstants {
   static const tattooDesignPrice = 20;
   static const startBalance = tattooDesignPrice;
   static const reviewAward = tattooDesignPrice;

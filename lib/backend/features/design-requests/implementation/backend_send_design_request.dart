@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../core/base/models/base_error.dart';
 import '../../../../core/base/models/base_success.dart';
@@ -12,6 +13,7 @@ import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/errors/design_request_errors/first_order_insufficient_balance_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/insufficient_balance_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/no_designer_error.dart';
+import '../../../../utils/logic/errors/design_request_errors/no_internet.dart';
 import '../../../../utils/logic/errors/design_request_errors/not_taking_order_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/out_of_work_hours_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/retouched_before_error.dart';
@@ -83,7 +85,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
             BackendUserModel().fromJson(userData);
 
         if (userDocumentSnapshot.exists &&
-            backendUserModel.balance >= AppConstants.tattooDesignPrice) {
+            backendUserModel.balance >= AppBackConstants.tattooDesignPrice) {
           await sendFiles(designRequestModel, designRequestImageReference);
 
           String? designerId = await assignDesigner(
@@ -99,7 +101,8 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
           transaction.update(
             userDocument,
             BackendUserModel(
-              balance: FieldValue.increment(-AppConstants.tattooDesignPrice),
+              balance:
+                  FieldValue.increment(-AppBackConstants.tattooDesignPrice),
               isSpentCredit: true,
             ).toJson(),
           );
@@ -116,6 +119,13 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
 
       designRequestModel.id = designRequestsDocumentReference.id;
       return BaseSuccess<DesignRequestModel>(data: designRequestModel);
+    } on PlatformException catch (e) {
+      if (e.code == "firebase_firestore") {
+        if (e.details["code"] == "unavailable") {
+          throw NoInternet(message: e.toString());
+        }
+      }
+      throw BaseError(message: e.toString());
     } catch (e) {
       switch (e) {
         case 1:

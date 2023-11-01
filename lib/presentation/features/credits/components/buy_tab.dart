@@ -30,7 +30,7 @@ class BuyTab extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 LocaleKeys.creditsDescription.tr(args: [
-                  AppConstants.tattooDesignPrice.toString(),
+                  AppBackConstants.tattooDesignPrice.toString(),
                 ]),
                 textAlign: TextAlign.center,
                 style: const TextStyle(

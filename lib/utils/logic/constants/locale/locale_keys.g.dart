@@ -4,6 +4,7 @@ abstract class  LocaleKeys {
   static const appName = 'appName';
   static const notFoundNavigation = 'notFoundNavigation';
   static const noInternet = 'noInternet';
+  static const checkInternet = 'checkInternet';
   static const noDesigner = 'noDesigner';
   static const insufficientBalance = 'insufficientBalance';
   static const retouchedBefore = 'retouchedBefore';
@@ -129,6 +130,7 @@ abstract class  LocaleKeys {
   static const deleteDescription = 'deleteDescription';
   static const downloading = 'downloading';
   static const downloaded = 'downloaded';
+  static const inAppReviewTitle = 'inAppReviewTitle';
   static const inAppReviewDescription = 'inAppReviewDescription';
 
 }

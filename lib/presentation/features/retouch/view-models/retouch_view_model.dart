@@ -54,22 +54,23 @@ class RetouchViewModel extends BaseViewModel {
       Duration difference =
           now.difference(designRequestModels.last.startDesignDate!);
 
-      if (difference.inMinutes <= AppConstants.oneDesignDuration.inMinutes) {
+      if (difference.inMinutes <=
+          AppBackConstants.oneDesignDuration.inMinutes) {
         endTime = now.millisecondsSinceEpoch +
-            (AppConstants.oneDesignDuration.inMilliseconds -
+            (AppBackConstants.oneDesignDuration.inMilliseconds -
                 difference.inMilliseconds);
       } else {
         endTime = now.millisecondsSinceEpoch +
-            AppConstants.oneDesignDuration.inMilliseconds;
+            AppBackConstants.oneDesignDuration.inMilliseconds;
       }
     } else {
       endTime = now.millisecondsSinceEpoch +
           (designRequestModels.length - 1).toZeroOrPositive() *
-              AppConstants.oneDesignDuration.inMilliseconds;
+              AppBackConstants.oneDesignDuration.inMilliseconds;
     }
 
     if (endTime == now.millisecondsSinceEpoch) {
-      endTime += AppConstants.oneDesignDuration.inMilliseconds;
+      endTime += AppBackConstants.oneDesignDuration.inMilliseconds;
     }
 
     return endTime;

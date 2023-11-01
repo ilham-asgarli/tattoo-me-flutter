@@ -3,13 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/base/view-models/base_view_model.dart';
 import '../../../../core/cache/shared_preferences_manager.dart';
-import '../../../../core/router/core/router_service.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
 import '../../../../domain/repositories/design-responses/implementations/get_design_response_repository.dart';
 import '../../../../utils/logic/constants/cache/shared_preferences_constants.dart';
-import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../components/app_review_dialog.dart';
 
@@ -32,20 +30,20 @@ class ReadyViewModel extends BaseViewModel {
             ) ??
             false;
 
-    if (!isBoughtFirstDesign && isLookedFirstDesign) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AppReviewDialog(
-            userId: context.read<SignBloc>().state.userModel.id,
-          );
-        },
-      );
-      /*RouterService.instance.pushNamed(
+    //if (!isBoughtFirstDesign && isLookedFirstDesign) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AppReviewDialog(
+          userId: context.read<SignBloc>().state.userModel.id,
+        );
+      },
+    );
+    /*RouterService.instance.pushNamed(
         path: RouterConstants.credits,
         data: CreditsViewType.insufficient,
       );*/
-    } else if (designRequestModel?.finished ?? false) {
+    /*} else if (designRequestModel?.finished ?? false) {
       RouterService.instance.pushNamed(
         path: RouterConstants.photo,
         data: designModels[index],
@@ -55,6 +53,6 @@ class ReadyViewModel extends BaseViewModel {
         path: RouterConstants.retouch,
         data: designModels[index].designRequestModel,
       );
-    }
+    }*/
   }
 }

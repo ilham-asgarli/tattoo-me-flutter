@@ -2,6 +2,7 @@
   "appName": "Tattoo Me",
   "notFoundNavigation": "403",
   "noInternet": "Non hai una connessione a internet.",
+  "checkInternet": "Controlla la tua connessione internet.",
   "noDesigner": "Al momento non siamo in grado di servirti. Per favore, riprova più tardi.",
   "insufficientBalance": "Non hai abbastanza crediti :(",
   "retouchedBefore": "È stato ritoccato precedentemente.",
@@ -134,5 +135,6 @@
   "deleteDescription": "Sei sicuro di voler eliminarlo definitivamente?",
   "downloading": "Scaricamento",
   "downloaded": "Scaricato",
-  "inAppReviewDescription": "Il tuo account sarà automaticamente accreditato con {} crediti dopo aver commentato la tua esperienza!"
+  "inAppReviewTitle": "Sei soddisfatto del risultato?",
+  "inAppReviewDescription": "Valuta il designer e vinci questo design del tatuaggio gratuitamente!"
 }

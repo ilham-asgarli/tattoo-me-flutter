@@ -236,7 +236,7 @@ class _TattooChooseViewState extends State<TattooChooseView> {
                 ),
                 widget.horizontalSpace(10),
                 Text(
-                  AppConstants.tattooDesignPrice.toString(),
+                  AppBackConstants.tattooDesignPrice.toString(),
                   textAlign: TextAlign.center,
                 ),
                 widget.horizontalSpace(5),

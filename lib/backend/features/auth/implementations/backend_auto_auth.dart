@@ -23,7 +23,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         id: userModel?.id,
         email: userModel?.email,
         password: userModel?.password,
-        balance: AppConstants.startBalance,
+        balance: AppBackConstants.startBalance,
         isFirstOrderInsufficientBalance: true,
         isBoughtFirstDesign: false,
         isSpentCredit: false,
@@ -91,11 +91,12 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
                 as Map<String, dynamic>);
 
         if (!(backendUserModel.isBoughtFirstDesign ?? false) &&
-            backendUserModel.balance >= AppConstants.tattooDesignPrice) {
+            backendUserModel.balance >= AppBackConstants.tattooDesignPrice) {
           transaction.update(
               userDocument,
               BackendUserModel(
-                balance: FieldValue.increment(-AppConstants.tattooDesignPrice),
+                balance:
+                    FieldValue.increment(-AppBackConstants.tattooDesignPrice),
                 isBoughtFirstDesign: true,
               ).toJson());
         }

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,9 +15,11 @@ import '../../../../domain/models/design-request/design_request_image_model_1.da
 import '../../../../domain/models/design-request/design_request_model.dart';
 import '../../../../domain/repositories/design-requests/implementations/send_design_request_repository.dart';
 import '../../../../utils/logic/constants/enums/app_enums.dart';
+import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/logic/errors/design_request_errors/first_order_insufficient_balance_error.dart';
 import '../../../../utils/logic/errors/design_request_errors/insufficient_balance_error.dart';
+import '../../../../utils/logic/errors/design_request_errors/no_internet.dart';
 import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../../../components/progress_dialog.dart';
 import '../components/error_dialog.dart';
@@ -35,7 +38,8 @@ class TattooChooseViewModel extends BaseViewModel {
   void onTapSend(BuildContext context, bool mounted) async {
     SignBloc signBloc = context.read<SignBloc>();
 
-    if (signBloc.state.userModel.balance! < AppConstants.tattooDesignPrice) {
+    if (signBloc.state.userModel.balance! <
+        AppBackConstants.tattooDesignPrice) {
       RouterService.instance.pushNamed(
         path: RouterConstants.credits,
         data: CreditsViewType.insufficient,
@@ -98,6 +102,12 @@ class TattooChooseViewModel extends BaseViewModel {
       RouterService.instance.pushNamed(
         path: RouterConstants.credits,
         data: CreditsViewType.insufficient,
+      );
+    } on NoInternet catch (e) {
+      Navigator.pop(context);
+      showDesignRequestErrorDialog(
+        context,
+        LocaleKeys.checkInternet.tr(),
       );
     } on BaseError catch (e) {
       Navigator.pop(context);

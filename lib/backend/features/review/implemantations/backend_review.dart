@@ -23,7 +23,7 @@ class BackendReview extends BackendReviewInterface {
         transaction.update(
             userDocument,
             BackendUserModel(
-              balance: FieldValue.increment(AppConstants.reviewAward),
+              balance: FieldValue.increment(AppBackConstants.reviewAward),
               isFirstOrderInsufficientBalance: false,
             ).toJson());
       }, maxAttempts: 1).catchError((e) {

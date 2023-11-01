@@ -24,11 +24,11 @@ dependencies:
   responsive_framework: ^1.1.1
 
   # firebase
-  firebase_core: ^2.20.0
-  firebase_auth: ^4.12.0
-  cloud_firestore: ^4.12.1
-  firebase_storage: ^11.4.0
-  firebase_messaging: ^14.7.2
+  firebase_core: ^2.21.0
+  firebase_auth: ^4.12.1
+  cloud_firestore: ^4.12.2
+  firebase_storage: ^11.4.1
+  firebase_messaging: ^14.7.3
 
   easy_localization: ^3.0.3
   http: ^1.1.0
@@ -47,7 +47,7 @@ dependencies:
   json_annotation: ^4.8.1
   font_awesome_flutter: ^10.6.0
   shimmer: ^3.0.0
-  flutter_native_splash: ^2.3.4
+  flutter_native_splash: ^2.3.5
   flutter_keyboard_visibility: ^5.4.1
   flare_flutter: ^3.0.2
   centered_singlechildscrollview: ^0.2.0
@@ -83,6 +83,7 @@ dependencies:
   flutter_local_notifications: ^16.1.0
   photo_manager: ^2.7.2
   rxdart: ^0.27.7
+  url_launcher: ^6.2.1
 
 dev_dependencies:
   flutter_test:

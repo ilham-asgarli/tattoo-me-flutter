@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +30,10 @@ import '../components/retouch_alert.dart';
 class PhotoView extends StatefulWidget {
   final DesignResponseModel designModel;
 
-  const PhotoView({required this.designModel, Key? key}) : super(key: key);
+  const PhotoView({
+    required this.designModel,
+    super.key,
+  });
 
   @override
   State<PhotoView> createState() => _PhotoViewState();
@@ -41,13 +42,17 @@ class PhotoView extends StatefulWidget {
 class _PhotoViewState extends State<PhotoView> {
   @override
   void initState() {
+    //setTimer();
+    super.initState();
+  }
+
+  void setTimer() {
     bool close =
         !(context.read<SignBloc>().state.userModel.isBoughtFirstDesign ??
             false);
 
-    Future.delayed(Duration(seconds: Platform.isAndroid ? 10 : 3))
-        .then((value) async {
-      if (close) {
+    Future.delayed(const Duration(seconds: 3)).then((value) async {
+      if (true /*close*/) {
         await SharedPreferencesManager.instance.preferences?.setBool(
           SharedPreferencesConstants.isLookedFirstDesign,
           true,
@@ -63,7 +68,7 @@ class _PhotoViewState extends State<PhotoView> {
                   ) ??
                   false;
 
-          if (!isBoughtFirstDesign && isLookedFirstDesign) {
+          if (true /*!isBoughtFirstDesign && isLookedFirstDesign*/) {
             context.read<HomeTabCubit>().changeTab(2);
             RouterService.instance.pop();
 
@@ -75,7 +80,6 @@ class _PhotoViewState extends State<PhotoView> {
         }
       }
     });
-    super.initState();
   }
 
   @override
@@ -159,6 +163,13 @@ class _PhotoViewState extends State<PhotoView> {
         fit: BoxFit.cover,
         width: context.dynamicWidth(1),
         height: context.dynamicHeight(0.6),
+        imageBuilder: (context, imageProvider) {
+          setTimer();
+
+          return Image(
+            image: imageProvider,
+          );
+        },
       ),
       onTapDown: (details) {
         BlocProvider.of<PhotoCubit>(context).showOldPhoto();

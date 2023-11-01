@@ -7,7 +7,7 @@ import '../constants/locale/locale_keys.g.dart';
 extension MyEarnCredit on EarnCredit {
   int get credit {
     return switch (this) {
-      EarnCredit.comment => AppConstants.tattooDesignPrice,
+      EarnCredit.comment => AppBackConstants.tattooDesignPrice,
       EarnCredit.subscribe => 5,
       EarnCredit.follow => 10,
     };

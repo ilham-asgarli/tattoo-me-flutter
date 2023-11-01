@@ -2,6 +2,7 @@
   "appName": "Tattoo Me",
   "notFoundNavigation": "403",
   "noInternet": "You don't have internet connection.",
+  "checkInternet": "Check your internet connection.",
   "noDesigner": "We are currently unable to serve. Please try again later.",
   "insufficientBalance": "You don't have enough credits :(",
   "retouchedBefore": "It has been retouched before.",
@@ -118,8 +119,8 @@
     "follow": "Follow on Instagram"
   },
   "tattooDesigner": "Tattoo Designer",
-  "online":"Online",
-  "offline":"Offline",
+  "online": "Online",
+  "offline": "Offline",
   "approximateWaitingTime": "Approximate waiting time",
   "minute": "min",
   "hour": "hour",
@@ -134,5 +135,6 @@
   "deleteDescription": "Are you sure you want to permanently delete it?",
   "downloading": "Downloading",
   "downloaded": "Downloaded",
-  "inAppReviewDescription": "Your account will be automatically credited with {} credits after commenting on your experience!"
+  "inAppReviewTitle": "Are you satisfied with the result ?",
+  "inAppReviewDescription": "Rate the designer and win this tattoo design for free!"
 }
