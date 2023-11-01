@@ -73,8 +73,12 @@ class TattooChooseViewModel extends BaseViewModel {
     }
   }
 
-  Future<void> sendDesign(bool mounted, BuildContext context, SignBloc signBloc,
-      List<DesignRequestImageModel1> designRequestImageModels) async {
+  Future<void> sendDesign(
+    bool mounted,
+    BuildContext context,
+    SignBloc signBloc,
+    List<DesignRequestImageModel1> designRequestImageModels,
+  ) async {
     try {
       String? userId = signBloc.state.userModel.id;
 
@@ -91,6 +95,12 @@ class TattooChooseViewModel extends BaseViewModel {
         path: RouterConstants.retouch,
         data: baseResponse.data,
       );
+    } on NoInternet catch (e) {
+      Navigator.pop(context);
+      showDesignRequestErrorDialog(
+        context,
+        LocaleKeys.checkInternet.tr(),
+      );
     } on InsufficientBalanceError catch (e) {
       Navigator.pop(context);
       RouterService.instance.pushNamed(
@@ -102,12 +112,6 @@ class TattooChooseViewModel extends BaseViewModel {
       RouterService.instance.pushNamed(
         path: RouterConstants.credits,
         data: CreditsViewType.insufficient,
-      );
-    } on NoInternet catch (e) {
-      Navigator.pop(context);
-      showDesignRequestErrorDialog(
-        context,
-        LocaleKeys.checkInternet.tr(),
       );
     } on BaseError catch (e) {
       Navigator.pop(context);

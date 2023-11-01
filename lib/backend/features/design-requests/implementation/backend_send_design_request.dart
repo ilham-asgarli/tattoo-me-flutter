@@ -120,12 +120,7 @@ class BackendSendDesignRequest extends BackendSendDesignRequestInterface {
       designRequestModel.id = designRequestsDocumentReference.id;
       return BaseSuccess<DesignRequestModel>(data: designRequestModel);
     } on PlatformException catch (e) {
-      if (e.code == "firebase_firestore") {
-        if (e.details["code"] == "unavailable") {
-          throw NoInternet(message: e.toString());
-        }
-      }
-      throw BaseError(message: e.toString());
+      throw NoInternet(message: e.toString());
     } catch (e) {
       switch (e) {
         case 1:
