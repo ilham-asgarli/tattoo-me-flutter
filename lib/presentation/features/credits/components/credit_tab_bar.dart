@@ -73,6 +73,7 @@ class CreditTabBar extends StatelessWidget {
             ),
           ),
         ],
+        dividerColor: Colors.transparent,
         unselectedLabelColor: Colors.white,
         labelColor: Colors.black,
         labelStyle: const TextStyle(

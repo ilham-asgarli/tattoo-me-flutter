@@ -41,14 +41,19 @@ class ThemeHelper {
   ThemeData getThemeDataWithThemeMode(ThemeMode themeMode) {
     switch (themeMode) {
       case ThemeMode.system:
-        return ThemeData(fontFamily: "Arial");
+        return ThemeData(
+          useMaterial3: false,
+          fontFamily: "Arial",
+        );
       case ThemeMode.light:
         return ThemeData(
+          useMaterial3: false,
           brightness: Brightness.light,
           fontFamily: "Arial",
         );
       case ThemeMode.dark:
         return ThemeData(
+          useMaterial3: false,
           brightness: Brightness.dark,
           fontFamily: "Arial",
         );

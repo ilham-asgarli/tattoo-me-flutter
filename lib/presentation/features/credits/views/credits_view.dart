@@ -32,7 +32,6 @@ class CreditsView extends StatelessWidget {
         body: DefaultTabController(
           length: 2,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (creditViewType == CreditsViewType.insufficient) ...[
                 Text(
