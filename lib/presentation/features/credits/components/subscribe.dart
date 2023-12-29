@@ -9,6 +9,7 @@ import '../../../../utils/logic/constants/enums/purchase_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/helpers/purchase/purchase_helper.dart';
 import '../../../../utils/logic/state/cubit/purchase/purchase_cubit.dart';
+import '../../../../utils/logic/state/cubit/subscription/subscription_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import 'subscribe_item.dart';
 
@@ -55,6 +56,16 @@ class Subscribe extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
+                  if (context
+                          .read<SubscriptionCubit>()
+                          .state
+                          .activeSubscriptions
+                          .indexWhere((element) =>
+                              element?.productId == products[index].id) >=
+                      0) {
+                    return;
+                  }
+
                   PurchaseHelper.instance.onTap(context, products[index]);
                 },
                 borderRadius: index == products.length

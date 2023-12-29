@@ -1,14 +1,14 @@
 part of 'subscription_cubit.dart';
 
 class SubscriptionState {
-  List<SubscriptionModel?> activeSubscriptions;
+  List<PastPurchaseModel?> activeSubscriptions;
 
   SubscriptionState({
     this.activeSubscriptions = const [],
   });
 
   SubscriptionState copyWith({
-    List<SubscriptionModel?>? activeSubscriptions,
+    List<PastPurchaseModel?>? activeSubscriptions,
   }) {
     return SubscriptionState(
       activeSubscriptions: activeSubscriptions ?? this.activeSubscriptions,

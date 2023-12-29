@@ -159,12 +159,18 @@ class PurchaseHelper {
   ) {
     GooglePlayPurchaseDetails? oldSubscription;
     if (containsElementWithId(Purchase.subscription, productDetails.id)) {
-      for (String subscription in getAllIds(Purchase.subscription)) {
-        if (purchases[subscription] != null) {
-          oldSubscription =
-              purchases[subscription]! as GooglePlayPurchaseDetails;
-          break;
-        }
+      var p = purchases;
+      p.values.toList().sort(
+        (a, b) {
+          return DateTime.fromMillisecondsSinceEpoch(
+                  int.parse(b.transactionDate!))
+              .compareTo(DateTime.fromMillisecondsSinceEpoch(
+                  int.parse(a.transactionDate!)));
+        },
+      );
+
+      if (p.isNotEmpty) {
+        oldSubscription = p.entries.last.value as GooglePlayPurchaseDetails;
       }
     }
 

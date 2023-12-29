@@ -17,9 +17,9 @@ class SubscribeItem extends StatelessWidget {
   final ProductDetails productDetails;
 
   const SubscribeItem({
-    Key? key,
+    super.key,
     required this.productDetails,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,6 @@ class SubscribeItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           PurchaseHelper.instance

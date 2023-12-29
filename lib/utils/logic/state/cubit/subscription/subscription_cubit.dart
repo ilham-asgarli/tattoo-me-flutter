@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../domain/models/purchase/subscription_model.dart';
+import '../../../../../domain/models/purchase/past_purchase_model.dart';
 import '../../bloc/sign/sign_bloc.dart';
 import '../purchase/purchase_cubit.dart';
 
@@ -32,7 +32,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
         emit(state.copyWith(
           activeSubscriptions: event.docs
               .map(
-                (e) => SubscriptionModel.fromJson(
+                (e) => PastPurchaseModel.fromJson(
                   e.data() as Map<String, dynamic>,
                 ),
               )
@@ -47,11 +47,11 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
         print(
             "purchases from subscriptions: ${context.read<PurchaseCubit>().state.purchases}");
       }
-      print("activeSubscription: ${state.activeSubscriptions.toString()}");
+      print("activeSubscriptions: ${state.activeSubscriptions.toString()}");
     });
   }
 
-  Future<SubscriptionModel?> getLastSubscription(String id) async {
+  Future<PastPurchaseModel?> getLastSubscription(String id) async {
     QuerySnapshot<Object?> subscriptionQuerySnapshot = await purchases
         .where("productId", isEqualTo: id)
         .where("userId", isEqualTo: context.read<SignBloc>().state.userModel.id)
@@ -62,7 +62,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
         .get();
 
     if (subscriptionQuerySnapshot.size > 0) {
-      return SubscriptionModel.fromJson(
+      return PastPurchaseModel.fromJson(
         subscriptionQuerySnapshot.docs[0].data() as Map<String, dynamic>,
       );
     } else {

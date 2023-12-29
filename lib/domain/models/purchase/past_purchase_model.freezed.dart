@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'subscription_model.dart';
+part of 'past_purchase_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,48 +14,48 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-SubscriptionModel _$SubscriptionModelFromJson(Map<String, dynamic> json) {
-  return _SubscriptionModel.fromJson(json);
+PastPurchaseModel _$PastPurchaseModelFromJson(Map<String, dynamic> json) {
+  return _PastPurchaseModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SubscriptionModel {
-  String? get orderId => throw _privateConstructorUsedError;
-  String? get productId => throw _privateConstructorUsedError;
-  String? get userId => throw _privateConstructorUsedError;
-  String? get type => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
-  String? get iapSource => throw _privateConstructorUsedError;
-  DateTime? get purchaseDate => throw _privateConstructorUsedError;
+mixin _$PastPurchaseModel {
+  String get orderId => throw _privateConstructorUsedError;
+  String get productId => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  String get status => throw _privateConstructorUsedError;
+  String get iapSource => throw _privateConstructorUsedError;
+  DateTime get purchaseDate => throw _privateConstructorUsedError;
   DateTime? get expiryDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SubscriptionModelCopyWith<SubscriptionModel> get copyWith =>
+  $PastPurchaseModelCopyWith<PastPurchaseModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SubscriptionModelCopyWith<$Res> {
-  factory $SubscriptionModelCopyWith(
-          SubscriptionModel value, $Res Function(SubscriptionModel) then) =
-      _$SubscriptionModelCopyWithImpl<$Res, SubscriptionModel>;
+abstract class $PastPurchaseModelCopyWith<$Res> {
+  factory $PastPurchaseModelCopyWith(
+          PastPurchaseModel value, $Res Function(PastPurchaseModel) then) =
+      _$PastPurchaseModelCopyWithImpl<$Res, PastPurchaseModel>;
   @useResult
   $Res call(
-      {String? orderId,
-      String? productId,
-      String? userId,
-      String? type,
-      String? status,
-      String? iapSource,
-      DateTime? purchaseDate,
+      {String orderId,
+      String productId,
+      String userId,
+      String type,
+      String status,
+      String iapSource,
+      DateTime purchaseDate,
       DateTime? expiryDate});
 }
 
 /// @nodoc
-class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
-    implements $SubscriptionModelCopyWith<$Res> {
-  _$SubscriptionModelCopyWithImpl(this._value, this._then);
+class _$PastPurchaseModelCopyWithImpl<$Res, $Val extends PastPurchaseModel>
+    implements $PastPurchaseModelCopyWith<$Res> {
+  _$PastPurchaseModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -65,44 +65,44 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = freezed,
-    Object? productId = freezed,
-    Object? userId = freezed,
-    Object? type = freezed,
-    Object? status = freezed,
-    Object? iapSource = freezed,
-    Object? purchaseDate = freezed,
+    Object? orderId = null,
+    Object? productId = null,
+    Object? userId = null,
+    Object? type = null,
+    Object? status = null,
+    Object? iapSource = null,
+    Object? purchaseDate = null,
     Object? expiryDate = freezed,
   }) {
     return _then(_value.copyWith(
-      orderId: freezed == orderId
+      orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      productId: freezed == productId
+              as String,
+      productId: null == productId
           ? _value.productId
           : productId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userId: freezed == userId
+              as String,
+      userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      type: freezed == type
+              as String,
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      status: freezed == status
+              as String,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
-      iapSource: freezed == iapSource
+              as String,
+      iapSource: null == iapSource
           ? _value.iapSource
           : iapSource // ignore: cast_nullable_to_non_nullable
-              as String?,
-      purchaseDate: freezed == purchaseDate
+              as String,
+      purchaseDate: null == purchaseDate
           ? _value.purchaseDate
           : purchaseDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       expiryDate: freezed == expiryDate
           ? _value.expiryDate
           : expiryDate // ignore: cast_nullable_to_non_nullable
@@ -112,73 +112,73 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
 }
 
 /// @nodoc
-abstract class _$$SubscriptionModelImplCopyWith<$Res>
-    implements $SubscriptionModelCopyWith<$Res> {
-  factory _$$SubscriptionModelImplCopyWith(_$SubscriptionModelImpl value,
-          $Res Function(_$SubscriptionModelImpl) then) =
-      __$$SubscriptionModelImplCopyWithImpl<$Res>;
+abstract class _$$PastPurchaseModelImplCopyWith<$Res>
+    implements $PastPurchaseModelCopyWith<$Res> {
+  factory _$$PastPurchaseModelImplCopyWith(_$PastPurchaseModelImpl value,
+          $Res Function(_$PastPurchaseModelImpl) then) =
+      __$$PastPurchaseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String? orderId,
-      String? productId,
-      String? userId,
-      String? type,
-      String? status,
-      String? iapSource,
-      DateTime? purchaseDate,
+      {String orderId,
+      String productId,
+      String userId,
+      String type,
+      String status,
+      String iapSource,
+      DateTime purchaseDate,
       DateTime? expiryDate});
 }
 
 /// @nodoc
-class __$$SubscriptionModelImplCopyWithImpl<$Res>
-    extends _$SubscriptionModelCopyWithImpl<$Res, _$SubscriptionModelImpl>
-    implements _$$SubscriptionModelImplCopyWith<$Res> {
-  __$$SubscriptionModelImplCopyWithImpl(_$SubscriptionModelImpl _value,
-      $Res Function(_$SubscriptionModelImpl) _then)
+class __$$PastPurchaseModelImplCopyWithImpl<$Res>
+    extends _$PastPurchaseModelCopyWithImpl<$Res, _$PastPurchaseModelImpl>
+    implements _$$PastPurchaseModelImplCopyWith<$Res> {
+  __$$PastPurchaseModelImplCopyWithImpl(_$PastPurchaseModelImpl _value,
+      $Res Function(_$PastPurchaseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = freezed,
-    Object? productId = freezed,
-    Object? userId = freezed,
-    Object? type = freezed,
-    Object? status = freezed,
-    Object? iapSource = freezed,
-    Object? purchaseDate = freezed,
+    Object? orderId = null,
+    Object? productId = null,
+    Object? userId = null,
+    Object? type = null,
+    Object? status = null,
+    Object? iapSource = null,
+    Object? purchaseDate = null,
     Object? expiryDate = freezed,
   }) {
-    return _then(_$SubscriptionModelImpl(
-      orderId: freezed == orderId
+    return _then(_$PastPurchaseModelImpl(
+      orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      productId: freezed == productId
+              as String,
+      productId: null == productId
           ? _value.productId
           : productId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userId: freezed == userId
+              as String,
+      userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      type: freezed == type
+              as String,
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      status: freezed == status
+              as String,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
-      iapSource: freezed == iapSource
+              as String,
+      iapSource: null == iapSource
           ? _value.iapSource
           : iapSource // ignore: cast_nullable_to_non_nullable
-              as String?,
-      purchaseDate: freezed == purchaseDate
+              as String,
+      purchaseDate: null == purchaseDate
           ? _value.purchaseDate
           : purchaseDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       expiryDate: freezed == expiryDate
           ? _value.expiryDate
           : expiryDate // ignore: cast_nullable_to_non_nullable
@@ -191,47 +191,47 @@ class __$$SubscriptionModelImplCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 @TimestampSerializer()
-class _$SubscriptionModelImpl implements _SubscriptionModel {
-  const _$SubscriptionModelImpl(
-      {this.orderId,
-      this.productId,
-      this.userId,
-      this.type,
-      this.status,
-      this.iapSource,
-      this.purchaseDate,
+class _$PastPurchaseModelImpl implements _PastPurchaseModel {
+  const _$PastPurchaseModelImpl(
+      {required this.orderId,
+      required this.productId,
+      required this.userId,
+      required this.type,
+      required this.status,
+      required this.iapSource,
+      required this.purchaseDate,
       this.expiryDate});
 
-  factory _$SubscriptionModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SubscriptionModelImplFromJson(json);
+  factory _$PastPurchaseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PastPurchaseModelImplFromJson(json);
 
   @override
-  final String? orderId;
+  final String orderId;
   @override
-  final String? productId;
+  final String productId;
   @override
-  final String? userId;
+  final String userId;
   @override
-  final String? type;
+  final String type;
   @override
-  final String? status;
+  final String status;
   @override
-  final String? iapSource;
+  final String iapSource;
   @override
-  final DateTime? purchaseDate;
+  final DateTime purchaseDate;
   @override
   final DateTime? expiryDate;
 
   @override
   String toString() {
-    return 'SubscriptionModel(orderId: $orderId, productId: $productId, userId: $userId, type: $type, status: $status, iapSource: $iapSource, purchaseDate: $purchaseDate, expiryDate: $expiryDate)';
+    return 'PastPurchaseModel(orderId: $orderId, productId: $productId, userId: $userId, type: $type, status: $status, iapSource: $iapSource, purchaseDate: $purchaseDate, expiryDate: $expiryDate)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SubscriptionModelImpl &&
+            other is _$PastPurchaseModelImpl &&
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.productId, productId) ||
                 other.productId == productId) &&
@@ -254,50 +254,50 @@ class _$SubscriptionModelImpl implements _SubscriptionModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SubscriptionModelImplCopyWith<_$SubscriptionModelImpl> get copyWith =>
-      __$$SubscriptionModelImplCopyWithImpl<_$SubscriptionModelImpl>(
+  _$$PastPurchaseModelImplCopyWith<_$PastPurchaseModelImpl> get copyWith =>
+      __$$PastPurchaseModelImplCopyWithImpl<_$PastPurchaseModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SubscriptionModelImplToJson(
+    return _$$PastPurchaseModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _SubscriptionModel implements SubscriptionModel {
-  const factory _SubscriptionModel(
-      {final String? orderId,
-      final String? productId,
-      final String? userId,
-      final String? type,
-      final String? status,
-      final String? iapSource,
-      final DateTime? purchaseDate,
-      final DateTime? expiryDate}) = _$SubscriptionModelImpl;
+abstract class _PastPurchaseModel implements PastPurchaseModel {
+  const factory _PastPurchaseModel(
+      {required final String orderId,
+      required final String productId,
+      required final String userId,
+      required final String type,
+      required final String status,
+      required final String iapSource,
+      required final DateTime purchaseDate,
+      final DateTime? expiryDate}) = _$PastPurchaseModelImpl;
 
-  factory _SubscriptionModel.fromJson(Map<String, dynamic> json) =
-      _$SubscriptionModelImpl.fromJson;
+  factory _PastPurchaseModel.fromJson(Map<String, dynamic> json) =
+      _$PastPurchaseModelImpl.fromJson;
 
   @override
-  String? get orderId;
+  String get orderId;
   @override
-  String? get productId;
+  String get productId;
   @override
-  String? get userId;
+  String get userId;
   @override
-  String? get type;
+  String get type;
   @override
-  String? get status;
+  String get status;
   @override
-  String? get iapSource;
+  String get iapSource;
   @override
-  DateTime? get purchaseDate;
+  DateTime get purchaseDate;
   @override
   DateTime? get expiryDate;
   @override
   @JsonKey(ignore: true)
-  _$$SubscriptionModelImplCopyWith<_$SubscriptionModelImpl> get copyWith =>
+  _$$PastPurchaseModelImplCopyWith<_$PastPurchaseModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
