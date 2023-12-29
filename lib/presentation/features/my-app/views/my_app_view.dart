@@ -23,6 +23,7 @@ import '../../../../utils/logic/state/cubit/network/network_cubit.dart';
 import '../../../../utils/logic/state/cubit/purchase/purchase_cubit.dart';
 import '../../../../utils/logic/state/cubit/ready/ready_cubit.dart';
 import '../../../../utils/logic/state/cubit/settings/settings_cubit.dart';
+import '../../../../utils/logic/state/cubit/subscription/subscription_cubit.dart';
 import '../../../../utils/ui/config/theme/common/common_theme.dart';
 import '../../../widgets/have_no.dart';
 import '../view-models/my_app_view_model.dart';
@@ -58,6 +59,9 @@ class MyAppView extends StatelessWidget {
           ),
           BlocProvider(
             create: (_) => PurchaseCubit(_),
+          ),
+          BlocProvider(
+            create: (_) => SubscriptionCubit(_),
           ),
           BlocProvider(
             create: (_) => SettingsCubit(),

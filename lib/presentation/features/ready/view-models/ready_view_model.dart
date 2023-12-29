@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/base/models/base_response.dart';
 import '../../../../core/base/view-models/base_view_model.dart';
 import '../../../../core/cache/shared_preferences_manager.dart';
 import '../../../../core/router/core/router_service.dart';
@@ -14,6 +15,8 @@ import '../../../../utils/logic/state/bloc/sign/sign_bloc.dart';
 import '../components/app_review_dialog.dart';
 
 class ReadyViewModel extends BaseViewModel {
+  Map<String, Future<BaseResponse<DesignResponseModel>>> responseImages = {};
+
   GetDesignResponseRepository getDesignResponseRepository =
       GetDesignResponseRepository();
 

@@ -13,7 +13,7 @@ import '../../../../utils/ui/constants/colors/app_colors.dart';
 import 'subscribe_item.dart';
 
 class Subscribe extends StatelessWidget {
-  const Subscribe({Key? key}) : super(key: key);
+  const Subscribe({super.key});
 
   @override
   Widget build(BuildContext context) {

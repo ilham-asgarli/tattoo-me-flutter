@@ -9,7 +9,7 @@ import '../../../../core/extensions/string_extension.dart';
 import '../../../../utils/logic/constants/enums/purchase_enums.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../../../../utils/logic/helpers/purchase/purchase_helper.dart';
-import '../../../../utils/logic/state/cubit/purchase/purchase_cubit.dart';
+import '../../../../utils/logic/state/cubit/subscription/subscription_cubit.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import 'extra_credit.dart';
 
@@ -144,11 +144,13 @@ class SubscribeItem extends StatelessWidget {
   }
 
   bool isActive(BuildContext context) {
-    for (var element in context.watch<PurchaseCubit>().state.purchases) {
-      if (element.productID == productDetails.id) {
-        return true;
-      }
-    }
-    return false;
+    int model = context
+        .watch<SubscriptionCubit>()
+        .state
+        .activeSubscriptions
+        .indexWhere((element) => element?.productId == productDetails.id);
+    bool active = model >= 0;
+
+    return active;
   }
 }

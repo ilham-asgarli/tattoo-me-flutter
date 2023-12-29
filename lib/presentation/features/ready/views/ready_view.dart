@@ -116,7 +116,9 @@ class _ReadyViewState extends State<ReadyView> {
                   designRequestModel
                           ?.designRequestImageModels2?[imageIndex].link ??
                       "",
-                  designRequestModel?.id ?? ""),
+                  designRequestModel?.id ?? "",
+                  index,
+                ),
           buildNotBought(),
           buildRetouching(designRequestModel?.finished ?? false),
         ],
@@ -170,12 +172,15 @@ class _ReadyViewState extends State<ReadyView> {
     );
   }
 
-  Widget buildResponseImage(String link, String requestId) {
+  Widget buildResponseImage(String link, String requestId, int index) {
     DesignResponseRepository designResponseRepository =
         DesignResponseRepository();
 
+    viewModel.responseImages[index.toString()] ??=
+        designResponseRepository.getDesignResponse(requestId);
+
     return FutureBuilder<BaseResponse<DesignResponseModel>>(
-      future: designResponseRepository.getDesignResponse(requestId),
+      future: viewModel.responseImages[index.toString()],
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           BaseResponse<DesignResponseModel>? baseResponse = snapshot.data;
