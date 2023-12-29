@@ -160,6 +160,8 @@ class PurchaseHelper {
     GooglePlayPurchaseDetails? oldSubscription;
     if (containsElementWithId(Purchase.subscription, productDetails.id)) {
       var p = purchases;
+      p.removeWhere(
+          (key, value) => !containsElementWithId(Purchase.subscription, key));
       p.values.toList().sort(
         (a, b) {
           return DateTime.fromMillisecondsSinceEpoch(
