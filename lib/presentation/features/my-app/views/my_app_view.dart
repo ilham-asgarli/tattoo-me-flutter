@@ -120,7 +120,6 @@ class MyAppView extends StatelessWidget {
             ),
             child: UpgradeAlert(
               upgrader: Upgrader(
-                upgraderOS: UpgraderOS(),
                 minAppVersion: PackageInfoHelper.instance.packageInfo?.version,
               ),
               child: buildNetworkCubit(context, child),
