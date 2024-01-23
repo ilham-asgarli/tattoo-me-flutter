@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -116,13 +114,13 @@ class MyAppView extends StatelessWidget {
         builder: (context, Widget? child) {
           return MediaQuery(
             data: context.mediaQuery.copyWith(
-              textScaleFactor: context.textScaleFactor(baseWidth: 414),
+              textScaler: TextScaler.linear(
+                context.textScaleFactor(baseWidth: 414),
+              ),
             ),
             child: UpgradeAlert(
               upgrader: Upgrader(
-                dialogStyle: Platform.isIOS
-                    ? UpgradeDialogStyle.cupertino
-                    : UpgradeDialogStyle.material,
+                upgraderOS: UpgraderOS(),
                 minAppVersion: PackageInfoHelper.instance.packageInfo?.version,
               ),
               child: buildNetworkCubit(context, child),
