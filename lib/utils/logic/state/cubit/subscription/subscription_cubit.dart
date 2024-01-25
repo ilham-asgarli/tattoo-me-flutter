@@ -44,10 +44,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
         ));
 
         context.read<PurchaseCubit>().resetPurchases();
-        print(
-            "purchases from subscriptions: ${context.read<PurchaseCubit>().state.purchases}");
       }
-      print("activeSubscriptions: ${state.activeSubscriptions.toString()}");
     });
   }
 
