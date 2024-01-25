@@ -21,30 +21,33 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
   StreamSubscription<QuerySnapshot<Object?>>? purchaseStream;
 
   void init() async {
-    purchaseStream = purchases
-        .where("userId", isEqualTo: context.read<SignBloc>().state.userModel.id)
-        .where("type", isEqualTo: "SUBSCRIPTION")
-        .where("status", isEqualTo: "ACTIVE")
-        .orderBy("purchaseDate", descending: true)
-        .snapshots()
-        .listen((event) {
-      if (event.size > 0) {
-        emit(state.copyWith(
-          activeSubscriptions: event.docs
-              .map(
-                (e) => PastPurchaseModel.fromJson(
-                  e.data() as Map<String, dynamic>,
-                ),
-              )
-              .toList(),
-        ));
-      } else {
-        emit(state.copyWith(
-          activeSubscriptions: [],
-        ));
+    context.read<SignBloc>().stream.listen((event) {
+      purchaseStream = purchases
+          .where("userId",
+              isEqualTo: context.read<SignBloc>().state.userModel.id)
+          .where("type", isEqualTo: "SUBSCRIPTION")
+          .where("status", isEqualTo: "ACTIVE")
+          .orderBy("purchaseDate", descending: true)
+          .snapshots()
+          .listen((event) {
+        if (event.size > 0) {
+          emit(state.copyWith(
+            activeSubscriptions: event.docs
+                .map(
+                  (e) => PastPurchaseModel.fromJson(
+                    e.data() as Map<String, dynamic>,
+                  ),
+                )
+                .toList(),
+          ));
+        } else {
+          emit(state.copyWith(
+            activeSubscriptions: [],
+          ));
 
-        context.read<PurchaseCubit>().resetPurchases();
-      }
+          context.read<PurchaseCubit>().resetPurchases();
+        }
+      });
     });
   }
 

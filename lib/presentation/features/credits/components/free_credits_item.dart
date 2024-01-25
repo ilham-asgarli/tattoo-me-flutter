@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,22 +64,17 @@ class FreeCreditsItem extends StatelessWidget {
                         Column(
                           children: [
                             5.verticalSpace,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "ic_app_store".toPNG,
-                                  width: 18,
-                                  height: 18,
-                                ),
-                                10.horizontalSpace,
-                                Image.asset(
-                                  "ic_google_play".toPNG,
-                                  width: 18,
-                                  height: 18,
-                                ),
-                              ],
-                            ),
+                            Platform.isAndroid
+                                ? Image.asset(
+                                    "ic_google_play".toPNG,
+                                    width: 18,
+                                    height: 18,
+                                  )
+                                : Image.asset(
+                                    "ic_app_store".toPNG,
+                                    width: 18,
+                                    height: 18,
+                                  ),
                           ],
                         ),
                     ],
