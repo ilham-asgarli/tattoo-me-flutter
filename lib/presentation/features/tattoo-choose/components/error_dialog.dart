@@ -24,12 +24,12 @@ class ErrorDialog extends StatelessWidget {
   final bool? isAwardedReview;
 
   const ErrorDialog({
-    Key? key,
+    super.key,
     this.message = "",
     this.insufficientBalance = false,
     required this.buildContext,
     this.isAwardedReview,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

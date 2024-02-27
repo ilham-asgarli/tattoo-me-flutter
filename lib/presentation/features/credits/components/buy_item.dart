@@ -15,7 +15,7 @@ import 'extra_credit.dart';
 class BuyItem extends StatelessWidget {
   final ProductDetails productDetails;
 
-  const BuyItem({Key? key, required this.productDetails}) : super(key: key);
+  const BuyItem({super.key, required this.productDetails});
 
   @override
   Widget build(BuildContext context) {

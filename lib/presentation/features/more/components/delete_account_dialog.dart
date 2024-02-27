@@ -17,9 +17,9 @@ class DeleteAccountDialog extends StatelessWidget {
   final BuildContext buildContext;
 
   const DeleteAccountDialog({
-    Key? key,
+    super.key,
     required this.buildContext,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

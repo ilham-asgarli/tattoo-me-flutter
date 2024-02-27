@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:tattoo/core/extensions/widget_extension.dart';
+import '../../../../core/extensions/widget_extension.dart';
 
 import '../../../../core/router/core/router_service.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
@@ -10,7 +10,7 @@ import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 
 class IosStoreArea extends StatelessWidget {
-  const IosStoreArea({Key? key}) : super(key: key);
+  const IosStoreArea({super.key});
 
   @override
   Widget build(BuildContext context) {

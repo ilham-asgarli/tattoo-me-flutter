@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tattoo/backend/features/auth/implementations/backend_auto_auth.dart';
-import 'package:tattoo/backend/features/auth/interfaces/backend_auth_interface.dart';
-import 'package:tattoo/core/base/models/base_response.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
 
 import '../../../../core/base/models/base_error.dart';
+import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
 import '../../../../domain/models/auth/user_model.dart';
 import '../../../core/encrypt/core_encrypt.dart';
 import '../../../core/exceptions/auth/auth_exception.dart';
+import '../interfaces/backend_auth_interface.dart';
+import 'backend_auto_auth.dart';
 
 class BackendAuth extends BackendAuthInterface {
   AuthException authException = AuthException();
@@ -48,13 +48,15 @@ class BackendAuth extends BackendAuthInterface {
   Future<BaseResponse> deleteAccount(String userId) async {
     try {
       BackendAutoAuth backendAutoAuth = BackendAutoAuth();
-      BaseResponse<UserModel> userBaseResponse= await backendAutoAuth.getUserWithId(userId);
+      BaseResponse<UserModel> userBaseResponse =
+          await backendAutoAuth.getUserWithId(userId);
 
-      if(userBaseResponse is BaseSuccess<UserModel>) {
+      if (userBaseResponse is BaseSuccess<UserModel>) {
         await FirebaseAuth.instance.currentUser?.reauthenticateWithCredential(
           EmailAuthProvider.credential(
             email: userBaseResponse.data!.email!,
-            password: CoreEncrypt().decryptFile(userBaseResponse.data!.password!),
+            password:
+                CoreEncrypt().decryptFile(userBaseResponse.data!.password!),
           ),
         );
 

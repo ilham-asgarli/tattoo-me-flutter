@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/extensions/context_extension.dart';
 
 class ProgressDialog extends StatelessWidget {
-  const ProgressDialog({Key? key}) : super(key: key);
+  const ProgressDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

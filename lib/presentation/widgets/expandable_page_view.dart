@@ -146,14 +146,13 @@ class ExpandablePageView extends StatefulWidget {
     this.scrollBehavior,
     this.scrollDirection = Axis.horizontal,
     this.padEnds = true,
-    Key? key,
+    super.key,
   })  : assert(estimatedPageSize >= 0.0),
         children = children,
         itemBuilder = null,
-        itemCount = null,
-        super(key: key);
+        itemCount = null;
 
-  ExpandablePageView.builder({
+  const ExpandablePageView.builder({
     required int itemCount,
     required WidgetBuilder itemBuilder,
     this.controller,
@@ -173,12 +172,11 @@ class ExpandablePageView extends StatefulWidget {
     this.scrollBehavior,
     this.scrollDirection = Axis.horizontal,
     this.padEnds = true,
-    Key? key,
+    super.key,
   })  : assert(estimatedPageSize >= 0.0),
         children = null,
         itemCount = itemCount,
-        itemBuilder = itemBuilder,
-        super(key: key);
+        itemBuilder = itemBuilder;
 
   @override
   _ExpandablePageViewState createState() => _ExpandablePageViewState();
@@ -374,7 +372,7 @@ class OverflowPage extends StatelessWidget {
   final Alignment alignment;
   final Axis scrollDirection;
 
-  const OverflowPage({
+  const OverflowPage({super.key, 
     required this.onSizeChange,
     required this.child,
     required this.alignment,

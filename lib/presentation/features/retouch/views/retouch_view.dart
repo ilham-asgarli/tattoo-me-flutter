@@ -23,7 +23,7 @@ class RetouchView extends StatelessWidget {
   late final DesignRequestModel? designRequestModel;
   final RetouchViewModel viewModel = RetouchViewModel();
 
-  RetouchView({required this.designRequestModel, Key? key}) : super(key: key) {
+  RetouchView({required this.designRequestModel, super.key}) {
     imageIndex = designRequestModel?.designRequestImageModels2
             ?.indexWhere((element) => element.name == "2") ??
         0;

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:tattoo/utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 
 import '../../../../backend/utils/constants/app/app_constants.dart';
 import '../../../../domain/models/design-response/design_response_model.dart';
@@ -11,8 +11,7 @@ import '../../../../domain/repositories/design-responses/implementations/design_
 class EvaluateDesignerAlert extends StatelessWidget {
   final DesignResponseModel designModel;
 
-  EvaluateDesignerAlert({required this.designModel, Key? key})
-      : super(key: key);
+  EvaluateDesignerAlert({required this.designModel, super.key});
 
   final alertKey = UniqueKey();
   int rating = 1;
@@ -90,9 +89,6 @@ class EvaluateDesignerAlert extends StatelessWidget {
         RatingBar.builder(
           initialRating: designModel.rating?.toDouble() ?? 1,
           minRating: AppBackConstants.minRating,
-          direction: Axis.horizontal,
-          allowHalfRating: false,
-          itemCount: 5,
           unratedColor: HexColor("#e6e6e6"),
           itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
           itemBuilder: (context, _) => const Icon(

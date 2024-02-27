@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/extensions/context_extension.dart';
 
 class RetouchReady extends StatelessWidget {
-  const RetouchReady({Key? key}) : super(key: key);
+  const RetouchReady({super.key});
 
   @override
   Widget build(BuildContext context) {

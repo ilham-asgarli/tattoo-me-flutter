@@ -11,8 +11,8 @@ class HaveNo extends StatelessWidget {
   const HaveNo({
     required this.description,
     required this.iconData,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

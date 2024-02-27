@@ -20,7 +20,7 @@ import '../view-models/more_view_model.dart';
 class MoreView extends StatelessWidget {
   final MoreViewModel viewModel = MoreViewModel();
 
-  MoreView({Key? key}) : super(key: key);
+  MoreView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +93,8 @@ class MoreView extends StatelessWidget {
     return Padding(
       padding: context.paddingLow,
       child: Wrap(
-        alignment: WrapAlignment.start,
         spacing: 10,
         runSpacing: 10,
-        direction: Axis.horizontal,
         children: [
           buildFeature(
             context,
@@ -175,7 +173,6 @@ class MoreView extends StatelessWidget {
       subject: LocaleKeys.errorMailSubject.tr(),
       body: LocaleKeys.errorMailBody.tr(),
       recipients: [LocaleKeys.errorMailRecipients.tr(gender: "0")],
-      isHTML: false,
     );
 
     await FlutterEmailSender.send(email);

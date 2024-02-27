@@ -8,7 +8,7 @@ import '../../../../utils/ui/validators/email_validator.dart';
 import '../../../../core/base/models/base_response.dart';
 
 class ForgotPasswordAlert extends StatefulWidget {
-  const ForgotPasswordAlert({Key? key}) : super(key: key);
+  const ForgotPasswordAlert({super.key});
 
   @override
   State<ForgotPasswordAlert> createState() => _ForgotPasswordAlertState();

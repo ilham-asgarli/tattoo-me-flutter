@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicyView extends StatelessWidget {
-  PrivacyPolicyView({Key? key}) : super(key: key);
+  PrivacyPolicyView({super.key});
 
   final WebViewController controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)

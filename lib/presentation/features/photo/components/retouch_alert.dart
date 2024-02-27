@@ -16,7 +16,7 @@ import '../../../../utils/ui/validators/retouch_comment_validator.dart';
 class RetouchAlert extends StatefulWidget {
   final DesignResponseModel designModel;
 
-  const RetouchAlert({required this.designModel, Key? key}) : super(key: key);
+  const RetouchAlert({required this.designModel, super.key});
 
   @override
   State<RetouchAlert> createState() => _RetouchAlertState();

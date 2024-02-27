@@ -16,8 +16,8 @@ class TablePlaceHolder extends StatelessWidget {
     required this.rowCount,
     this.padding,
     this.space,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

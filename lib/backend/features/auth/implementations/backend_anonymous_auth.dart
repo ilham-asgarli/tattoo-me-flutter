@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
 
 import '../../../../core/base/models/base_response.dart';
+import '../../../../core/base/models/base_success.dart';
 import '../../../core/exceptions/auth/auth_exception.dart';
 import '../interfaces/backend_anonymous_auth_interface.dart';
 

@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tattoo/domain/models/auth/user_model.dart';
+import '../../../../domain/models/auth/user_model.dart';
 
 import '../../../../core/base/models/base_response.dart';
 

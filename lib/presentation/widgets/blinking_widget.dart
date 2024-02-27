@@ -11,8 +11,8 @@ class BlinkingWidget extends StatefulWidget {
     required this.child,
     this.periodDuration = 1,
     this.animateDuration = 1,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<BlinkingWidget> createState() => _BlinkingWidgetState();

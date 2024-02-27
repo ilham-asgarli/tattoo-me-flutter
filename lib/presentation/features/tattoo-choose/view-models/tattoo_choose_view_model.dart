@@ -95,19 +95,19 @@ class TattooChooseViewModel extends BaseViewModel {
         path: RouterConstants.retouch,
         data: baseResponse.data,
       );
-    } on NoInternet catch (e) {
+    } on NoInternet {
       Navigator.pop(context);
       showDesignRequestErrorDialog(
         context,
         LocaleKeys.checkInternet.tr(),
       );
-    } on InsufficientBalanceError catch (e) {
+    } on InsufficientBalanceError {
       Navigator.pop(context);
       RouterService.instance.pushNamed(
         path: RouterConstants.credits,
         data: CreditsViewType.insufficient,
       );
-    } on FirstOrderInsufficientBalanceError catch (e) {
+    } on FirstOrderInsufficientBalanceError {
       Navigator.pop(context);
       RouterService.instance.pushNamed(
         path: RouterConstants.credits,

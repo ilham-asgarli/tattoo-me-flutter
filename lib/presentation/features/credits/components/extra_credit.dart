@@ -27,7 +27,6 @@ class ExtraCredit extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (extra != null && extra! > 0) ...[
             Text(

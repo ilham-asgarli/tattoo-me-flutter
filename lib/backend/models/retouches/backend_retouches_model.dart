@@ -1,5 +1,5 @@
-import 'package:tattoo/core/base/models/base_model.dart';
-import 'package:tattoo/core/extensions/map_extension.dart';
+import '../../../core/base/models/base_model.dart';
+import '../../../core/extensions/map_extension.dart';
 
 class BackendRetouchesModel extends BaseModel<BackendRetouchesModel> {
   String? id;

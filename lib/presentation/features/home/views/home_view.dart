@@ -11,7 +11,7 @@ import '../../gallery/views/gallery_view.dart';
 import '../../ready/views/ready_view.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({Key? key}) : super(key: key);
+  HomeView({super.key});
 
   final List<Widget> _items = [
     const GalleryView(),

@@ -5,12 +5,11 @@ class MyShimmer extends StatelessWidget {
   final Widget child;
   final Color color;
 
-  const MyShimmer({required this.child, required this.color, Key? key}) : super(key: key);
+  const MyShimmer({required this.child, required this.color, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Shimmer(
-      enabled: true,
       gradient: LinearGradient(
         colors: [
           color.withOpacity(1),

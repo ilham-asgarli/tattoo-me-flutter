@@ -13,8 +13,7 @@ class RetouchBackground extends StatelessWidget {
       this.backgroundColor,
       this.sigmaX,
       this.sigmaY,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,6 @@ class RetouchBackground extends StatelessWidget {
                 )
               : AssetImage(image ?? "") as ImageProvider,
           fit: BoxFit.cover,
-          filterQuality: FilterQuality.low,
         ),
       ),
       child: ClipRRect(

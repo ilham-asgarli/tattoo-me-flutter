@@ -43,7 +43,7 @@ class _WaitingTimeState extends State<WaitingTime> {
                 children: [
                   TextSpan(
                     text:
-                        "${((days ?? 0) > 0) ? " ${days} ${LocaleKeys.day.tr()}" : ""} ${hours?.toFixed(2).concatIfNotEmpty(":") ?? ""}${min.toFixed(2, visibility: true).concatIfNotEmpty(":") ?? "00:"}${sec.toFixed(2) ?? "00"}",
+                        "${((days ?? 0) > 0) ? " $days ${LocaleKeys.day.tr()}" : ""} ${hours?.toFixed(2).concatIfNotEmpty(":") ?? ""}${min.toFixed(2, visibility: true).concatIfNotEmpty(":") ?? "00:"}${sec.toFixed(2) ?? "00"}",
                     style: const TextStyle(
                       fontSize: 11,
                     ),

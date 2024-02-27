@@ -15,6 +15,8 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference users =
       FirebaseFirestore.instance.collection(UsersCollectionConstants.users);
+  CollectionReference settings =
+      FirebaseFirestore.instance.collection("settings");
 
   @override
   Future<BaseResponse<UserModel>> createUser({UserModel? userModel}) async {
@@ -23,7 +25,10 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         id: userModel?.id,
         email: userModel?.email,
         password: userModel?.password,
-        balance: AppBackConstants.startBalance,
+        balance: (await settings.doc("design-request").get())
+                .get("giveCreditOnFirstEnter")
+            ? AppBackConstants.startBalance
+            : 0,
         isFirstOrderInsufficientBalance: true,
         isBoughtFirstDesign: false,
         isSpentCredit: false,

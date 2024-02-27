@@ -1,5 +1,5 @@
-import 'package:tattoo/domain/models/design-request/design_request_model.dart';
-import 'package:tattoo/domain/repositories/design-requests/interfaces/send_design_request_interface.dart';
+import '../../../models/design-request/design_request_model.dart';
+import '../interfaces/send_design_request_interface.dart';
 
 import '../../../../backend/features/design-requests/implementation/backend_send_design_request.dart';
 import '../../../../core/base/models/base_success.dart';

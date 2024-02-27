@@ -25,7 +25,7 @@ class _MyCountDownTimerState extends State<MyCountDownTimer> {
   @override
   void initState() {
     const oneSec = Duration(seconds: 1);
-    endTime = (widget.endTime / 60).toInt();
+    endTime = widget.endTime ~/ 60;
 
     _timer = Timer.periodic(
       oneSec,

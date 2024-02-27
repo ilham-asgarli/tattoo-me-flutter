@@ -81,7 +81,6 @@ class _ResizeableWidgetState extends State<ResizeableWidget>
                         border: isDragging
                             ? null
                             : Border.all(
-                                width: 1,
                                 color: HexColor("#4d4d4d"),
                               ),
                         borderRadius: BorderRadius.circular(0.0),
@@ -174,7 +173,6 @@ class _ResizeableWidgetState extends State<ResizeableWidget>
                         });
                       },
                       ballLocation: BallLocation.topLeft,
-                      color: Colors.white,
                       onDrag: (dx, dy, angle) {
                         var mid = (dx + dy);
                       },

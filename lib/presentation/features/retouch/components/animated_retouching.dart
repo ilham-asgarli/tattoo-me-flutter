@@ -8,7 +8,7 @@ import '../../../../utils/logic/state/bloc/designer-status/designer_status_bloc.
 import '../../../widgets/auto_index.dart';
 
 class AnimatedRetouching extends StatelessWidget {
-  const AnimatedRetouching({Key? key}) : super(key: key);
+  const AnimatedRetouching({super.key});
 
   @override
   Widget build(BuildContext context) {

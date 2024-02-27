@@ -9,7 +9,7 @@ import '../../../../utils/logic/state/cubit/purchase/purchase_cubit.dart';
 import 'buy_item.dart';
 
 class Buy extends StatelessWidget {
-  const Buy({Key? key}) : super(key: key);
+  const Buy({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,6 @@ class Buy extends StatelessWidget {
       alignment: WrapAlignment.center,
       spacing: 10,
       runSpacing: 10,
-      direction: Axis.horizontal,
       children: products.map((item) {
         return SizedBox(
           width: context.width / 2 - 15,

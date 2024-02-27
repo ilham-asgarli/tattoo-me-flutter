@@ -14,8 +14,8 @@ class AutoIndex extends StatefulWidget {
     required this.itemCount,
     this.periodDuration = 1,
     this.working = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AutoIndex> createState() => _AutoIndexState();

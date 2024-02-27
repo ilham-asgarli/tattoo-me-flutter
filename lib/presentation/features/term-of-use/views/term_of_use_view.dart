@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tattoo/core/extensions/context_extension.dart';
+import '../../../../core/extensions/context_extension.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TermOfUseView extends StatelessWidget {
-  TermOfUseView({Key? key}) : super(key: key);
+  TermOfUseView({super.key});
 
   final WebViewController controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)

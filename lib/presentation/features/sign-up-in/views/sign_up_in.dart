@@ -17,7 +17,7 @@ import '../components/forgot_password_alert.dart';
 import '../view-models/sign_up_in_view_model.dart';
 
 class SignUpIn extends StatefulWidget {
-  const SignUpIn({Key? key}) : super(key: key);
+  const SignUpIn({super.key});
 
   @override
   State<SignUpIn> createState() => _SignUpInState();

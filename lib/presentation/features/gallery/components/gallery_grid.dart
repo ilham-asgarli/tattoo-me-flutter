@@ -7,16 +7,16 @@ class GalleryGrid extends StatefulWidget {
   final ScrollController? scrollCtr;
 
   const GalleryGrid({
-    Key? key,
+    super.key,
     this.scrollCtr,
-  }) : super(key: key);
+  });
 
   @override
   _GalleryGridState createState() => _GalleryGridState();
 }
 
 class _GalleryGridState extends State<GalleryGrid> {
-  List<Widget> _mediaList = [];
+  final List<Widget> _mediaList = [];
   int currentPage = 0;
   int? lastPage;
 
@@ -36,8 +36,8 @@ class _GalleryGridState extends State<GalleryGrid> {
 
   _fetchNewMedia() async {
     lastPage = currentPage;
-    final PermissionState _ps = await PhotoManager.requestPermissionExtend();
-    if (_ps.isAuth) {
+    final PermissionState ps = await PhotoManager.requestPermissionExtend();
+    if (ps.isAuth) {
       // success
 //load the album list
       List<AssetPathEntity> albums = await PhotoManager.getAssetPathList();
@@ -54,7 +54,7 @@ class _GalleryGridState extends State<GalleryGrid> {
             ), //resolution of thumbnail
             builder:
                 (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done)
+              if (snapshot.connectionState == ConnectionState.done) {
                 return Container(
                   child: Stack(
                     children: <Widget>[
@@ -65,7 +65,7 @@ class _GalleryGridState extends State<GalleryGrid> {
                         ),
                       ),
                       if (asset.type == AssetType.video)
-                        Align(
+                        const Align(
                           alignment: Alignment.bottomRight,
                           child: Padding(
                             padding: EdgeInsets.only(right: 5, bottom: 5),
@@ -78,6 +78,7 @@ class _GalleryGridState extends State<GalleryGrid> {
                     ],
                   ),
                 );
+              }
               return Container();
             },
           ),

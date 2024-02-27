@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tattoo/core/base/models/base_error.dart';
-import 'package:tattoo/core/base/models/base_success.dart';
+import '../../../../core/base/models/base_error.dart';
+import '../../../../core/base/models/base_success.dart';
 
 import '../../../../core/base/models/base_response.dart';
 import '../../../../domain/models/design-request/design_request_image_model_2.dart';

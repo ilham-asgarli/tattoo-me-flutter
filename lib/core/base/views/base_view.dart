@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class BaseView<T> extends StatefulWidget {
   const BaseView({
-    Key? key,
+    super.key,
     required this.viewModel,
     required this.onPageBuilder,
     required this.onModelReady,
     this.onDispose,
-  }) : super(key: key);
+  });
   final Widget Function(BuildContext context, T value) onPageBuilder;
   final T viewModel;
   final void Function(T model) onModelReady;

@@ -34,7 +34,7 @@ class SlimyCard extends StatefulWidget {
   final Widget? bottomCardWidget;
   final bool? slimeEnabled;
 
-  SlimyCard({Key? key,
+  SlimyCard({super.key,
     this.color = const Color(0xff5858FF),
     this.width = 300,
     this.topCardHeight = 300,
@@ -48,7 +48,7 @@ class SlimyCard extends StatefulWidget {
         'Height of Bottom Card must be atleast 100.'),
         assert(width! >= 100, 'Width must be atleast 100.'),
         assert(borderRadius! <= 30 && borderRadius>= 0,
-        'Border Radius must neither exceed 30 nor be negative'), super(key: key);
+        'Border Radius must neither exceed 30 nor be negative');
 
   @override
   _SlimyCardState createState() => _SlimyCardState();
@@ -193,7 +193,6 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
                           animation: activeAnimation,
                           sizeFromArtboard: true,
                           alignment: Alignment.bottomCenter,
-                          fit: BoxFit.contain,
                         ),
                       ),
                       SizedBox(
@@ -236,7 +235,6 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
                       animation: activeAnimation,
                       sizeFromArtboard: true,
                       alignment: Alignment.topCenter,
-                      fit: BoxFit.contain,
                     ),
                   )
                 ],

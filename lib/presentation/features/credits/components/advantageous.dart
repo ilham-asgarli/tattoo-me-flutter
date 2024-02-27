@@ -9,10 +9,10 @@ class Advantageous extends StatelessWidget {
   final bool? isAdvantageous;
 
   const Advantageous({
-    Key? key,
+    super.key,
     this.isAdvantageous,
     required this.purchase,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

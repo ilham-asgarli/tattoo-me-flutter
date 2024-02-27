@@ -5,7 +5,7 @@ import '../../../core/extensions/context_extension.dart';
 class MyTable extends StatelessWidget {
   final Map<String?, String?> map;
 
-  const MyTable({required this.map, Key? key}) : super(key: key);
+  const MyTable({required this.map, super.key});
 
   @override
   Widget build(BuildContext context) {

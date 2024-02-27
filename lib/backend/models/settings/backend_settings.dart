@@ -5,33 +5,33 @@ import '../../../domain/models/settings/settings_model.dart';
 class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
   String? id;
   int? designLimitForOneDesigner;
-  Map<String, dynamic>? openTime;
-  Map<String, dynamic>? holiday;
   bool? awardedReview;
+  bool? takingOrder;
+  bool? giveCreditOnFirstEnter;
 
   BackendSettingsModel({
     this.id,
     this.designLimitForOneDesigner,
-    this.openTime,
-    this.holiday,
     this.awardedReview,
+    this.takingOrder,
+    this.giveCreditOnFirstEnter,
   });
 
   BackendSettingsModel.from({required SettingsModel model}) {
     id = model.id;
     designLimitForOneDesigner = model.designLimitForOneDesigner;
-    openTime = model.openTime;
-    holiday = model.holiday;
     awardedReview = model.awardedReview;
+    takingOrder = model.takingOrder;
+    giveCreditOnFirstEnter = model.giveCreditOnFirstEnter;
   }
 
   SettingsModel to({required BackendSettingsModel model}) {
     return SettingsModel(
       id: model.id,
       designLimitForOneDesigner: model.designLimitForOneDesigner,
-      openTime: model.openTime,
-      holiday: model.holiday,
       awardedReview: model.awardedReview,
+      takingOrder: model.takingOrder,
+      giveCreditOnFirstEnter: model.giveCreditOnFirstEnter,
     );
   }
 
@@ -40,9 +40,9 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
     return BackendSettingsModel(
       id: json["id"],
       designLimitForOneDesigner: json["designLimitForOneDesigner"],
-      openTime: json["openTime"],
-      holiday: json["holiday"],
       awardedReview: json["awardedReview"],
+      takingOrder: json["takingOrder"],
+      giveCreditOnFirstEnter: json["giveCreditOnFirstEnter"],
     );
   }
 
@@ -51,9 +51,9 @@ class BackendSettingsModel extends BaseModel<BackendSettingsModel> {
     Map<String, dynamic> map = {};
 
     map.putIfNotNull("designLimitForOneDesigner", designLimitForOneDesigner);
-    map.putIfNotNull("openTime", openTime);
-    map.putIfNotNull("holiday", holiday);
     map.putIfNotNull("awardedReview", awardedReview);
+    map.putIfNotNull("takingOrder", takingOrder);
+    map.putIfNotNull("giveCreditOnFirstEnter", giveCreditOnFirstEnter);
 
     return map;
   }

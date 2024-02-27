@@ -5,14 +5,13 @@ import '../../utils/ui/constants/colors/app_colors.dart';
 
 class MyShimmerFromColor extends StatelessWidget {
   final Widget child;
-  const MyShimmerFromColor({required this.child, Key? key}) : super(key: key);
+  const MyShimmerFromColor({required this.child, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor,
       highlightColor: AppColors.shimmerHighLightColor,
-      enabled: true,
       child: child,
     );
   }

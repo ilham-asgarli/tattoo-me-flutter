@@ -9,8 +9,8 @@ class AutoBool extends StatefulWidget {
   const AutoBool({
     required this.child,
     this.periodDuration = 1,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AutoBool> createState() => _AutoBoolState();

@@ -20,7 +20,7 @@ import '../view-models/tattoo_choose_view_model.dart';
 class TattooChooseView extends StatefulWidget {
   final XFile imageFile;
 
-  const TattooChooseView({required this.imageFile, Key? key}) : super(key: key);
+  const TattooChooseView({required this.imageFile, super.key});
 
   @override
   State<TattooChooseView> createState() => _TattooChooseViewState();

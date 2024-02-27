@@ -9,8 +9,8 @@ class FractionallySizedCircularProgressIndicator extends StatelessWidget {
   const FractionallySizedCircularProgressIndicator({
     this.factor = 1,
     this.color,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

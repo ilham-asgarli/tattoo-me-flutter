@@ -39,8 +39,6 @@ class CommonTheme {
       systemNavigationBarColor: AppColors.mainColor,
       // navigation bar icon
       systemNavigationBarIconBrightness: Brightness.light,
-      // navigation bar divider color
-      systemNavigationBarDividerColor: null,
     );
   }
 }

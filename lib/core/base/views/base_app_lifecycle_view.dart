@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BaseAppLifeCycleView extends StatefulWidget {
   final Widget child;
 
-  const BaseAppLifeCycleView({Key? key, required this.child}) : super(key: key);
+  const BaseAppLifeCycleView({super.key, required this.child});
 
   @override
   State<BaseAppLifeCycleView> createState() => _BaseAppLifeCycleViewState();
