@@ -19,37 +19,29 @@ class NetworkCubit extends Cubit<NetworkState> {
   }
 
   Future<void> firstCheckConnectivityAndChangeState() async {
-    ConnectivityResult result = await Connectivity().checkConnectivity();
+    List<ConnectivityResult> result = await Connectivity().checkConnectivity();
     changeStateByConnectivityResult(result);
   }
 
   void subscribeToConnectivityResultAndChangeState() {
     _subscription = Connectivity()
         .onConnectivityChanged
-        .listen((ConnectivityResult result) {
+        .listen((List<ConnectivityResult> result) {
       changeStateByConnectivityResult(result);
     });
   }
 
-  void changeStateByConnectivityResult(ConnectivityResult result) {
-    switch (result) {
-      case ConnectivityResult.bluetooth:
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.ethernet:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.vpn:
-      case ConnectivityResult.other:
-        emit(
-          ConnectionSuccess(
-            connectivityResult: result,
-          ),
-        );
-        break;
-      case ConnectivityResult.none:
-        emit(
-          ConnectionFailure(),
-        );
-        break;
+  void changeStateByConnectivityResult(List<ConnectivityResult> result) {
+    if (result.contains(ConnectivityResult.none)) {
+      emit(
+        ConnectionFailure(),
+      );
+    } else {
+      emit(
+        ConnectionSuccess(
+          connectivityResult: result,
+        ),
+      );
     }
   }
 

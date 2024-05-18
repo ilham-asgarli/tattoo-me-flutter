@@ -2,7 +2,7 @@ name: tattoo
 description: A new Flutter project.
 
 publish_to: 'none'
-version: 1.1.9+28
+version: 1.1.90+30
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -15,62 +15,62 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.6
+  cupertino_icons: ^1.0.8
 
   derry: ^1.5.0
 
   # responsive
-  device_preview: ^1.1.0
+  # device_preview: ^1.1.0
   responsive_framework: ^1.4.0
 
   # firebase
-  firebase_core: ^2.26.0
-  firebase_auth: ^4.17.7
-  cloud_firestore: ^4.15.7
-  cloud_functions: ^4.6.7
-  firebase_storage: ^11.6.8
-  firebase_messaging: ^14.7.18
+  firebase_core: ^2.31.0
+  firebase_auth: ^4.19.5
+  cloud_firestore: ^4.17.3
+  cloud_functions: ^4.7.4
+  firebase_storage: ^11.7.5
+  firebase_messaging: ^14.9.2
 
-  easy_localization: ^3.0.5
-  http: ^1.2.0
+  easy_localization: ^3.0.7
+  http: ^1.2.1
   equatable: ^2.0.5
-  bloc: ^8.1.3
-  flutter_bloc: ^8.1.4
-  hydrated_bloc: ^9.1.4
+  bloc: ^8.1.4
+  flutter_bloc: ^8.1.5
+  hydrated_bloc: ^9.1.5
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  path_provider: ^2.1.2
-  shared_preferences: ^2.2.2
-  logger: ^2.1.0
+  path_provider: ^2.1.3
+  shared_preferences: ^2.2.3
+  logger: ^2.3.0
   cached_network_image: ^3.3.1
   animations: ^2.0.11
   auto_size_text: ^3.0.0
   font_awesome_flutter: ^10.7.0
   shimmer: ^3.0.0
-  flutter_native_splash: ^2.3.10
+  flutter_native_splash: ^2.4.0
   flutter_keyboard_visibility: ^6.0.0
   flare_flutter: ^3.0.2
   centered_singlechildscrollview: ^0.2.0
-  connectivity_plus: ^5.0.2
-  image_picker: ^1.0.7
+  connectivity_plus: ^6.0.3
+  image_picker: ^1.1.1
   gallery_saver:
     git:
       url: https://github.com/ersin-kose/gallery_saver.git
       ref: master
   extended_image: ^8.2.0
   hexcolor: ^3.0.1
-  image_cropper: ^5.0.1
-  in_app_purchase: ^3.1.13
+  image_cropper: ^6.0.0
+  in_app_purchase: ^3.2.0
   flutter_countdown_timer: ^4.1.0
   flutter_rating_bar: ^4.0.1
   flutter_dotenv: ^5.1.0
   encrypt: ^5.0.3
-  screenshot: ^2.1.0
-  share_plus: ^7.2.2
-  flutter_downloader: ^1.11.6
-  permission_handler: ^11.3.0
-  flutter_email_sender: ^6.0.2
-  store_redirect: ^2.0.1
+  screenshot: ^3.0.0
+  share_plus: ^9.0.0
+  flutter_downloader: ^1.11.7
+  permission_handler: ^11.3.1
+  flutter_email_sender: ^6.0.3
+  store_redirect: ^2.0.2
   ntp: ^2.0.0
   app_review:
     git:
@@ -78,25 +78,25 @@ dependencies:
       ref: master
   google_fonts: ^6.2.1
   webview_flutter: ^4.7.0
-  upgrader: ^9.0.0
-  package_info_plus: ^5.0.1
-  flutter_local_notifications: ^16.3.3
-  photo_manager: ^2.8.1
+  upgrader: ^10.3.0
+  package_info_plus: ^8.0.0
+  flutter_local_notifications: ^17.1.2
+  photo_manager: ^3.1.1
   rxdart: ^0.27.7
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
 
   freezed_annotation: ^2.4.1
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   freezed: ^2.4.7
-  json_serializable: ^6.7.1
+  json_serializable: ^6.8.0
 
-  flutter_lints: ^3.0.1
-  build_runner: ^2.4.8
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.10
   flutter_launcher_icons: ^0.13.1
   hive_generator: ^2.0.1
 

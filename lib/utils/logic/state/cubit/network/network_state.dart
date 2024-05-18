@@ -10,7 +10,7 @@ class NetworkInitial extends NetworkState {
 }
 
 class ConnectionSuccess extends NetworkState {
-  final ConnectivityResult connectivityResult;
+  final List<ConnectivityResult> connectivityResult;
 
   const ConnectionSuccess({
     required this.connectivityResult,

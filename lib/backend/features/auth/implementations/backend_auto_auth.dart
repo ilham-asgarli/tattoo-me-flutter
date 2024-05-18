@@ -160,6 +160,7 @@ class BackendAutoAuth extends BackendAutoAuthInterface {
         }
       }
     } catch (e) {
+      print(e);
       BaseError(message: e.toString());
     }
   }
