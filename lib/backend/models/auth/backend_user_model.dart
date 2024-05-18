@@ -50,12 +50,14 @@ class BackendUserModel extends BaseModel<BackendUserModel> {
   }
 
   UserModel to({required BackendUserModel userModel}) {
+    num balance = userModel.balance ?? 0;
+
     return UserModel(
       id: userModel.id,
       email: userModel.email,
       password: userModel.password,
       deviceToken: userModel.deviceToken,
-      balance: double.parse(userModel.balance.toString()).toInt(),
+      balance: balance.toInt(),
       isFirstOrderInsufficientBalance:
           userModel.isFirstOrderInsufficientBalance,
       isBoughtFirstDesign: userModel.isBoughtFirstDesign,
